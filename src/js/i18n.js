@@ -10,17 +10,17 @@ class I18nManager {
     async init() {
         try {
             console.log('🔄 Initializing I18n system...');
-            
-            // Użyj wbudowanych tłumaczeń jako domyślnych
-            this.loadFallbackTranslations();
+
+            // Load translations first
+            await this.loadTranslations();
             this.initialized = true;
-            
+
             // Ustawienie domyślnego języka
-            this.setLanguage(this.getStoredLanguage() || 'pl');
-            
+            this.setLanguage(this.getStoredLanguage() || document.documentElement.getAttribute('data-lang') || document.documentElement.lang || 'pl');
+
             // Aktualizacja zawartości strony po inicjalizacji
             this.updatePageContent();
-            
+
             console.log('✅ I18n system initialized successfully with fallback translations');
             console.log('📊 Available translations:', Object.keys(this.translations));
         } catch (error) {
@@ -48,7 +48,7 @@ class I18nManager {
             ];
 
             console.log('📁 Attempting to load translations from:', translationPaths);
-            
+
             const [plTranslations, enTranslations, deTranslations] = await Promise.all([
                 fetch(translationPaths[0]).then(res => res.json()).catch(() => this.getEmbeddedTranslations('pl')),
                 fetch(translationPaths[1]).then(res => res.json()).catch(() => this.getEmbeddedTranslations('en')),
@@ -60,7 +60,7 @@ class I18nManager {
                 en: enTranslations,
                 de: deTranslations
             };
-            
+
             console.log('✅ Translations loaded successfully');
             console.log('🇵🇱 Polish keys:', Object.keys(plTranslations));
         } catch (error) {
@@ -101,7 +101,7 @@ class I18nManager {
                 "sections.team.members.karol.skills.aiTesting": "Testowanie AI",
                 "sections.team.members.karol.skills.qualityAssurance": "Zapewnienie Jakości",
                 "sections.team.members.marta.name": "Marta Górska",
-                "sections.team.members.marta.position": "Projektant UX/UI"
+                "sections.team.members.marta.position": "Projektant UX/UI",
                 "sections.team.members.marta.description": "Projektantka skupiająca się na potrzebach użytkowników w erze AI. Tworzy interfejsy, które naturalnie łączą ludzi z technologią.",
                 "sections.team.members.marta.skills.uxResearch": "Badania UX",
                 "sections.team.members.marta.skills.aiUxDesign": "Projektowanie AI/UX",
@@ -153,7 +153,7 @@ class I18nManager {
                 "sections.team.members.tomasz.skills.businessAnalysis": "Business Analysis",
                 "sections.team.members.tomasz.skills.aiStrategy": "AI Strategy",
                 "sections.team.members.marta.name": "Marta Górska",
-                "sections.team.members.marta.position": "UX/UI Designer"
+                "sections.team.members.marta.position": "UX/UI Designer",
                 "sections.team.members.marta.description": "Designer focused on user needs in the AI era. Creates interfaces that naturally connect humans with technology.",
                 "sections.team.members.marta.skills.uxResearch": "UX Research",
                 "sections.team.members.marta.skills.aiUxDesign": "AI/UX Design",
@@ -210,7 +210,7 @@ class I18nManager {
                 "sections.team.members.tomasz.skills.businessAnalysis": "Business Analysis",
                 "sections.team.members.tomasz.skills.aiStrategy": "KI-Strategie",
                 "sections.team.members.marta.name": "Marta Górska",
-                "sections.team.members.marta.position": "UX/UI Designerin"
+                "sections.team.members.marta.position": "UX/UI Designerin",
                 "sections.team.members.marta.description": "Designerin mit Fokus auf Benutzerbedürfnisse im KI-Zeitalter. Erstellt Schnittstellen, die Menschen und Technologie natürlich verbinden.",
                 "sections.team.members.marta.skills.uxResearch": "UX Research",
                 "sections.team.members.marta.skills.aiUxDesign": "KI/UX Design",
@@ -444,7 +444,7 @@ class I18nManager {
                     privacy: "🔒 Nie spamujemy. Możesz zrezygnować z subskrypcji w dowolnym momencie."
                 },
                 sections: {
-                    services: { 
+                    services: {
                         title: "Nasze Usługi",
                         subtitle: "Kompleksowe rozwiązania AI i automatyzacji, które transformują Twój biznes i zwiększają efektywność"
                     },
@@ -453,8 +453,8 @@ class I18nManager {
                         title: "Blog & Insights",
                         subtitle: "Najnowsze trendy AI, case studies i praktyczne wskazówki dla Twojego biznesu"
                     },
-                    team: { 
-                        title: "Nasz Zespół", 
+                    team: {
+                        title: "Nasz Zespół",
                         subtitle: "Poznaj ekspertów, którzy tworzą Twoje projekty",
                         members: {
                             tomasz: {
@@ -483,7 +483,7 @@ class I18nManager {
                             }
                         }
                     },
-                    process: { 
+                    process: {
                         title: "Nasz Proces Pracy",
                         steps: {
                             discovery: { title: "Konsultacja", description: "Analiza potrzeb i wymagań projektu" },
@@ -492,7 +492,7 @@ class I18nManager {
                             launch: { title: "Wdrożenie", description: "Uruchomienie i wsparcie" }
                         }
                     },
-                    contact: { 
+                    contact: {
                         title: "Rozpocznij Projekt",
                         description: "Skontaktuj się z nami, aby omówić Twój projekt. Oferujemy darmową konsultację i wycenę.",
                         contactUs: "Skontaktuj się z nami",
@@ -683,7 +683,7 @@ class I18nManager {
                     privacy: "🔒 We don't spam. You can unsubscribe at any time."
                 },
                 sections: {
-                    services: { 
+                    services: {
                         title: "Our Services",
                         subtitle: "Comprehensive AI and automation solutions that transform your business and increase efficiency"
                     },
@@ -693,7 +693,7 @@ class I18nManager {
                         subtitle: "Latest AI trends, case studies and practical tips for your business"
                     },
                     team: { title: "Our Team", subtitle: "Meet the experts who create your projects" },
-                    process: { 
+                    process: {
                         title: "Our Work Process",
                         steps: {
                             discovery: { title: "Consultation", description: "Analysis of project needs and requirements" },
@@ -702,7 +702,7 @@ class I18nManager {
                             launch: { title: "Deployment", description: "Launch and support" }
                         }
                     },
-                    contact: { 
+                    contact: {
                         title: "Start Your Project",
                         description: "Contact us to discuss your project. We offer free consultation and quote.",
                         contactUs: "Contact Us",
@@ -893,7 +893,7 @@ class I18nManager {
                     privacy: "🔒 Wir spammen nicht. Sie können sich jederzeit abmelden."
                 },
                 sections: {
-                    services: { 
+                    services: {
                         title: "Unsere Dienstleistungen",
                         subtitle: "Umfassende KI- und Automatisierungslösungen, die Ihr Unternehmen transformieren und die Effizienz steigern"
                     },
@@ -902,8 +902,8 @@ class I18nManager {
                         title: "Blog & Insights",
                         subtitle: "Neueste KI-Trends, Fallstudien und praktische Tipps für Ihr Unternehmen"
                     },
-                    team: { 
-                        title: "Unser Team", 
+                    team: {
+                        title: "Unser Team",
                         subtitle: "Lernen Sie die Experten kennen, die Ihre Projekte erstellen",
                         members: {
                             tomasz: {
@@ -944,7 +944,7 @@ class I18nManager {
                             }
                         }
                     },
-                    process: { 
+                    process: {
                         title: "Unser Arbeitsprozess",
                         steps: {
                             discovery: { title: "Beratung", description: "Analyse der Projektanforderungen und Bedürfnisse" },
@@ -953,7 +953,7 @@ class I18nManager {
                             launch: { title: "Bereitstellung", description: "Start und Support" }
                         }
                     },
-                    contact: { 
+                    contact: {
                         title: "Starten Sie Ihr Projekt",
                         description: "Kontaktieren Sie uns, um Ihr Projekt zu besprechen. Wir bieten kostenlose Beratung und Angebote.",
                         contactUs: "Kontaktieren Sie uns",
@@ -991,15 +991,15 @@ class I18nManager {
 
         this.currentLanguage = lang;
         localStorage.setItem('preferredLanguage', lang);
-        
+
         // Aktualizacja HTML
         document.documentElement.lang = lang;
-        
+
         // Aktualizacja wszystkich elementów z data-i18n tylko jeśli nie jest to inicjalizacja
         if (this.initialized) {
             this.updatePageContent();
         }
-        
+
         console.log(`Language changed to: ${lang}`);
     }
 
@@ -1035,11 +1035,11 @@ class I18nManager {
         console.log(`🔄 Updating ${elements.length} elements with translations`);
         console.log(`🌐 Current language: ${this.currentLanguage}`);
         console.log(`📊 Available translations:`, Object.keys(this.translations));
-        
+
         elements.forEach(element => {
             const key = element.getAttribute('data-i18n');
             const translation = this.t(key);
-            
+
             if (translation) {
                 if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
                     element.placeholder = translation;
@@ -1047,8 +1047,8 @@ class I18nManager {
                     // If translation contains HTML (e.g., spans for colored text), set innerHTML
                     if (typeof translation === 'string' && translation.includes('<')) {
                         element.innerHTML = translation;
-                } else {
-                    element.textContent = translation;
+                    } else {
+                        element.textContent = translation;
                     }
                 }
                 console.log(`✅ Updated ${key}: ${translation}`);
@@ -1056,7 +1056,7 @@ class I18nManager {
                 console.warn(`⚠️ No translation found for key: ${key}`);
             }
         });
-        
+
         // Force re-render on mobile
         if (window.innerWidth <= 768) {
             document.body.style.display = 'none';

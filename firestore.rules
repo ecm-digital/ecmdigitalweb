@@ -1,0 +1,19 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Basic User Data (Shared across systems)
+    match /user_projects/{docId} { allow read, write: if request.auth != null; }
+    match /user_files/{docId} { allow read, write: if request.auth != null; }
+    match /user_stats/{docId} { allow read, write: if request.auth != null; }
+    match /notifications/{docId} { allow read, write: if request.auth != null; }
+    match /portal_comments/{docId} { allow read, write: if request.auth != null; }
+
+    // Agency management collections (Admin access)
+    match /agency_clients/{docId} { allow read, write: if request.auth != null; }
+    match /agency_offers/{docId} { allow read, write: if request.auth != null; }
+    match /agency_campaigns/{docId} { allow read, write: if request.auth != null; }
+    match /agency_kanban/{docId} { allow read, write: if request.auth != null; }
+    match /agency_meetings/{docId} { allow read, write: if request.auth != null; }
+    match /agency_settings/{docId} { allow read, write: if request.auth != null; }
+  }
+}

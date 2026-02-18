@@ -1,0 +1,9 @@
+@import "tailwindcss";
+@source "../**/*.{js,ts,jsx,tsx,mdx}";
+
+@theme {
+    --color-brand-accent: var(--brand-accent);
+    --color-brand-dark: var(--brand-dark);
+    --color-brand-light: var(--brand-light);
+    --font-system: "Inter", system-ui, sans-serif;
+}

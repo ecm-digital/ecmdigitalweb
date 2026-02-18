@@ -1,53 +1,59 @@
 "use client";
 
 import { useState } from 'react';
+import { useAgency } from '@/context/AgencyContext';
 
 export default function Header() {
   const [isNavOpen, setIsNavOpen] = useState(false);
+  const { settings } = useAgency();
 
   return (
     <nav className="navbar navbar-expand-lg fixed-top" role="navigation" aria-label="Główna nawigacja">
       <div className="container">
         <a className="navbar-brand font-display" href="#">
-          <i className="fas fa-rocket me-2" style={{
-            background: 'linear-gradient(135deg, #007AFF 0%, #BF5AF2 100%)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            backgroundClip: 'text'
-          }}></i>
+          {settings?.logoUrl ? (
+            <img src={settings.logoUrl} alt={settings.agencyName} className="me-2" style={{ height: '32px', width: 'auto' }} />
+          ) : (
+            <i className="fas fa-rocket me-2" style={{
+              background: 'linear-gradient(135deg, #007AFF 0%, #BF5AF2 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text'
+            }}></i>
+          )}
           <span style={{
             background: 'linear-gradient(135deg, #007AFF 0%, #BF5AF2 100%)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
             backgroundClip: 'text',
             fontWeight: 700
-          }}>ECM Digital</span>
+          }}>{settings?.agencyName || 'ECM Digital'}</span>
         </a>
-        
-        <button 
-          className="navbar-toggler" 
-          type="button" 
-          data-bs-toggle="collapse" 
+
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
           data-bs-target="#navbarNav"
           style={{ border: 'none', background: 'none' }}
           onClick={() => setIsNavOpen(!isNavOpen)}
         >
           <i className="fas fa-bars" style={{ color: '#FFFFFF !important', fontSize: '1.2rem' }}></i>
         </button>
-        
+
         <div className={`collapse navbar-collapse ${isNavOpen ? 'show' : ''}`} id="navbarNav">
           <ul className="navbar-nav ms-auto">
             <li className="nav-item">
               <a className="nav-link" href="#home">Strona główna</a>
             </li>
-            
+
             <li className="nav-item dropdown">
-              <a 
-                className="nav-link dropdown-toggle" 
-                href="#" 
-                id="navbarDropdown" 
-                role="button" 
-                data-bs-toggle="dropdown" 
+              <a
+                className="nav-link dropdown-toggle"
+                href="#"
+                id="navbarDropdown"
+                role="button"
+                data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
                 Usługi
@@ -73,14 +79,14 @@ export default function Header() {
                 </a></li>
               </ul>
             </li>
-            
+
             <li className="nav-item dropdown">
-              <a 
-                className="nav-link dropdown-toggle" 
-                href="#" 
-                id="accountDropdown" 
-                role="button" 
-                data-bs-toggle="dropdown" 
+              <a
+                className="nav-link dropdown-toggle"
+                href="#"
+                id="accountDropdown"
+                role="button"
+                data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
                 <i className="fas fa-user me-2"></i>Moje Konto
@@ -99,13 +105,13 @@ export default function Header() {
               </ul>
             </li>
           </ul>
-          
+
           <div className="language-switcher dropdown">
-            <button 
-              className="btn btn-link dropdown-toggle" 
-              type="button" 
-              id="languageDropdown" 
-              data-bs-toggle="dropdown" 
+            <button
+              className="btn btn-link dropdown-toggle"
+              type="button"
+              id="languageDropdown"
+              data-bs-toggle="dropdown"
               aria-expanded="false"
             >
               🇵🇱 PL

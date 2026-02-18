@@ -3,6 +3,8 @@
     "home": "Startseite",
     "services": "Dienstleistungen",
     "about": "Über uns",
+    "blog": "Blog",
+    "caseStudies": "Fallstudien",
     "team": "Team",
     "clientPanel": "Kundenbereich",
     "contact": "Kontakt",
@@ -32,9 +34,10 @@
       "mvpPrototypes": "MVP-Prototypen",
       "viewAllServices": "Alle Dienstleistungen anzeigen"
     }
-  }
+  },
   "common": {
-    "learnMore": "Mehr erfahren"
+    "learnMore": "Mehr erfahren",
+    "readMore": "Weiterlesen"
   },
   "services": {
     "websites": {
@@ -64,7 +67,6 @@
     "aiAssistants": {
       "title": "KI-Agenten",
       "description": "Wir erstellen intelligente KI-Agenten basierend auf Google Gemini. Automatisieren Sie Geschäftsprozesse, 24/7-Kundenservice und Datenanalyse. Sparen Sie bis zu 70% der Betriebskosten mit fortschrittlichen KI-Lösungen."
-      "description": "Automatisieren Sie den Kundenservice 24/7 und sparen Sie bis zu 70% der Supportkosten. Intelligente KI-Assistenten beantworten Fragen und lösen Probleme."
     },
     "mobileApps": {
       "title": "Mobile Anwendungen",
@@ -75,26 +77,36 @@
       "description": "Sprachbasierter Kundenservice - 24/7-Verfügbarkeit ohne Call-Center-Kosten. Natürliche Gespräche, intelligente Antworten."
     }
   },
-      "hero": {
-        "title": "Wir implementieren KI in Ihrem Unternehmen",
-        "titleHighlight": "Digitaler Innovation",
-        "subtitle": "Wir transformieren Ihr Unternehmen durch künstliche Intelligenz. Von Chatbots bis hin zu fortschrittlicher Automatisierung - KI, die wirklich funktioniert und echte Geschäftsvorteile generiert.",
-        "exploreServices": "Dienstleistungen erkunden",
-        "getQuote": "Angebot erhalten",
-        "cta_assistant": "Sprechen Sie mit unserem KI-Assistenten",
-        "exploreFeatures": "Funktionen erkunden",
-        "stats": {
-          "aiProjects": "50+",
-          "aiProjectsLabel": "KI-Projekte",
-          "costReduction": "70%",
-          "costReductionLabel": "Kostensenkung",
-          "support": "24/7",
-          "supportLabel": "KI-Unterstützung",
-          "satisfaction": "95%",
-          "satisfactionLabel": "Zufriedenheit"
-        }
+  "hero": {
+    "title": "Wir implementieren KI in Ihrem Unternehmen",
+    "titleHighlight": "Digitaler Innovation",
+    "subtitle": "Wir transformieren Ihr Unternehmen durch künstliche Intelligenz. Von Chatbots bis hin zu fortschrittlicher Automatisierung - KI, die wirklich funktioniert und echte Geschäftsvorteile generiert.",
+    "exploreServices": "Dienstleistungen erkunden",
+    "getQuote": "Angebot erhalten",
+    "stats": {
+      "aiProjects": "50+",
+      "aiProjectsLabel": "KI-Projekte",
+      "costReduction": "70%",
+      "costReductionLabel": "Kostensenkung",
+      "support": "24/7",
+      "supportLabel": "KI-Unterstützung",
+      "satisfaction": "95%",
+      "satisfactionLabel": "Zufriedenheit"
+    }
+  },
+  "sections": {
+    "services": {
+      "title": "Unsere Dienstleistungen",
+      "subtitle": "Umfassende KI- und Automatisierungslösungen, die Ihr Unternehmen transformieren und die Effizienz steigern"
     },
-            "team": {
+    "about": {
+      "title": "Über ECM Digital"
+    },
+    "blog": {
+      "title": "Blog & Insights",
+      "subtitle": "Neueste KI-Trends, Fallstudien und praktische Tipps für Ihr Unternehmen"
+    },
+    "team": {
       "title": "Unser Team",
       "subtitle": "Lernen Sie die Experten kennen, die Ihre Projekte erstellen",
       "members": {
@@ -134,7 +146,7 @@
         },
         "design": {
           "title": "Planung",
-          "description": "Strategie und Lösungsarchitektur"
+          "description": "Strategia i architectura rozwiązania"
         },
         "development": {
           "title": "Umsetzung",
@@ -147,57 +159,28 @@
       }
     },
     "contact": {
-      "title": "Kontaktieren Sie uns",
-      "subtitle": "Wir sind hier, um Ihnen bei der digitalen Transformation Ihres Unternehmens zu helfen. Kontaktieren Sie uns noch heute!",
-      "contactUs": "Kontaktieren Sie uns",
+      "title": "Starten Sie Ihr Projekt",
       "description": "Kontaktieren Sie uns, um Ihr Projekt zu besprechen. Wir bieten kostenlose Beratung und Angebote.",
-      "phone": "Anrufen",
-      "email": "E-Mail",
-      "phoneNumber": "+48 535 330 323",
-      "emailAddress": "kontakt@ecm-digital.pl",
+      "contactUs": "Kontaktieren Sie uns",
       "sendMessage": "E-Mail schreiben",
-      "email.title": "E-Mail",
-      "email.description": "Schreiben Sie uns eine E-Mail mit der Beschreibung Ihres Projekts",
-      "email.button": "E-Mail senden",
-      "phone.title": "Telefon",
-      "phone.description": "Rufen Sie uns an, um Projektdetails zu besprechen",
-      "phone.button": "Anrufen",
-      "consultation.title": "Kostenlose Beratung",
-      "consultation.description": "Vereinbaren Sie eine kostenlose Beratung mit unserem Experten",
-      "consultation.button": "Beratung buchen",
-      "hours.title": "Geschäftszeiten",
-      "hours.description": "Wir sind an Werktagen verfügbar",
-      "hours.weekdays": "Montag - Freitag:",
-      "hours.time": "9:00 - 17:00",
-      "address.title": "Adresse",
-      "address.description": "Unser Firmensitz",
-      "address.line1": "ECM Digital",
-      "address.line2": "Beispielstraße 123",
-      "address.line3": "00-001 Warschau, Polen",
-      "quick.title": "Schnellkontakt",
-      "quick.description": "Haben Sie eine dringende Frage? Schreiben Sie uns!",
-      "quick.button": "Jetzt schreiben",
-      "form.title": "Kontaktformular",
-      "form.description": "Füllen Sie das Formular aus und wir kontaktieren Sie innerhalb von 24 Stunden",
-      "form.name": "Vollständiger Name *",
-      "form.email": "E-Mail *",
-      "form.phone": "Telefon",
-      "form.company": "Firma",
-      "form.service": "Interessierende Dienstleistung",
-      "form.service.placeholder": "Dienstleistung wählen...",
-      "form.service.consultation": "Beratung",
-      "form.budget": "Projektbudget",
-      "form.budget.placeholder": "Bereich wählen...",
-      "form.budget.3-5k": "3.000 - 5.000 PLN",
-      "form.budget.5-10k": "5.000 - 10.000 PLN",
-      "form.budget.10-25k": "10.000 - 25.000 PLN",
-      "form.budget.25k+": "Über 25.000 PLN",
-      "form.budget.consultation": "Beratung benötigt",
-      "form.message": "Nachricht *",
-      "form.submit": "Nachricht senden"
+      "phone": "Anrufen"
+    },
+    "company": {
+      "name": "Scrum Software Sp. z o.o.",
+      "description1": "Die Marke ECM Digital operiert innerhalb der Scrum Software Sp. z o.o., die der formelle Eigentümer aller von uns bereitgestellten Dienstleistungen und die rechtlich verantwortliche Einheit ist.",
+      "description2": "Es ist Scrum Software Sp. z o.o., die Rechnungen ausstellt und Verträge mit Kunden abschließt und vollständige Transparenz und Sicherheit der Zusammenarbeit garantiert.",
+      "badge": "Registrierte Gesellschaft<br>Sp. z o.o.",
+      "stats": {
+        "aiProjects": "50+",
+        "aiProjectsLabel": "KI-Projekte",
+        "clientSatisfaction": "95%",
+        "clientSatisfactionLabel": "Kundenzufriedenheit",
+        "technicalSupport": "24/7",
+        "technicalSupportLabel": "Technischer Support",
+        "yearFounded": "2019",
+        "yearFoundedLabel": "Gründungsjahr"
       }
     }
-  }
   },
   "footer": {
     "copyright": "© 2025 ECM Digital. Alle Rechte vorbehalten.",

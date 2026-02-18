@@ -1,0 +1,149 @@
+{
+    "agency": {
+        "name": "ECM Digital",
+        "description": "Wiodąca agencja cyfrowa specjalizująca się w nowoczesnych rozwiązaniach internetowych, AI i automatyzacji.",
+        "stats": {
+            "projects": "150+",
+            "satisfaction": "98%",
+            "avg_roi": "380%",
+            "response_time": "24h",
+            "uptime": "99.9%"
+        },
+        "contact": {
+            "email": "hello@ecm-digital.com",
+            "phone": "+48 535 330 323",
+            "address": "Warszawa, Polska"
+        }
+    },
+    "services": [
+        {
+            "name": "Strony WWW",
+            "description": "Responsywne, szybkie, SEO-friendly strony internetowe.",
+            "packages": [
+                {
+                    "name": "BASIC (Landing Page)",
+                    "price": "3,500 - 6,000 PLN",
+                    "time": "2-3 tygodnie"
+                },
+                {
+                    "name": "STANDARD (Firmowa)",
+                    "price": "8,000 - 15,000 PLN",
+                    "time": "4-6 tygodnie"
+                },
+                {
+                    "name": "PREMIUM (Portal)",
+                    "price": "20,000 - 50,000 PLN",
+                    "time": "8-12 tygodnie"
+                }
+            ]
+        },
+        {
+            "name": "Sklepy Shopify & Wix",
+            "description": "Profesjonalne platformy e-commerce z pełnym wsparciem.",
+            "packages": [
+                {
+                    "name": "STARTER",
+                    "price": "4,500 - 8,000 PLN",
+                    "time": "2-3 tygodnie",
+                    "features": [
+                        "Customizacja gotowego szablonu (Logo, Kolory, Typografia)",
+                        "Podstawowa konfiguracja sklepu (Płatności, Wysyłka)",
+                        "Import do 50 produktów",
+                        "Podstawowe SEO",
+                        "Optymalizacja mobilna",
+                        "Szkolenie z obsługi panelu"
+                    ]
+                },
+                {
+                    "name": "BUSINESS",
+                    "price": "12,000 - 22,000 PLN",
+                    "time": "4-6 tygodnie",
+                    "features": [
+                        "Dedykowany projekt UI/UX (Landing + Produkty)",
+                        "Rozbudowane funkcje filtrowania i nawigacji",
+                        "Integracja z systemem logistycznym (InPost/DPD)",
+                        "Integracja z bramką płatności (PayU/P24)",
+                        "Import do 500 produktów",
+                        "Zaawansowana analityka (GA4/GTM)"
+                    ]
+                },
+                {
+                    "name": "ENTERPRISE",
+                    "price": "25,000 - 60,000 PLN",
+                    "time": "8-12 tygodnie",
+                    "features": [
+                        "Pełny Custom Design od zera",
+                        "Integracja z ERP (Baselinker/Comarch/Subiekt)",
+                        "Funkcje B2B i cenniki hurtowe",
+                        "Systemy subskrypcyjne",
+                        "Wielojęzyczność i multiship",
+                        "Pełna optymalizacja wydajnościowa"
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Prototypy MVP",
+            "description": "Szybka walidacja pomysłów biznesowych przed pełnym wdrożeniem.",
+            "packages": [
+                {
+                    "name": "STARTER",
+                    "price": "25,000 - 40,000 PLN",
+                    "time": "4-5 tygodnie"
+                },
+                {
+                    "name": "BUSINESS",
+                    "price": "50,000 - 80,000 PLN",
+                    "time": "6-8 tygodnie"
+                },
+                {
+                    "name": "ENTERPRISE",
+                    "price": "100,000 - 200,000 PLN",
+                    "time": "8-12 tygodnie"
+                }
+            ]
+        },
+        {
+            "name": "Automatyzacje n8n",
+            "description": "Inteligentne workflowy oszczędzające czas i redukujące koszty operacyjne.",
+            "packages": [
+                {
+                    "name": "STARTER",
+                    "price": "8,000 - 15,000 PLN",
+                    "time": "2-3 tygodnie"
+                },
+                {
+                    "name": "BUSINESS",
+                    "price": "25,000 - 45,000 PLN",
+                    "time": "4-6 tygodnie"
+                },
+                {
+                    "name": "ENTERPRISE",
+                    "price": "60,000 - 150,000 PLN",
+                    "time": "8-12 tygodnie"
+                }
+            ]
+        },
+        {
+            "name": "Audyty UX",
+            "description": "Optymalizacja ścieżek zakupowych i doświadczeń użytkownika.",
+            "price": "od 3,500 PLN"
+        }
+    ],
+    "tech_stack": [
+        "Frontend: React, Next.js, Vue.js, Tailwind CSS",
+        "Backend: Node.js, Python, PHP, Firebase",
+        "Mobile: React Native, Flutter, PWA",
+        "Cloud: AWS, Google Cloud, Amazon Bedrock",
+        "Automatyzacja: n8n, Zapier, Custom scripts"
+    ],
+    "process": [
+        "Briefing i analiza potrzeb",
+        "Warsztaty strategiczne i Discovery",
+        "Projekt UX/UI i prototypowanie",
+        "Zwinna implementacja (Agile/Scrum)",
+        "Testy funkcjonalne i QA",
+        "Wdrożenie i szkolenie zespołu",
+        "Wsparcie techniczne i optymalizacja po-wdrożeniowa"
+    ]
+}

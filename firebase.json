@@ -1,0 +1,18 @@
+{
+    "hosting": {
+        "site": "ecmdigital-28074",
+        "public": "out",
+        "ignore": [
+            "firebase.json",
+            "**/.*",
+            "**/node_modules/**"
+        ],
+        "rewrites": [],
+        "cleanUrls": true,
+        "trailingSlash": false
+    },
+    "firestore": {
+        "rules": "firestore.rules",
+        "indexes": "firestore.indexes.json"
+    }
+}
