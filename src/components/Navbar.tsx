@@ -38,7 +38,7 @@ export default function Navbar() {
                     <li>
                         <div className="nav-controls">
                             <div className="lang-switcher">
-                                {(['pl', 'en', 'de'] as Lang[]).map(l => (
+                                {(['pl', 'en', 'de', 'szl', 'es', 'ar'] as Lang[]).map(l => (
                                     <button key={l} className={lang === l ? 'active' : ''} onClick={() => switchLang(l)}>
                                         {l.toUpperCase()}
                                     </button>

@@ -108,7 +108,10 @@ export default function AIChatbot() {
         const greetings = {
             pl: 'Cześć! Jestem inteligentnym asystentem ECM Digital. W czym mogę Ci dzisiaj pomóc? Znam naszą pełną ofertę, cennik oraz procesy technologiczne.',
             en: 'Hi! I am the ECM Digital AI assistant. How can I help you today? I know our full services, pricing, and tech processes.',
-            de: 'Hallo! Ich bin der KI-Assistent von ECM Digital. Wie kann ich Ihnen heute helfen? Ich kenne unsere Dienstleistungen, Preise und Prozesse.'
+            de: 'Hallo! Ich bin der KI-Assistent von ECM Digital. Wie kann ich Ihnen heute helfen? Ich kenne unsere Dienstleistungen, Preise und Prozesse.',
+            szl: 'Szczęść Boże! Jo żech jest inteligentny asystent od ECM Digital. W czym Ci moga pomóc? Znom cało oferta, cennik i jak my to robimy.',
+            es: '¡Hola! Soy el asistente de IA de ECM Digital. ¿Cómo puedo ayudarte hoy? Conozco todos nuestros servicios, precios y procesos tecnológicos.',
+            ar: 'مرحباً! أنا مساعد الذكاء الاصطناعي لـ ECM Digital. كيف يمكنني مساعدتك اليوم؟ أعرف خدماتنا الكاملة، والأسعار، والعمليات التقنية.'
         };
         return greetings[l];
     };
@@ -173,7 +176,8 @@ export default function AIChatbot() {
                 HISTORIA BIEŻĄCEJ ROZMOWY (CONTEXT):
                 ${historyContext}
                 
-                Język odpowiedzi: ${lang === 'pl' ? 'Polski' : lang === 'de' ? 'Niemiecki' : 'Angielski'}.
+                Język odpowiedzi: ${lang === 'pl' ? 'Polski' : lang === 'de' ? 'Niemiecki' : lang === 'szl' ? 'Śląski (Gwara)' : lang === 'es' ? 'Hiszpański' : lang === 'ar' ? 'Arabski' : 'Angielski'}. 
+                WAŻNE: Jeśli język to 'szl', ODPOWIADAJ PO ŚLĄSKU (śląska godka). Bądź autentyczny, używaj gwary. Jeśli 'ar', odpowiadaj po ARABSKU. Jeśli 'es' po HISZPAŃSKU.
                 
                 Zasady:
                 1. Bądź profesjonalny i konkretny.
@@ -225,6 +229,9 @@ export default function AIChatbot() {
         const q = input.toLowerCase();
 
         if (l === 'pl') {
+            if (q.includes('slasku') || q.includes('śląsku') || q.includes('godosz')) {
+                return 'Ja, pewnie że rozumia! My som nowoczesno agencja, ale tradycja szanujemy. Czym moga służyć? (v1.5-Silesia)';
+            }
             if (q.includes('starter') && (q.includes('shopify') || q.includes('sklep'))) {
                 return 'Najnowsza oferta: Pakiet Shopify STARTER kosztuje od 4,500 do 8,000 PLN netto. Zawiera: customizację szablonu, konfigurację płatności i wysyłki, import produktów (do 50), SEO i szkolenie. Czas: 2-3 tyg. (v1.1)';
             }
@@ -234,7 +241,16 @@ export default function AIChatbot() {
             if (q.includes('usług') || q.includes('oferta')) {
                 return 'Specjalizujemy się w: Strony WWW, Sklepy Shopify, Agenci AI, Automatyzacje i MVP. Który obszar Cię interesuje?';
             }
-            return 'Obecnie działam w trybie demonstracyjnym (offline). Nasz pełny system AI (Gemini) jest chwilowo niedostępny, ale chętnie zaoferuję pomoc na podstawie standardowego cennika. (v1.4)';
+            return 'Obecnie działam w trybie demonstracyjnym (offline). Nasz pełny system AI (Gemini) jest chwilowo niedostępny, ale chętnie zaoferuję pomoc na podstawie standardowego cennika. (v1.5)';
+        } else if (l === 'szl') {
+            if (q.includes('cena') || q.includes('wiela')) {
+                return 'Nasze usługi: Strony WWW (od 3,5k PLN), Sklepy (od 4,5k PLN), Agenty AI (od 12k PLN). Zależy co chcesz. (v1.5-Silesia)';
+            }
+            return 'Teraz żech jest w trybie demo (offline). Ale jak chcesz pogadać o robocie, to pisz śmiało. (v1.5-Silesia)';
+        } else if (l === 'es') {
+            return 'Actualmente estoy en modo de demostración (sin conexión). Nuestro sistema completo de IA (Gemini) no está disponible temporalmente, pero estaré encantado de ayudarle basándome en nuestra lista de precios estándar.';
+        } else if (l === 'ar') {
+            return 'أنا حاليا في الوضع التجريبي (غير متصل). نظام الذكاء الاصطناعي الكامل الخاص بنا (Gemini) غير متاح مؤقتًا، ولكن يسعدني تقديم المساعدة بناءً على قائمة الأسعار القياسية لدينا.';
         } else {
             return 'I am currently in safe mode. Our Shopify Starter package starts from 4,500 PLN. Please ask for details or contact us at hello@ecm-digital.com.';
         }
@@ -243,7 +259,10 @@ export default function AIChatbot() {
     const suggestions = {
         pl: ['Cennik usług', 'Oferta AI', 'Jak zacząć?'],
         en: ['Pricing', 'AI Services', 'How to start?'],
-        de: ['Preise', 'KI-Dienste', 'Wie fange ich an?']
+        de: ['Preise', 'KI-Dienste', 'Wie fange ich an?'],
+        szl: ['Wiela za to?', 'Co robicie?', 'Jak zaczynomy?'],
+        es: ['Precios', 'Servicios IA', '¿Cómo empezar?'],
+        ar: ['الأسعار', 'خدمات الذكاء الاصطناعي', 'كيف نبدأ؟']
     }[lang] || ['Pricing', 'AI Services', 'How to start?'];
 
 
@@ -284,7 +303,10 @@ export default function AIChatbot() {
             recognitionRef.current.stop();
             setIsListening(false);
         } else {
-            recognitionRef.current.lang = lang === 'pl' ? 'pl-PL' : lang === 'de' ? 'de-DE' : 'en-US';
+            const langMap: Record<string, string> = {
+                'pl': 'pl-PL', 'de': 'de-DE', 'en': 'en-US', 'szl': 'pl-PL', 'es': 'es-ES', 'ar': 'ar-SA'
+            };
+            recognitionRef.current.lang = langMap[lang] || 'en-US';
             recognitionRef.current.start();
             setIsListening(true);
         }

@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { addLead } from '@/lib/firestoreService';
 
+import { Lang } from '@/translations';
+
 interface NewsletterProps {
-    lang?: 'pl' | 'en' | 'de';
+    lang?: Lang;
 }
 
 const translations = {
@@ -48,12 +50,54 @@ const translations = {
         benefit2: '💡 Wöchentliche Tipps',
         benefit3: '🚀 Exklusive Angebote',
     },
+    szl: {
+        badge: '📬 Brif',
+        title: 'Darmowy e-book + porady co tydziyń',
+        subtitle: 'Zapisz sie i bier za darmo "10 Sposobów na Automatyzacja Firmy z AI" + porady marketingowe.',
+        placeholder: 'Twój email',
+        button: 'Dejcie mi tyn e-book →',
+        sending: '⏳ Posyłom...',
+        success: '🎉 Dziynki! Zobocz na email.',
+        error: 'Coś sie popsuło. Spróbuj jeszcze roz.',
+        privacy: '🔒 Żodnego spamu. Możesz sie wypisać.',
+        benefit1: '📖 Darmowy PDF',
+        benefit2: '💡 Porady co tydziyń',
+        benefit3: '🚀 Ekstra oferty',
+    },
+    es: {
+        badge: '📬 Boletín',
+        title: 'E-book gratis + consejos semanales',
+        subtitle: 'Suscríbete y recibe gratis la guía "10 Formas de Automatizar tu Negocio con IA" + consejos semanales.',
+        placeholder: 'Tu dirección de correo',
+        button: 'Obtener el e-book →',
+        sending: '⏳ Enviando...',
+        success: '🎉 ¡Gracias! Revisa tu bandeja de entrada.',
+        error: 'Algo salió mal. Inténtalo de nuevo.',
+        privacy: '🔒 Sin spam. Darse de baja en cualquier momento.',
+        benefit1: '📖 PDF gratuito',
+        benefit2: '💡 Consejos semanales',
+        benefit3: '🚀 Ofertas exclusivas',
+    },
+    ar: {
+        badge: '📬 النشرة الإخبارية',
+        title: 'كتاب إلكتروني مجاني + نصائح أسبوعية',
+        subtitle: 'اشترك واحصل على دليل مجاني "10 طرق لأتمتة عملك بالذكاء الاصطناعي" + نصائح أسبوعية.',
+        placeholder: 'عنوان بريدك الإلكتروني',
+        button: 'احصل على الكتاب الإلكتروني →',
+        sending: '⏳ جاري الإرسال...',
+        success: '🎉 شكراً لك! تفقد بريدك الوارد.',
+        error: 'حدث خطأ ما. حاول مرة أخرى.',
+        privacy: '🔒 لا رسائل مزعجة. يمكنك إلغاء الاشتراك في أي وقت.',
+        benefit1: '📖 كتاب PDF مجاني',
+        benefit2: '💡 نصائح أسبوعية',
+        benefit3: '🚀 عروض حصرية',
+    },
 };
 
 export default function NewsletterSection({ lang = 'pl' }: NewsletterProps) {
     const [email, setEmail] = useState('');
     const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
-    const T = translations[lang];
+    const T = translations[lang] || translations['pl'];
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();

@@ -17,6 +17,9 @@ export const metadata: Metadata = {
       'pl': `${BASE_URL}/?lang=pl`,
       'en': `${BASE_URL}/?lang=en`,
       'de': `${BASE_URL}/?lang=de`,
+      'szl': `${BASE_URL}/?lang=szl`,
+      'es': `${BASE_URL}/?lang=es`,
+      'ar': `${BASE_URL}/?lang=ar`,
       'x-default': `${BASE_URL}/`,
     },
   },
@@ -27,7 +30,7 @@ export const metadata: Metadata = {
     description: "Profesjonalna agencja cyfrowa. Agenci AI, strony WWW, sklepy, aplikacje i automatyzacja.",
     images: ["/assets/images/ecm-digital-og.svg"],
     locale: "pl_PL",
-    alternateLocale: ["en_US", "de_DE"],
+    alternateLocale: ["en_US", "de_DE", "szl_PL", "es_ES", "ar_SA"],
   },
   twitter: {
     card: "summary_large_image",
@@ -68,10 +71,10 @@ const jsonLd = {
     "email": "kontakt@ecm-digital.com",
     "telephone": "+48535330323",
     "contactType": "customer service",
-    "availableLanguage": ["Polish", "English", "German"]
+    "availableLanguage": ["Polish", "English", "German", "Silesian", "Spanish", "Arabic"]
   },
   "sameAs": [],
-  "knowsLanguage": ["pl", "en", "de"],
+  "knowsLanguage": ["pl", "en", "de", "szl", "es", "ar"],
   "areaServed": ["PL", "DE", "EU"],
   "priceRange": "$$",
   "serviceType": [
@@ -99,6 +102,9 @@ export default function RootLayout({
         <link rel="alternate" hrefLang="pl" href={`${BASE_URL}/?lang=pl`} />
         <link rel="alternate" hrefLang="en" href={`${BASE_URL}/?lang=en`} />
         <link rel="alternate" hrefLang="de" href={`${BASE_URL}/?lang=de`} />
+        <link rel="alternate" hrefLang="szl" href={`${BASE_URL}/?lang=szl`} />
+        <link rel="alternate" hrefLang="es" href={`${BASE_URL}/?lang=es`} />
+        <link rel="alternate" hrefLang="ar" href={`${BASE_URL}/?lang=ar`} />
         <link rel="alternate" hrefLang="x-default" href={`${BASE_URL}/`} />
         <script
           type="application/ld+json"

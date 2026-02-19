@@ -49,7 +49,7 @@ export default function Footer() {
                     </div>
                 </div>
                 <div className="footer-bottom">
-                    <div className="footer-copyright">© {new Date().getFullYear()} {settings?.agencyName || 'ECM Digital'}. Wszelkie prawa zastrzeżone.</div>
+                    <div className="footer-copyright">{T('footer.copyright')}</div>
                     <div className="footer-legal">
                         <span className="footer-legal-item">{T('footer.entity')}</span>
                     </div>
