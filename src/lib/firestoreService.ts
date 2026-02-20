@@ -189,6 +189,31 @@ export interface Meeting {
     createdAt: Timestamp;
 }
 
+export interface ServiceData {
+    id: string;
+    slug: string;
+    icon: string;
+    gradient: string;
+    features: string[];
+    techs: string[];
+    price: string;
+    translations: {
+        pl: {
+            title: string;
+            subtitle: string;
+            long: string;
+            features: string[];
+        };
+        en?: {
+            title: string;
+            subtitle: string;
+            long: string;
+            features: string[];
+        };
+    };
+    updatedAt: Timestamp;
+}
+
 // ─── Communication Types ─────────────────────────────────────
 
 export interface Comment {
@@ -448,6 +473,31 @@ export async function updateAgencySettings(data: Partial<AgencySettings>): Promi
         ...data,
         updatedAt: serverTimestamp(),
     }, { merge: true });
+}
+
+// ─── Agency Services CRUD ────────────────────────────────────
+
+const AGENCY_SERVICES = 'agency_services';
+
+export async function getAgencyServices(): Promise<ServiceData[]> {
+    const q = query(collection(db, AGENCY_SERVICES), orderBy('slug', 'asc'));
+    const querySnapshot = await getDocs(q);
+    return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as ServiceData));
+}
+
+export async function getAgencyService(slug: string): Promise<ServiceData | null> {
+    const q = query(collection(db, AGENCY_SERVICES), where('slug', '==', slug), limit(1));
+    const querySnapshot = await getDocs(q);
+    if (querySnapshot.empty) return null;
+    const d = querySnapshot.docs[0];
+    return { id: d.id, ...d.data() } as ServiceData;
+}
+
+export async function updateAgencyService(id: string, data: Partial<ServiceData>): Promise<void> {
+    await updateDoc(doc(db, AGENCY_SERVICES, id), {
+        ...data,
+        updatedAt: serverTimestamp(),
+    });
 }
 
 // ─── Seeding ────────────────────────────────────────────────

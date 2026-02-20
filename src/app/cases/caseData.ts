@@ -14,7 +14,7 @@ export const caseStudies: CaseStudy[] = [
     { slug: 'aplikacja-mvp', num: 4, icon: '📱', gradient: 'linear-gradient(135deg, #8b5cf6, #a78bfa)' },
 ];
 
-const csTranslations: Record<Lang, Record<string, string>> = {
+const csTranslations: Record<string, Record<string, string>> = {
     pl: {
         'cs.back': '← Wróć do strony głównej',
         'cs.challenge': 'Wyzwanie',

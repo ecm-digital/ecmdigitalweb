@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
-import '@/app/portal.css';
+
 
 export default function LoginPage() {
     const { user, login, register, loginWithGoogle } = useAuth();

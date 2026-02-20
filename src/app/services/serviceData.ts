@@ -48,6 +48,22 @@ export const services: Record<string, ServiceData> = {
         techs: ['N8N', 'Zapier', 'Make', 'REST API', 'Webhooks', 'Cron'],
         price: 'price',
     },
+    'ai-executive': {
+        slug: 'ai-executive',
+        icon: '💼',
+        gradient: 'linear-gradient(135deg, #FF2D55, #ff5e7e)',
+        features: ['features.1', 'features.2', 'features.3', 'features.4', 'features.5', 'features.6'],
+        techs: ['Private LLM', 'LangChain', 'Custom RAG', 'Ollama', 'Security', 'ERP Integration'],
+        price: 'price',
+    },
+    'edu': {
+        slug: 'edu',
+        icon: '🎓',
+        gradient: 'linear-gradient(135deg, #30D158, #59df7a)',
+        features: ['features.1', 'features.2', 'features.3', 'features.4', 'features.5', 'features.6'],
+        techs: ['ChatGPT', 'Claude', 'Midjourney', 'Zapier', 'Canva AI', 'Prompt Engineering'],
+        price: 'price',
+    },
     'mvp': {
         slug: 'mvp',
         icon: '🚀',

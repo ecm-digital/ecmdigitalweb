@@ -5,6 +5,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { useLanguage } from '@/context/LanguageContext';
 import { caseStudies, ct } from './caseData';
+import ContactSection from '@/components/ContactSection';
 
 export default function CaseStudyPage({ slug }: { slug: string }) {
     const { lang } = useLanguage();
@@ -17,64 +18,91 @@ export default function CaseStudyPage({ slug }: { slug: string }) {
             (entries) => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
             { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
         );
-        document.querySelectorAll('.fade-in, .fade-in-left, .fade-in-right').forEach(el => observer.observe(el));
+        document.querySelectorAll('.fade-in, .fade-in-left, .fade-in-right, .fade-in-up').forEach(el => observer.observe(el));
         return () => observer.disconnect();
     }, []);
 
     if (!cs) return <div>Case study not found</div>;
 
     const techs = T(`${slug}.techs`).split(',');
+    const accentColor = cs.gradient.match(/#([0-9a-fA-F]{6})/)?.[0] || '#3b82f6';
 
     return (
         <>
+            <div className="scroll-progress-bar" />
             <Navbar />
 
-            {/* Hero */}
-            <section className="cs-hero" style={{ background: cs.gradient }}>
-                <div className="hero-bg-shapes">
-                    <div className="shape shape-1"></div>
-                    <div className="shape shape-2"></div>
-                    <div className="shape shape-3"></div>
-                </div>
-                <div className="container" style={{ position: 'relative', zIndex: 2 }}>
-                    <div className="cs-hero-content">
-                        <div className="sp-icon" style={{ fontSize: '4rem', marginBottom: '16px' }}>{cs.icon}</div>
-                        <h1 className="sp-title">{T(`${slug}.title`)}</h1>
-                        <p className="sp-subtitle">{T(`${slug}.subtitle`)}</p>
-                        <div className="cs-meta-row">
-                            <span className="cs-meta-badge">{T(`${slug}.client`)}</span>
-                            <span className="cs-meta-badge">⏱ {T(`${slug}.timeline`)}</span>
+            {/* Premium Hero */}
+            <section className="relative overflow-hidden" style={{ minHeight: '60vh', display: 'flex', alignItems: 'center', paddingTop: '160px', paddingBottom: '80px', background: 'var(--brand-primary)' }}>
+                {/* Animated Background Orbs */}
+                <div style={{ position: 'absolute', top: '10%', left: '10%', width: '40vw', height: '40vw', background: `radial-gradient(circle, ${accentColor}25 0%, transparent 70%)`, filter: 'blur(80px)', zIndex: 0, animation: 'float 10s infinite alternate', pointerEvents: 'none' }} />
+                <div style={{ position: 'absolute', bottom: '-20%', right: '10%', width: '30vw', height: '30vw', background: `radial-gradient(circle, ${accentColor}15 0%, transparent 70%)`, filter: 'blur(100px)', zIndex: 0, animation: 'float 14s infinite alternate-reverse', pointerEvents: 'none' }} />
+
+                <div className="container relative z-10">
+                    <div className="fade-in-up" style={{ textAlign: 'center', maxWidth: '800px', margin: '0 auto' }}>
+                        <div style={{
+                            fontSize: '4rem',
+                            width: '100px',
+                            height: '100px',
+                            margin: '0 auto 32px',
+                            background: `linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.02))`,
+                            border: `1px solid rgba(255,255,255,0.1)`,
+                            boxShadow: `0 0 30px ${accentColor}40`,
+                            borderRadius: '24px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            backdropFilter: 'blur(10px)'
+                        }}>
+                            {cs.icon}
+                        </div>
+                        <h1 style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)', letterSpacing: '-0.03em', lineHeight: 1.1, marginBottom: '24px' }}>
+                            {T(`${slug}.title`)}
+                        </h1>
+                        <p style={{ fontSize: '1.25rem', color: 'rgba(255,255,255,0.7)', lineHeight: 1.6, marginBottom: '32px' }}>{T(`${slug}.subtitle`)}</p>
+
+                        <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
+                            <span style={{ display: 'inline-flex', alignItems: 'center', padding: '12px 24px', background: `${accentColor}15`, border: `1px solid ${accentColor}30`, borderRadius: '999px', fontSize: '1.1rem', fontWeight: 700, color: 'white' }}>
+                                Klient: {T(`${slug}.client`)}
+                            </span>
+                            <span style={{ display: 'inline-flex', alignItems: 'center', padding: '12px 24px', background: `rgba(255,255,255,0.05)`, border: `1px solid rgba(255,255,255,0.1)`, borderRadius: '999px', fontSize: '1.1rem', fontWeight: 700, color: 'white' }}>
+                                ⏱ {T(`${slug}.timeline`)}
+                            </span>
                         </div>
                     </div>
                 </div>
             </section>
 
-            {/* Results */}
-            <section className="section">
+            {/* Results KPI Panel */}
+            <section className="section bg-grid relative" style={{ borderTop: '1px solid rgba(255,255,255,0.05)', borderBottom: '1px solid rgba(255,255,255,0.05)', background: 'linear-gradient(to bottom, transparent, rgba(5,5,7,0.8))' }}>
                 <div className="container">
-                    <div className="section-header fade-in">
+                    <div className="section-header fade-in-up">
+                        <span className="section-label" style={{ padding: '8px 16px', background: `${accentColor}15`, color: accentColor, borderRadius: '999px', border: `1px solid ${accentColor}30` }}>KPI</span>
                         <h2 className="section-title">{T('cs.results')}</h2>
                     </div>
-                    <div className="cs-results-grid fade-in" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '20px' }}>
-                        {[1, 2, 3, 4].map(i => (
-                            <div key={i} className="cs-result-card" style={{
-                                background: 'rgba(255, 255, 255, 0.03)',
-                                backdropFilter: 'blur(10px)',
-                                border: '1px solid var(--border)',
+                    <div className="fade-in-up" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '20px' }}>
+                        {[1, 2, 3, 4].map((i) => (
+                            <div key={i} className="premium-glass-panel" style={{
+                                padding: '40px 24px',
+                                textAlign: 'center',
                                 borderRadius: '24px',
-                                padding: '32px 24px',
-                                textAlign: 'center'
+                                position: 'relative',
+                                overflow: 'hidden'
                             }}>
-                                <div className="cs-result-value" style={{
-                                    fontSize: '2rem',
+                                <div style={{ position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)', width: '60px', height: '20px', background: `${accentColor}`, filter: 'blur(30px)' }}></div>
+                                <div style={{
+                                    fontSize: '2.5rem',
                                     fontWeight: 800,
-                                    color: 'var(--brand-accent)',
-                                    marginBottom: '8px'
+                                    color: 'white',
+                                    marginBottom: '8px',
+                                    letterSpacing: '-0.02em'
                                 }}>{T(`${slug}.result${i}.value`)}</div>
-                                <div className="cs-result-label" style={{
+                                <div style={{
                                     fontSize: '0.9rem',
-                                    color: 'var(--text-secondary)',
-                                    fontWeight: 500
+                                    color: 'rgba(255,255,255,0.6)',
+                                    fontWeight: 600,
+                                    textTransform: 'uppercase',
+                                    letterSpacing: '0.05em'
                                 }}>{T(`${slug}.result${i}.label`)}</div>
                             </div>
                         ))}
@@ -83,16 +111,22 @@ export default function CaseStudyPage({ slug }: { slug: string }) {
             </section>
 
             {/* Challenge & Solution */}
-            <section className="section" style={{ background: 'var(--surface-1)' }}>
+            <section className="section relative">
                 <div className="container">
-                    <div className="sp-desc-grid">
-                        <div className="fade-in-left">
-                            <h2 className="cs-section-h2" style={{ marginBottom: '24px' }}>{T('cs.challenge')}</h2>
-                            <p className="sp-long-text">{T(`${slug}.challenge`)}</p>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '40px' }}>
+                        <div className="premium-glass-panel fade-in-up" style={{ padding: '48px', borderRadius: '32px' }}>
+                            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', marginBottom: '24px' }}>
+                                <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#ef4444' }}></div>
+                                <h2 style={{ fontSize: '1.5rem', fontWeight: 700, color: 'white', letterSpacing: '-0.02em', margin: 0 }}>{T('cs.challenge')}</h2>
+                            </div>
+                            <p style={{ fontSize: '1.1rem', color: 'rgba(255,255,255,0.7)', lineHeight: 1.8 }}>{T(`${slug}.challenge`)}</p>
                         </div>
-                        <div className="fade-in-right">
-                            <h2 className="cs-section-h2" style={{ marginBottom: '24px' }}>{T('cs.solution')}</h2>
-                            <p className="sp-long-text">{T(`${slug}.solution`)}</p>
+                        <div className="premium-glass-panel fade-in-up" style={{ padding: '48px', borderRadius: '32px', border: `1px solid ${accentColor}30`, background: `linear-gradient(145deg, ${accentColor}05 0%, rgba(255,255,255,0.01) 100%)` }}>
+                            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', marginBottom: '24px' }}>
+                                <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#10b981' }}></div>
+                                <h2 style={{ fontSize: '1.5rem', fontWeight: 700, color: 'white', letterSpacing: '-0.02em', margin: 0 }}>{T('cs.solution')}</h2>
+                            </div>
+                            <p style={{ fontSize: '1.1rem', color: 'rgba(255,255,255,0.8)', lineHeight: 1.8 }}>{T(`${slug}.solution`)}</p>
                         </div>
                     </div>
                 </div>
@@ -100,35 +134,38 @@ export default function CaseStudyPage({ slug }: { slug: string }) {
 
             {/* Technologies */}
             <section className="section">
-                <div className="container">
-                    <div className="section-header fade-in">
-                        <h2 className="section-title">{T('cs.techs')}</h2>
-                    </div>
-                    <div className="sp-tech-row fade-in" style={{ justifyContent: 'center' }}>
-                        {techs.map(tech => (
-                            <span key={tech} className="sp-tech-badge" style={{
-                                padding: '8px 20px',
-                                background: 'var(--surface-1)',
-                                border: '1px solid var(--border)',
-                                borderRadius: '12px',
-                                fontSize: '0.9rem',
-                                fontWeight: 600
+                <div className="container text-center">
+                    <h2 className="section-title fade-in-up" style={{ fontSize: '2rem', marginBottom: '40px' }}>{T('cs.techs')}</h2>
+                    <div className="fade-in-up" style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', justifyContent: 'center' }}>
+                        {techs.map((tech) => (
+                            <span key={tech} className="premium-glass-panel" style={{
+                                padding: '12px 24px',
+                                borderRadius: '16px',
+                                fontSize: '1rem',
+                                fontWeight: 700,
+                                letterSpacing: '0.05em',
+                                color: 'white',
+                                boxShadow: '0 10px 20px rgba(0,0,0,0.2)'
                             }}>{tech}</span>
                         ))}
                     </div>
                 </div>
             </section>
 
-            {/* CTA */}
-            <section className="sp-cta" style={{ background: cs.gradient, padding: '100px 0' }}>
-                <div className="container">
-                    <div className="sp-cta-content fade-in" style={{ textAlign: 'center', color: 'white' }}>
-                        <h2 style={{ fontSize: '2.5rem', marginBottom: '32px' }}>{T('cs.cta.title')}</h2>
-                        <a href="/#contact" className="btn-primary" style={{ background: 'white', color: cs.gradient.includes('#e94560') ? '#e94560' : '#0f3460' }}>{T('cs.cta.button')} →</a>
-                    </div>
+            {/* Premium CTA */}
+            <section className="relative overflow-hidden" style={{ padding: '120px 0', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+                <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, background: cs.gradient, opacity: 0.15, zIndex: 0 }} />
+                <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '100vw', height: '100vw', background: `radial-gradient(circle, ${accentColor}30 0%, transparent 60%)`, filter: 'blur(100px)', zIndex: 0, pointerEvents: 'none' }} />
+
+                <div className="container relative z-10 text-center fade-in-up">
+                    <h2 style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)', fontWeight: 800, marginBottom: '48px', letterSpacing: '-0.02em', color: 'white' }}>{T('cs.cta.title')}</h2>
+                    <button onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })} className="btn-primary" style={{ padding: '20px 56px', fontSize: '1.2rem', borderRadius: '999px', fontWeight: 700, letterSpacing: '0.05em', background: 'white', color: '#050507', boxShadow: `0 20px 40px ${accentColor}40`, transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)', border: 'none', cursor: 'pointer' }}>
+                        {T('cs.cta.button')}
+                    </button>
                 </div>
             </section>
 
+            <ContactSection />
             <Footer />
         </>
     );

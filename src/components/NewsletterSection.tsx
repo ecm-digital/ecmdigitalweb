@@ -152,16 +152,17 @@ export default function NewsletterSection({ lang = 'pl' }: NewsletterProps) {
     }
 
     return (
-        <section className="newsletter-section">
-            <div className="container">
-                <div className="newsletter-card fade-in">
-                    <div className="newsletter-content">
-                        <div className="section-label">● Newsletter</div>
-                        <h2 className="newsletter-title">{T.title}</h2>
-                        <p className="newsletter-subtitle">{T.subtitle}</p>
+        <section className="newsletter-section relative overflow-hidden" style={{ padding: '120px 0', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+            <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '80vw', height: '80vw', background: 'radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, transparent 60%)', filter: 'blur(100px)', zIndex: 0, pointerEvents: 'none' }}></div>
+            <div className="container relative z-10">
+                <div className="newsletter-card fade-in premium-glass-panel" style={{ padding: '64px', borderRadius: '40px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', background: 'linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%)', boxShadow: '0 0 80px rgba(16, 185, 129, 0.15)', border: '1px solid rgba(16, 185, 129, 0.2)' }}>
+                    <div className="newsletter-content" style={{ maxWidth: '600px', width: '100%' }}>
+                        <div className="section-label" style={{ display: 'inline-block', padding: '10px 24px', borderRadius: '999px', background: 'rgba(16, 185, 129, 0.1)', color: '#10b981', border: '1px solid rgba(16, 185, 129, 0.2)', marginBottom: '32px', fontWeight: 600 }}>{T.badge}</div>
+                        <h2 className="newsletter-title" style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 800, marginBottom: '24px', letterSpacing: '-0.03em', lineHeight: 1.2 }}>{T.title}</h2>
+                        <p className="newsletter-subtitle" style={{ fontSize: '1.2rem', color: 'rgba(255,255,255,0.7)', marginBottom: '48px', lineHeight: 1.6 }}>{T.subtitle}</p>
 
-                        <form onSubmit={handleSubmit} className="newsletter-form">
-                            <div className="newsletter-input-wrap">
+                        <form onSubmit={handleSubmit} className="newsletter-form" style={{ width: '100%' }}>
+                            <div className="newsletter-input-wrap" style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
                                 <input
                                     type="email"
                                     value={email}
@@ -169,24 +170,26 @@ export default function NewsletterSection({ lang = 'pl' }: NewsletterProps) {
                                     placeholder={T.placeholder}
                                     required
                                     className="newsletter-input"
+                                    style={{ width: '100%', padding: '24px 32px', borderRadius: '999px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'white', fontSize: '1.1rem', paddingRight: '220px', transition: 'all 0.4s' }}
                                 />
                                 <button
                                     type="submit"
                                     disabled={status === 'sending'}
                                     className="newsletter-btn"
+                                    style={{ position: 'absolute', right: '8px', top: '8px', bottom: '8px', padding: '0 32px', borderRadius: '999px', background: 'white', color: '#050507', fontWeight: 800, border: 'none', cursor: 'pointer', transition: 'all 0.3s', fontSize: '1.05rem' }}
                                 >
                                     {status === 'sending' ? T.sending : T.button}
                                 </button>
                             </div>
-                            {status === 'error' && <p className="newsletter-error">{T.error}</p>}
-                            <p className="newsletter-privacy">{T.privacy}</p>
+                            {status === 'error' && <p className="newsletter-error" style={{ color: '#ef4444', marginTop: '16px' }}>{T.error}</p>}
+                            <p className="newsletter-privacy" style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.9rem', marginTop: '24px', fontFamily: 'var(--font-mono)' }}>{T.privacy}</p>
                         </form>
                     </div>
 
-                    <div className="newsletter-benefits">
-                        <div className="newsletter-benefit">{T.benefit1}</div>
-                        <div className="newsletter-benefit">{T.benefit2}</div>
-                        <div className="newsletter-benefit">{T.benefit3}</div>
+                    <div className="newsletter-benefits" style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '32px', marginTop: '48px', paddingTop: '48px', borderTop: '1px solid rgba(255,255,255,0.1)', width: '100%' }}>
+                        <div className="newsletter-benefit" style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '1.1rem', color: 'white' }}><span style={{ fontSize: '1.5rem' }}>📖</span> {T.benefit1.replace('📖 ', '')}</div>
+                        <div className="newsletter-benefit" style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '1.1rem', color: 'white' }}><span style={{ fontSize: '1.5rem' }}>💡</span> {T.benefit2.replace('💡 ', '')}</div>
+                        <div className="newsletter-benefit" style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '1.1rem', color: 'white' }}><span style={{ fontSize: '1.5rem' }}>🚀</span> {T.benefit3.replace('🚀 ', '')}</div>
                     </div>
                 </div>
             </div>

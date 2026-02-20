@@ -1,11 +1,13 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
+import { usePathname } from 'next/navigation';
 import { Lang, t } from '@/translations';
 import { trackAIChat, trackCTAClick } from '@/lib/ga';
 import { saveAIChatMessage, submitAIFeedback } from '@/lib/firestoreService';
 import { useAuth } from '@/context/AuthContext';
 import { v4 as uuidv4 } from 'uuid';
+import { GoogleGenerativeAI } from '@google/generative-ai';
 
 interface Message {
     role: 'user' | 'bot';
@@ -13,8 +15,12 @@ interface Message {
 }
 
 export default function AIChatbot() {
+    const pathname = usePathname();
     const [isOpen, setIsOpen] = useState(false);
     const [hasMounted, setHasMounted] = useState(false);
+    // Hide on admin pages
+    // Hide on admin pages
+    if (pathname?.startsWith('/admin')) return null;
     const [messages, setMessages] = useState<Message[]>([]);
     const [inputValue, setInputValue] = useState('');
     const [isTyping, setIsTyping] = useState(false);
@@ -76,26 +82,15 @@ export default function AIChatbot() {
 
             // Filter out "undefined" or empty strings
             const apiKey = [winKey, envKey, localKey].find(k => k && k !== 'undefined' && k !== '');
-            const hasClientClass = !!(window as any).GeminiClient;
 
-            if (apiKey && hasClientClass) {
-                if (!(window as any).geminiClient) {
-                    (window as any).geminiClient = new (window as any).GeminiClient({ apiKey });
-                    console.log('✅ Gemini client initialized (found key)');
-                }
+            if (apiKey) {
                 setIsOnline(true);
             } else {
-                console.warn('⚠️ Gemini client NOT initialized:', {
-                    hasKey: !!apiKey,
-                    hasClientClass: hasClientClass
-                });
+                console.warn('⚠️ Gemini API Key not found');
                 setIsOnline(false);
             }
         };
-        // Retry a few times as scripts might still be loading (custom defer behavior)
         checkGemini();
-        setTimeout(checkGemini, 2000);
-        setTimeout(checkGemini, 5000);
     }, []);
 
     useEffect(() => {
@@ -150,20 +145,15 @@ export default function AIChatbot() {
         }
 
         try {
-            // Re-check gemini client just in case
-            if (!(window as any).geminiClient) {
-                const winKey = (window as any).NEXT_PUBLIC_GEMINI_API_KEY;
-                const envKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
-                const localKey = localStorage.getItem('GEMINI_API_KEY');
-                const apiKey = [winKey, envKey, localKey].find(k => k && k !== 'undefined' && k !== '');
+            const winKey = (window as any).NEXT_PUBLIC_GEMINI_API_KEY;
+            const envKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
+            const localKey = localStorage.getItem('GEMINI_API_KEY');
+            const apiKey = [winKey, envKey, localKey].find(k => k && k !== 'undefined' && k !== '');
 
-                if (apiKey && (window as any).GeminiClient) {
-                    (window as any).geminiClient = new (window as any).GeminiClient({ apiKey });
-                }
-            }
+            if (apiKey) {
+                const genAI = new GoogleGenerativeAI(apiKey);
+                const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
-            const gemini = (window as any).geminiClient;
-            if (gemini && gemini.apiKey) {
                 // Prepare context from last 5 messages
                 const historyContext = messages.slice(-5).map(m => `${m.role === 'bot' ? 'Asystent' : 'Użytkownik'}: ${m.text}`).join('\n');
 
@@ -185,10 +175,18 @@ export default function AIChatbot() {
                 3. Jeśli w bazie nie ma informacji, o którą pyta użytkownik, nie zmyślaj. Powiedz, że nie posiadasz tych danych i zachęć do kontaktu na hello@ecm-digital.com.
                 4. Skup się na korzyściach płynących ze współpracy z ECM Digital (np. wysoki ROI, nowoczesny tech stack).
                 5. Odpowiadaj w formacie tekstowym, używając emoji w sposób umiarkowany i profesjonalny.
-                6. Znasz kontekst poprzednich pytań użytkownika z HISTORII ROZMOWY powyżej.`;
+                6. Znasz kontekst poprzednich pytań użytkownika z HISTORII ROZMOWY powyżej.
+                
+                TERAZ ODPOWIEDZ NA NAJNOWSZE ZAPYTANIE UŻYTKOWNIKA:
+                Użytkownik: ${text}`;
 
-                const response = await gemini.generateContent(systemPrompt, text);
-                addBotMessage(response);
+                const result = await model.generateContent(systemPrompt);
+                let responseText = result.response.text();
+                if (responseText.startsWith('Asystent:')) {
+                    responseText = responseText.replace(/^Asystent:\s*/i, '');
+                }
+
+                addBotMessage(responseText.trim());
             } else {
                 // Fallback to simulated logic
                 setTimeout(() => {
@@ -196,7 +194,7 @@ export default function AIChatbot() {
                     addBotMessage(response);
                 }, 1000);
             }
-        } catch (error) {
+        } catch (error: any) {
             console.error('Gemini Error (Falling back to offline):', error);
             // If API fails, fallback to offline response instead of generic error
             setIsOnline(false);

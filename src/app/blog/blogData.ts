@@ -1,90 +1,90 @@
 import { Lang } from '../../translations';
 
 export interface BlogPost {
-    slug: string;
-    date: string;
-    category: string;
-    readTime: number;
-    image: string;
-    gradient: string;
+        slug: string;
+        date: string;
+        category: string;
+        readTime: number;
+        image: string;
+        gradient: string;
 }
 
 export const blogPosts: BlogPost[] = [
-    {
-        slug: 'ile-kosztuje-strona-www-2025',
-        date: '2025-02-14',
-        category: 'Biznes',
-        readTime: 7,
-        image: '💰',
-        gradient: 'linear-gradient(135deg, #8b5cf6 0%, #a78bfa 100%)',
-    },
-    {
-        slug: 'chatbot-ai-vs-ludzka-obsluga',
-        date: '2025-02-12',
-        category: 'AI',
-        readTime: 6,
-        image: '🤖',
-        gradient: 'linear-gradient(135deg, #06b6d4 0%, #22d3ee 100%)',
-    },
-    {
-        slug: 'ai-agents-biznes-2025',
-        date: '2025-02-10',
-        category: 'AI',
-        readTime: 6,
-        image: '🤖',
-        gradient: 'linear-gradient(135deg, #e94560 0%, #ff6b81 100%)',
-    },
-    {
-        slug: 'automatyzacja-n8n-przewodnik',
-        date: '2025-02-05',
-        category: 'Automatyzacja',
-        readTime: 8,
-        image: '⚡',
-        gradient: 'linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%)',
-    },
-    {
-        slug: 'strona-www-vs-social-media',
-        date: '2025-01-28',
-        category: 'Marketing',
-        readTime: 5,
-        image: '🌐',
-        gradient: 'linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%)',
-    },
-    {
-        slug: 'mvp-startup-jak-zaczac',
-        date: '2025-01-20',
-        category: 'Startup',
-        readTime: 7,
-        image: '🚀',
-        gradient: 'linear-gradient(135deg, #ec4899 0%, #f472b6 100%)',
-    },
-    {
-        slug: 'shopify-vs-wix-porownanie',
-        date: '2025-01-15',
-        category: 'E-commerce',
-        readTime: 6,
-        image: '🛒',
-        gradient: 'linear-gradient(135deg, #10b981 0%, #34d399 100%)',
-    },
+        {
+                slug: 'ile-kosztuje-strona-www-2025',
+                date: '2025-02-14',
+                category: 'Biznes',
+                readTime: 7,
+                image: '💰',
+                gradient: 'linear-gradient(135deg, #8b5cf6 0%, #a78bfa 100%)',
+        },
+        {
+                slug: 'chatbot-ai-vs-ludzka-obsluga',
+                date: '2025-02-12',
+                category: 'AI',
+                readTime: 6,
+                image: '🤖',
+                gradient: 'linear-gradient(135deg, #06b6d4 0%, #22d3ee 100%)',
+        },
+        {
+                slug: 'ai-agents-biznes-2025',
+                date: '2025-02-10',
+                category: 'AI',
+                readTime: 6,
+                image: '🤖',
+                gradient: 'linear-gradient(135deg, #e94560 0%, #ff6b81 100%)',
+        },
+        {
+                slug: 'automatyzacja-n8n-przewodnik',
+                date: '2025-02-05',
+                category: 'Automatyzacja',
+                readTime: 8,
+                image: '⚡',
+                gradient: 'linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%)',
+        },
+        {
+                slug: 'strona-www-vs-social-media',
+                date: '2025-01-28',
+                category: 'Marketing',
+                readTime: 5,
+                image: '🌐',
+                gradient: 'linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%)',
+        },
+        {
+                slug: 'mvp-startup-jak-zaczac',
+                date: '2025-01-20',
+                category: 'Startup',
+                readTime: 7,
+                image: '🚀',
+                gradient: 'linear-gradient(135deg, #ec4899 0%, #f472b6 100%)',
+        },
+        {
+                slug: 'shopify-vs-wix-porownanie',
+                date: '2025-01-15',
+                category: 'E-commerce',
+                readTime: 6,
+                image: '🛒',
+                gradient: 'linear-gradient(135deg, #10b981 0%, #34d399 100%)',
+        },
 ];
 
-const blogTranslations: Record<Lang, Record<string, string>> = {
-    pl: {
-        'blog.title': 'Blog',
-        'blog.subtitle': 'Wiedza, trendy i case studies ze świata AI, automatyzacji i technologii',
-        'blog.readMore': 'Czytaj więcej →',
-        'blog.readTime': 'min czytania',
-        'blog.back': '← Wróć do bloga',
-        'blog.backHome': '← Strona główna',
-        'blog.share': 'Udostępnij',
-        'blog.related': 'Powiązane artykuły',
-        'blog.cta.title': 'Potrzebujesz pomocy z wdrożeniem?',
-        'blog.cta.button': 'Skontaktuj się →',
+const blogTranslations: Record<string, Record<string, string>> = {
+        pl: {
+                'blog.title': 'Blog',
+                'blog.subtitle': 'Wiedza, trendy i case studies ze świata AI, automatyzacji i technologii',
+                'blog.readMore': 'Czytaj więcej →',
+                'blog.readTime': 'min czytania',
+                'blog.back': '← Wróć do bloga',
+                'blog.backHome': '← Strona główna',
+                'blog.share': 'Udostępnij',
+                'blog.related': 'Powiązane artykuły',
+                'blog.cta.title': 'Potrzebujesz pomocy z wdrożeniem?',
+                'blog.cta.button': 'Skontaktuj się →',
 
-        // Post NEW 1: Ile kosztuje strona WWW
-        'ile-kosztuje-strona-www-2025.title': 'Ile Kosztuje Strona Internetowa w 2025? Kompletny Cennik',
-        'ile-kosztuje-strona-www-2025.excerpt': 'Przejrzysty przewodnik po cenach stron WWW — od wizytówki za 2000 PLN po zaawansowany sklep za 15 000 PLN.',
-        'ile-kosztuje-strona-www-2025.content': `## Ile kosztuje strona internetowa?
+                // Post NEW 1: Ile kosztuje strona WWW
+                'ile-kosztuje-strona-www-2025.title': 'Ile Kosztuje Strona Internetowa w 2025? Kompletny Cennik',
+                'ile-kosztuje-strona-www-2025.excerpt': 'Przejrzysty przewodnik po cenach stron WWW — od wizytówki za 2000 PLN po zaawansowany sklep za 15 000 PLN.',
+                'ile-kosztuje-strona-www-2025.content': `## Ile kosztuje strona internetowa?
 
 To jedno z najczęściej wyszukiwanych pytań w Google. Odpowiedź zależy od wielu czynników. W tym artykule rozkładamy cennik na czynniki pierwsze.
 
@@ -140,10 +140,10 @@ W ECM Digital oferujemy konkurencyjne ceny z gwarancją jakości:
 
 Każdy projekt wyceniamy indywidualnie. Skontaktuj się po bezpłatną wycenę!`,
 
-        // Post NEW 2: Chatbot AI vs ludzka obsługa
-        'chatbot-ai-vs-ludzka-obsluga.title': 'Chatbot AI vs Ludzka Obsługa Klienta — Co Wybrać w 2025?',
-        'chatbot-ai-vs-ludzka-obsluga.excerpt': 'Porównanie kosztów, wydajności i jakości obsługi klienta z AI chatbotem i tradycyjnym zespołem.',
-        'chatbot-ai-vs-ludzka-obsluga.content': `## Rewolucja w obsłudze klienta
+                // Post NEW 2: Chatbot AI vs ludzka obsługa
+                'chatbot-ai-vs-ludzka-obsluga.title': 'Chatbot AI vs Ludzka Obsługa Klienta — Co Wybrać w 2025?',
+                'chatbot-ai-vs-ludzka-obsluga.excerpt': 'Porównanie kosztów, wydajności i jakości obsługi klienta z AI chatbotem i tradycyjnym zespołem.',
+                'chatbot-ai-vs-ludzka-obsluga.content': `## Rewolucja w obsłudze klienta
 
 W 2025 roku chatboty AI obsługują już ponad 60% zapytań klientów w firmach technologicznych. Ale czy AI naprawdę może zastąpić człowieka?
 
@@ -199,9 +199,9 @@ Najskuteczniejsze firmy łączą oba podejścia:
 
 W ECM Digital wdrażamy chatboty AI w ciągu 5–10 dni roboczych.`,
 
-        'ai-agents-biznes-2025.title': 'Jak Agenci AI Zmienią Twój Biznes w 2025',
-        'ai-agents-biznes-2025.excerpt': 'Poznaj 5 praktycznych zastosowań agentów AI, które obniżą koszty i zwiększą wydajność Twojej firmy.',
-        'ai-agents-biznes-2025.content': `## Czym są agenci AI?
+                'ai-agents-biznes-2025.title': 'Jak Agenci AI Zmienią Twój Biznes w 2025',
+                'ai-agents-biznes-2025.excerpt': 'Poznaj 5 praktycznych zastosowań agentów AI, które obniżą koszty i zwiększą wydajność Twojej firmy.',
+                'ai-agents-biznes-2025.content': `## Czym są agenci AI?
 
 Agenci AI to inteligentne programy, które potrafią samodzielnie podejmować decyzje i wykonywać zadania. W odróżnieniu od tradycyjnych chatbotów, agenci AI rozumieją kontekst, uczą się z interakcji i mogą wykonywać złożone operacje.
 
@@ -230,10 +230,10 @@ Podstawowe wdrożenie agenta AI zaczyna się od 3000 PLN. ROI pojawia się zwykl
 
 Agenci AI to nie przyszłość — to teraźniejszość. Firmy, które wdrożą AI w 2025, zyskają przewagę konkurencyjną na lata.`,
 
-        // Post 2: N8N
-        'automatyzacja-n8n-przewodnik.title': 'Automatyzacja z N8N: Kompletny Przewodnik dla Firm',
-        'automatyzacja-n8n-przewodnik.excerpt': 'Jak zaoszczędzić 15-20h tygodniowo dzięki automatyzacji procesów biznesowych z N8N.',
-        'automatyzacja-n8n-przewodnik.content': `## Czym jest N8N?
+                // Post 2: N8N
+                'automatyzacja-n8n-przewodnik.title': 'Automatyzacja z N8N: Kompletny Przewodnik dla Firm',
+                'automatyzacja-n8n-przewodnik.excerpt': 'Jak zaoszczędzić 15-20h tygodniowo dzięki automatyzacji procesów biznesowych z N8N.',
+                'automatyzacja-n8n-przewodnik.content': `## Czym jest N8N?
 
 N8N to open-source'owa platforma do automatyzacji workflow. Pozwala łączyć aplikacje i tworzyć automatyzacje bez kodowania. Wyobraź sobie Zapiera, ale bez limitów i z pełną kontrolą nad danymi.
 
@@ -270,10 +270,10 @@ Codziennie o 8:00 → pobranie danych ze wszystkich systemów → generowanie ra
 
 W ECM Digital wdrażamy automatyzacje N8N od 2000 PLN. Średni czas wdrożenia to 3–5 dni roboczych.`,
 
-        // Post 3: Website vs Social
-        'strona-www-vs-social-media.title': 'Strona WWW vs Social Media: Czego Potrzebuje Twoja Firma?',
-        'strona-www-vs-social-media.excerpt': 'Dlaczego sama obecność w social mediach nie wystarczy i kiedy inwestować w profesjonalną stronę.',
-        'strona-www-vs-social-media.content': `## Wielki dylemat
+                // Post 3: Website vs Social
+                'strona-www-vs-social-media.title': 'Strona WWW vs Social Media: Czego Potrzebuje Twoja Firma?',
+                'strona-www-vs-social-media.excerpt': 'Dlaczego sama obecność w social mediach nie wystarczy i kiedy inwestować w profesjonalną stronę.',
+                'strona-www-vs-social-media.content': `## Wielki dylemat
 
 "Po co mi strona WWW, skoro mam Instagrama?" — słyszymy to pytanie regularnie. Odpowiedź jest prosta: potrzebujesz jednego i drugiego, ale strona WWW powinna być fundamentem.
 
@@ -303,10 +303,10 @@ Najlepszą strategią jest synergy: strona WWW jako hub + social media jako kana
 
 **Koszt profesjonalnej strony:** od 2500 PLN w ECM Digital.`,
 
-        // Post 4: MVP
-        'mvp-startup-jak-zaczac.title': 'MVP dla Startupu: Jak Zwalidować Pomysł w 4 Tygodnie',
-        'mvp-startup-jak-zaczac.excerpt': 'Praktyczny przewodnik budowania MVP — od pomysłu do pierwszych użytkowników.',
-        'mvp-startup-jak-zaczac.content': `## Czym jest MVP?
+                // Post 4: MVP
+                'mvp-startup-jak-zaczac.title': 'MVP dla Startupu: Jak Zwalidować Pomysł w 4 Tygodnie',
+                'mvp-startup-jak-zaczac.excerpt': 'Praktyczny przewodnik budowania MVP — od pomysłu do pierwszych użytkowników.',
+                'mvp-startup-jak-zaczac.content': `## Czym jest MVP?
 
 MVP (Minimum Viable Product) to minimalna wersja produktu, która pozwala przetestować kluczowe założenia biznesowe z prawdziwymi użytkownikami. Klucz: minimum wysiłku, maksimum nauki.
 
@@ -351,10 +351,10 @@ MVP (Minimum Viable Product) to minimalna wersja produktu, która pozwala przete
 
 W ECM Digital pomagamy startupom od pomysłu do MVP w 4 tygodnie.`,
 
-        // Post 5: Shopify vs Wix
-        'shopify-vs-wix-porownanie.title': 'Shopify vs Wix: Które Wybrać dla Sklepu Online?',
-        'shopify-vs-wix-porownanie.excerpt': 'Obiektywne porównanie dwóch popularnych platform e-commerce — ceny, funkcje i kiedy co wybrać.',
-        'shopify-vs-wix-porownanie.content': `## Shopify vs Wix — które wybrać?
+                // Post 5: Shopify vs Wix
+                'shopify-vs-wix-porownanie.title': 'Shopify vs Wix: Które Wybrać dla Sklepu Online?',
+                'shopify-vs-wix-porownanie.excerpt': 'Obiektywne porównanie dwóch popularnych platform e-commerce — ceny, funkcje i kiedy co wybrać.',
+                'shopify-vs-wix-porownanie.content': `## Shopify vs Wix — które wybrać?
 
 Wybór platformy e-commerce to jedna z najważniejszych decyzji dla Twojego biznesu online. Porównajmy obiektywnie.
 
@@ -405,22 +405,22 @@ Wybór platformy e-commerce to jedna z najważniejszych decyzji dla Twojego bizn
 | Skalowalność | ⭐⭐⭐⭐⭐ | ⭐⭐ |
 
 W ECM Digital budujemy sklepy na obu platformach — od 4000 PLN.`,
-    },
-    en: {
-        'blog.title': 'Blog',
-        'blog.subtitle': 'Knowledge, trends and case studies from the world of AI, automation and technology',
-        'blog.readMore': 'Read more →',
-        'blog.readTime': 'min read',
-        'blog.back': '← Back to blog',
-        'blog.backHome': '← Homepage',
-        'blog.share': 'Share',
-        'blog.related': 'Related articles',
-        'blog.cta.title': 'Need help with implementation?',
-        'blog.cta.button': 'Contact us →',
+        },
+        en: {
+                'blog.title': 'Blog',
+                'blog.subtitle': 'Knowledge, trends and case studies from the world of AI, automation and technology',
+                'blog.readMore': 'Read more →',
+                'blog.readTime': 'min read',
+                'blog.back': '← Back to blog',
+                'blog.backHome': '← Homepage',
+                'blog.share': 'Share',
+                'blog.related': 'Related articles',
+                'blog.cta.title': 'Need help with implementation?',
+                'blog.cta.button': 'Contact us →',
 
-        'ile-kosztuje-strona-www-2025.title': 'How Much Does a Website Cost in 2025? Complete Pricing Guide',
-        'ile-kosztuje-strona-www-2025.excerpt': 'Transparent pricing guide for websites — from a business card site at 500 EUR to an advanced store at 3,500 EUR.',
-        'ile-kosztuje-strona-www-2025.content': `## How much does a website cost?
+                'ile-kosztuje-strona-www-2025.title': 'How Much Does a Website Cost in 2025? Complete Pricing Guide',
+                'ile-kosztuje-strona-www-2025.excerpt': 'Transparent pricing guide for websites — from a business card site at 500 EUR to an advanced store at 3,500 EUR.',
+                'ile-kosztuje-strona-www-2025.content': `## How much does a website cost?
 
 This is one of the most frequently searched questions on Google. The answer depends on many factors. In this article, we break down the pricing in detail.
 
@@ -449,9 +449,9 @@ Every additional feature increases cost. Contact forms, blogs, multilingual supp
 
 ## Contact ECM Digital for a free quote!`,
 
-        'chatbot-ai-vs-ludzka-obsluga.title': 'AI Chatbot vs Human Customer Service — What to Choose in 2025?',
-        'chatbot-ai-vs-ludzka-obsluga.excerpt': 'Comparing costs, efficiency and quality of customer service with AI chatbots vs traditional teams.',
-        'chatbot-ai-vs-ludzka-obsluga.content': `## The Customer Service Revolution
+                'chatbot-ai-vs-ludzka-obsluga.title': 'AI Chatbot vs Human Customer Service — What to Choose in 2025?',
+                'chatbot-ai-vs-ludzka-obsluga.excerpt': 'Comparing costs, efficiency and quality of customer service with AI chatbots vs traditional teams.',
+                'chatbot-ai-vs-ludzka-obsluga.content': `## The Customer Service Revolution
 
 In 2025, AI chatbots already handle over 60% of customer inquiries in tech companies. But can AI truly replace humans?
 
@@ -475,9 +475,9 @@ The most effective companies combine both approaches:
 
 Contact ECM Digital for AI chatbot implementation.`,
 
-        'ai-agents-biznes-2025.title': 'How AI Agents Will Transform Your Business in 2025',
-        'ai-agents-biznes-2025.excerpt': 'Discover 5 practical AI agent applications that will reduce costs and boost your company\'s efficiency.',
-        'ai-agents-biznes-2025.content': `## What are AI Agents?
+                'ai-agents-biznes-2025.title': 'How AI Agents Will Transform Your Business in 2025',
+                'ai-agents-biznes-2025.excerpt': 'Discover 5 practical AI agent applications that will reduce costs and boost your company\'s efficiency.',
+                'ai-agents-biznes-2025.content': `## What are AI Agents?
 
 AI agents are intelligent programs that can independently make decisions and execute tasks. Unlike traditional chatbots, AI agents understand context, learn from interactions and can perform complex operations.
 
@@ -502,9 +502,9 @@ AI agent guides new employees through the onboarding process, answers questions 
 
 AI agents are not the future — they are the present. Companies that implement AI in 2025 will gain a competitive advantage for years to come.`,
 
-        'automatyzacja-n8n-przewodnik.title': 'N8N Automation: Complete Guide for Businesses',
-        'automatyzacja-n8n-przewodnik.excerpt': 'How to save 15-20 hours weekly through business process automation with N8N.',
-        'automatyzacja-n8n-przewodnik.content': `## What is N8N?
+                'automatyzacja-n8n-przewodnik.title': 'N8N Automation: Complete Guide for Businesses',
+                'automatyzacja-n8n-przewodnik.excerpt': 'How to save 15-20 hours weekly through business process automation with N8N.',
+                'automatyzacja-n8n-przewodnik.content': `## What is N8N?
 
 N8N is an open-source workflow automation platform. It lets you connect apps and create automations without coding.
 
@@ -518,9 +518,9 @@ N8N is an open-source workflow automation platform. It lets you connect apps and
 
 Contact ECM Digital to learn more about N8N automation.`,
 
-        'strona-www-vs-social-media.title': 'Website vs Social Media: What Does Your Business Need?',
-        'strona-www-vs-social-media.excerpt': 'Why social media alone isn\'t enough and when to invest in a professional website.',
-        'strona-www-vs-social-media.content': `## The Big Dilemma
+                'strona-www-vs-social-media.title': 'Website vs Social Media: What Does Your Business Need?',
+                'strona-www-vs-social-media.excerpt': 'Why social media alone isn\'t enough and when to invest in a professional website.',
+                'strona-www-vs-social-media.content': `## The Big Dilemma
 
 "Why do I need a website if I have Instagram?" — we hear this question regularly. The answer is simple: you need both, but your website should be the foundation.
 
@@ -539,9 +539,9 @@ A well-optimized website generates constant traffic from Google. Free, 24/7, for
 
 The best strategy is synergy: website as hub + social media as distribution channels.`,
 
-        'mvp-startup-jak-zaczac.title': 'MVP for Startups: How to Validate Your Idea in 4 Weeks',
-        'mvp-startup-jak-zaczac.excerpt': 'Practical guide to building an MVP — from idea to first users.',
-        'mvp-startup-jak-zaczac.content': `## What is an MVP?
+                'mvp-startup-jak-zaczac.title': 'MVP for Startups: How to Validate Your Idea in 4 Weeks',
+                'mvp-startup-jak-zaczac.excerpt': 'Practical guide to building an MVP — from idea to first users.',
+                'mvp-startup-jak-zaczac.content': `## What is an MVP?
 
 MVP (Minimum Viable Product) is the minimal version of a product that lets you test key business assumptions with real users.
 
@@ -554,9 +554,9 @@ MVP (Minimum Viable Product) is the minimal version of a product that lets you t
 
 Contact ECM Digital to build your MVP in 4 weeks.`,
 
-        'shopify-vs-wix-porownanie.title': 'Shopify vs Wix: Which to Choose for Your Online Store?',
-        'shopify-vs-wix-porownanie.excerpt': 'Objective comparison of two popular e-commerce platforms — pricing, features and when to choose which.',
-        'shopify-vs-wix-porownanie.content': `## Shopify vs Wix — Which to Choose?
+                'shopify-vs-wix-porownanie.title': 'Shopify vs Wix: Which to Choose for Your Online Store?',
+                'shopify-vs-wix-porownanie.excerpt': 'Objective comparison of two popular e-commerce platforms — pricing, features and when to choose which.',
+                'shopify-vs-wix-porownanie.content': `## Shopify vs Wix — Which to Choose?
 
 Choosing an e-commerce platform is one of the most important decisions for your online business.
 
@@ -567,38 +567,38 @@ Best e-commerce tools, huge app ecosystem, excellent payment integrations.
 Easier to use, cheaper start, beautiful templates.
 
 Contact ECM Digital — we build stores on both platforms.`,
-    },
-    de: {
-        'blog.title': 'Blog',
-        'blog.subtitle': 'Wissen, Trends und Fallstudien aus der Welt der KI, Automatisierung und Technologie',
-        'blog.readMore': 'Weiterlesen →',
-        'blog.readTime': 'Min. Lesedauer',
-        'blog.back': '← Zurück zum Blog',
-        'blog.backHome': '← Startseite',
-        'blog.share': 'Teilen',
-        'blog.related': 'Verwandte Artikel',
-        'blog.cta.title': 'Brauchen Sie Hilfe bei der Implementierung?',
-        'blog.cta.button': 'Kontakt →',
+        },
+        de: {
+                'blog.title': 'Blog',
+                'blog.subtitle': 'Wissen, Trends und Fallstudien aus der Welt der KI, Automatisierung und Technologie',
+                'blog.readMore': 'Weiterlesen →',
+                'blog.readTime': 'Min. Lesedauer',
+                'blog.back': '← Zurück zum Blog',
+                'blog.backHome': '← Startseite',
+                'blog.share': 'Teilen',
+                'blog.related': 'Verwandte Artikel',
+                'blog.cta.title': 'Brauchen Sie Hilfe bei der Implementierung?',
+                'blog.cta.button': 'Kontakt →',
 
-        'ile-kosztuje-strona-www-2025.title': 'Was kostet eine Website 2025? Kompletter Preisleitfaden',
-        'ile-kosztuje-strona-www-2025.excerpt': 'Transparenter Preisleitfaden für Websites — von der Visitenkarte ab 500 EUR bis zum Shop ab 3.500 EUR.',
-        'ile-kosztuje-strona-www-2025.content': `## Was kostet eine Website?
+                'ile-kosztuje-strona-www-2025.title': 'Was kostet eine Website 2025? Kompletter Preisleitfaden',
+                'ile-kosztuje-strona-www-2025.excerpt': 'Transparenter Preisleitfaden für Websites — von der Visitenkarte ab 500 EUR bis zum Shop ab 3.500 EUR.',
+                'ile-kosztuje-strona-www-2025.content': `## Was kostet eine Website?
 
 Dies ist eine der am häufigsten gesuchten Fragen bei Google. Die Antwort hängt von vielen Faktoren ab.
 
 Kontaktieren Sie ECM Digital für ein kostenloses Angebot!`,
 
-        'chatbot-ai-vs-ludzka-obsluga.title': 'KI-Chatbot vs Menschlicher Kundenservice — Was wählen 2025?',
-        'chatbot-ai-vs-ludzka-obsluga.excerpt': 'Vergleich von Kosten, Effizienz und Qualität des Kundenservice mit KI-Chatbots vs. traditionellen Teams.',
-        'chatbot-ai-vs-ludzka-obsluga.content': `## Die Kundenservice-Revolution
+                'chatbot-ai-vs-ludzka-obsluga.title': 'KI-Chatbot vs Menschlicher Kundenservice — Was wählen 2025?',
+                'chatbot-ai-vs-ludzka-obsluga.excerpt': 'Vergleich von Kosten, Effizienz und Qualität des Kundenservice mit KI-Chatbots vs. traditionellen Teams.',
+                'chatbot-ai-vs-ludzka-obsluga.content': `## Die Kundenservice-Revolution
 
 2025 bearbeiten KI-Chatbots bereits über 60% der Kundenanfragen in Technologieunternehmen.
 
 Kontaktieren Sie ECM Digital für KI-Chatbot-Implementierung.`,
 
-        'ai-agents-biznes-2025.title': 'Wie KI-Agenten Ihr Unternehmen 2025 Verändern',
-        'ai-agents-biznes-2025.excerpt': 'Entdecken Sie 5 praktische KI-Agenten-Anwendungen, die Kosten senken und die Effizienz steigern.',
-        'ai-agents-biznes-2025.content': `## Was sind KI-Agenten?
+                'ai-agents-biznes-2025.title': 'Wie KI-Agenten Ihr Unternehmen 2025 Verändern',
+                'ai-agents-biznes-2025.excerpt': 'Entdecken Sie 5 praktische KI-Agenten-Anwendungen, die Kosten senken und die Effizienz steigern.',
+                'ai-agents-biznes-2025.content': `## Was sind KI-Agenten?
 
 KI-Agenten sind intelligente Programme, die selbstständig Entscheidungen treffen und Aufgaben ausführen.
 
@@ -612,34 +612,34 @@ KI-Agenten sind intelligente Programme, die selbstständig Entscheidungen treffe
 
 Kontaktieren Sie ECM Digital für KI-Implementierung.`,
 
-        'automatyzacja-n8n-przewodnik.title': 'N8N Automatisierung: Kompletter Leitfaden für Unternehmen',
-        'automatyzacja-n8n-przewodnik.excerpt': 'Wie Sie 15-20 Stunden wöchentlich durch Geschäftsprozessautomatisierung sparen.',
-        'automatyzacja-n8n-przewodnik.content': `## Was ist N8N?
+                'automatyzacja-n8n-przewodnik.title': 'N8N Automatisierung: Kompletter Leitfaden für Unternehmen',
+                'automatyzacja-n8n-przewodnik.excerpt': 'Wie Sie 15-20 Stunden wöchentlich durch Geschäftsprozessautomatisierung sparen.',
+                'automatyzacja-n8n-przewodnik.content': `## Was ist N8N?
 
 N8N ist eine Open-Source-Plattform zur Workflow-Automatisierung.
 
 Kontaktieren Sie ECM Digital für N8N-Automatisierung.`,
 
-        'strona-www-vs-social-media.title': 'Website vs Social Media: Was braucht Ihr Unternehmen?',
-        'strona-www-vs-social-media.excerpt': 'Warum Social Media allein nicht reicht und wann Sie in eine professionelle Website investieren sollten.',
-        'strona-www-vs-social-media.content': `## Das große Dilemma
+                'strona-www-vs-social-media.title': 'Website vs Social Media: Was braucht Ihr Unternehmen?',
+                'strona-www-vs-social-media.excerpt': 'Warum Social Media allein nicht reicht und wann Sie in eine professionelle Website investieren sollten.',
+                'strona-www-vs-social-media.content': `## Das große Dilemma
 
 Kontaktieren Sie ECM Digital für Ihre neue Website.`,
 
-        'mvp-startup-jak-zaczac.title': 'MVP für Startups: Wie Sie Ihre Idee in 4 Wochen Validieren',
-        'mvp-startup-jak-zaczac.excerpt': 'Praktischer Leitfaden zum Aufbau eines MVP.',
-        'mvp-startup-jak-zaczac.content': `## Was ist ein MVP?
+                'mvp-startup-jak-zaczac.title': 'MVP für Startups: Wie Sie Ihre Idee in 4 Wochen Validieren',
+                'mvp-startup-jak-zaczac.excerpt': 'Praktischer Leitfaden zum Aufbau eines MVP.',
+                'mvp-startup-jak-zaczac.content': `## Was ist ein MVP?
 
 Kontaktieren Sie ECM Digital für den Aufbau Ihres MVP.`,
 
-        'shopify-vs-wix-porownanie.title': 'Shopify vs Wix: Welches Für Ihren Online-Shop?',
-        'shopify-vs-wix-porownanie.excerpt': 'Objektiver Vergleich zweier beliebter E-Commerce-Plattformen.',
-        'shopify-vs-wix-porownanie.content': `## Shopify vs Wix
+                'shopify-vs-wix-porownanie.title': 'Shopify vs Wix: Welches Für Ihren Online-Shop?',
+                'shopify-vs-wix-porownanie.excerpt': 'Objektiver Vergleich zweier beliebter E-Commerce-Plattformen.',
+                'shopify-vs-wix-porownanie.content': `## Shopify vs Wix
 
 Kontaktieren Sie ECM Digital — wir bauen Shops auf beiden Plattformen.`,
-    },
+        },
 };
 
 export function bt(lang: Lang, key: string): string {
-    return blogTranslations[lang]?.[key] || blogTranslations.pl[key] || key;
+        return blogTranslations[lang]?.[key] || blogTranslations.pl[key] || key;
 }

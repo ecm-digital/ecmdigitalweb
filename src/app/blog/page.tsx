@@ -14,7 +14,7 @@ export default function BlogPage() {
             (entries) => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
             { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
         );
-        document.querySelectorAll('.fade-in, .fade-in-left, .fade-in-right').forEach(el => observer.observe(el));
+        document.querySelectorAll('.fade-in, .fade-in-left, .fade-in-right, .fade-in-up').forEach(el => observer.observe(el));
         return () => observer.disconnect();
     }, []);
 
@@ -31,47 +31,98 @@ export default function BlogPage() {
         <div className="lp-wrapper">
             <Navbar />
 
-            {/* Hero */}
-            <section className="blog-hero">
-                <div className="hero-bg-shapes">
-                    <div className="shape shape-1"></div>
-                    <div className="shape shape-2"></div>
-                    <div className="shape shape-3"></div>
-                </div>
-                <div className="container">
-                    <div className="blog-hero-content fade-in">
-                        <h1>{T('blog.title')}</h1>
-                        <p>{T('blog.subtitle')}</p>
+            {/* Premium Hero */}
+            <section className="relative overflow-hidden bg-grid" style={{ padding: '160px 0 100px', minHeight: '40vh', display: 'flex', alignItems: 'center' }}>
+                <div style={{ position: 'absolute', top: '10%', left: '50%', transform: 'translateX(-50%)', width: '60vw', height: '60vw', background: 'radial-gradient(circle, rgba(96, 165, 250, 0.1) 0%, transparent 70%)', filter: 'blur(100px)', zIndex: 0, animation: 'float 12s infinite alternate', pointerEvents: 'none' }} />
+                <div className="container relative z-10 text-center">
+                    <div className="fade-in-up">
+                        <div className="hero-badge" style={{
+                            margin: '0 auto 24px',
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            padding: '10px 24px',
+                            borderRadius: '999px',
+                            background: 'rgba(255,255,255,0.03)',
+                            border: '1px solid rgba(255,255,255,0.1)',
+                            backdropFilter: 'blur(20px)'
+                        }}>
+                            📚 Insights & Knowledge
+                        </div>
+                        <h1 style={{ fontSize: 'clamp(3rem, 6vw, 5rem)', fontWeight: 800, marginBottom: '24px', letterSpacing: '-0.03em', lineHeight: 1.1 }}>
+                            {T('blog.title')}
+                        </h1>
+                        <p style={{ fontSize: '1.25rem', color: 'rgba(255,255,255,0.7)', maxWidth: '600px', margin: '0 auto', lineHeight: 1.6 }}>
+                            {T('blog.subtitle')}
+                        </p>
                     </div>
                 </div>
             </section>
 
-            {/* Posts */}
-            <section className="section">
+            {/* Posts Grid */}
+            <section className="section bg-grid relative" style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}>
                 <div className="container">
-                    <div className="blog-grid">
-                        {blogPosts.map((post, idx) => (
-                            <a
-                                key={post.slug}
-                                href={`/blog/${post.slug}`}
-                                className={`blog-card fade-in delay-${idx + 1}`}
-                            >
-                                <div className="blog-card-image" style={{ background: post.gradient }}>
-                                    <span className="blog-card-emoji">{post.image}</span>
-                                    <span className="blog-card-category">{post.category}</span>
-                                </div>
-                                <div className="blog-card-body">
-                                    <div className="blog-card-meta">
-                                        <span>{formatDate(post.date)}</span>
-                                        <span>•</span>
-                                        <span>{post.readTime} {T('blog.readTime')}</span>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))', gap: '32px' }}>
+                        {blogPosts.map((post, idx) => {
+                            const accentColor = post.gradient.match(/#([0-9a-fA-F]{6})/)?.[0] || '#3b82f6';
+                            return (
+                                <a
+                                    key={post.slug}
+                                    href={`/blog/${post.slug}`}
+                                    className="premium-glass-panel fade-in-up"
+                                    style={{
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        textDecoration: 'none',
+                                        color: 'inherit',
+                                        overflow: 'hidden',
+                                        padding: 0,
+                                        borderRadius: '24px',
+                                        animationDelay: `${(idx % 3) * 0.1}s`
+                                    }}
+                                >
+                                    <div style={{
+                                        height: '240px',
+                                        background: post.gradient,
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        justifyContent: 'center',
+                                        alignItems: 'center',
+                                        position: 'relative'
+                                    }}>
+                                        <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(5,5,7,0.3)' }}></div>
+                                        <span style={{ fontSize: '5rem', position: 'relative', zIndex: 1, filter: 'drop-shadow(0 10px 20px rgba(0,0,0,0.3))', transform: 'translateY(10px)' }}>{post.image}</span>
+                                        <div style={{
+                                            position: 'absolute',
+                                            top: '20px',
+                                            right: '20px',
+                                            padding: '6px 16px',
+                                            background: 'rgba(5,5,7,0.6)',
+                                            backdropFilter: 'blur(10px)',
+                                            borderRadius: '999px',
+                                            fontSize: '0.8rem',
+                                            fontWeight: 700,
+                                            letterSpacing: '0.05em',
+                                            textTransform: 'uppercase',
+                                            border: '1px solid rgba(255,255,255,0.1)',
+                                            color: 'white'
+                                        }}>{post.category}</div>
                                     </div>
-                                    <h3>{T(`${post.slug}.title`)}</h3>
-                                    <p>{T(`${post.slug}.excerpt`)}</p>
-                                    <span className="blog-card-link">{T('blog.readMore')} →</span>
-                                </div>
-                            </a>
-                        ))}
+                                    <div style={{ padding: '32px', flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.85rem', color: 'rgba(255,255,255,0.5)', marginBottom: '16px', fontFamily: 'var(--font-mono)' }}>
+                                            <span>{formatDate(post.date)}</span>
+                                            <span>•</span>
+                                            <span>{post.readTime} {T('blog.readTime')}</span>
+                                        </div>
+                                        <h3 style={{ fontSize: '1.4rem', fontWeight: 700, marginBottom: '16px', lineHeight: 1.4, color: 'white' }}>{T(`${post.slug}.title`)}</h3>
+                                        <p style={{ fontSize: '1rem', color: 'rgba(255,255,255,0.6)', lineHeight: 1.6, marginBottom: '24px', flexGrow: 1 }}>{T(`${post.slug}.excerpt`)}</p>
+
+                                        <div style={{ display: 'inline-flex', alignItems: 'center', fontWeight: 600, color: accentColor, gap: '8px', fontSize: '0.95rem' }}>
+                                            {T('blog.readMore')} <span style={{ transition: 'transform 0.3s' }}>→</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            );
+                        })}
                     </div>
                 </div>
             </section>

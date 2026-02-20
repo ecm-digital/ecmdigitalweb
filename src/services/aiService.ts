@@ -1,7 +1,4 @@
-/**
- * AI Service
- * Handles communication with the internal /api/ai route and manages specialized prompts.
- */
+import { GoogleGenerativeAI } from '@google/generative-ai';
 
 export interface AIResponse {
     text: string;
@@ -9,20 +6,31 @@ export interface AIResponse {
 }
 
 export class AIService {
+    private static async getApiKey(): Promise<string | null> {
+        const winKey = (window as any).NEXT_PUBLIC_GEMINI_API_KEY;
+        const envKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
+        const localKey = localStorage.getItem('GEMINI_API_KEY');
+        return [winKey, envKey, localKey].find(k => k && k !== 'undefined' && k !== '') || null;
+    }
+
     private static async callAI(prompt: string, systemPrompt: string, temperature = 0.7): Promise<AIResponse> {
         try {
-            const response = await fetch('/api/ai', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ prompt, systemPrompt, temperature }),
-            });
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.error || 'AI Request failed');
+            const apiKey = await this.getApiKey();
+            if (!apiKey) {
+                throw new Error('AI Configuration missing (Missing API Key)');
             }
 
-            return await response.json();
+            const genAI = new GoogleGenerativeAI(apiKey);
+            const model = genAI.getGenerativeModel({
+                model: "gemini-1.5-flash",
+                generationConfig: { temperature }
+            });
+
+            const result = await model.generateContent(`${systemPrompt}\n\nUser: ${prompt}`);
+            const response = await result.response;
+            const text = response.text();
+
+            return { text };
         } catch (error: any) {
             console.error('AIService Error:', error);
             return { text: '', error: error.message };
@@ -62,5 +70,25 @@ export class AIService {
         Style: Premium, modern, results-driven. Use emojis sparingly.`;
 
         return this.callAI(`Generate content for: ${goal}`, systemPrompt, 0.8);
+    }
+
+    /**
+     * Generates improvements and ideas for a specific service
+     */
+    static async developService(serviceName: string, description: string, currentFeatures: string[]) {
+        const systemPrompt = `You are an expert product strategist and AI innovation consultant for a premium digital agency.
+        Analyze the service provided and generate:
+        1. 3 disruptive improvement ideas for 2026.
+        2. 3 new high-value features.
+        3. Strategic advice on pricing or delivery.
+        
+        Keep the tone professional, bold, and visionary. Use bullet points.
+        Format your response in Markdown.`;
+
+        const prompt = `Service: ${serviceName}
+        Current Description: ${description}
+        Current Features: ${currentFeatures.join(', ')}`;
+
+        return this.callAI(prompt, systemPrompt, 0.8);
     }
 }

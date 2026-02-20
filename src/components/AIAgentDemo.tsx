@@ -101,10 +101,10 @@ export default function AIAgentDemo() {
           overflow: hidden;
           font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
           transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-          height: 380px;
+          height: 480px;
           display: flex;
           flex-direction: column;
-          font-size: 13px;
+          font-size: 16px;
           position: relative;
           color: #e2e8f0;
         }
@@ -147,7 +147,7 @@ export default function AIAgentDemo() {
 
         .terminal-header {
           background: linear-gradient(to right, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01));
-          padding: 14px 20px;
+          padding: 18px 24px;
           display: flex;
           align-items: center;
           gap: 16px;
@@ -186,12 +186,12 @@ export default function AIAgentDemo() {
         }
 
         .terminal-body {
-          padding: 24px;
+          padding: 32px;
           height: 100%;
           overflow-y: auto;
           display: flex;
           flex-direction: column;
-          gap: 14px;
+          gap: 18px;
           color: #e2e8f0;
           scrollbar-width: none;
           position: relative;

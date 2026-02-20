@@ -21,7 +21,7 @@ export const metadata: Metadata = {
       'es': `${BASE_URL}/?lang=es`,
       'ar': `${BASE_URL}/?lang=ar`,
       'x-default': `${BASE_URL}/`,
-    },
+    } as any,
   },
   openGraph: {
     type: "website",

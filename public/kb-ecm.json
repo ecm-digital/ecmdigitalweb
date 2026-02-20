@@ -104,23 +104,76 @@
             ]
         },
         {
-            "name": "Automatyzacje n8n",
-            "description": "Inteligentne workflowy oszczędzające czas i redukujące koszty operacyjne.",
+            "name": "Softwaryzacja & Automatyzacja",
+            "description": "Łączymy dedykowane oprogramowanie z automatyzacją AI. Budujemy narzędzia, które oszczędzają czas i eliminują błędy. Model 80/20 (Software/AI).",
             "packages": [
                 {
-                    "name": "STARTER",
-                    "price": "8,000 - 15,000 PLN",
-                    "time": "2-3 tygodnie"
+                    "name": "Workflow",
+                    "price": "2,500 PLN",
+                    "time": "Zależnie od złożoności",
+                    "features": [
+                        "Pojedyncza automatyzacja",
+                        "Analiza procesu",
+                        "Budowa scenariusza n8n/Make",
+                        "Testy i wdrożenie"
+                    ]
                 },
                 {
-                    "name": "BUSINESS",
-                    "price": "25,000 - 45,000 PLN",
-                    "time": "4-6 tygodnie"
+                    "name": "System",
+                    "price": "od 15,000 PLN",
+                    "time": "Wycena Indywidualna",
+                    "features": [
+                        "Dedykowane narzędzie",
+                        "Własny Frontend",
+                        "Backend integracyjny",
+                        "Agenty AI",
+                        "On-premise"
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "AI Executive",
+            "description": "Twój osobisty, cyfrowy doradca. Prywatna instancja AI z pełnym kontekstem Twojej firmy - dostępna 24/7 dla wsparcia kluczowych decyzji.",
+            "packages": [
+                {
+                    "name": "Enterprise",
+                    "price": "Wycena Indywidualna",
+                    "time": "Zależnie od integracji",
+                    "features": [
+                        "Prywatna instancja LLM",
+                        "Pełne szyfrowanie danych",
+                        "Integracja z ERP/CRM/Slack",
+                        "Custom Knowledge Base"
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Edukacja i Wdrożenia AI",
+            "description": "Praktyczne szkolenia z AI i warsztaty dla firm. Wsparcie liderów i zespołów w adopcji technologii i zarządzaniu zmianą.",
+            "packages": [
+                {
+                    "name": "Warsztat",
+                    "price": "3,500 PLN",
+                    "time": "Jednodniowe szkolenie (do 10 os.)",
+                    "features": [
+                        "Wstęp do Generative AI",
+                        "Prompt Engineering",
+                        "Praktyczne ćwiczenia",
+                        "Materiały szkoleniowe PDF"
+                    ]
                 },
                 {
-                    "name": "ENTERPRISE",
-                    "price": "60,000 - 150,000 PLN",
-                    "time": "8-12 tygodnie"
+                    "name": "Akademia",
+                    "price": "12,000 PLN",
+                    "time": "Cykl wdrożeniowy (1 miesiąc)",
+                    "features": [
+                        "4 spotkania warsztatowe",
+                        "Analiza use-cases w firmie",
+                        "Konsultacje 1:1 dla liderów",
+                        "Monitoring postępów"
+                    ]
                 }
             ]
         },
