@@ -1092,6 +1092,13 @@ export interface BlogPost {
     featured?: boolean;
     order?: number;
     createdAt?: any;
+    excerpt?: string;
+    content?: string;
+    category?: string;
+    readTime?: number;
+    image?: string;
+    gradient?: string;
+    date?: string;
 }
 
 export async function getFeaturedBlogPosts(limitCount: number = 3): Promise<BlogPost[]> {
@@ -1116,4 +1123,17 @@ export async function updateBlogPost(id: string, data: Partial<BlogPost>): Promi
 
 export async function deleteBlogPost(id: string): Promise<void> {
     await deleteDoc(doc(db, BLOG_POSTS, id));
+}
+
+export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> {
+    const q = query(collection(db, BLOG_POSTS), where('slug', '==', slug), limit(1));
+    const snap = await getDocs(q);
+    if (snap.empty) return null;
+    return { id: snap.docs[0].id, ...snap.docs[0].data() } as BlogPost;
+}
+
+export async function getAllBlogPosts(): Promise<BlogPost[]> {
+    const q = query(collection(db, BLOG_POSTS), orderBy('date', 'desc'));
+    const snap = await getDocs(q);
+    return snap.docs.map(doc => ({ id: doc.id, ...doc.data() } as BlogPost));
 }

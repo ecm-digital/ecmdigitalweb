@@ -1,15 +1,23 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { useLanguage } from '@/context/LanguageContext';
 import { blogPosts, bt } from './blogData';
+import { getBlogPostBySlug, BlogPost as FirestoreBlogPost } from '@/lib/firestoreService';
 
 export default function BlogPostPage({ slug }: { slug: string }) {
     const { lang } = useLanguage();
+    const [firestorePost, setFirestorePost] = useState<FirestoreBlogPost | null>(null);
+
+    useEffect(() => {
+        getBlogPostBySlug(slug)
+            .then(post => setFirestorePost(post))
+            .catch(err => console.error('Error fetching blog post:', err));
+    }, [slug]);
 
     useEffect(() => {
         const observer = new IntersectionObserver(
@@ -32,7 +40,8 @@ export default function BlogPostPage({ slug }: { slug: string }) {
         });
     };
 
-    const content = T(`${slug}.content`);
+    // Use Firestore content if available, fallback to blogData
+    const content = firestorePost?.content || T(`${slug}.content`);
 
     const related = blogPosts.filter(p => p.slug !== slug).slice(0, 3);
 
