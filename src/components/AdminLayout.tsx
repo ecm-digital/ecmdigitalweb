@@ -80,6 +80,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             ],
         },
         {
+            label: 'Strategia',
+            items: [
+                { name: '🎯 Strategia Biznesowa', icon: '🎯', href: '/admin/strategy' },
+            ],
+        },
+        {
             label: 'Guides & Resources',
             items: [
                 { name: '📚 Setup Guides', icon: '📚', href: '/admin/guides' },
