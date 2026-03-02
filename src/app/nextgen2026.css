@@ -684,4 +684,122 @@ iframe[title*="Lokalizacja"]:hover {
         padding: 10px 16px !important;
         font-size: 0.8rem !important;
     }
+
+    /* Hero Section Extra Small */
+    .hero-section {
+        min-height: auto !important;
+        padding-top: 80px !important;
+    }
+
+    .hero-content {
+        margin-bottom: 40px !important;
+    }
+
+    .hero-title {
+        margin-bottom: 16px !important;
+        font-size: 1.5rem !important;
+        line-height: 1.2 !important;
+    }
+
+    .hero-subtitle {
+        font-size: 1rem !important;
+        margin: 0 auto 24px !important;
+    }
+
+    .hero-badge {
+        margin-bottom: 20px !important;
+        padding: 8px 16px !important;
+        font-size: 0.8rem !important;
+        gap: 8px !important;
+    }
+
+    .hero-actions {
+        gap: 8px !important;
+        flex-direction: column !important;
+    }
+
+    .hero-actions a {
+        padding: 12px 24px !important;
+        font-size: 0.95rem !important;
+        width: 100%;
+        text-align: center;
+    }
+
+    /* FAQ Section Extra Small */
+    #faq {
+        padding: 60px 0 !important;
+    }
+
+    .section-header {
+        margin-bottom: 40px !important;
+    }
+
+    .section-label {
+        font-size: 0.75rem !important;
+        padding: 6px 16px !important;
+        margin-bottom: 12px !important;
+    }
+
+    [style*="gap: '16px'"],
+    [style*="gap: 16px"] {
+        gap: 8px !important;
+    }
+
+    /* FAQ Accordion Mobile */
+    #faq button h3 {
+        font-size: 1rem !important;
+    }
+
+    #faq button div[style*="width: '32px'"] {
+        width: 24px !important;
+        height: 24px !important;
+        font-size: 0.8rem !important;
+    }
+
+    /* AIDemo Hide on very small screens */
+    .premium-animated-border {
+        display: none !important;
+    }
+
+    /* Newsletter Mobile */
+    .newsletter-section {
+        padding: 40px 0 !important;
+    }
+
+    .newsletter-form {
+        flex-direction: column !important;
+        gap: 12px !important;
+    }
+
+    .newsletter-input,
+    .newsletter-button {
+        width: 100% !important;
+    }
+
+    .newsletter-button {
+        min-height: 44px !important;
+    }
+
+    /* Touch Targets - Accessibility */
+    button,
+    a[class*="btn"],
+    a[class*="cta"] {
+        min-height: 44px !important;
+        min-width: 44px !important;
+        padding: 12px 16px !important;
+    }
+
+    /* Footer Mobile */
+    footer {
+        padding: 40px 0 !important;
+    }
+
+    footer ul {
+        font-size: 0.9rem !important;
+    }
+
+    /* Link Spacing Mobile */
+    a {
+        padding: 8px 4px;
+    }
 }
