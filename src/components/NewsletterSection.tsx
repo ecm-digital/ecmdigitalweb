@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { addLead } from '@/lib/firestoreService';
 
 import { Lang } from '@/translations';
@@ -98,6 +98,18 @@ export default function NewsletterSection({ lang = 'pl' }: NewsletterProps) {
     const [email, setEmail] = useState('');
     const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
     const T = translations[lang] || translations['pl'];
+    const sectionRef = useRef<HTMLElement>(null);
+
+    useEffect(() => {
+        if (!sectionRef.current) return;
+        const observer = new IntersectionObserver(
+            (entries) => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
+            { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+        );
+        const elements = sectionRef.current.querySelectorAll('.fade-in, .fade-in-left, .fade-in-right, .fade-in-up');
+        elements.forEach(el => observer.observe(el));
+        return () => observer.disconnect();
+    }, []);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -152,7 +164,7 @@ export default function NewsletterSection({ lang = 'pl' }: NewsletterProps) {
     }
 
     return (
-        <section className="newsletter-section relative overflow-hidden" style={{ padding: '120px 0', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+        <section ref={sectionRef} className="newsletter-section relative overflow-hidden" style={{ padding: '120px 0', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
             <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '80vw', height: '80vw', background: 'radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, transparent 60%)', filter: 'blur(100px)', zIndex: 0, pointerEvents: 'none' }}></div>
             <div className="container relative z-10">
                 <div className="newsletter-card fade-in premium-glass-panel" style={{ padding: '64px', borderRadius: '40px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', background: 'linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%)', boxShadow: '0 0 80px rgba(16, 185, 129, 0.15)', border: '1px solid rgba(16, 185, 129, 0.2)' }}>
