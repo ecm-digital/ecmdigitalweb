@@ -9,7 +9,7 @@ import AdminAIAssistant from './AdminAIAssistant';
 import { useNotifications } from '@/context/NotificationContext';
 import { useLanguage } from '@/context/LanguageContext';
 import { seedAgencyServices } from '@/lib/seedServices';
-import { seedCaseStudies } from '@/lib/firestoreService';
+import { seedCaseStudies, seedStrategies } from '@/lib/firestoreService';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -27,6 +27,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         if (user) {
             seedAgencyServices();
             seedCaseStudies();
+            seedStrategies();
         }
     }, [user, loading, router]);
 
