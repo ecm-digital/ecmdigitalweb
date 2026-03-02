@@ -163,7 +163,9 @@ export default function NewsletterSection({ lang = 'pl' }: NewsletterProps) {
 
                         <form onSubmit={handleSubmit} className="newsletter-form" style={{ width: '100%' }}>
                             <div className="newsletter-input-wrap" style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+                                <label htmlFor="newsletter-email" className="sr-only" style={{ position: 'absolute', width: '1px', height: '1px', padding: 0, margin: '-1px', overflow: 'hidden', clip: 'rect(0,0,0,0)', border: 0 }}>{T.placeholder}</label>
                                 <input
+                                    id="newsletter-email"
                                     type="email"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}

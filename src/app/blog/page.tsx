@@ -11,14 +11,22 @@ export default function BlogPage() {
 
     useEffect(() => {
         const observer = new IntersectionObserver(
-            (entries) => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
+            (entries) => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('active'); }),
             { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
         );
-        document.querySelectorAll('.fade-in, .fade-in-left, .fade-in-right, .fade-in-up').forEach(el => observer.observe(el));
+        document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
         return () => observer.disconnect();
     }, []);
 
     const T = (key: string) => bt(lang || 'pl', key);
+
+    const handleMouseMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
+        const rect = e.currentTarget.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        e.currentTarget.style.setProperty('--mouse-x', `${x}px`);
+        e.currentTarget.style.setProperty('--mouse-y', `${y}px`);
+    };
 
     const formatDate = (dateStr: string) => {
         const d = new Date(dateStr);
@@ -32,7 +40,7 @@ export default function BlogPage() {
             <Navbar />
 
             {/* Premium Hero */}
-            <section className="relative overflow-hidden bg-grid" style={{ padding: '160px 0 100px', minHeight: '40vh', display: 'flex', alignItems: 'center' }}>
+            <section className="relative overflow-hidden bg-grid" style={{ padding: '180px 0 100px', minHeight: '40vh', display: 'flex', alignItems: 'center' }}>
                 <div style={{ position: 'absolute', top: '10%', left: '50%', transform: 'translateX(-50%)', width: '60vw', height: '60vw', background: 'radial-gradient(circle, rgba(96, 165, 250, 0.1) 0%, transparent 70%)', filter: 'blur(100px)', zIndex: 0, animation: 'float 12s infinite alternate', pointerEvents: 'none' }} />
                 <div className="container relative z-10 text-center">
                     <div className="fade-in-up">
@@ -44,9 +52,12 @@ export default function BlogPage() {
                             borderRadius: '999px',
                             background: 'rgba(255,255,255,0.03)',
                             border: '1px solid rgba(255,255,255,0.1)',
-                            backdropFilter: 'blur(20px)'
+                            backdropFilter: 'blur(20px)',
+                            color: '#60a5fa',
+                            fontSize: '0.9rem',
+                            fontWeight: 600
                         }}>
-                            📚 Insights & Knowledge
+                            📝 Blog & Insights
                         </div>
                         <h1 style={{ fontSize: 'clamp(3rem, 6vw, 5rem)', fontWeight: 800, marginBottom: '24px', letterSpacing: '-0.03em', lineHeight: 1.1 }}>
                             {T('blog.title')}
@@ -59,7 +70,7 @@ export default function BlogPage() {
             </section>
 
             {/* Posts Grid */}
-            <section className="section bg-grid relative" style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+            <section className="section bg-grid relative" style={{ borderTop: '1px solid rgba(255,255,255,0.05)', background: 'var(--brand-primary)' }}>
                 <div className="container">
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))', gap: '32px' }}>
                         {blogPosts.map((post, idx) => {
@@ -68,7 +79,8 @@ export default function BlogPage() {
                                 <a
                                     key={post.slug}
                                     href={`/blog/${post.slug}`}
-                                    className="premium-glass-panel fade-in-up"
+                                    onMouseMove={handleMouseMove}
+                                    className="premium-glass-panel premium-card-glow reveal-on-scroll"
                                     style={{
                                         display: 'flex',
                                         flexDirection: 'column',
@@ -77,7 +89,8 @@ export default function BlogPage() {
                                         overflow: 'hidden',
                                         padding: 0,
                                         borderRadius: '24px',
-                                        animationDelay: `${(idx % 3) * 0.1}s`
+                                        transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
+                                        border: '1px solid rgba(255,255,255,0.05)'
                                     }}
                                 >
                                     <div style={{
@@ -87,9 +100,10 @@ export default function BlogPage() {
                                         flexDirection: 'column',
                                         justifyContent: 'center',
                                         alignItems: 'center',
-                                        position: 'relative'
+                                        position: 'relative',
+                                        overflow: 'hidden'
                                     }}>
-                                        <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(5,5,7,0.3)' }}></div>
+                                        <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(5,5,7,0.3)', zIndex: 0 }}></div>
                                         <span style={{ fontSize: '5rem', position: 'relative', zIndex: 1, filter: 'drop-shadow(0 10px 20px rgba(0,0,0,0.3))', transform: 'translateY(10px)' }}>{post.image}</span>
                                         <div style={{
                                             position: 'absolute',
@@ -104,19 +118,20 @@ export default function BlogPage() {
                                             letterSpacing: '0.05em',
                                             textTransform: 'uppercase',
                                             border: '1px solid rgba(255,255,255,0.1)',
-                                            color: 'white'
+                                            color: 'white',
+                                            zIndex: 2
                                         }}>{post.category}</div>
                                     </div>
-                                    <div style={{ padding: '32px', flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
+                                    <div style={{ padding: '32px', flexGrow: 1, display: 'flex', flexDirection: 'column', position: 'relative', zIndex: 2 }}>
                                         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.85rem', color: 'rgba(255,255,255,0.5)', marginBottom: '16px', fontFamily: 'var(--font-mono)' }}>
                                             <span>{formatDate(post.date)}</span>
                                             <span>•</span>
                                             <span>{post.readTime} {T('blog.readTime')}</span>
                                         </div>
-                                        <h3 style={{ fontSize: '1.4rem', fontWeight: 700, marginBottom: '16px', lineHeight: 1.4, color: 'white' }}>{T(`${post.slug}.title`)}</h3>
+                                        <h3 style={{ fontSize: '1.4rem', fontWeight: 800, marginBottom: '16px', lineHeight: 1.3, color: 'white', letterSpacing: '-0.02em' }}>{T(`${post.slug}.title`)}</h3>
                                         <p style={{ fontSize: '1rem', color: 'rgba(255,255,255,0.6)', lineHeight: 1.6, marginBottom: '24px', flexGrow: 1 }}>{T(`${post.slug}.excerpt`)}</p>
 
-                                        <div style={{ display: 'inline-flex', alignItems: 'center', fontWeight: 600, color: accentColor, gap: '8px', fontSize: '0.95rem' }}>
+                                        <div className="premium-link" style={{ display: 'inline-flex', alignItems: 'center', fontWeight: 600, color: accentColor, gap: '8px', fontSize: '0.95rem', transition: 'all 0.3s' }}>
                                             {T('blog.readMore')} <span style={{ transition: 'transform 0.3s' }}>→</span>
                                         </div>
                                     </div>

@@ -58,7 +58,7 @@ The ECM Digital website has been successfully translated from Polish to English.
 - ✅ Section title: "About ECM Digital"
 - ✅ Mission, Vision, and Values cards
 - ✅ Company statistics
-- ✅ Company information (Scrum Software Sp. z o.o.)
+- ✅ Company information (ECM Digital)
 
 ### Team Section
 - ✅ Section title: "Our Team"

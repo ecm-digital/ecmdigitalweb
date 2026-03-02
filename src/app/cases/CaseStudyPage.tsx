@@ -28,7 +28,7 @@ export default function CaseStudyPage({ slug }: { slug: string }) {
     const accentColor = cs.gradient.match(/#([0-9a-fA-F]{6})/)?.[0] || '#3b82f6';
 
     return (
-        <>
+        <div className="lp-wrapper">
             <div className="scroll-progress-bar" />
             <Navbar />
 
@@ -63,7 +63,7 @@ export default function CaseStudyPage({ slug }: { slug: string }) {
 
                         <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
                             <span style={{ display: 'inline-flex', alignItems: 'center', padding: '12px 24px', background: `${accentColor}15`, border: `1px solid ${accentColor}30`, borderRadius: '999px', fontSize: '1.1rem', fontWeight: 700, color: 'white' }}>
-                                Klient: {T(`${slug}.client`)}
+                                {T('cs.clientLabel')}: {T(`${slug}.client`)}
                             </span>
                             <span style={{ display: 'inline-flex', alignItems: 'center', padding: '12px 24px', background: `rgba(255,255,255,0.05)`, border: `1px solid rgba(255,255,255,0.1)`, borderRadius: '999px', fontSize: '1.1rem', fontWeight: 700, color: 'white' }}>
                                 ⏱ {T(`${slug}.timeline`)}
@@ -165,8 +165,14 @@ export default function CaseStudyPage({ slug }: { slug: string }) {
                 </div>
             </section>
 
+            <section style={{ padding: '40px 0 80px', background: 'transparent', textAlign: 'center' }}>
+                <a href="/portfolio" style={{ display: 'inline-flex', alignItems: 'center', gap: 10, padding: '16px 36px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 16, color: 'white', textDecoration: 'none', fontWeight: 700 }}>
+                    {T('cs.otherCases')}
+                </a>
+            </section>
+
             <ContactSection />
             <Footer />
-        </>
+        </div>
     );
 }

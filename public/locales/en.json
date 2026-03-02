@@ -92,7 +92,6 @@
       "satisfactionLabel": "Satisfaction"
     }
   },
-
   "sections": {
     "services": {
       "title": "Our Services",
@@ -103,8 +102,8 @@
       "subtitle": "Team of AI experts who transform business through intelligent solutions",
       "description1": "We are a team of technology enthusiasts who believe that every business deserves digital transformation. We combine creativity with innovative technological solutions.",
       "description2": "ECM Digital is a brand offering comprehensive and modern digital solutions. We specialize in web design, e-commerce, UX audits, and business process automation, helping companies develop in the digital world.",
-      "description3": "The ECM Digital brand operates within Scrum Software Sp. z o.o., which is the formal owner of all services we provide and the legally responsible entity. It is Scrum Software Sp. z o.o. that issues invoices, enters into contracts, and handles financial settlements.",
-      "description4": "Thanks to this solution, we combine modern branding with professional legal service, ensuring our clients full security and transparency of cooperation.",
+      "description3": "At ECM Digital, we combine modern branding with a passion for technology, ensuring our clients full security and professional cooperation.",
+      "description4": "Our team of experts ensures that every AI implementation brings measurable business results.",
       "mission": "Mission",
       "mission.description": "We democratize access to AI, helping companies of all sizes leverage the potential of artificial intelligence for business growth.",
       "vision": "Vision",
@@ -282,10 +281,10 @@
       "form.submit": "Send Message"
     },
     "company": {
-      "name": "Scrum Software Sp. z o.o.",
-      "description1": "ECM Digital operates within Scrum Software Sp. z o.o., which is the formal owner of all services we provide and the legally responsible entity.",
-      "description2": "It is Scrum Software Sp. z o.o. that issues invoices and enters into contracts with clients, guaranteeing full transparency and security of cooperation.",
-      "badge": "Registered Company<br>Sp. z o.o.",
+      "name": "ECM Digital",
+      "description1": "ECM Digital is a brand offering comprehensive and modern digital solutions, helping companies grow in the digital world.",
+      "description2": "We guarantee full transparency and security of cooperation at every stage of the project.",
+      "badge": "Next-gen<br>AI Agency",
       "stats": {
         "aiProjects": "50+",
         "aiProjectsLabel": "AI Projects",
@@ -558,14 +557,13 @@
     "viewAll": "View all case studies"
   },
   "company": {
-    "name": "Scrum Software Sp. z o.o.",
-    "description1": "ECM Digital operates within Scrum Software Sp. z o.o., which is the formal owner of all services we provide and the legally responsible entity.",
-    "description2": "It is Scrum Software Sp. z o.o. that issues invoices and enters into contracts with clients, guaranteeing full transparency and security of cooperation.",
+    "name": "ECM Digital",
+    "description1": "ECM Digital is a brand offering modern digital solutions.",
+    "description2": "We ensure security and transparency of cooperation.",
     "badge": "Registered Limited Company"
   },
   "footer": {
-    "copyright": "© 2025 ECM Digital. All rights reserved.",
-    "poweredBy": "Powered by Scrum Software Sp. z o.o."
+    "copyright": "© 2025 ECM Digital. All rights reserved."
   },
   "chatbot": {
     "title": "ECM Digital Assistant",

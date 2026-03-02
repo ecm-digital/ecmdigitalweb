@@ -22,14 +22,16 @@ export default function ServicePage({ serviceKey }: { serviceKey: string }) {
             const l = lang as 'pl' | 'en';
             const trans = dynamicService.translations[l] || dynamicService.translations.pl;
 
-            if (key.includes('features.')) {
-                const idx = parseInt(key.split('.')[1]) - 1;
-                return trans.features[idx] || st(lang, key);
+            if (key.includes('.features.')) {
+                const idxStr = key.split('.features.')[1];
+                const idx = parseInt(idxStr) - 1;
+                if (trans.features && trans.features[idx]) return trans.features[idx];
+                return ''; // empty string instead of fallback key
             }
-            if (key.endsWith('.title')) return trans.title;
-            if (key.endsWith('.subtitle')) return trans.subtitle;
-            if (key.endsWith('.long')) return trans.long;
-            if (key.endsWith('.price')) return dynamicService.price;
+            if (key.endsWith('.title')) return trans.title || '';
+            if (key.endsWith('.subtitle')) return trans.subtitle || '';
+            if (key.endsWith('.long')) return trans.long || '';
+            if (key.endsWith('.price')) return dynamicService.price || '';
         }
         return st(lang, key);
     };
@@ -52,8 +54,20 @@ export default function ServicePage({ serviceKey }: { serviceKey: string }) {
             { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
         );
         document.querySelectorAll('.fade-in, .fade-in-left, .fade-in-right, .fade-in-up').forEach(el => observer.observe(el));
+
+        // APPLY SEO META TAGS
+        if (dynamicService?.translations) {
+            const l = lang as 'pl' | 'en';
+            const trans = dynamicService.translations[l] || dynamicService.translations.pl;
+            if (trans.metaTitle) document.title = trans.metaTitle;
+            if (trans.metaDescription) {
+                const metaDesc = document.querySelector('meta[name="description"]');
+                if (metaDesc) metaDesc.setAttribute('content', trans.metaDescription);
+            }
+        }
+
         return () => observer.disconnect();
-    }, [serviceKey]);
+    }, [serviceKey, dynamicService, lang]);
 
     if (!staticService && !dynamicService) return <div>Service not found</div>;
 
@@ -64,7 +78,7 @@ export default function ServicePage({ serviceKey }: { serviceKey: string }) {
     const accentColor = displayGradient.match(/#([0-9a-fA-F]{6})/)?.[0] || '#3b82f6';
 
     return (
-        <>
+        <div className="lp-wrapper">
             <div className="scroll-progress-bar" />
             <Navbar />
 
@@ -105,7 +119,7 @@ export default function ServicePage({ serviceKey }: { serviceKey: string }) {
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(12, 1fr)', gap: '40px' }}>
                         <div className="fade-in-up" style={{ gridColumn: 'span 12', gridArea: 'auto/span 7' }}>
                             <div className="premium-glass-panel" style={{ padding: '48px', borderRadius: '32px', height: '100%' }}>
-                                <h2 style={{ fontSize: '2rem', marginBottom: '24px', color: 'white' }}>O usłudze</h2>
+                                <h2 style={{ fontSize: '2rem', marginBottom: '24px', color: 'white' }}>{st(lang, 'about.title')}</h2>
                                 <p style={{ fontSize: '1.1rem', color: 'rgba(255,255,255,0.7)', lineHeight: 1.8 }}>
                                     {T(`${serviceKey}.long`)}
                                 </p>
@@ -115,10 +129,15 @@ export default function ServicePage({ serviceKey }: { serviceKey: string }) {
                         <div className="fade-in-up" style={{ gridColumn: 'span 12', gridArea: 'auto/span 5', display: 'flex', flexDirection: 'column', gap: '16px' }}>
                             <h3 style={{ fontSize: '1.5rem', marginBottom: '8px', paddingLeft: '16px' }}>{st(lang, 'process.title')}</h3>
                             {[1, 2, 3, 4].map((idx) => (
-                                <div key={idx} className="premium-glass-panel" style={{
+                                <div key={idx} className="premium-glass-panel premium-hover-lift" style={{
                                     padding: '24px', borderRadius: '20px', display: 'flex', alignItems: 'flex-start', gap: '16px', transitionDelay: `${idx * 0.1}s`
                                 }}>
-                                    <span style={{ fontSize: '1.2rem', fontWeight: 800, color: accentColor }}>0{idx}.</span>
+                                    <div style={{
+                                        minWidth: '36px', height: '36px', borderRadius: '10px',
+                                        background: `${accentColor}15`, border: `1px solid ${accentColor}30`,
+                                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                        fontSize: '0.85rem', fontWeight: 800, color: accentColor
+                                    }}>0{idx}</div>
                                     <span style={{ fontSize: '1.05rem', color: 'rgba(255,255,255,0.9)', lineHeight: 1.5 }}>{st(lang, `process.step${idx}`)}</span>
                                 </div>
                             ))}
@@ -131,24 +150,30 @@ export default function ServicePage({ serviceKey }: { serviceKey: string }) {
             <section className="section bg-grid relative" style={{ borderTop: '1px solid rgba(255,255,255,0.05)', borderBottom: '1px solid rgba(255,255,255,0.05)', background: 'linear-gradient(to bottom, transparent, rgba(5,5,7,0.8))' }}>
                 <div className="container">
                     <div className="section-header fade-in-up">
-                        <span className="section-label" style={{ padding: '8px 16px', background: `${accentColor}15`, color: accentColor, borderRadius: '999px', border: `1px solid ${accentColor}30` }}>Odkryj</span>
+                        <span className="section-label" style={{ padding: '8px 16px', background: `${accentColor}15`, color: accentColor, borderRadius: '999px', border: `1px solid ${accentColor}30` }}>{st(lang, 'discover.label')}</span>
                         <h2 className="section-title">{st(lang, 'features.title')}</h2>
                     </div>
 
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '24px' }}>
-                        {[1, 2, 3, 4, 5, 6].map((i) => (
-                            <div key={i} className="premium-glass-panel fade-in-up" style={{ padding: '32px', borderRadius: '24px', display: 'flex', gap: '16px', alignItems: 'flex-start', animationDelay: `${i * 0.1}s` }}>
-                                <div style={{
-                                    minWidth: '32px', height: '32px', borderRadius: '50%',
-                                    background: `${accentColor}20`, color: accentColor,
-                                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                    fontSize: '14px', fontWeight: 'bold', border: `1px solid ${accentColor}50`
-                                }}>✓</div>
-                                <span style={{ fontSize: '1.1rem', color: 'rgba(255,255,255,0.8)', lineHeight: 1.6 }}>
-                                    {T(`${serviceKey}.features.${i}`)}
-                                </span>
-                            </div>
-                        ))}
+                        {[1, 2, 3, 4, 5, 6].map((i) => {
+                            const featText = T(`${serviceKey}.features.${i}`);
+                            if (!featText || featText === `${serviceKey}.features.${i}`) return null;
+
+                            return (
+                                <div key={i} className="premium-glass-panel premium-hover-lift fade-in-up" style={{ padding: '32px', borderRadius: '24px', display: 'flex', gap: '16px', alignItems: 'flex-start', animationDelay: `${i * 0.1}s` }}>
+                                    <div style={{
+                                        minWidth: '36px', height: '36px', borderRadius: '12px',
+                                        background: `${accentColor}15`, color: accentColor,
+                                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                        fontSize: '16px', fontWeight: 'bold', border: `1px solid ${accentColor}30`,
+                                        boxShadow: `0 0 15px ${accentColor}20`
+                                    }}>✓</div>
+                                    <span style={{ fontSize: '1.1rem', color: 'rgba(255,255,255,0.8)', lineHeight: 1.6 }}>
+                                        {featText}
+                                    </span>
+                                </div>
+                            );
+                        })}
                     </div>
                 </div>
             </section>
@@ -159,12 +184,41 @@ export default function ServicePage({ serviceKey }: { serviceKey: string }) {
                     <h2 className="section-title fade-in-up" style={{ fontSize: '2rem', marginBottom: '40px' }}>{st(lang, 'techs.title')}</h2>
                     <div className="fade-in-up" style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', justifyContent: 'center' }}>
                         {displayTechs.map((tech: string) => (
-                            <span key={tech} className="premium-glass-panel" style={{
+                            <span key={tech} className="premium-glass-panel premium-hover-lift" style={{
                                 padding: '12px 24px', borderRadius: '16px', fontSize: '1rem',
                                 fontWeight: 700, letterSpacing: '0.05em', color: 'white',
                                 boxShadow: '0 10px 20px rgba(0,0,0,0.2)'
                             }}>{tech}</span>
                         ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* Testimonial Social Proof */}
+            <section className="section relative" style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+                <div className="container" style={{ maxWidth: '760px' }}>
+                    <div className="section-header fade-in-up text-center">
+                        <h2 className="section-title" style={{ fontSize: '1.8rem' }}>{st(lang, 'testimonial.title')}</h2>
+                    </div>
+                    <div className="premium-glass-panel fade-in-up" style={{ padding: '48px', borderRadius: '28px', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
+                        <div style={{ position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)', width: '60%', height: '120px', background: `radial-gradient(circle, ${accentColor}20 0%, transparent 70%)`, filter: 'blur(40px)', pointerEvents: 'none' }} />
+                        <div style={{ fontSize: '3rem', color: `${accentColor}60`, marginBottom: '24px', lineHeight: 1, position: 'relative', zIndex: 1 }}>"</div>
+                        <p style={{ fontSize: '1.15rem', color: 'rgba(255,255,255,0.8)', lineHeight: 1.8, marginBottom: '32px', fontStyle: 'italic', position: 'relative', zIndex: 1 }}>
+                            {st(lang, 'service.testimonial')}
+                        </p>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '16px', justifyContent: 'center', position: 'relative', zIndex: 1 }}>
+                            <div style={{
+                                width: '48px', height: '48px', borderRadius: '50%',
+                                background: `linear-gradient(135deg, ${accentColor}, ${accentColor}80)`,
+                                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                fontWeight: 700, fontSize: '1.1rem', color: 'white',
+                                boxShadow: `0 0 20px ${accentColor}40`
+                            }}>T</div>
+                            <div style={{ textAlign: 'left' }}>
+                                <div style={{ fontWeight: 700, fontSize: '1rem', color: 'white' }}>Tomasz Wróblewski</div>
+                                <div style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.5)' }}>CEO, Automatica Group</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -185,6 +239,7 @@ export default function ServicePage({ serviceKey }: { serviceKey: string }) {
 
             <ContactSection />
             <Footer />
-        </>
+        </div>
     );
+
 }

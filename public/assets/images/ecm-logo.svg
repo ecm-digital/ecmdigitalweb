@@ -1,0 +1,20 @@
+<svg viewBox="0 0 400 320" xmlns="http://www.w3.org/2000/svg">
+  <!-- Organic 3-hump blob shape -->
+  <path d="M80,110 
+           C80,60 140,50 200,50 
+           C260,50 320,60 320,110 
+           L320,210 
+           C320,260 280,270 200,270 
+           C120,270 80,260 80,210 
+           Z" fill="#111" />
+  <!-- Additional organic bulges for the "blob" look -->
+  <circle cx="140" cy="110" r="70" fill="#111" />
+  <circle cx="260" cy="110" r="70" fill="#111" />
+  <circle cx="200" cy="110" r="75" fill="#111" />
+  <circle cx="140" cy="210" r="70" fill="#111" />
+  <circle cx="260" cy="210" r="70" fill="#111" />
+  <circle cx="200" cy="210" r="75" fill="#111" />
+  
+  <text x="200" y="150" font-family="system-ui, -apple-system, sans-serif" font-weight="900" font-size="64" fill="white" text-anchor="middle" letter-spacing="-3">ecm</text>
+  <text x="200" y="220" font-family="system-ui, -apple-system, sans-serif" font-weight="900" font-size="64" fill="white" text-anchor="middle" letter-spacing="-3">digital</text>
+</svg>

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useLanguage } from '@/context/LanguageContext';
 import AdminLayout from '@/components/AdminLayout';
 import {
     getClients, getOffers, getKanbanTasks, getMeetings, getCampaigns, seedCampaigns,
@@ -24,6 +25,7 @@ const labelStyle = {
 };
 
 export default function AdminDashboard() {
+    const { T, lang } = useLanguage();
     const [stats, setStats] = useState({
         totalClients: 0,
         leads: 0,
@@ -37,6 +39,8 @@ export default function AdminDashboard() {
     });
     const [activities, setActivities] = useState<Notification[]>([]);
     const [loading, setLoading] = useState(true);
+    const [smartPulse, setSmartPulse] = useState<string | null>(null);
+    const [pulseLoading, setPulseLoading] = useState(false);
 
     const loadStats = async () => {
         setLoading(true);
@@ -71,20 +75,44 @@ export default function AdminDashboard() {
         }
     };
 
+    const generatePulse = async () => {
+        setPulseLoading(true);
+        try {
+            const res = await fetch('/api/ai/smart-pulse', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+            });
+            const data = await res.json();
+            if (data.report) {
+                setSmartPulse(data.report);
+            } else {
+                setSmartPulse(T('common.error'));
+            }
+        } catch (e) {
+            console.error(e);
+            setSmartPulse(T('common.error'));
+        } finally {
+            setPulseLoading(false);
+        }
+    };
+
     useEffect(() => { loadStats(); }, []);
 
+    const locale = lang === 'szl' ? 'pl-PL' : lang;
     const kpis = [
-        { label: 'Aktywne Leady', value: stats.leads, icon: '🎯', accent: '#3b82f6', sub: 'Oczekujące zapytania' },
-        { label: 'Konwersja', value: `${stats.conversionRate.toFixed(1)}%`, icon: '📈', accent: '#8b5cf6', sub: 'Leady → Klienci' },
-        { label: 'Przychód', value: `${stats.acceptedRevenue.toLocaleString('pl-PL')} PLN`, icon: '💰', accent: '#10b981', sub: 'Zaakceptowane oferty' },
-        { label: 'Potencjał', value: `${stats.potentialRevenue.toLocaleString('pl-PL')} PLN`, icon: '⏳', accent: '#f59e0b', sub: 'Otwarte oferty' },
+        { label: T('admin.dash.activeLeads'), value: stats.leads, icon: '🎯', accent: '#3b82f6', sub: T('admin.dash.pendingReq') },
+        { label: T('admin.dash.conversion'), value: `${stats.conversionRate.toFixed(1)}%`, icon: '📈', accent: '#8b5cf6', sub: T('admin.dash.leadToClient') },
+        { label: T('admin.dash.revenue'), value: `${stats.acceptedRevenue.toLocaleString(locale)} PLN`, icon: '💰', accent: '#10b981', sub: T('admin.dash.acceptedOff') },
+        { label: T('admin.dash.potential'), value: `${stats.potentialRevenue.toLocaleString(locale)} PLN`, icon: '⏳', accent: '#f59e0b', sub: T('admin.dash.openOff') },
     ];
 
     const quickActions = [
-        { label: 'Dodaj Klienta', icon: '👤', link: '/admin/clients', accent: '#3b82f6' },
-        { label: 'Nowa Oferta', icon: '💼', link: '/admin/offers', accent: '#f59e0b' },
-        { label: 'Ustawienia', icon: '⚙️', link: '/admin/settings', accent: '#8b5cf6' },
-        { label: 'Kanban', icon: '📋', link: '/admin/kanban', accent: '#ef4444' },
+        { label: T('admin.action.addClient'), icon: '👤', link: '/admin/clients', accent: '#3b82f6' },
+        { label: T('admin.action.newOffer'), icon: '💼', link: '/admin/offers', accent: '#f59e0b' },
+        { label: T('admin.nav.cases'), icon: '🏆', link: '/admin/cases', accent: '#ec4899' },
+        { label: T('admin.nav.contextOs'), icon: '🧠', link: '/admin/context-os', accent: '#8b5cf6' },
+        { label: T('admin.action.kanban'), icon: '📋', link: '/admin/kanban', accent: '#ef4444' },
+        { label: T('admin.nav.settings'), icon: '⚙️', link: '/admin/settings', accent: '#6b7280' },
     ];
 
     const getActivityColor = (type: string) => {
@@ -101,13 +129,25 @@ export default function AdminDashboard() {
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16 }}>
                     <div>
                         <h1 style={{ fontSize: 32, fontWeight: 800, letterSpacing: '-0.02em', margin: 0, lineHeight: 1.2 }}>
-                            🚀 Command <span style={{ color: '#3b82f6' }}>Center</span>
+                            🚀 {T('admin.dash.command')} <span style={{ color: '#3b82f6' }}>{T('admin.dash.center')}</span>
                         </h1>
                         <p style={{ ...labelStyle, marginTop: 8 }}>
-                            Przegląd operacyjny agencji • {new Date().toLocaleDateString('pl-PL')}
+                            {T('admin.dash.overview')} • {new Date().toLocaleDateString(locale)}
                         </p>
                     </div>
                     <div style={{ display: 'flex', gap: 10 }}>
+                        <button
+                            onClick={generatePulse}
+                            disabled={pulseLoading}
+                            style={{
+                                padding: '10px 22px', borderRadius: 12,
+                                background: pulseLoading ? 'rgba(59,130,246,0.3)' : 'linear-gradient(135deg, #3b82f6, #8b5cf6)', border: 'none',
+                                color: 'white', fontWeight: 700, fontSize: 14, cursor: pulseLoading ? 'wait' : 'pointer',
+                                boxShadow: pulseLoading ? 'none' : '0 4px 16px rgba(139,92,246,0.2)',
+                            }}
+                        >
+                            {pulseLoading ? `⏳ ${T('admin.dash.generating')}` : `⚡ ${T('admin.dash.brief')}`}
+                        </button>
                         <button
                             onClick={loadStats}
                             style={{
@@ -116,21 +156,73 @@ export default function AdminDashboard() {
                                 color: 'white', fontWeight: 700, fontSize: 14, cursor: 'pointer',
                             }}
                         >
-                            🔄 Odśwież
-                        </button>
-                        <button
-                            onClick={seedCampaigns}
-                            style={{
-                                padding: '10px 22px', borderRadius: 12,
-                                background: '#3b82f6', border: 'none',
-                                color: 'white', fontWeight: 700, fontSize: 14, cursor: 'pointer',
-                                boxShadow: '0 4px 16px rgba(59,130,246,0.35)',
-                            }}
-                        >
-                            🌱 Dane testowe
+                            🔄 {T('admin.dash.refresh')}
                         </button>
                     </div>
                 </div>
+
+                {/* ═══ Smart Pulse Report ═══ */}
+                {smartPulse && (
+                    <div className="animate-in fade-in slide-in-from-top-4 duration-500" style={{
+                        padding: 32,
+                        background: 'linear-gradient(135deg, rgba(139,92,246,0.06), rgba(59,130,246,0.06))',
+                        border: '1px solid rgba(139,92,246,0.15)',
+                        borderRadius: 24,
+                        boxShadow: 'inset 0 0 100px rgba(139,92,246,0.03)',
+                        position: 'relative',
+                        overflow: 'hidden',
+                    }}>
+                        {/* Glow effect */}
+                        <div style={{ position: 'absolute', top: -40, right: -40, width: 200, height: 200, borderRadius: '50%', background: 'radial-gradient(circle, rgba(139,92,246,0.15), transparent)', filter: 'blur(50px)', pointerEvents: 'none' }} />
+
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20, position: 'relative', zIndex: 1 }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+                                <div style={{
+                                    width: 48, height: 48, borderRadius: 16,
+                                    background: 'linear-gradient(135deg, #8b5cf6, #3b82f6)',
+                                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                    fontSize: 24, boxShadow: '0 8px 25px rgba(139,92,246,0.3)',
+                                }}>⚡</div>
+                                <div>
+                                    <h2 style={{ fontSize: 20, fontWeight: 800, color: 'white', margin: 0 }}>Daily Brief OS</h2>
+                                    <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', margin: '2px 0 0', fontWeight: 600 }}>
+                                        AIOS Layer 2 • Powered by Context OS + Gemini
+                                    </p>
+                                </div>
+                            </div>
+                            <div style={{ display: 'flex', gap: 8 }}>
+                                <div style={{
+                                    padding: '6px 14px', borderRadius: 10,
+                                    background: 'rgba(16,185,129,0.1)', border: '1px solid rgba(16,185,129,0.2)',
+                                    fontSize: 11, fontWeight: 700, color: '#34d399',
+                                }}>
+                                    {new Date().toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' })}
+                                </div>
+                                <button onClick={() => setSmartPulse(null)} style={{
+                                    width: 32, height: 32, borderRadius: 10,
+                                    background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)',
+                                    color: 'rgba(255,255,255,0.4)', cursor: 'pointer',
+                                    display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14,
+                                }}>✕</button>
+                            </div>
+                        </div>
+                        <div style={{
+                            fontSize: 15, color: 'rgba(255,255,255,0.85)', lineHeight: 1.75,
+                            whiteSpace: 'pre-wrap', position: 'relative', zIndex: 1,
+                        }}>
+                            {smartPulse.split('\n').map((line, i) => {
+                                if (line.startsWith('##') || line.startsWith('**📅') || line.startsWith('**📊') || line.startsWith('**📢') || line.startsWith('**📋') || line.startsWith('**💡') || line.startsWith('**🔥')) {
+                                    return <div key={i} style={{ fontSize: 17, fontWeight: 800, color: 'white', marginTop: i > 0 ? 20 : 0, marginBottom: 8, borderBottom: '1px solid rgba(255,255,255,0.06)', paddingBottom: 8 }}>{line.replace(/\*\*/g, '').replace(/##\s?/g, '')}</div>;
+                                }
+                                if (line.startsWith('📅') || line.startsWith('📊') || line.startsWith('📢') || line.startsWith('📋') || line.startsWith('💡') || line.startsWith('🔥')) {
+                                    return <div key={i} style={{ fontSize: 17, fontWeight: 800, color: 'white', marginTop: i > 0 ? 20 : 0, marginBottom: 8, borderBottom: '1px solid rgba(255,255,255,0.06)', paddingBottom: 8 }}>{line.replace(/\*\*/g, '')}</div>;
+                                }
+                                const formatted = line.replace(/\*\*(.*?)\*\*/g, '<strong style="color:white;font-weight:700">$1</strong>');
+                                return <div key={i} dangerouslySetInnerHTML={{ __html: formatted }} style={{ marginBottom: 4 }} />;
+                            })}
+                        </div>
+                    </div>
+                )}
 
                 {loading ? (
                     <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
@@ -178,11 +270,11 @@ export default function AdminDashboard() {
                             <div style={{ ...card, padding: 32 }}>
                                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
                                     <div>
-                                        <h3 style={{ fontSize: 22, fontWeight: 800, margin: 0 }}>🔔 Ostatnia Aktywność</h3>
-                                        <p style={{ ...labelStyle, marginTop: 6 }}>Strumień zdarzeń w czasie rzeczywistym</p>
+                                        <h3 style={{ fontSize: 22, fontWeight: 800, margin: 0 }}>🔔 {T('admin.dash.activity')}</h3>
+                                        <p style={{ ...labelStyle, marginTop: 6 }}>{T('admin.dash.realTime')}</p>
                                     </div>
                                     <Link href="/admin/settings" style={{ fontSize: 14, fontWeight: 700, color: '#3b82f6', textDecoration: 'none' }}>
-                                        Powiadomienia →
+                                        {T('admin.dash.notifs')} →
                                     </Link>
                                 </div>
 
@@ -190,7 +282,7 @@ export default function AdminDashboard() {
                                     {activities.length === 0 ? (
                                         <div style={{ textAlign: 'center', padding: '48px 24px', background: 'rgba(255,255,255,0.03)', borderRadius: 20, border: '1px dashed rgba(255,255,255,0.1)' }}>
                                             <div style={{ fontSize: 40, marginBottom: 12, opacity: 0.2 }}>📭</div>
-                                            <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.35)', fontWeight: 600 }}>Brak nowych powiadomień</p>
+                                            <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.35)', fontWeight: 600 }}>{T('admin.dash.noNotifs')}</p>
                                         </div>
                                     ) : (
                                         activities.map((act) => {
@@ -213,7 +305,7 @@ export default function AdminDashboard() {
                                                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
                                                             <span style={{ fontSize: 15, fontWeight: 700, color: 'rgba(255,255,255,0.9)' }}>{act.title}</span>
                                                             <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.3)', flexShrink: 0 }}>
-                                                                {act.createdAt.toDate().toLocaleTimeString('pl-PL', { hour: '2-digit', minute: '2-digit' })}
+                                                                {act.createdAt.toDate().toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' })}
                                                             </span>
                                                         </div>
                                                         <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.45)', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{act.message}</p>
@@ -241,7 +333,7 @@ export default function AdminDashboard() {
 
                                 {/* Quick Actions */}
                                 <div style={{ ...card }}>
-                                    <h3 style={{ fontSize: 16, fontWeight: 800, margin: '0 0 20px', color: 'rgba(255,255,255,0.6)' }}>⚡ Szybki Start</h3>
+                                    <h3 style={{ fontSize: 16, fontWeight: 800, margin: '0 0 20px', color: 'rgba(255,255,255,0.6)' }}>⚡ {T('admin.dash.quickStart')}</h3>
                                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
                                         {quickActions.map((action, i) => (
                                             <Link
@@ -276,11 +368,11 @@ export default function AdminDashboard() {
                                             alignItems: 'center', justifyContent: 'center',
                                             fontSize: 20, boxShadow: '0 4px 15px rgba(59,130,246,0.3)',
                                         }}>💡</div>
-                                        <h4 style={{ fontSize: 18, fontWeight: 800, margin: 0 }}>Wskazówka AI</h4>
+                                        <h4 style={{ fontSize: 18, fontWeight: 800, margin: 0 }}>{T('admin.dash.aiTip')}</h4>
                                     </div>
                                     <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.6)', lineHeight: 1.7, margin: '0 0 24px' }}>
-                                        W systemie znajduje się <span style={{ color: 'white', fontWeight: 800 }}>{stats.potentialRevenue.toLocaleString()} PLN</span> w oczekujących ofertach.
-                                        Zalecamy wysłanie przypomnień do najbardziej aktywnych leadów.
+                                        {T('admin.dash.aiTipGoal', { price: stats.potentialRevenue.toLocaleString(locale) })}
+                                        {' '}{T('admin.dash.aiTipAdvice')}
                                     </p>
                                     <button style={{
                                         width: '100%', padding: '14px 0',
@@ -289,7 +381,7 @@ export default function AdminDashboard() {
                                         border: 'none', cursor: 'pointer',
                                         boxShadow: '0 4px 20px rgba(255,255,255,0.15)',
                                     }}>
-                                        Wyślij Przypomnienia
+                                        {T('admin.dash.sendReminders')}
                                     </button>
                                 </div>
                             </div>

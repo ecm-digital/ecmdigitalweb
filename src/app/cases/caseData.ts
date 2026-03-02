@@ -12,6 +12,7 @@ export const caseStudies: CaseStudy[] = [
     { slug: 'sklep-shopify-ai', num: 2, icon: '🛒', gradient: 'linear-gradient(135deg, #10b981, #34d399)' },
     { slug: 'automatyzacja-n8n', num: 3, icon: '⚡', gradient: 'linear-gradient(135deg, #f59e0b, #fbbf24)' },
     { slug: 'aplikacja-mvp', num: 4, icon: '📱', gradient: 'linear-gradient(135deg, #8b5cf6, #a78bfa)' },
+    { slug: 'automatyzacja-nieruchomosci', num: 5, icon: '🏠', gradient: 'linear-gradient(135deg, #eab308, #f59e0b)' },
 ];
 
 const csTranslations: Record<string, Record<string, string>> = {
@@ -88,6 +89,22 @@ const csTranslations: Record<string, Record<string, string>> = {
         'aplikacja-mvp.result4.value': '€200k',
         'aplikacja-mvp.result4.label': 'Pozyskane fundusze',
         'aplikacja-mvp.techs': 'React Native,Firebase,Google Gemini,HealthKit,Node.js,Figma',
+
+        'automatyzacja-nieruchomosci.title': 'Automatyzacja Leadów Nieruchomości',
+        'automatyzacja-nieruchomosci.subtitle': 'Agent AI obsługujący klientów 24/7 i automatycznie umawiający spotkania w luksusowych apartamentach',
+        'automatyzacja-nieruchomosci.client': 'Agencja Nieruchomości Premium, Warszawa',
+        'automatyzacja-nieruchomosci.timeline': '3 tygodnie',
+        'automatyzacja-nieruchomosci.challenge': 'Dział sprzedaży tracił czas na ręczne odpowiadanie na podstawowe pytania z portali (Otodom, Morizon) i kwalifikację leadów. Ponad 40% zapytań przychodziło wieczorami i w weekendy, co skutkowało długim czasem odpowiedzi i utratą potencjalnych klientów.',
+        'automatyzacja-nieruchomosci.solution': 'Zaprojektowaliśmy i wdrożyliśmy inteligentnego Agenta AI zintegrowanego z CRM-em firmy i portalami ogłoszeniowymi. Agent natychmiast odpowiada na zapytania, odpowiada na techniczne pytania o standard wykończenia, lokalizację i warunki umowy, a następnie proponuje termin prezentacji, wpisując go bezpośrednio do kalendarza agenta.',
+        'automatyzacja-nieruchomosci.result1.value': '+400%',
+        'automatyzacja-nieruchomosci.result1.label': 'Wzrost prezentacji',
+        'automatyzacja-nieruchomosci.result2.value': '24/7',
+        'automatyzacja-nieruchomosci.result2.label': 'Obsługa zapytań',
+        'automatyzacja-nieruchomosci.result3.value': '-80%',
+        'automatyzacja-nieruchomosci.result3.label': 'Czasu agentów',
+        'automatyzacja-nieruchomosci.result4.value': '<2 min',
+        'automatyzacja-nieruchomosci.result4.label': 'Czas odpowiedzi',
+        'automatyzacja-nieruchomosci.techs': 'Google Gemini,N8N,Calendly API,Pipedrive CRM,Facebook API',
     },
     en: {
         'cs.back': '← Back to homepage',
@@ -146,6 +163,18 @@ const csTranslations: Record<string, Record<string, string>> = {
         'aplikacja-mvp.result3.value': '2k+', 'aplikacja-mvp.result3.label': 'Downloads month 1',
         'aplikacja-mvp.result4.value': '€200k', 'aplikacja-mvp.result4.label': 'Funding raised',
         'aplikacja-mvp.techs': 'React Native,Firebase,Google Gemini,HealthKit,Node.js,Figma',
+
+        'automatyzacja-nieruchomosci.title': 'Real Estate Lead Automation',
+        'automatyzacja-nieruchomosci.subtitle': 'AI Agent handling 24/7 inquiries and automatically scheduling luxury apartment viewings',
+        'automatyzacja-nieruchomosci.client': 'Premium Real Estate Agency, Warsaw',
+        'automatyzacja-nieruchomosci.timeline': '3 weeks',
+        'automatyzacja-nieruchomosci.challenge': 'Sales team wasted too much time on basic qualification and manual portal replies. 40% of leads arrived during off-hours, leading to slow response times and loss of high-value prospects.',
+        'automatyzacja-nieruchomosci.solution': 'Implemented an AI Agent integrated with CRM and portals. Instant replies, technical knowledge about standards/location, and automated scheduling directly into agents calendars.',
+        'automatyzacja-nieruchomosci.result1.value': '+400%', 'automatyzacja-nieruchomosci.result1.label': 'Increase in viewings',
+        'automatyzacja-nieruchomosci.result2.value': '24/7', 'automatyzacja-nieruchomosci.result2.label': 'Lead coverage',
+        'automatyzacja-nieruchomosci.result3.value': '-80%', 'automatyzacja-nieruchomosci.result3.label': 'Agent time saved',
+        'automatyzacja-nieruchomosci.result4.value': '<2 min', 'automatyzacja-nieruchomosci.result4.label': 'Response time',
+        'automatyzacja-nieruchomosci.techs': 'Google Gemini,N8N,Calendly API,Pipedrive CRM,Facebook API',
     },
     de: {
         'cs.back': '← Zurück zur Startseite',

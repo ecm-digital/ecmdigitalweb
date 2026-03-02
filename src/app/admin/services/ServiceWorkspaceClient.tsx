@@ -39,7 +39,7 @@ const inputStyle: React.CSSProperties = {
 };
 
 export default function ServiceWorkspaceClient({ slug }: { slug: string }) {
-    const { lang } = useLanguage();
+    const { T, lang } = useLanguage();
     const { showToast } = useNotifications();
     const [service, setService] = useState<ServiceData | null>(null);
     const [loading, setLoading] = useState(true);
@@ -65,7 +65,8 @@ export default function ServiceWorkspaceClient({ slug }: { slug: string }) {
                         long: data.translations.pl.long,
                         features: [...data.translations.pl.features],
                         price: data.price,
-                        techs: [...data.techs]
+                        techs: [...data.techs],
+                        internalKnowledge: data.internalKnowledge || ''
                     });
                 }
             } catch (error) {
@@ -97,6 +98,7 @@ export default function ServiceWorkspaceClient({ slug }: { slug: string }) {
             const updatedData: Partial<ServiceData> = {
                 price: formData.price,
                 techs: formData.techs,
+                internalKnowledge: formData.internalKnowledge,
                 translations: {
                     ...service.translations,
                     pl: {
@@ -108,10 +110,10 @@ export default function ServiceWorkspaceClient({ slug }: { slug: string }) {
                 }
             };
             await updateAgencyService(service.id, updatedData);
-            showToast('Usługa została zaktualizowana! 🚀', 'success');
+            showToast(T('admin.services.workspace.toast.updated'), 'success');
         } catch (error) {
             console.error('Error saving service:', error);
-            showToast('Błąd podczas zapisywania.', 'error');
+            showToast(T('admin.services.workspace.toast.saveError'), 'error');
         } finally {
             setSaving(false);
         }
@@ -132,7 +134,7 @@ export default function ServiceWorkspaceClient({ slug }: { slug: string }) {
                 setAiResult(res.text);
             }
         } catch (err) {
-            setAiResult('Wystąpił nieoczekiwany błąd.');
+            setAiResult(T('common.error'));
         } finally {
             setIsGenerating(false);
         }
@@ -140,13 +142,13 @@ export default function ServiceWorkspaceClient({ slug }: { slug: string }) {
 
     if (loading) return (
         <AdminLayout>
-            <div style={{ color: 'white', textAlign: 'center', padding: '100px' }}>Ładowanie danych Firestore...</div>
+            <div style={{ color: 'white', textAlign: 'center', padding: '100px' }}>{T('admin.services.workspace.loading')}</div>
         </AdminLayout>
     );
 
     if (!service || !formData) return (
         <AdminLayout>
-            <div style={{ color: 'white', textAlign: 'center', padding: '100px' }}>Usługa nie znaleziona.</div>
+            <div style={{ color: 'white', textAlign: 'center', padding: '100px' }}>{T('admin.services.workspace.notFound')}</div>
         </AdminLayout>
     );
 
@@ -167,7 +169,7 @@ export default function ServiceWorkspaceClient({ slug }: { slug: string }) {
                         ←
                     </Link>
                     <div>
-                        <div style={labelStyle}>Workspace Usługi (Dynamic)</div>
+                        <div style={labelStyle}>{T('admin.services.workspace.title')} (Dynamic)</div>
                         <h1 style={{ fontSize: 32, fontWeight: 900, letterSpacing: '-0.02em', margin: 0, color: 'white', display: 'flex', alignItems: 'center', gap: 16 }}>
                             {service.icon} {formData.title}
                         </h1>
@@ -181,12 +183,12 @@ export default function ServiceWorkspaceClient({ slug }: { slug: string }) {
                     <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
                         <div style={panelStyle}>
                             <h2 style={{ fontSize: 22, fontWeight: 800, color: 'white', marginBottom: 24, display: 'flex', alignItems: 'center', gap: 12 }}>
-                                <span style={{ color: accentColor }}>📝</span> Treść i Komunikacja
+                                <span style={{ color: accentColor }}>📝</span> {T('admin.services.workspace.content')}
                             </h2>
 
                             <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
                                 <div>
-                                    <label style={labelStyle}>Nagłówek (H1)</label>
+                                    <label style={labelStyle}>{T('admin.services.workspace.label.title')}</label>
                                     <input
                                         style={inputStyle}
                                         value={formData.title}
@@ -194,7 +196,7 @@ export default function ServiceWorkspaceClient({ slug }: { slug: string }) {
                                     />
                                 </div>
                                 <div>
-                                    <label style={labelStyle}>Podtytuł (Subtitle)</label>
+                                    <label style={labelStyle}>{T('admin.services.workspace.label.subtitle')}</label>
                                     <textarea
                                         style={{ ...inputStyle, minHeight: 100, resize: 'vertical' }}
                                         value={formData.subtitle}
@@ -202,11 +204,20 @@ export default function ServiceWorkspaceClient({ slug }: { slug: string }) {
                                     />
                                 </div>
                                 <div>
-                                    <label style={labelStyle}>Długi opis (Long Description)</label>
+                                    <label style={labelStyle}>{T('admin.services.workspace.label.long')}</label>
                                     <textarea
                                         style={{ ...inputStyle, minHeight: 180, resize: 'vertical' }}
                                         value={formData.long}
                                         onChange={(e) => handleFieldChange('long', e.target.value)}
+                                    />
+                                </div>
+                                <div>
+                                    <label style={labelStyle}>{T('admin.services.workspace.label.internal')}</label>
+                                    <textarea
+                                        style={{ ...inputStyle, minHeight: 150, resize: 'vertical', background: 'rgba(236,72,153,0.05)', border: '1px solid rgba(236,72,153,0.3)' }}
+                                        value={formData.internalKnowledge}
+                                        onChange={(e) => handleFieldChange('internalKnowledge', e.target.value)}
+                                        placeholder={T('admin.services.workspace.label.internalPlaceholder')}
                                     />
                                 </div>
                             </div>
@@ -214,12 +225,12 @@ export default function ServiceWorkspaceClient({ slug }: { slug: string }) {
 
                         <div style={panelStyle}>
                             <h2 style={{ fontSize: 22, fontWeight: 800, color: 'white', marginBottom: 24, display: 'flex', alignItems: 'center', gap: 12 }}>
-                                <span style={{ color: accentColor }}>💎</span> Kluczowe Funkcje (Features)
+                                <span style={{ color: accentColor }}>💎</span> {T('admin.services.workspace.label.features')}
                             </h2>
                             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
                                 {formData.features.map((feat: string, i: number) => (
                                     <div key={i}>
-                                        <label style={labelStyle}>Funkcja 0{i + 1}</label>
+                                        <label style={labelStyle}>{T('admin.services.workspace.label.feature')} 0{i + 1}</label>
                                         <input
                                             style={inputStyle}
                                             value={feat}
@@ -237,11 +248,11 @@ export default function ServiceWorkspaceClient({ slug }: { slug: string }) {
                         {/* Technical Details */}
                         <div style={{ ...panelStyle, background: 'rgba(59,130,246,0.03)', border: '1px solid rgba(59,130,246,0.1)' }}>
                             <h2 style={{ fontSize: 22, fontWeight: 800, color: 'white', marginBottom: 24, display: 'flex', alignItems: 'center', gap: 12 }}>
-                                <span style={{ color: '#3b82f6' }}>🛠️</span> Parametry Techniczne
+                                <span style={{ color: '#3b82f6' }}>🛠️</span> {T('admin.services.workspace.tech.title')}
                             </h2>
                             <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
                                 <div>
-                                    <label style={labelStyle}>Cena bazowa</label>
+                                    <label style={labelStyle}>{T('admin.services.workspace.tech.price')}</label>
                                     <input
                                         style={inputStyle}
                                         value={formData.price}
@@ -249,7 +260,7 @@ export default function ServiceWorkspaceClient({ slug }: { slug: string }) {
                                     />
                                 </div>
                                 <div>
-                                    <label style={labelStyle}>Stack Technologiczny</label>
+                                    <label style={labelStyle}>{T('admin.services.workspace.tech.stack')}</label>
                                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 8 }}>
                                         {formData.techs.map((tech: string) => (
                                             <div key={tech} style={{
@@ -285,11 +296,11 @@ export default function ServiceWorkspaceClient({ slug }: { slug: string }) {
                                     alignItems: 'center', justifyContent: 'center',
                                     fontSize: 20, boxShadow: '0 4px 15px rgba(139,92,246,0.3)'
                                 }}>🧠</div>
-                                <h2 style={{ fontSize: 22, fontWeight: 800, color: 'white', margin: 0 }}>AI Development</h2>
+                                <h2 style={{ fontSize: 22, fontWeight: 800, color: 'white', margin: 0 }}>{T('admin.services.workspace.ai.title')}</h2>
                             </div>
 
                             <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.6)', lineHeight: 1.7, marginBottom: 24 }}>
-                                Wykorzystaj AI, aby wygenerować nowe propozycje wartości dla usługi <span style={{ color: 'white', fontWeight: 700 }}>{formData.title}</span> na podstawie trendów rynkowych 2026.
+                                {T('admin.services.workspace.ai.desc', { title: formData.title })}
                             </p>
 
                             <button
@@ -307,7 +318,7 @@ export default function ServiceWorkspaceClient({ slug }: { slug: string }) {
                                     transition: 'all 0.3s ease'
                                 }}
                             >
-                                {isGenerating ? '⌛ Generowanie...' : '✨ Generuj Ulepszenia AI'}
+                                {isGenerating ? `⌛ ${T('admin.services.workspace.ai.generating')}` : `✨ ${T('admin.services.workspace.ai.btnGenerate')}`}
                             </button>
 
                             {aiResult && (
@@ -335,7 +346,7 @@ export default function ServiceWorkspaceClient({ slug }: { slug: string }) {
                                 border: '1px solid rgba(255,255,255,0.1)', cursor: 'pointer',
                                 marginTop: 12
                             }}>
-                                📊 Analizuj Konkurencję
+                                📊 {T('admin.services.workspace.ai.btnAnalyze')}
                             </button>
                         </div>
 
@@ -355,7 +366,7 @@ export default function ServiceWorkspaceClient({ slug }: { slug: string }) {
                                     transition: 'all 0.3s ease'
                                 }}
                             >
-                                {saving ? '⌛ Zapisywanie...' : '💾 Zapisz Zmiany w Usłudze'}
+                                {saving ? `⌛ ${T('admin.services.workspace.saving')}` : `💾 ${T('admin.services.workspace.save')}`}
                             </button>
                         </div>
                     </div>

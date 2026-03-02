@@ -22,15 +22,22 @@ export class AIService {
 
             const genAI = new GoogleGenerativeAI(apiKey);
             const model = genAI.getGenerativeModel({
-                model: "gemini-1.5-flash",
+                model: "gemini-2.5-flash",
                 generationConfig: { temperature }
             });
 
             const result = await model.generateContent(`${systemPrompt}\n\nUser: ${prompt}`);
             const response = await result.response;
-            const text = response.text();
+            let text = response.text();
 
-            return { text };
+            // Clean JSON if needed (remove markdown blocks)
+            if (text.includes('```json')) {
+                text = text.split('```json')[1].split('```')[0].trim();
+            } else if (text.includes('```')) {
+                text = text.split('```')[1].split('```')[0].trim();
+            }
+
+            return { text: text.trim() };
         } catch (error: any) {
             console.error('AIService Error:', error);
             return { text: '', error: error.message };

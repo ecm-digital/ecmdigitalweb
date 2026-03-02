@@ -3,10 +3,11 @@
 import React, { useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
-
+import { useLanguage } from '@/context/LanguageContext';
 
 export default function LoginPage() {
     const { user, login, register, loginWithGoogle } = useAuth();
+    const { T } = useLanguage();
     const router = useRouter();
     const [isRegister, setIsRegister] = useState(false);
     const [name, setName] = useState('');
@@ -15,7 +16,7 @@ export default function LoginPage() {
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
 
-    // Redirect if already logged in (important for Redirect Auth)
+    // Redirect if already logged in
     React.useEffect(() => {
         if (user) {
             router.push('/dashboard');
@@ -36,13 +37,13 @@ export default function LoginPage() {
         } catch (err: any) {
             const code = err?.code || '';
             if (code === 'auth/user-not-found' || code === 'auth/wrong-password' || code === 'auth/invalid-credential') {
-                setError('Nieprawidłowy e-mail lub hasło.');
+                setError(T('login.errInvalid'));
             } else if (code === 'auth/email-already-in-use') {
-                setError('Ten e-mail jest już zarejestrowany.');
+                setError(T('login.errExists'));
             } else if (code === 'auth/weak-password') {
-                setError('Hasło musi mieć co najmniej 6 znaków.');
+                setError(T('login.errWeak'));
             } else {
-                setError('Wystąpił błąd. Spróbuj ponownie.');
+                setError(T('login.errGeneric'));
             }
         } finally {
             setLoading(false);
@@ -57,7 +58,7 @@ export default function LoginPage() {
             router.push('/dashboard');
         } catch (err: any) {
             console.error('Google Auth UI Error:', err);
-            setError(`Logowanie przez Google nie powiodło się (${err.code || 'Błąd'}).`);
+            setError(`${T('login.errGoogle')} (${err.code || 'Error'}).`);
         } finally {
             setLoading(false);
         }
@@ -104,7 +105,7 @@ export default function LoginPage() {
                         ECM<span style={{ color: 'var(--brand-accent, #e94560)' }}>Digital</span>
                     </a>
                     <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.9rem', marginTop: '8px' }}>
-                        {isRegister ? 'Utwórz konto klienta' : 'Panel Klienta'}
+                        {isRegister ? T('login.createAccount') : T('login.clientPanel')}
                     </p>
                 </div>
 
@@ -136,7 +137,7 @@ export default function LoginPage() {
                         <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z" />
                         <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z" />
                     </svg>
-                    Kontynuuj z Google
+                    {T('login.google')}
                 </button>
 
                 {/* Divider */}
@@ -144,7 +145,7 @@ export default function LoginPage() {
                     display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '24px',
                 }}>
                     <div style={{ flex: 1, height: '1px', background: 'rgba(255,255,255,0.08)' }} />
-                    <span style={{ color: 'rgba(255,255,255,0.3)', fontSize: '0.8rem' }}>lub</span>
+                    <span style={{ color: 'rgba(255,255,255,0.3)', fontSize: '0.8rem' }}>{T('login.or')}</span>
                     <div style={{ flex: 1, height: '1px', background: 'rgba(255,255,255,0.08)' }} />
                 </div>
 
@@ -153,7 +154,7 @@ export default function LoginPage() {
                     {isRegister && (
                         <div style={{ marginBottom: '16px' }}>
                             <label style={{ display: 'block', color: 'rgba(255,255,255,0.6)', fontSize: '0.85rem', marginBottom: '6px', fontWeight: 500 }}>
-                                Imię i nazwisko
+                                {T('login.name')}
                             </label>
                             <input
                                 type="text"
@@ -172,7 +173,7 @@ export default function LoginPage() {
                     )}
                     <div style={{ marginBottom: '16px' }}>
                         <label style={{ display: 'block', color: 'rgba(255,255,255,0.6)', fontSize: '0.85rem', marginBottom: '6px', fontWeight: 500 }}>
-                            E-mail
+                            {T('login.email')}
                         </label>
                         <input
                             type="email"
@@ -190,7 +191,7 @@ export default function LoginPage() {
                     </div>
                     <div style={{ marginBottom: '24px' }}>
                         <label style={{ display: 'block', color: 'rgba(255,255,255,0.6)', fontSize: '0.85rem', marginBottom: '6px', fontWeight: 500 }}>
-                            Hasło
+                            {T('login.password')}
                         </label>
                         <input
                             type="password"
@@ -225,13 +226,13 @@ export default function LoginPage() {
                             boxShadow: '0 8px 32px rgba(233,69,96,0.3)',
                         }}
                     >
-                        {loading ? '⏳ Proszę czekać...' : isRegister ? 'Zarejestruj się' : 'Zaloguj się'}
+                        {loading ? T('login.loading') : isRegister ? T('login.register') : T('login.submit')}
                     </button>
                 </form>
 
                 {/* Toggle */}
                 <p style={{ textAlign: 'center', marginTop: '24px', color: 'rgba(255,255,255,0.5)', fontSize: '0.85rem' }}>
-                    {isRegister ? 'Masz już konto?' : 'Nie masz konta?'}{' '}
+                    {isRegister ? T('login.hasAccount') : T('login.noAccount')}{' '}
                     <button
                         onClick={() => { setIsRegister(!isRegister); setError(''); }}
                         style={{
@@ -239,7 +240,7 @@ export default function LoginPage() {
                             cursor: 'pointer', fontWeight: 600, fontSize: '0.85rem',
                         }}
                     >
-                        {isRegister ? 'Zaloguj się' : 'Utwórz konto'}
+                        {isRegister ? T('login.submit') : T('login.createBtn')}
                     </button>
                 </p>
             </div>

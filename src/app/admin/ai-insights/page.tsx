@@ -4,9 +4,20 @@ import { useState, useEffect } from 'react';
 import AdminLayout from '@/components/AdminLayout';
 import { getLatestAISessions, getAIChatHistory, getAIFeedbackStats } from '@/lib/firestoreService';
 import { format } from 'date-fns';
-import { pl } from 'date-fns/locale';
+import { pl, enUS, de, es, arSA } from 'date-fns/locale';
+import { useLanguage } from '@/context/LanguageContext';
+
+const dateLocales: Record<string, any> = {
+    pl,
+    en: enUS,
+    de,
+    es,
+    ar: arSA,
+    szl: pl, // Silesian often uses PL locale for dates if not available
+};
 
 export default function AIInsightsPage() {
+    const { T, lang } = useLanguage();
     const [sessions, setSessions] = useState<any[]>([]);
     const [selectedSession, setSelectedSession] = useState<string | null>(null);
     const [chatHistory, setChatHistory] = useState<any[]>([]);
@@ -55,10 +66,10 @@ export default function AIInsightsPage() {
             <div className="space-y-8 animate-fade-in">
                 <div>
                     <h1 className="text-4xl font-black font-space-grotesk tracking-tighter text-white uppercase italic">
-                        🤖 AI <span className="text-brand-accent">Insights</span>
+                        🤖 {T('admin.insights.title').split(' ')[0]} <span className="text-brand-accent">{T('admin.insights.title').split(' ').slice(1).join(' ')}</span>
                     </h1>
                     <p className="text-white/40 text-[10px] font-black uppercase tracking-[0.2em] mt-2">
-                        Monitoring interakcji asystenta i analiza zapytań klientów
+                        {T('admin.insights.subtitle')}
                     </p>
                 </div>
 
@@ -66,21 +77,21 @@ export default function AIInsightsPage() {
                     {/* Sessions List */}
                     <div className="lg:col-span-1 bg-[#0a0a0f]/40 backdrop-blur-xl border border-white/10 rounded-[40px] overflow-hidden flex flex-col h-[700px]">
                         <div className="p-6 border-b border-white/5 bg-white/5">
-                            <h3 className="text-sm font-black uppercase tracking-widest text-white/70">Ostatnie Rozmowy</h3>
+                            <h3 className="text-sm font-black uppercase tracking-widest text-white/70">{T('admin.insights.recentChats')}</h3>
                         </div>
                         <div className="flex-1 overflow-y-auto custom-scrollbar p-4 space-y-2">
                             {loading ? (
                                 [1, 2, 3, 4, 5].map(i => <div key={i} className="h-20 bg-white/5 rounded-2xl animate-pulse" />)
                             ) : sessions.length === 0 ? (
-                                <div className="text-center py-10 opacity-30 text-xs font-bold uppercase tracking-widest">Brak sesji</div>
+                                <div className="text-center py-10 opacity-30 text-xs font-bold uppercase tracking-widest">{T('admin.insights.noSessions')}</div>
                             ) : (
                                 sessions.map(session => (
                                     <button
                                         key={session.sessionId}
                                         onClick={() => handleSessionClick(session.sessionId)}
                                         className={`w-full text-left p-4 rounded-2xl transition-all border ${selectedSession === session.sessionId
-                                                ? 'bg-brand-accent/20 border-brand-accent/40 shadow-lg shadow-brand-accent/10'
-                                                : 'bg-white/5 border-transparent hover:bg-white/10'
+                                            ? 'bg-brand-accent/20 border-brand-accent/40 shadow-lg shadow-brand-accent/10'
+                                            : 'bg-white/5 border-transparent hover:bg-white/10'
                                             }`}
                                     >
                                         <div className="flex justify-between items-start mb-2">
@@ -93,7 +104,7 @@ export default function AIInsightsPage() {
                                         </div>
                                         <p className="text-xs font-bold text-white/80 line-clamp-1 mb-2">{session.lastMessage}</p>
                                         <p className="text-[9px] text-white/20 font-black uppercase tracking-widest">
-                                            {session.lastActivity ? format(session.lastActivity.toDate(), 'HH:mm (dd.MM)', { locale: pl }) : 'Brak daty'}
+                                            {session.lastActivity ? format(session.lastActivity.toDate(), 'HH:mm (dd.MM)', { locale: dateLocales[lang] || pl }) : T('admin.insights.noDate')}
                                         </p>
                                     </button>
                                 ))
@@ -106,8 +117,8 @@ export default function AIInsightsPage() {
                         {selectedSession ? (
                             <>
                                 <div className="p-6 border-b border-white/5 bg-white/5 flex justify-between items-center">
-                                    <h3 className="text-sm font-black uppercase tracking-widest text-white/70">Przebieg Rozmowy</h3>
-                                    <span className="text-[10px] font-black uppercase tracking-widest text-white/30">Sesja: {selectedSession}</span>
+                                    <h3 className="text-sm font-black uppercase tracking-widest text-white/70">{T('admin.insights.chatFlow')}</h3>
+                                    <span className="text-[10px] font-black uppercase tracking-widest text-white/30">{T('admin.crm.status.Session')}: {selectedSession}</span>
                                 </div>
                                 <div className="flex-1 overflow-y-auto custom-scrollbar p-8 space-y-6 bg-black/20">
                                     {historyLoading ? (
@@ -120,8 +131,8 @@ export default function AIInsightsPage() {
                                             return (
                                                 <div key={idx} className={`flex flex-col ${msg.role === 'user' ? 'items-end' : 'items-start'}`}>
                                                     <div className={`max-w-[80%] p-5 rounded-3xl relative group ${msg.role === 'user'
-                                                            ? 'bg-white/5 text-white/90 rounded-tr-none'
-                                                            : 'bg-brand-accent/10 border border-brand-accent/20 text-white rounded-tl-none'
+                                                        ? 'bg-white/5 text-white/90 rounded-tr-none'
+                                                        : 'bg-brand-accent/10 border border-brand-accent/20 text-white rounded-tl-none'
                                                         }`}>
                                                         <p className="text-[13px] leading-relaxed font-medium">{msg.text}</p>
 
@@ -130,10 +141,10 @@ export default function AIInsightsPage() {
                                                                 {msgFeedback ? (
                                                                     <span className={`text-[9px] font-black uppercase tracking-widest ${msgFeedback.helpful ? 'text-green-500' : 'text-red-500'
                                                                         }`}>
-                                                                        OCENA: {msgFeedback.helpful ? '👍 POZYTYWNA' : '👎 NEGATYWNA'}
+                                                                        {T('admin.insights.rating')}: {msgFeedback.helpful ? `👍 ${T('admin.insights.feedbackPositive')}` : `👎 ${T('admin.insights.feedbackNegative')}`}
                                                                     </span>
                                                                 ) : (
-                                                                    <span className="text-[9px] font-black text-white/10 uppercase tracking-widest italic">Brak oceny</span>
+                                                                    <span className="text-[9px] font-black text-white/10 uppercase tracking-widest italic">{T('admin.insights.noFeedback')}</span>
                                                                 )}
                                                             </div>
                                                         )}
@@ -150,9 +161,9 @@ export default function AIInsightsPage() {
                         ) : (
                             <div className="flex-1 flex flex-col items-center justify-center text-center p-10">
                                 <div className="text-6xl mb-6 opacity-10">💬</div>
-                                <h3 className="text-xl font-black font-space-grotesk tracking-tight text-white/40 uppercase mb-2">Wybierz sesję</h3>
+                                <h3 className="text-xl font-black font-space-grotesk tracking-tight text-white/40 uppercase mb-2">{T('admin.insights.selectSession')}</h3>
                                 <p className="text-white/20 text-[10px] font-black uppercase tracking-widest max-w-xs">
-                                    Wybierz rozmowę z listy po lewej stronie, aby przeanalizować jej przebieg i oceny klienta.
+                                    {T('admin.insights.selectInfo')}
                                 </p>
                             </div>
                         )}

@@ -5,15 +5,18 @@ import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import NotificationCenter from './NotificationCenter';
-import VoiceAssistant from './VoiceAssistant';
+import AdminAIAssistant from './AdminAIAssistant';
 import { useNotifications } from '@/context/NotificationContext';
+import { useLanguage } from '@/context/LanguageContext';
 import { seedAgencyServices } from '@/lib/seedServices';
+import { seedCaseStudies } from '@/lib/firestoreService';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     const [isVoiceAssistantOpen, setIsVoiceAssistantOpen] = useState(false);
     const { user, loading, logout } = useAuth();
     const { showToast } = useNotifications();
+    const { T } = useLanguage();
     const router = useRouter();
     const pathname = usePathname();
 
@@ -23,19 +26,71 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         }
         if (user) {
             seedAgencyServices();
+            seedCaseStudies();
         }
     }, [user, loading, router]);
 
-    const menuItems = [
-        { name: 'Dashboard', icon: '📊', href: '/admin' },
-        { name: 'Klienci', icon: '👥', href: '/admin/clients' },
-        { name: 'Oferty', icon: '💼', href: '/admin/offers' },
-        { name: 'AI Insights', icon: '🤖', href: '/admin/ai-insights' },
-        { name: 'Kampanie', icon: '📢', href: '/admin/campaigns' },
-        { name: 'Projekty', icon: '📋', href: '/admin/kanban' },
-        { name: 'Usługi', icon: '🛠️', href: '/admin/services' },
-        { name: 'Kalendarz', icon: '📅', href: '/admin/calendar' },
-        { name: 'Ustawienia', icon: '⚙️', href: '/admin/settings' },
+    const menuGroups = [
+        {
+            label: null,
+            items: [
+                { name: T('admin.nav.dashboard'), icon: '📊', href: '/admin' },
+            ],
+        },
+        {
+            label: 'CRM & Sprzedaż',
+            items: [
+                { name: T('admin.nav.clients'), icon: '👥', href: '/admin/clients' },
+                { name: T('admin.nav.projects'), icon: '🚀', href: '/admin/client-projects' },
+                { name: T('admin.nav.offers'), icon: '💼', href: '/admin/offers' },
+                { name: T('admin.nav.calendar'), icon: '📅', href: '/admin/calendar' },
+            ],
+        },
+        {
+            label: 'Marketing',
+            items: [
+                { name: T('admin.nav.campaigns'), icon: '📢', href: '/admin/campaigns' },
+                { name: T('admin.nav.cases'), icon: '🏆', href: '/admin/cases' },
+                { name: T('admin.nav.services'), icon: '🛠️', href: '/admin/services' },
+                { name: 'Opinie klientów', icon: '⭐', href: '/admin/testimonials' },
+                { name: 'Posty blogowe', icon: '📝', href: '/admin/blog-posts' },
+            ],
+        },
+        {
+            label: 'AI & Automatyzacja',
+            items: [
+                { name: T('admin.nav.aiInsights'), icon: '🤖', href: '/admin/ai-insights' },
+                { name: T('admin.nav.contextOs'), icon: '🧠', href: '/admin/context-os' },
+                { name: T('admin.nav.meetingAi'), icon: '🗣️', href: '/admin/meeting-intelligence' },
+                { name: T('admin.nav.marketAnalysis'), icon: '📈', href: '/admin/market-analysis' },
+                { name: T('admin.nav.aiosLogs'), icon: '🪵', href: '/admin/aios-logs' },
+            ],
+        },
+        {
+            label: 'Operacje',
+            items: [
+                { name: T('admin.nav.tasks'), icon: '📋', href: '/admin/kanban' },
+                { name: T('admin.nav.support'), icon: '🎟️', href: '/admin/support' },
+            ],
+        },
+        {
+            label: 'Sales & Analytics',
+            items: [
+                { name: '⭐ Lead Scoring', icon: '⭐', href: '/admin/lead-scoring' },
+            ],
+        },
+        {
+            label: 'Guides & Resources',
+            items: [
+                { name: '📚 Setup Guides', icon: '📚', href: '/admin/guides' },
+            ],
+        },
+        {
+            label: null,
+            items: [
+                { name: T('admin.nav.settings'), icon: '⚙️', href: '/admin/settings' },
+            ],
+        },
     ];
 
     if (loading) {
@@ -43,7 +98,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             <div style={{ minHeight: '100vh', background: '#070710', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <div style={{ textAlign: 'center' }}>
                     <div style={{ fontSize: 32, marginBottom: 16, animation: 'pulse 1.5s infinite' }}>⏳</div>
-                    <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 14 }}>Ładowanie...</p>
+                    <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 14 }}>{T('admin.loading')}</p>
                 </div>
             </div>
         );
@@ -65,7 +120,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             <aside style={{
                 width: isSidebarOpen ? 280 : 80,
                 background: 'rgba(255,255,255,0.025)',
-                borderRight: '1px solid rgba(255,255,255,0.08)',
+                borderInlineEnd: '1px solid rgba(255,255,255,0.08)',
                 display: 'flex',
                 flexDirection: 'column',
                 transition: 'width 0.3s ease',
@@ -78,7 +133,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                     {isSidebarOpen && (
                         <div style={{ fontSize: 22, fontWeight: 900, letterSpacing: '-0.02em' }}>
                             <span style={{ color: '#3b82f6' }}>ECM</span>
-                            <span>Agency</span>
+                            <span>Admin v3</span>
                         </div>
                     )}
                     <button
@@ -95,39 +150,51 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 </div>
 
                 {/* Navigation */}
-                <nav style={{ flex: 1, padding: '20px 12px', overflowY: 'auto' }}>
-                    {menuItems.map((item) => {
-                        const isActive = pathname === item.href || (item.href !== '/admin' && pathname.startsWith(item.href));
-                        return (
-                            <Link
-                                key={item.href}
-                                href={item.href}
-                                style={{
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    gap: 14,
-                                    padding: isSidebarOpen ? '14px 18px' : '14px 0',
-                                    borderRadius: 16,
-                                    marginBottom: 4,
-                                    textDecoration: 'none',
-                                    color: isActive ? 'white' : 'rgba(255,255,255,0.45)',
-                                    background: isActive ? 'rgba(59,130,246,0.12)' : 'transparent',
-                                    border: isActive ? '1px solid rgba(59,130,246,0.25)' : '1px solid transparent',
-                                    transition: 'all 0.2s',
-                                    justifyContent: isSidebarOpen ? 'flex-start' : 'center',
-                                    position: 'relative',
-                                }}
-                            >
-                                {isActive && (
-                                    <div style={{ position: 'absolute', left: 0, top: '50%', transform: 'translateY(-50%)', width: 4, height: 24, background: '#3b82f6', borderRadius: '0 4px 4px 0', boxShadow: '0 0 12px rgba(59,130,246,0.5)' }} />
-                                )}
-                                <span style={{ fontSize: 22, flexShrink: 0 }}>{item.icon}</span>
-                                {isSidebarOpen && (
-                                    <span style={{ fontSize: 15, fontWeight: 600 }}>{item.name}</span>
-                                )}
-                            </Link>
-                        );
-                    })}
+                <nav style={{ flex: 1, padding: '16px 12px', overflowY: 'auto' }}>
+                    {menuGroups.map((group, gi) => (
+                        <div key={gi} style={{ marginBottom: 8 }}>
+                            {group.label && isSidebarOpen && (
+                                <div style={{ fontSize: 10, fontWeight: 800, color: 'rgba(255,255,255,0.2)', textTransform: 'uppercase', letterSpacing: '0.12em', padding: '10px 18px 6px' }}>
+                                    {group.label}
+                                </div>
+                            )}
+                            {group.label && !isSidebarOpen && gi > 0 && (
+                                <div style={{ height: 1, background: 'rgba(255,255,255,0.06)', margin: '8px 16px' }} />
+                            )}
+                            {group.items.map((item) => {
+                                const isActive = pathname === item.href || (item.href !== '/admin' && pathname.startsWith(item.href));
+                                return (
+                                    <Link
+                                        key={item.href}
+                                        href={item.href}
+                                        style={{
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            gap: 14,
+                                            padding: isSidebarOpen ? '11px 18px' : '11px 0',
+                                            borderRadius: 14,
+                                            marginBottom: 2,
+                                            textDecoration: 'none',
+                                            color: isActive ? 'white' : 'rgba(255,255,255,0.45)',
+                                            background: isActive ? 'rgba(59,130,246,0.12)' : 'transparent',
+                                            border: isActive ? '1px solid rgba(59,130,246,0.25)' : '1px solid transparent',
+                                            transition: 'all 0.2s',
+                                            justifyContent: isSidebarOpen ? 'flex-start' : 'center',
+                                            position: 'relative',
+                                        }}
+                                    >
+                                        {isActive && (
+                                            <div style={{ position: 'absolute', insetInlineStart: 0, top: '50%', transform: 'translateY(-50%)', width: 3, height: 20, background: '#3b82f6', borderRadius: '0 4px 4px 0', boxShadow: '0 0 10px rgba(59,130,246,0.5)' }} />
+                                        )}
+                                        <span style={{ fontSize: 20, flexShrink: 0 }}>{item.icon}</span>
+                                        {isSidebarOpen && (
+                                            <span style={{ fontSize: 14, fontWeight: 600 }}>{item.name}</span>
+                                        )}
+                                    </Link>
+                                );
+                            })}
+                        </div>
+                    ))}
                 </nav>
 
                 {/* Logout */}
@@ -144,7 +211,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                         }}
                     >
                         <span style={{ fontSize: 18 }}>🚪</span>
-                        {isSidebarOpen && 'Wyloguj się'}
+                        {isSidebarOpen && T('admin.logout')}
                     </button>
                 </div>
             </aside>
@@ -163,7 +230,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 }}>
                     <div>
                         <p style={{ fontSize: 17, fontWeight: 600, color: 'rgba(255,255,255,0.85)' }}>
-                            Witaj, <span style={{ fontWeight: 800, color: 'white' }}>{displayName}</span>! 👋
+                            {T('admin.welcome')}, <span style={{ fontWeight: 800, color: 'white' }}>{displayName}</span>! 👋
                         </p>
                     </div>
 
@@ -201,24 +268,24 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 <button
                     onClick={() => setIsVoiceAssistantOpen(true)}
                     style={{
-                        position: 'fixed', bottom: 28, right: 28,
+                        position: 'fixed', bottom: 28, insetInlineEnd: 28,
                         width: 56, height: 56, borderRadius: 18,
-                        background: '#3b82f6', color: 'white',
+                        background: 'linear-gradient(135deg, #3b82f6, #6366f1)', color: 'white',
                         display: 'flex', alignItems: 'center', justifyContent: 'center',
                         border: 'none', cursor: 'pointer',
                         boxShadow: '0 8px 30px rgba(59,130,246,0.4)',
                         fontSize: 24, zIndex: 50,
                     }}
                 >
-                    🎙️
+                    🤖
                 </button>
 
-                <VoiceAssistant
+                <AdminAIAssistant
                     isOpen={isVoiceAssistantOpen}
                     onClose={() => setIsVoiceAssistantOpen(false)}
                     onActionDetected={(intent, data) => {
-                        console.log('Detected Action:', intent, data);
-                        showToast(`AI Wykonało Akcję: ${intent}`, 'success');
+                        console.log('Admin AI Action:', intent, data);
+                        showToast(`AI: ${intent}`, 'success');
                     }}
                 />
             </main>

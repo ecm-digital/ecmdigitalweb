@@ -4,10 +4,12 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
+import { useLanguage } from '@/context/LanguageContext';
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     const { user, loading, logout } = useAuth();
+    const { T } = useLanguage();
     const router = useRouter();
     const pathname = usePathname();
 
@@ -18,11 +20,12 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     }, [user, loading, router]);
 
     const menuItems = [
-        { name: 'Podsumowanie', icon: '📊', href: '/dashboard' },
-        { name: 'Moje Oferty', icon: '📜', href: '/dashboard/offers' },
-        { name: 'Projekty', icon: '🎯', href: '/dashboard/projects' },
-        { name: 'Kampanie', icon: '🚀', href: '/dashboard/campaigns' },
-        { name: 'Baza Wiedzy', icon: '📁', href: '/dashboard/resources' },
+        { name: T('dash.summary'), icon: '📊', href: '/dashboard' },
+        { name: T('dash.offers'), icon: '📜', href: '/dashboard/offers' },
+        { name: T('dash.projects'), icon: '🎯', href: '/dashboard/projects' },
+        { name: T('dash.campaigns'), icon: '🚀', href: '/dashboard/campaigns' },
+        { name: T('dash.support'), icon: '🛠️', href: '/dashboard/support' },
+        { name: T('dash.knowledgeBase'), icon: '📁', href: '/dashboard/resources' },
     ];
 
     if (loading) {
@@ -30,7 +33,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             <div style={{ minHeight: '100vh', background: '#080810', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <div style={{ textAlign: 'center' }}>
                     <div style={{ width: 48, height: 48, border: '4px solid rgba(59,130,246,0.2)', borderTop: '4px solid #3b82f6', borderRadius: '50%', animation: 'spin 1s linear infinite', margin: '0 auto 16px' }} />
-                    <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.5)' }}>Ładowanie portalu...</p>
+                    <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.5)' }}>{T('dash.loading')}</p>
                 </div>
             </div>
         );
@@ -38,7 +41,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
     if (!user) return null;
 
-    const displayName = user?.displayName || user?.email?.split('@')[0] || 'Klient';
+    const displayName = user?.displayName || user?.email?.split('@')[0] || 'Client';
     const initials = displayName.charAt(0).toUpperCase();
 
     const handleLogout = async () => {
@@ -113,7 +116,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                         }}
                     >
                         <span style={{ fontSize: 18, marginRight: isSidebarOpen ? 10 : 0 }}>🚪</span>
-                        {isSidebarOpen && 'Wyloguj się'}
+                        {isSidebarOpen && T('dash.logout')}
                     </button>
                     <Link
                         href="/"
@@ -125,7 +128,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                         }}
                     >
                         <span style={{ fontSize: 18, marginRight: isSidebarOpen ? 10 : 0 }}>🏠</span>
-                        {isSidebarOpen && 'Strona główna'}
+                        {isSidebarOpen && T('dash.homepage')}
                     </Link>
                 </div>
 
@@ -160,7 +163,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                     <div>
                         <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 700, marginBottom: 2 }}>Partner Hub</p>
                         <p style={{ fontSize: 17, fontWeight: 600, color: 'rgba(255,255,255,0.9)' }}>
-                            Witaj, <span style={{ color: '#3b82f6' }}>{displayName}</span> 👋
+                            {T('dash.welcome')}, <span style={{ color: '#3b82f6' }}>{displayName}</span> 👋
                         </p>
                     </div>
 
@@ -178,7 +181,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                         <div style={{ display: 'flex', alignItems: 'center', gap: 14, paddingLeft: 20, borderLeft: '1px solid rgba(255,255,255,0.08)' }}>
                             <div style={{ textAlign: 'right' }}>
                                 <div style={{ fontSize: 15, fontWeight: 700, color: 'rgba(255,255,255,0.9)' }}>{displayName}</div>
-                                <div style={{ fontSize: 12, color: '#3b82f6', fontWeight: 600 }}>Klient B2B</div>
+                                <div style={{ fontSize: 12, color: '#3b82f6', fontWeight: 600 }}>{T('dash.clientB2B')}</div>
                             </div>
                             <div style={{
                                 width: 44, height: 44, borderRadius: 14,

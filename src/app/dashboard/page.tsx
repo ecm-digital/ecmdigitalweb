@@ -7,6 +7,7 @@ import { useAuth } from '@/context/AuthContext';
 import Link from 'next/link';
 import VideoReview from '@/components/VideoReview';
 import DashboardCharts from '@/components/DashboardCharts';
+import { useLanguage } from '@/context/LanguageContext';
 
 /* ---- Shared inline style helpers ---- */
 const card = {
@@ -27,6 +28,7 @@ const label = {
 
 export default function DashboardPage() {
   const { user } = useAuth();
+  const { T } = useLanguage();
   const [stats, setStats] = useState<UserStats | null>(null);
   const [projects, setProjects] = useState<any[]>([]);
   const [files, setFiles] = useState<any[]>([]);
@@ -59,10 +61,10 @@ export default function DashboardPage() {
   }, [user]);
 
   const statCards = [
-    { label: 'Aktywne Projekty', value: stats?.activeProjects ?? 0, icon: '🎯', accent: '#3b82f6' },
-    { label: 'Zrealizowane Zadania', value: stats?.completedTasks ?? 0, icon: '✅', accent: '#10b981' },
-    { label: 'Miesiące Współpracy', value: stats?.cooperationMonths ?? 0, icon: '🤝', accent: '#8b5cf6' },
-    { label: 'Wartość Inwestycji', value: `${(stats?.investmentValue ?? 0).toLocaleString()} PLN`, icon: '📈', accent: '#f59e0b' },
+    { label: T('dash.activeProjects'), value: stats?.activeProjects ?? 0, icon: '🎯', accent: '#3b82f6' },
+    { label: T('dash.completedTasks'), value: stats?.completedTasks ?? 0, icon: '✅', accent: '#10b981' },
+    { label: T('dash.cooperationMonths'), value: stats?.cooperationMonths ?? 0, icon: '🤝', accent: '#8b5cf6' },
+    { label: T('dash.investmentValue'), value: `${(stats?.investmentValue ?? 0).toLocaleString()} PLN`, icon: '📈', accent: '#f59e0b' },
   ];
 
   return (
@@ -73,9 +75,9 @@ export default function DashboardPage() {
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: 16 }}>
           <div>
             <h2 style={{ fontSize: 32, fontWeight: 800, letterSpacing: '-0.02em', margin: 0, lineHeight: 1.2 }}>
-              🚀 Twój Panel ECM
+              {T('dash.panel')}
             </h2>
-            <p style={{ ...label, marginTop: 8 }}>Przegląd strategii i wyników Twojego biznesu</p>
+            <p style={{ ...label, marginTop: 8 }}>{T('dash.overview')}</p>
           </div>
           <Link
             href="/dashboard/offers"
@@ -86,7 +88,7 @@ export default function DashboardPage() {
               boxShadow: '0 4px 20px rgba(59,130,246,0.35)',
             }}
           >
-            Zobacz Oferty →
+            {T('dash.seeOffers')}
           </Link>
         </div>
 
@@ -132,7 +134,7 @@ export default function DashboardPage() {
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 20 }}>
               <div style={{ width: 4, height: 28, background: '#3b82f6', borderRadius: 4 }} />
-              <h3 style={{ fontSize: 22, fontWeight: 800, margin: 0 }}>Analityka Wizualna</h3>
+              <h3 style={{ fontSize: 22, fontWeight: 800, margin: 0 }}>{T('dash.analytics')}</h3>
             </div>
             <DashboardCharts campaigns={campaigns} />
           </div>
@@ -145,11 +147,11 @@ export default function DashboardPage() {
           <div style={{ ...card, padding: 36 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 28 }}>
               <div>
-                <h3 style={{ fontSize: 22, fontWeight: 800, margin: 0 }}>Status Projektów</h3>
-                <p style={{ ...label, marginTop: 6 }}>Realizacja bieżących celów agencyjnych</p>
+                <h3 style={{ fontSize: 22, fontWeight: 800, margin: 0 }}>{T('dash.projectStatus')}</h3>
+                <p style={{ ...label, marginTop: 6 }}>{T('dash.projectDesc')}</p>
               </div>
               <Link href="/dashboard/projects" style={{ fontSize: 14, fontWeight: 700, color: '#3b82f6', textDecoration: 'none' }}>
-                Wszystkie →
+                {T('dash.viewAll')}
               </Link>
             </div>
 
@@ -162,8 +164,8 @@ export default function DashboardPage() {
             ) : projects.length === 0 ? (
               <div style={{ textAlign: 'center', padding: '48px 24px', background: 'rgba(255,255,255,0.03)', borderRadius: 20, border: '1px dashed rgba(255,255,255,0.1)' }}>
                 <div style={{ fontSize: 48, marginBottom: 16 }}>📂</div>
-                <h4 style={{ fontSize: 18, fontWeight: 600, color: 'rgba(255,255,255,0.6)', marginBottom: 8 }}>Baza projektów jest pusta</h4>
-                <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.35)' }}>Czekamy na rozpoczęcie Twojej pierwszej kampanii z nami.</p>
+                <h4 style={{ fontSize: 18, fontWeight: 600, color: 'rgba(255,255,255,0.6)', marginBottom: 8 }}>{T('dash.emptyProjects')}</h4>
+                <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.35)' }}>{T('dash.emptyProjectsDesc')}</p>
               </div>
             ) : (
               <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
@@ -200,9 +202,9 @@ export default function DashboardPage() {
               background: 'linear-gradient(135deg, rgba(59,130,246,0.2), rgba(139,92,246,0.2))',
               border: '1px solid rgba(59,130,246,0.25)',
             }}>
-              <h3 style={{ fontSize: 20, fontWeight: 800, marginBottom: 10, margin: 0 }}>🛡️ Opiekun Premium</h3>
+              <h3 style={{ fontSize: 20, fontWeight: 800, marginBottom: 10, margin: 0 }}>{T('dash.premiumCare')}</h3>
               <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.6)', lineHeight: 1.6, margin: '12px 0 24px' }}>
-                Twój dedykowany ekspert jest gotowy do wsparcia Twoich celów biznesowych 24/7.
+                {T('dash.premiumDesc')}
               </p>
               <button style={{
                 width: '100%', padding: '16px 0',
@@ -212,15 +214,15 @@ export default function DashboardPage() {
                 boxShadow: '0 4px 20px rgba(255,255,255,0.15)',
                 letterSpacing: '0.04em',
               }}>
-                Napisz do Opiekuna
+                {T('dash.writeManager')}
               </button>
             </div>
 
             {/* Resources Preview */}
             <div style={{ ...card }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
-                <h3 style={{ fontSize: 20, fontWeight: 800, margin: 0 }}>📁 Zasoby</h3>
-                <span style={{ ...label, fontSize: 12 }}>{files.length} plików</span>
+                <h3 style={{ fontSize: 20, fontWeight: 800, margin: 0 }}>{T('dash.resources')}</h3>
+                <span style={{ ...label, fontSize: 12 }}>{files.length} {T('dash.filesCount')}</span>
               </div>
 
               {loading ? (
@@ -232,7 +234,7 @@ export default function DashboardPage() {
               ) : files.length === 0 ? (
                 <div style={{ textAlign: 'center', padding: '36px 16px', opacity: 0.3 }}>
                   <div style={{ fontSize: 40, marginBottom: 12 }}>📁</div>
-                  <p style={{ fontSize: 14, fontWeight: 600 }}>Brak plików</p>
+                  <p style={{ fontSize: 14, fontWeight: 600 }}>{T('dash.noFiles')}</p>
                 </div>
               ) : (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>

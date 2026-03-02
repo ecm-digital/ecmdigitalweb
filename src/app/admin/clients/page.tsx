@@ -8,6 +8,7 @@ import {
 } from '@/lib/firestoreService';
 import { useNotifications } from '@/context/NotificationContext';
 import { useAgency } from '@/context/AgencyContext';
+import { useLanguage } from '@/context/LanguageContext';
 import { AIService } from '@/services/aiService';
 
 const statusColors: Record<ClientStatus, string> = {
@@ -20,6 +21,7 @@ const statusColors: Record<ClientStatus, string> = {
 const avatarColors = ['#e94560', '#3b82f6', '#10b981', '#f59e0b', '#8b5cf6', '#06b6d4', '#ec4899'];
 
 export default function AdminClientsPage() {
+    const { T, lang } = useLanguage();
     const { settings } = useAgency();
     const { showToast } = useNotifications();
     const [clients, setClients] = useState<Client[]>([]);
@@ -42,7 +44,7 @@ export default function AdminClientsPage() {
             setClients(data);
         } catch (err) {
             console.error(err);
-            showToast('Błąd podczas ładowania klientów.', 'error');
+            showToast(T('admin.crm.toast.loadingError'), 'error');
         } finally {
             setLoading(false);
         }
@@ -51,12 +53,12 @@ export default function AdminClientsPage() {
     const handleAIScore = async () => {
         const leads = clients.filter(c => c.status === 'Lead');
         if (leads.length === 0) {
-            showToast('Brak nowych leadów do przeskanowania.', 'info');
+            showToast(T('admin.crm.toast.noLeads'), 'info');
             return;
         }
 
         setIsScoring(true);
-        showToast(`AI skanuje ${leads.length} leadów...`, 'info');
+        showToast(T('admin.crm.toast.scanningInfo', { count: leads.length }), 'info');
 
         try {
             for (const lead of leads) {
@@ -68,11 +70,11 @@ export default function AdminClientsPage() {
                     });
                 }
             }
-            showToast('Leady zostały ocenione przez AI! 🤖', 'success');
+            showToast(T('admin.crm.toast.scannedSuccess'), 'success');
             loadClients();
         } catch (err) {
             console.error('AI Scoring Error:', err);
-            showToast('Błąd podczas skanowania leadów.', 'error');
+            showToast(T('admin.crm.toast.scanError'), 'error');
         } finally {
             setIsScoring(false);
         }
@@ -82,7 +84,7 @@ export default function AdminClientsPage() {
 
     const openNew = () => {
         setEditingClient(null);
-        setForm({ name: '', company: '', email: '', phone: '', status: 'Lead', source: 'Ręczne dodanie', service: '', value: 0, notes: '' });
+        setForm({ name: '', company: '', email: '', phone: '', status: 'Lead', source: T('admin.crm.source.manual'), service: '', value: 0, notes: '' });
         setShowModal(true);
     };
 
@@ -96,15 +98,15 @@ export default function AdminClientsPage() {
         try {
             if (editingClient) {
                 await updateClient(editingClient.id, form);
-                showToast('Dane klienta zaktualizowane! ✅', 'success');
+                showToast(T('admin.crm.toast.updated'), 'success');
             } else {
                 const clientId = await addClient(form);
-                showToast('Nowy klient dodany! 👥', 'success');
+                showToast(T('admin.crm.toast.added'), 'success');
 
                 // Add notification
                 await addNotification({
-                    title: 'Nowy klient (CRM)',
-                    message: `Dodano nowego klienta: ${form.name} (${form.company || 'Brak firmy'})`,
+                    title: T('admin.crm.toast.added'),
+                    message: `${T('admin.crm.modal.new')}: ${form.name} (${form.company || '—'})`,
                     type: 'lead',
                     link: `/admin/clients`
                 });
@@ -113,18 +115,18 @@ export default function AdminClientsPage() {
             loadClients();
         } catch (err) {
             console.error(err);
-            showToast('Wystąpił błąd podczas zapisywania.', 'error');
+            showToast(T('admin.crm.toast.saveError'), 'error');
         }
     };
 
     const handleDelete = async (id: string) => {
-        if (confirm('Usunąć klienta?')) {
+        if (confirm(T('admin.crm.confirmDelete'))) {
             try {
                 await deleteClient(id);
-                showToast('Klient usunięty.', 'info');
+                showToast(T('admin.crm.toast.deleted'), 'info');
                 loadClients();
             } catch (err) {
-                showToast('Błąd podczas usuwania.', 'error');
+                showToast(T('admin.crm.toast.deleteError'), 'error');
             }
         }
     };
@@ -142,8 +144,8 @@ export default function AdminClientsPage() {
             <div className="crm-page">
                 <div className="crm-header">
                     <div>
-                        <h1 className="crm-title">👥 CRM Klienci</h1>
-                        <p className="crm-subtitle">{clients.length} klientów w bazie</p>
+                        <h1 className="crm-title">👥 {T('admin.crm.title')}</h1>
+                        <p className="crm-subtitle">{T('admin.crm.subtitle', { count: clients.length })}</p>
                     </div>
                     <div className="flex gap-4">
                         <button
@@ -151,9 +153,9 @@ export default function AdminClientsPage() {
                             onClick={handleAIScore}
                             disabled={isScoring}
                         >
-                            {isScoring ? '🤖 Skanowanie...' : '✨ Skanuj leady AI'}
+                            {isScoring ? `🤖 ${T('admin.crm.scanning')}` : `✨ ${T('admin.crm.scanLeads')}`}
                         </button>
-                        <button className="crm-btn-primary" onClick={openNew}>+ Nowy Klient</button>
+                        <button className="crm-btn-primary" onClick={openNew}>+ {T('admin.crm.newClient')}</button>
                     </div>
                 </div>
 
@@ -162,14 +164,14 @@ export default function AdminClientsPage() {
                         <div key={s} className="crm-mini-stat" onClick={() => setFilterStatus(filterStatus === s ? 'all' : s)}
                             style={{ borderColor: filterStatus === s ? statusColors[s] : 'rgba(255,255,255,0.08)', cursor: 'pointer' }}>
                             <span className="crm-mini-stat-dot" style={{ background: statusColors[s] }}></span>
-                            <span className="crm-mini-stat-label">{s}</span>
+                            <span className="crm-mini-stat-label">{T(`admin.crm.status.${s}`)}</span>
                             <span className="crm-mini-stat-count">{clients.filter(c => c.status === s).length}</span>
                         </div>
                     ))}
                 </div>
 
                 <div className="crm-search-bar">
-                    <input className="crm-search-input" placeholder="🔍 Szukaj klienta..." value={search} onChange={e => setSearch(e.target.value)} />
+                    <input className="crm-search-input" placeholder={T('admin.crm.searchPlaceholder')} value={search} onChange={e => setSearch(e.target.value)} />
                 </div>
 
                 {loading ? (
@@ -177,11 +179,11 @@ export default function AdminClientsPage() {
                         {[1, 2, 3].map(i => <div key={i} className="crm-skeleton-row" style={{ height: '70px', background: 'rgba(255,255,255,0.03)', borderRadius: '12px', marginBottom: '12px' }}></div>)}
                     </div>
                 ) : filtered.length === 0 ? (
-                    <div className="crm-empty"><span className="crm-empty-icon">👥</span><p>Brak klientów</p></div>
+                    <div className="crm-empty"><span className="crm-empty-icon">👥</span><p>{T('admin.crm.noClients')}</p></div>
                 ) : (
                     <div className="crm-table-wrap">
                         <table className="crm-table">
-                            <thead><tr><th>Klient</th><th>Firma</th><th>Status</th><th>Usługa</th><th>Wartość</th><th>Źródło</th><th></th></tr></thead>
+                            <thead><tr><th>{T('admin.crm.table.client')}</th><th>{T('admin.crm.table.company')}</th><th>{T('admin.crm.table.status')}</th><th>{T('admin.crm.table.service')}</th><th>{T('admin.crm.table.value')}</th><th>{T('admin.crm.table.source')}</th><th></th></tr></thead>
                             <tbody>
                                 {filtered.map(c => (
                                     <tr key={c.id}>
@@ -197,9 +199,9 @@ export default function AdminClientsPage() {
                                             </div>
                                         </td>
                                         <td className="crm-cell-secondary">{c.company || '—'}</td>
-                                        <td><span className="crm-status-badge" style={{ background: statusColors[c.status] + '20', color: statusColors[c.status], borderColor: statusColors[c.status] + '40' }}>{c.status}</span></td>
+                                        <td><span className="crm-status-badge" style={{ background: statusColors[c.status] + '20', color: statusColors[c.status], borderColor: statusColors[c.status] + '40' }}>{T(`admin.crm.status.${c.status}`)}</span></td>
                                         <td><div style={{ fontSize: '0.85rem', color: '#8b5cf6', fontWeight: 500 }}>{c.service || '—'}</div></td>
-                                        <td className="crm-cell-value">{c.value > 0 ? `${c.value.toLocaleString('pl-PL')} PLN` : '—'}</td>
+                                        <td className="crm-cell-value">{c.value > 0 ? `${c.value.toLocaleString(lang === 'pl' ? 'pl-PL' : 'en-US')} PLN` : '—'}</td>
                                         <td className="crm-cell-secondary">{c.source || '—'}</td>
                                         <td>
                                             <div className="crm-actions">
@@ -217,42 +219,44 @@ export default function AdminClientsPage() {
                 {showModal && (
                     <div className="crm-modal-overlay" onClick={() => setShowModal(false)}>
                         <div className="crm-modal" onClick={e => e.stopPropagation()}>
-                            <h2 style={{ marginBottom: '24px' }}>{editingClient ? 'Edytuj Klienta' : 'Nowy Klient'}</h2>
+                            <h2 style={{ marginBottom: '24px' }}>{editingClient ? T('admin.crm.modal.edit') : T('admin.crm.modal.new')}</h2>
                             <div className="crm-modal-form">
                                 <div className="crm-form-row">
-                                    <div className="crm-form-group"><label>Imię i nazwisko</label><input value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} placeholder="Jan Kowalski" /></div>
-                                    <div className="crm-form-group"><label>Firma</label><input value={form.company} onChange={e => setForm({ ...form, company: e.target.value })} placeholder="Nazwa firmy" /></div>
+                                    <div className="crm-form-group"><label>{T('admin.crm.modal.name')}</label><input value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} placeholder={T('admin.crm.modal.namePlaceholder')} /></div>
+                                    <div className="crm-form-group"><label>{T('admin.crm.table.company')}</label><input value={form.company} onChange={e => setForm({ ...form, company: e.target.value })} placeholder={T('admin.crm.modal.companyPlaceholder')} /></div>
                                 </div>
                                 <div className="crm-form-row">
-                                    <div className="crm-form-group"><label>E-mail</label><input type="email" value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} placeholder="jan@firma.pl" /></div>
-                                    <div className="crm-form-group"><label>Telefon</label><input value={form.phone} onChange={e => setForm({ ...form, phone: e.target.value })} placeholder="+48 500 000 000" /></div>
+                                    <div className="crm-form-group"><label>{T('admin.crm.modal.email')}</label><input type="email" value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} placeholder="jan@firma.pl" /></div>
+                                    <div className="crm-form-group"><label>{T('admin.crm.modal.phone')}</label><input value={form.phone} onChange={e => setForm({ ...form, phone: e.target.value })} placeholder="+48 500 000 000" /></div>
                                 </div>
                                 <div className="crm-form-row">
-                                    <div className="crm-form-group"><label>Status</label>
+                                    <div className="crm-form-group"><label>{T('admin.crm.table.status')}</label>
                                         <select value={form.status} onChange={e => setForm({ ...form, status: e.target.value as ClientStatus })}>
-                                            <option value="Lead">Lead</option><option value="Prospekt">Prospekt</option>
-                                            <option value="Klient">Klient</option><option value="VIP">VIP</option>
+                                            <option value="Lead">{T('admin.crm.status.Lead')}</option>
+                                            <option value="Prospekt">{T('admin.crm.status.Prospekt')}</option>
+                                            <option value="Klient">{T('admin.crm.status.Klient')}</option>
+                                            <option value="VIP">{T('admin.crm.status.VIP')}</option>
                                         </select>
                                     </div>
-                                    <div className="crm-form-group"><label>Usługa</label>
+                                    <div className="crm-form-group"><label>{T('admin.crm.table.service')}</label>
                                         <select value={form.service} onChange={e => setForm({ ...form, service: e.target.value })}>
-                                            <option value="">Wybierz usługę...</option>
+                                            <option value="">{T('admin.crm.modal.selectService')}</option>
                                             {settings?.services?.map((s, i) => (
                                                 <option key={i} value={s.title}>{s.icon} {s.title}</option>
                                             ))}
-                                            <option value="Inna">Inna</option>
+                                            <option value="Inna">{T('admin.crm.modal.otherService')}</option>
                                         </select>
                                     </div>
-                                    <div className="crm-form-group"><label>Źródło</label><input value={form.source} onChange={e => setForm({ ...form, source: e.target.value })} placeholder="Google, Polecenie..." /></div>
+                                    <div className="crm-form-group"><label>{T('admin.crm.table.source')}</label><input value={form.source} onChange={e => setForm({ ...form, source: e.target.value })} placeholder={T('admin.crm.modal.sourcePlaceholder')} /></div>
                                 </div>
                                 <div className="crm-form-row">
-                                    <div className="crm-form-group"><label>Wartość (PLN)</label><input type="number" value={form.value} onChange={e => setForm({ ...form, value: parseInt(e.target.value) || 0 })} /></div>
-                                    <div className="crm-form-group"><label>Notatki</label><textarea value={form.notes} onChange={e => setForm({ ...form, notes: e.target.value })} rows={2} placeholder="Dodatkowe informacje..." /></div>
+                                    <div className="crm-form-group"><label>{T('admin.crm.table.value')} (PLN)</label><input type="number" value={form.value} onChange={e => setForm({ ...form, value: parseInt(e.target.value) || 0 })} /></div>
+                                    <div className="crm-form-group"><label>{T('admin.crm.modal.notes')}</label><textarea value={form.notes} onChange={e => setForm({ ...form, notes: e.target.value })} rows={2} placeholder={T('admin.crm.modal.notesPlaceholder')} /></div>
                                 </div>
                             </div>
                             <div className="crm-modal-actions" style={{ marginTop: '32px' }}>
-                                <button className="crm-btn-ghost" onClick={() => setShowModal(false)}>Anuluj</button>
-                                <button className="crm-btn-primary" onClick={handleSave}>{editingClient ? 'Zapisz' : 'Dodaj'}</button>
+                                <button className="crm-btn-ghost" onClick={() => setShowModal(false)}>{T('admin.crm.modal.cancel')}</button>
+                                <button className="crm-btn-primary" onClick={handleSave}>{editingClient ? T('admin.crm.modal.save') : T('admin.crm.modal.add')}</button>
                             </div>
                         </div>
                     </div>

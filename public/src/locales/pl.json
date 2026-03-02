@@ -207,7 +207,7 @@
       "subtitle": "Zespół ekspertów AI, którzy transformują biznes poprzez inteligentne rozwiązania",
       "description1": "Jesteśmy zespołem pasjonatów technologii, którzy wierzą, że każdy biznes zasługuje na cyfrową transformację. Łączymy kreatywność z innowacyjnymi rozwiązaniami technologicznymi.",
       "description2": "ECM Digital to marka oferująca kompleksowe i nowoczesne rozwiązania digitalowe. Specjalizujemy się w projektowaniu stron internetowych, e-commerce, audytach UX oraz automatyzacji procesów biznesowych, pomagając firmom rozwijać się w cyfrowym świecie.",
-      "description3": "Marka ECM Digital działa w ramach spółki Scrum Software Sp. z o.o., która jest formalnym właścicielem wszystkich świadczonych przez nas usług oraz odpowiedzialnym podmiotem prawnym. To Scrum Software Sp. z o.o. wystawia faktury, zawiera umowy i prowadzi rozliczenia finansowe.",
+      "description3": "ECM Digital oferuje kompleksowe i nowoczesne rozwiązania digitalne. Gwarantujemy pełną transparentność i profesjonalizm.",
       "description4": "Dzięki takiemu rozwiązaniu łączymy nowoczesny branding i profesjonalną obsługę prawną, zapewniając naszym klientom pełne bezpieczeństwo i transparentność współpracy.",
       "mission": "Misja",
       "mission.description": "Demokratyzujemy dostęp do AI, pomagając firmom każdej wielkości wykorzystać potencjał sztucznej inteligencji dla wzrostu biznesowego.",
@@ -259,9 +259,9 @@
       }
     },
     "company": {
-      "name": "Scrum Software Sp. z o.o.",
-      "description1": "ECM Digital działa w ramach Scrum Software Sp. z o.o., która jest formalnym właścicielem wszystkich świadczonych przez nas usług i prawnie odpowiedzialnym podmiotem.",
-      "description2": "To Scrum Software Sp. z o.o. wystawia faktury i zawiera umowy z klientami, gwarantując pełną transparentność i bezpieczeństwo współpracy.",
+      "name": "ECM Digital",
+      "description1": "ECM Digital to marka oferująca nowoczesne rozwiązania cyfrowe.",
+      "description2": "Zapewniamy bezpieczeństwo i transparentność współpracy.",
       "badge": "Spółka Zarejestrowana<br>Sp. z o.o.",
       "stats": {
         "aiProjects": "50+",

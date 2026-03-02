@@ -1,14 +1,22 @@
 import type { Metadata } from "next"
 import "./globals.css"
+import "./nextgen2026.css"
+import "../mobile-ux.css"
 import GoogleAnalytics from "./GoogleAnalytics"
 import AIChatbot from "@/components/AIChatbot"
 import Providers from "@/components/Providers"
+import DynamicSEO from "@/components/DynamicSEO"
+import { PostHogProvider } from "@/components/PostHogProvider"
+import CookieBanner from "@/components/CookieBanner"
+import Hotjar from "@/components/Hotjar"
+import Script from "next/script"
 
 const BASE_URL = "https://www.ecm-digital.com";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(BASE_URL),
   title: "ECM Digital – Agencja Cyfrowa | AI, Strony WWW, Aplikacje, Automatyzacja",
-  description: "ECM Digital – profesjonalna agencja cyfrowa. Agenci AI, strony WWW, sklepy Shopify & Wix, aplikacje mobilne, automatyzacj N8N i prototypy MVP.",
+  description: "ECM Digital – profesjonalna agencja cyfrowa. Agenci AI, strony WWW, sklepy Shopify & Wix, aplikacje mobilne, automatyzacja N8N i prototypy MVP.",
   keywords: "agencja cyfrowa, AI, sztuczna inteligencja, strony WWW, sklepy internetowe, aplikacje mobilne, automatyzacja, MVP",
   authors: [{ name: "ECM Digital" }],
   alternates: {
@@ -45,47 +53,65 @@ export const metadata: Metadata = {
   },
 }
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": ["Organization", "LocalBusiness"],
-  "name": "ECM Digital",
-  "url": BASE_URL,
-  "logo": `${BASE_URL}/assets/images/ecm-digital-og.svg`,
-  "image": `${BASE_URL}/assets/images/ecm-digital-og.svg`,
-  "description": "Profesjonalna agencja cyfrowa. Agenci AI, strony WWW, sklepy, aplikacje mobilne i automatyzacja.",
-  "foundingDate": "2024",
-  "address": {
-    "@type": "PostalAddress",
-    "addressCountry": "PL",
-    "addressLocality": "Warszawa",
-    "addressRegion": "mazowieckie"
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": ["Organization", "LocalBusiness"],
+    "name": "ECM Digital",
+    "url": BASE_URL,
+    "logo": `${BASE_URL}/assets/images/ecm-digital-og.svg`,
+    "image": `${BASE_URL}/assets/images/ecm-digital-og.svg`,
+    "description": "Profesjonalna agencja cyfrowa. Agenci AI, strony WWW, sklepy, aplikacje mobilne i automatyzacja.",
+    "foundingDate": "2024",
+    "address": {
+      "@type": "PostalAddress",
+      "addressCountry": "PL",
+      "addressLocality": "Warszawa",
+      "addressRegion": "mazowieckie"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 52.2297,
+      "longitude": 21.0122
+    },
+    "hasMap": "https://maps.app.goo.gl/QNFQFWqBxsWEkNETA",
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "email": "kontakt@ecm-digital.com",
+      "telephone": "+48535330323",
+      "contactType": "customer service",
+      "availableLanguage": ["Polish", "English", "German", "Silesian", "Spanish", "Arabic"]
+    },
+    "sameAs": [
+      "https://www.linkedin.com/company/ecm-digital/",
+      "https://www.facebook.com/ecmdigital"
+    ],
+    "knowsLanguage": ["pl", "en", "de", "szl", "es", "ar"],
+    "areaServed": ["PL", "DE", "EU"],
+    "priceRange": "$$",
+    "serviceType": [
+      "Web Development",
+      "AI Agent Development",
+      "Mobile App Development",
+      "E-commerce (Shopify/Wix)",
+      "Business Process Automation (N8N)",
+      "MVP Prototyping"
+    ]
   },
-  "geo": {
-    "@type": "GeoCoordinates",
-    "latitude": 52.2297,
-    "longitude": 21.0122
-  },
-  "hasMap": "https://maps.app.goo.gl/3moUHXGw4GhmFsJD9",
-  "contactPoint": {
-    "@type": "ContactPoint",
-    "email": "kontakt@ecm-digital.com",
-    "telephone": "+48535330323",
-    "contactType": "customer service",
-    "availableLanguage": ["Polish", "English", "German", "Silesian", "Spanish", "Arabic"]
-  },
-  "sameAs": [],
-  "knowsLanguage": ["pl", "en", "de", "szl", "es", "ar"],
-  "areaServed": ["PL", "DE", "EU"],
-  "priceRange": "$$",
-  "serviceType": [
-    "Web Development",
-    "AI Agent Development",
-    "Mobile App Development",
-    "E-commerce (Shopify/Wix)",
-    "Business Process Automation (N8N)",
-    "MVP Prototyping"
-  ]
-};
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "url": BASE_URL,
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": {
+        "@type": "EntryPoint",
+        "urlTemplate": `${BASE_URL}/?search={search_term_string}`
+      },
+      "query-input": "required name=search_term_string"
+    }
+  }
+];
 
 export default function RootLayout({
   children,
@@ -98,6 +124,13 @@ export default function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
         <meta name="theme-color" content="#050505" />
         <meta name="mobile-web-app-capable" content="yes" />
+        {/* Performance: Preconnect to critical third-party origins */}
+        <link rel="preconnect" href="https://firestore.googleapis.com" />
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://www.google-analytics.com" />
+        <link rel="dns-prefetch" href="https://static.hotjar.com" />
         <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
         <link rel="alternate" hrefLang="pl" href={`${BASE_URL}/?lang=pl`} />
         <link rel="alternate" hrefLang="en" href={`${BASE_URL}/?lang=en`} />
@@ -110,19 +143,18 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `window.NEXT_PUBLIC_GEMINI_API_KEY = "${process.env.NEXT_PUBLIC_GEMINI_API_KEY || ''}";`
-          }}
-        />
       </head>
       <body className="font-system">
         <GoogleAnalytics GA_MEASUREMENT_ID="G-LC6Q3MQNDL" />
-        <Providers>
-          {children}
-          <AIChatbot />
-        </Providers>
-        <script src="/js/gemini-client.js?v=2" defer />
+        <Hotjar />
+        <PostHogProvider>
+          <Providers>
+            <DynamicSEO />
+            {children}
+            <AIChatbot />
+            <CookieBanner />
+          </Providers>
+        </PostHogProvider>
         <script
           dangerouslySetInnerHTML={{
             __html: `

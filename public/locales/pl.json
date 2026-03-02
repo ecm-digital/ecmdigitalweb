@@ -108,8 +108,8 @@
       "subtitle": "Zespół ekspertów AI, którzy transformują biznes poprzez inteligentne rozwiązania",
       "description1": "Jesteśmy zespołem pasjonatów technologii, którzy wierzą, że każdy biznes zasługuje na cyfrową transformację. Łączymy kreatywność z innowacyjnymi rozwiązaniami technologicznymi.",
       "description2": "ECM Digital to marka oferująca kompleksowe i nowoczesne rozwiązania digitalne. Specjalizujemy się w projektowaniu stron internetowych, e-commerce, audytach UX oraz automatyzacji procesów biznesowych, pomagając firmom rozwijać się w cyfrowym świecie.",
-      "description3": "Marka ECM Digital działa w ramach spółki Scrum Software Sp. z o.o., która jest formalnym właścicielem wszystkich świadczonych przez nas usług oraz odpowiedzialnym podmiotem prawnym. To Scrum Software Sp. z o.o. wystawia faktury, zawiera umowy i prowadzi rozliczenia finansowe.",
-      "description4": "Dzięki takiemu rozwiązaniu łączymy nowoczesny branding i profesjonalną obsługę prawną, zapewniając naszym klientom pełne bezpieczeństwo i transparentność współpracy.",
+      "description3": "W ECM Digital łączymy nowoczesny branding z pasją do technologii, zapewniając naszym klientom pełne bezpieczeństwo i profesjonalną współpracę.",
+      "description4": "Nasz zespół ekspertów dba o to, aby każde wdrożenie AI przynosiło mierzalne efekty biznesowe.",
       "mission": "Misja",
       "mission.description": "Demokratyzujemy dostęp do AI, pomagając firmom każdej wielkości wykorzystać potencjał sztucznej inteligencji dla wzrostu biznesowego.",
       "vision": "Wizja",
@@ -193,10 +193,10 @@
       }
     },
     "company": {
-      "name": "Scrum Software Sp. z o.o.",
-      "description1": "ECM Digital działa w ramach Scrum Software Sp. z o.o., która jest formalnym właścicielem wszystkich świadczonych przez nas usług i prawnie odpowiedzialnym podmiotem.",
-      "description2": "To Scrum Software Sp. z o.o. wystawia faktury i zawiera umowy z klientami, gwarantując pełną transparentność i bezpieczeństwo współpracy.",
-      "badge": "Spółka Zarejestrowana<br>Sp. z o.o.",
+      "name": "ECM Digital",
+      "description1": "ECM Digital to marka oferująca kompleksowe i nowoczesne rozwiązania digitalne, pomagająca firmom rozwijać się w cyfrowym świecie.",
+      "description2": "Gwarantujemy pełną transparentność i bezpieczeństwo współpracy na każdym etapie projektu.",
+      "badge": "Agencja AI<br>nowej generacji",
       "stats": {
         "aiProjects": "50+",
         "aiProjectsLabel": "Projektów AI",

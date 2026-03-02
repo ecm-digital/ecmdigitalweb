@@ -1,6 +1,7 @@
 'use client';
 
-import { db } from './firebase';
+import { db, storage } from './firebase';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import {
     collection,
     doc,
@@ -23,6 +24,7 @@ import {
 
 export interface Project {
     id: string;
+    userId?: string;
     title: string;
     status: 'Planowanie' | 'W trakcie' | 'Testowanie' | 'Ukończone';
     progress: number;
@@ -32,9 +34,11 @@ export interface Project {
 
 export interface UserFile {
     id: string;
+    userId?: string;
+    projectId?: string;
     name: string;
     size: string;
-    type: 'PDF' | 'XLS' | 'IMG' | 'DOC';
+    type: 'PDF' | 'XLS' | 'IMG' | 'DOC' | 'OTHER';
     url: string;
     createdAt: Timestamp;
 }
@@ -197,18 +201,64 @@ export interface ServiceData {
     features: string[];
     techs: string[];
     price: string;
+    internalKnowledge?: string;
     translations: {
         pl: {
             title: string;
             subtitle: string;
             long: string;
             features: string[];
+            metaTitle?: string;
+            metaDescription?: string;
         };
         en?: {
             title: string;
             subtitle: string;
             long: string;
             features: string[];
+            metaTitle?: string;
+            metaDescription?: string;
+        };
+    };
+    updatedAt: Timestamp;
+}
+
+export interface CaseStudyStat {
+    value: string;
+    label: string;
+}
+
+export interface CaseStudyTestimonial {
+    quote: string;
+    author: string;
+    role: string;
+}
+
+export interface CaseStudy {
+    id: string;
+    slug: string;
+    color: string;
+    coverImage?: string;
+    image?: string;         // legacy
+    featured?: boolean;
+    order?: number;
+    year?: string;
+    duration?: string;
+    translations: {
+        [lang: string]: {
+            category: string;
+            title: string;
+            client?: string;
+            industry?: string;
+            description: string;
+            challenge?: string;
+            solution?: string;
+            results?: string;
+            resultsStats?: CaseStudyStat[];
+            technologies?: string[];
+            testimonial?: CaseStudyTestimonial;
+            metaTitle?: string;
+            metaDescription?: string;
         };
     };
     updatedAt: Timestamp;
@@ -226,6 +276,23 @@ export interface Comment {
     createdAt: Timestamp;
 }
 
+export type TicketStatus = 'Otwarty' | 'W trakcie' | 'Oczekuje' | 'Zamknięty';
+export type TicketPriority = 'Niski' | 'Normalny' | 'Wysoki' | 'Krytyczny';
+
+export interface SupportTicket {
+    id: string;
+    userId: string;
+    clientName: string;
+    subject: string;
+    message: string;
+    status: TicketStatus;
+    priority: TicketPriority;
+    reply?: string;
+    repliedAt?: any;
+    createdAt: Timestamp;
+    updatedAt: Timestamp;
+}
+
 // ─── User Dashboard Functions ───────────────────────────────
 
 export async function getUserProjects(userId: string): Promise<Project[]> {
@@ -239,6 +306,45 @@ export async function getUserFiles(userId: string): Promise<UserFile[]> {
     const querySnapshot = await getDocs(q);
     return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as UserFile));
 }
+
+export async function getProjectFiles(projectId: string): Promise<UserFile[]> {
+    const q = query(collection(db, 'user_files'), where('projectId', '==', projectId), orderBy('createdAt', 'desc'));
+    const querySnapshot = await getDocs(q);
+    return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as UserFile));
+}
+
+export async function uploadProjectFile(projectId: string, file: File, userId: string = 'admin'): Promise<UserFile> {
+    const storageRef = ref(storage, `project_files/${projectId}/${Date.now()}_${file.name}`);
+    await uploadBytes(storageRef, file);
+    const url = await getDownloadURL(storageRef);
+
+    let type: 'PDF' | 'XLS' | 'IMG' | 'DOC' | 'OTHER' = 'OTHER';
+    if (file.type.includes('pdf')) type = 'PDF';
+    else if (file.type.includes('image')) type = 'IMG';
+    else if (file.type.includes('sheet') || file.type.includes('excel')) type = 'XLS';
+    else if (file.type.includes('word') || file.type.includes('document')) type = 'DOC';
+
+    const fileData: Omit<UserFile, 'id' | 'createdAt'> = {
+        name: file.name,
+        size: (file.size / 1024 / 1024).toFixed(2) + ' MB',
+        type,
+        url,
+        projectId,
+        userId
+    };
+
+    const docRef = await addDoc(collection(db, 'user_files'), {
+        ...fileData,
+        createdAt: serverTimestamp()
+    });
+
+    return {
+        id: docRef.id,
+        ...fileData,
+        createdAt: Timestamp.now()
+    } as UserFile;
+}
+
 
 export async function getUserStats(userId: string): Promise<UserStats | null> {
     const docRef = doc(db, 'user_stats', userId);
@@ -262,6 +368,22 @@ export async function getProjects(): Promise<Project[]> {
     const q = query(collection(db, 'user_projects'), orderBy('createdAt', 'desc'), limit(50));
     const querySnapshot = await getDocs(q);
     return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Project));
+}
+
+export async function addProject(data: Omit<Project, 'id' | 'createdAt'>): Promise<string> {
+    const docRef = await addDoc(collection(db, 'user_projects'), {
+        ...data,
+        createdAt: serverTimestamp(),
+    });
+    return docRef.id;
+}
+
+export async function updateProject(id: string, data: Partial<Project>): Promise<void> {
+    await updateDoc(doc(db, 'user_projects', id), data);
+}
+
+export async function deleteProject(id: string): Promise<void> {
+    await deleteDoc(doc(db, 'user_projects', id));
 }
 
 export async function getFiles(): Promise<UserFile[]> {
@@ -500,6 +622,47 @@ export async function updateAgencyService(id: string, data: Partial<ServiceData>
     });
 }
 
+export async function addAgencyService(data: Omit<ServiceData, 'id' | 'updatedAt'>): Promise<string> {
+    const docRef = doc(db, AGENCY_SERVICES, data.slug);
+    await setDoc(docRef, {
+        ...data,
+        updatedAt: serverTimestamp(),
+    });
+    return docRef.id;
+}
+
+export async function deleteAgencyService(id: string): Promise<void> {
+    await deleteDoc(doc(db, AGENCY_SERVICES, id));
+}
+
+// ─── Case Studies CRUD ────────────────────────────────────────
+const CASE_STUDIES = 'agency_case_studies';
+
+export async function getCaseStudies(): Promise<CaseStudy[]> {
+    const q = query(collection(db, CASE_STUDIES), orderBy('order', 'asc'));
+    const querySnapshot = await getDocs(q);
+    return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as CaseStudy));
+}
+
+export async function addCaseStudy(data: Omit<CaseStudy, 'id' | 'updatedAt'>): Promise<string> {
+    const docRef = await addDoc(collection(db, CASE_STUDIES), {
+        ...data,
+        updatedAt: serverTimestamp(),
+    });
+    return docRef.id;
+}
+
+export async function updateCaseStudy(id: string, data: Partial<CaseStudy>): Promise<void> {
+    await updateDoc(doc(db, CASE_STUDIES, id), {
+        ...data,
+        updatedAt: serverTimestamp(),
+    });
+}
+
+export async function deleteCaseStudy(id: string): Promise<void> {
+    await deleteDoc(doc(db, CASE_STUDIES, id));
+}
+
 // ─── Seeding ────────────────────────────────────────────────
 
 export async function seedCampaigns(): Promise<void> {
@@ -554,6 +717,39 @@ export async function seedCampaigns(): Promise<void> {
     for (const campaign of mockCampaigns) {
         await addCampaign(campaign);
     }
+}
+
+export async function seedCaseStudies(): Promise<void> {
+    const existingCases = await getCaseStudies();
+
+    // Only seed if there are NO case studies at all - never delete existing ones!
+    if (existingCases.length > 0) {
+        return;
+    }
+
+    const realEstateCase: Omit<CaseStudy, 'id' | 'updatedAt'> = {
+        slug: 'automatyzacja-nieruchomosci',
+        color: '#eab308',
+        order: 1,
+        featured: true,
+        translations: {
+            pl: {
+                category: 'Agent AI & Automatyzacja',
+                title: 'Automatyzacja Leadów dla Agencji Nieruchomości',
+                description: 'Wdrożenie inteligentnego asystenta AI, który obsługuje zapytania 24/7, kwalifikuje klientów i automatycznie umawia prezentacje luksusowych apartamentów.',
+                results: '400% wzrost umówionych prezentacji'
+            },
+            en: {
+                category: 'AI Agents & Automation',
+                title: 'Lead Automation for Real Estate Agency',
+                description: 'Implementation of a smart AI assistant that handles inquiries 24/7, qualifies clients, and automatically schedules luxury apartment viewings.',
+                results: '400% increase in scheduled viewings'
+            }
+        }
+    };
+
+    console.log('[Seed] No case studies found, seeding initial Real Estate case...');
+    await addCaseStudy(realEstateCase);
 }
 
 export async function seedUserData(userId: string, clientName: string): Promise<void> {
@@ -730,4 +926,194 @@ export async function getAIFeedbackStats(): Promise<any[]> {
     const q = query(collection(db, AI_FEEDBACK), orderBy('createdAt', 'desc'), limit(50));
     const querySnapshot = await getDocs(q);
     return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+}
+
+// ─── AIOS Activity Log (Unified) ─────────────────────────────
+
+const AIOS_LOG = 'ai_chat_logs';
+
+export interface AIOSLogEntry {
+    source: 'chatbot' | 'admin-assistant' | 'offer-intelligence' | 'meeting-intelligence' | 'daily-brief' | 'system';
+    role: 'user' | 'bot' | 'system';
+    text: string;
+    lang: string;
+    userId?: string;
+    sessionId?: string;
+    metadata?: Record<string, any>;
+    createdAt?: any;
+}
+
+export async function logAIOSActivity(entry: Omit<AIOSLogEntry, 'createdAt'>): Promise<string> {
+    try {
+        const docRef = await addDoc(collection(db, AIOS_LOG), {
+            ...entry,
+            createdAt: serverTimestamp(),
+        });
+        return docRef.id;
+    } catch (e) {
+        console.error('[AIOS Log] Error:', e);
+        return '';
+    }
+}
+
+export async function getAIOSLogs(hours: number = 24, limitCount: number = 100): Promise<AIOSLogEntry[]> {
+    try {
+        const since = Timestamp.fromDate(new Date(Date.now() - hours * 60 * 60 * 1000));
+        const q = query(
+            collection(db, AIOS_LOG),
+            where('createdAt', '>=', since),
+            orderBy('createdAt', 'desc'),
+            limit(limitCount)
+        );
+        const snap = await getDocs(q);
+        return snap.docs.map(doc => ({ id: doc.id, ...doc.data() } as any));
+    } catch (e) {
+        console.error('[AIOS Log] Fetch error:', e);
+        return [];
+    }
+}
+
+// ─── Support System ──────────────────────────────────────────
+
+const TICKETS = 'agency_support_tickets';
+
+export async function getSupportTickets(): Promise<SupportTicket[]> {
+    const q = query(collection(db, TICKETS), orderBy('createdAt', 'desc'));
+    const querySnapshot = await getDocs(q);
+    return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as SupportTicket));
+}
+
+export async function getUserSupportTickets(userId: string): Promise<SupportTicket[]> {
+    const q = query(collection(db, TICKETS), where('userId', '==', userId), orderBy('createdAt', 'desc'));
+    const querySnapshot = await getDocs(q);
+    return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as SupportTicket));
+}
+
+export async function addSupportTicket(data: Omit<SupportTicket, 'id' | 'createdAt' | 'updatedAt'>): Promise<string> {
+    const docRef = await addDoc(collection(db, TICKETS), {
+        ...data,
+        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp()
+    });
+    return docRef.id;
+}
+
+export async function updateSupportTicket(id: string, data: Partial<SupportTicket>): Promise<void> {
+    await updateDoc(doc(db, TICKETS, id), {
+        ...data,
+        updatedAt: serverTimestamp()
+    });
+}
+
+export async function deleteSupportTicket(id: string): Promise<void> {
+    await deleteDoc(doc(db, TICKETS, id));
+}
+
+// ─── Context OS (AIOS Core) ─────────────────────────────────
+
+const CONTEXT_OS = 'context_os';
+
+export interface ContextOSData {
+    toneOfVoice: string;
+    sops: string;
+    businessGoals: string;
+    meetingNotes: string;
+    customInstructions: string;
+    updatedAt?: any;
+}
+
+const DEFAULT_CONTEXT: ContextOSData = {
+    toneOfVoice: `ECM Digital komunikuje się profesjonalnie ale przyjaźnie. Używamy języka korzyści. Unikamy żargonu technicznego w rozmowach z klientami. Jesteśmy ekspertami AI i automatyzacji w regionie DACH i Polsce.`,
+    sops: `1. Nowy Lead → Odpowiedź w ciągu 2h\n2. Oferta → Tworzenie kalkulacji w AdminPanel → Wysyłka PDF\n3. Reklamacja → Bilet Support → Priorytet wysoki\n4. Case Study → Po zakończeniu projektu, klient potwierdza dane`,
+    businessGoals: `Q1 2026: 15 nowych klientów, 200k PLN przychodu\nQ2 2026: Uruchomienie SaaS dla klientów\nRoczny cel: 800k PLN, 50 klientów aktywnych`,
+    meetingNotes: '',
+    customInstructions: '',
+};
+
+export async function getContextOS(): Promise<ContextOSData> {
+    const docRef = doc(db, CONTEXT_OS, 'main');
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+        return docSnap.data() as ContextOSData;
+    }
+    // Seed defaults
+    await setDoc(docRef, { ...DEFAULT_CONTEXT, updatedAt: serverTimestamp() });
+    return DEFAULT_CONTEXT;
+}
+
+export async function saveContextOS(data: Partial<ContextOSData>): Promise<void> {
+    const docRef = doc(db, CONTEXT_OS, 'main');
+    await setDoc(docRef, { ...data, updatedAt: serverTimestamp() }, { merge: true });
+}
+
+// ─── Testimonials ─────────────────────────────────────────────
+
+const TESTIMONIALS = 'testimonials';
+
+export interface Testimonial {
+    id: string;
+    name: string;
+    role: string;
+    text: string;
+    order?: number;
+    active?: boolean;
+    createdAt?: any;
+}
+
+export async function getTestimonials(): Promise<Testimonial[]> {
+    const q = query(collection(db, TESTIMONIALS), orderBy('order', 'asc'));
+    const snap = await getDocs(q);
+    return snap.docs.map(doc => ({ id: doc.id, ...doc.data() } as Testimonial));
+}
+
+export async function addTestimonial(data: Omit<Testimonial, 'id' | 'createdAt'>): Promise<string> {
+    const docRef = await addDoc(collection(db, TESTIMONIALS), { ...data, createdAt: serverTimestamp() });
+    return docRef.id;
+}
+
+export async function updateTestimonial(id: string, data: Partial<Testimonial>): Promise<void> {
+    await updateDoc(doc(db, TESTIMONIALS, id), data);
+}
+
+export async function deleteTestimonial(id: string): Promise<void> {
+    await deleteDoc(doc(db, TESTIMONIALS, id));
+}
+
+// ─── Blog Preview (featured posts on homepage) ────────────────
+
+const BLOG_POSTS = 'blog_posts';
+
+export interface BlogPost {
+    id: string;
+    slug: string;
+    title: string;
+    icon: string;
+    color: string;
+    featured?: boolean;
+    order?: number;
+    createdAt?: any;
+}
+
+export async function getFeaturedBlogPosts(limitCount: number = 3): Promise<BlogPost[]> {
+    const q = query(
+        collection(db, BLOG_POSTS),
+        where('featured', '==', true),
+        orderBy('order', 'asc'),
+        limit(limitCount)
+    );
+    const snap = await getDocs(q);
+    return snap.docs.map(doc => ({ id: doc.id, ...doc.data() } as BlogPost));
+}
+
+export async function addBlogPost(data: Omit<BlogPost, 'id' | 'createdAt'>): Promise<string> {
+    const docRef = await addDoc(collection(db, BLOG_POSTS), { ...data, createdAt: serverTimestamp() });
+    return docRef.id;
+}
+
+export async function updateBlogPost(id: string, data: Partial<BlogPost>): Promise<void> {
+    await updateDoc(doc(db, BLOG_POSTS, id), data);
+}
+
+export async function deleteBlogPost(id: string): Promise<void> {
+    await deleteDoc(doc(db, BLOG_POSTS, id));
 }

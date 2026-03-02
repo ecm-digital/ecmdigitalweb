@@ -53,14 +53,27 @@ export default function VoiceAssistant({ isOpen, onClose, onActionDetected }: Vo
         setIsProcessing(true);
         try {
             const response = await AIService.processVoiceIntent(transcript);
-            if (response.text) {
-                const result = JSON.parse(response.text);
-                onActionDetected(result.intent, result.data);
-                // Close after a brief moment to show success
-                setTimeout(onClose, 1500);
+
+            if (response.error) {
+                setTranscript(`Błąd AI: ${response.error}`);
+                return;
             }
-        } catch (error) {
+
+            if (response.text) {
+                try {
+                    const result = JSON.parse(response.text);
+                    setTranscript(`Wykonuję: ${result.intent}...`);
+                    onActionDetected(result.intent, result.data);
+                    // Close after a brief moment to show success
+                    setTimeout(onClose, 2000);
+                } catch (parseError) {
+                    console.error('JSON Parse Error:', parseError, 'Raw text:', response.text);
+                    setTranscript('Błąd: AI zwróciło niepoprawny format danych.');
+                }
+            }
+        } catch (error: any) {
             console.error('Error processing intent:', error);
+            setTranscript(`Wystąpił nieoczekiwany błąd.`);
         } finally {
             setIsProcessing(false);
         }

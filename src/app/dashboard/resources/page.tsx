@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import DashboardLayout from '@/components/DashboardLayout';
 import { UserFile, getUserFiles } from '@/lib/firestoreService';
 import { useAuth } from '@/context/AuthContext';
+import { useLanguage } from '@/context/LanguageContext';
 
 const typeIcons = {
     PDF: '📕',
@@ -21,6 +22,7 @@ const typeColors = {
 
 export default function ClientResourcesPage() {
     const { user } = useAuth();
+    const { T } = useLanguage();
     const [files, setFiles] = useState<UserFile[]>([]);
     const [loading, setLoading] = useState(true);
 
@@ -49,9 +51,9 @@ export default function ClientResourcesPage() {
                 <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
                     <div>
                         <h2 className="text-3xl font-black font-space-grotesk tracking-tighter uppercase italic text-white flex items-center gap-3">
-                            📁 Baza Wiedzy
+                            {T('dash.knowledgeBaseTitle')}
                         </h2>
-                        <p className="text-sm text-white/30 font-black uppercase tracking-[0.2em] mt-2">Dostęp do ważnych dokumentów, raportów i zasobów projektowych</p>
+                        <p className="text-sm text-white/30 font-black uppercase tracking-[0.2em] mt-2">{T('dash.accessDocs')}</p>
                     </div>
                 </div>
 
@@ -63,10 +65,10 @@ export default function ClientResourcesPage() {
                 ) : files.length === 0 ? (
                     <div className="py-32 bg-white/[0.04] backdrop-blur-xl border border-white/10 border-dashed rounded-[48px] text-center group">
                         <div className="text-7xl mb-10 grayscale opacity-20 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-1000">📁</div>
-                        <h3 className="text-2xl font-black font-space-grotesk italic uppercase tracking-tighter mb-2">Brak udostępnionych plików</h3>
-                        <p className="text-white/30 text-base max-w-md mx-auto px-6 font-medium">Twój opiekun nie udostępnił jeszcze żadnych dokumentów. Wszystkie raporty miesięczne i faktury pojawią się w tym miejscu.</p>
+                        <h3 className="text-2xl font-black font-space-grotesk italic uppercase tracking-tighter mb-2">{T('dash.noFilesShared')}</h3>
+                        <p className="text-white/30 text-base max-w-md mx-auto px-6 font-medium">{T('dash.noFilesSharedDesc')}</p>
                         <button className="mt-12 px-10 py-5 bg-white/5 border border-white/10 text-white rounded-2xl text-sm font-black uppercase tracking-widest hover:bg-brand-accent transition-all">
-                            Zgłoś potrzebę dokumentu
+                            {T('dash.requestDocument')}
                         </button>
                     </div>
                 ) : (
@@ -97,7 +99,7 @@ export default function ClientResourcesPage() {
                                         onClick={() => handleDownload(f.url, f.name)}
                                         className="w-full py-4 bg-white/5 border border-white/10 rounded-2xl text-xs font-black uppercase tracking-widest hover:bg-brand-accent hover:border-brand-accent transition-all flex items-center justify-center gap-3 shadow-lg"
                                     >
-                                        <span>Pobierz Plik</span>
+                                        <span>{T('dash.downloadFile')}</span>
                                         <span className="text-sm group-hover:translate-y-1 transition-transform">⬇️</span>
                                     </button>
                                 </div>
@@ -112,9 +114,9 @@ export default function ClientResourcesPage() {
                     <div className="relative z-10 flex flex-col md:flex-row items-center gap-10">
                         <div className="text-7xl group-hover:animate-bounce transition-all">🔒</div>
                         <div>
-                            <h4 className="text-xl font-black font-space-grotesk uppercase italic mb-3 tracking-tighter">Szyfrowane Przechowywanie</h4>
+                            <h4 className="text-xl font-black font-space-grotesk uppercase italic mb-3 tracking-tighter">{T('dash.encryptedStorage')}</h4>
                             <p className="text-base text-white/60 leading-relaxed font-medium max-w-2xl">
-                                Wszystkie pliki są przechowywane w bezpiecznej chmurze ECM Digital z dostępem ograniczonym wyłącznie dla Twojej organizacji. Używamy protokołu SSL/TLS 1.3 dla najwyższego poziomu prywatności Twoich danych biznesowych.
+                                {T('dash.encryptedDesc')}
                             </p>
                         </div>
                     </div>

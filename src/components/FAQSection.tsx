@@ -3,23 +3,14 @@
 import React, { useState } from 'react';
 import { useLanguage } from '@/context/LanguageContext';
 
-const faqData = [
-    {
-        q: "Jakie korzyści przyniesie mojej firmie wdrożenie Agenta AI?",
-        a: "Nasi Agenci AI automatyzują od 60% do 80% powtarzalnych zadań takich jak obsługa klienta, generowanie leadów na stronie czy procesy HR. Dzięki integracji z systemami (np. CRM, ERP) działają 24/7, co pozwala Twojemu zespołowi skupić się na strategicznych celach i docelowo redukuje koszty operacyjne."
-    },
-    {
-        q: "Ile potrwa stworzenie dla mnie dedykowanej strony internetowej lub sklepu?",
-        a: "Standardowa strona wizerunkowa (w architekturze MACH lub Next.js) zajmuje nam około 2-4 tygodni. Złożone platformy e-commerce oparte o Shopify Plus lub headless commerce tworzymy zazwyczaj w 6-10 tygodni, koncentrując się na ekstremalnej wydajności i personalizacji UI."
-    },
-    {
-        q: "Czy po zakończeniu tworzenia aplikacji i stron zapewniacie ich utrzymanie?",
-        a: "Zdecydowanie tak. Świadczymy pełne wsparcie powdrożeniowe. Monitorujemy stabilność, bezpieczeństwo infrastruktury (najczęściej Google Cloud / Vercel) oraz dbamy o aktualizacje, aby Twój produkt skalował się wraz z Twoim rozwojem."
-    },
-    {
-        q: "Jak wyglądają koszty automatyzacji N8N lub zbudowania MVP?",
-        a: "Każdy projekt wyceniamy indywidualnie bazując na złożoności środowiska. Proste flows automatyzacji zaczynają się od niewielkich kwot, a potężne architektury MVP budowane od zera to inwestycje rzędu kilkunastu ułamków tradycyjnych kosztów dzięki wykorzystaniu AI na etapie pisania kodu."
-    }
+const faqKeys = [
+    { q: 'faq.q6', a: 'faq.a6' },
+    { q: 'faq.q7', a: 'faq.a7' },
+    { q: 'faq.q8', a: 'faq.a8' },
+    { q: 'faq.q9', a: 'faq.a9' },
+    { q: 'faq.q10', a: 'faq.a10' },
+    { q: 'faq.q11', a: 'faq.a11' },
+    { q: 'faq.q12', a: 'faq.a12' },
 ];
 
 export default function FAQSection() {
@@ -33,33 +24,38 @@ export default function FAQSection() {
                     <span className="section-label" style={{ padding: '10px 24px', background: 'rgba(59, 130, 246, 0.1)', color: '#60a5fa', borderRadius: '999px', border: '1px solid rgba(59, 130, 246, 0.2)', marginBottom: '24px', fontFamily: 'var(--font-mono)' }}>
                         ? FAQ
                     </span>
-                    <h2 className="section-title" style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)', letterSpacing: '-0.03em', fontWeight: 800 }}>Mity i Fakty</h2>
+                    <h2 className="section-title" style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)', letterSpacing: '-0.03em', fontWeight: 800 }}>{T('faq.sectionTitle')}</h2>
                     <p className="section-subtitle" style={{ maxWidth: '600px', fontSize: '1.2rem', color: 'rgba(255,255,255,0.6)' }}>
-                        Odpowiedzi na najczęściej zadawane pytania przez liderów wkraczających w cyfrową transformację 2026.
+                        {T('faq.sectionSubtitle')}
                     </p>
                 </div>
 
                 <div style={{ maxWidth: '800px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                    {faqData.map((faq, index) => {
+                    {faqKeys.map((faq, index) => {
                         const isOpen = openIndex === index;
                         return (
-                            <div
+                            <button
                                 key={index}
                                 className="premium-glass-panel fade-in-up"
                                 style={{
+                                    width: '100%',
+                                    textAlign: 'left',
                                     animationDelay: `${0.1 * index}s`,
                                     padding: isOpen ? 'clamp(20px, 4vw, 32px)' : 'clamp(16px, 3vw, 24px) clamp(20px, 4vw, 32px)',
                                     borderRadius: '24px',
                                     cursor: 'pointer',
                                     border: isOpen ? '1px solid rgba(59, 130, 246, 0.4)' : '1px solid rgba(255,255,255,0.05)',
                                     background: isOpen ? 'rgba(59, 130, 246, 0.05)' : 'rgba(255,255,255,0.02)',
-                                    transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)'
+                                    transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+                                    display: 'block',
+                                    outline: 'none'
                                 }}
                                 onClick={() => setOpenIndex(isOpen ? null : index)}
+                                aria-expanded={isOpen}
                             >
                                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '24px' }}>
                                     <h3 style={{ fontSize: '1.25rem', fontWeight: 600, color: isOpen ? 'white' : 'rgba(255,255,255,0.8)', margin: 0, transition: 'color 0.3s' }}>
-                                        {faq.q}
+                                        {T(faq.q)}
                                     </h3>
                                     <div style={{
                                         width: '32px',
@@ -72,7 +68,7 @@ export default function FAQSection() {
                                         justifyContent: 'center',
                                         transition: 'all 0.4s',
                                         transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)'
-                                    }}>
+                                    }} aria-hidden="true">
                                         ↓
                                     </div>
                                 </div>
@@ -85,10 +81,10 @@ export default function FAQSection() {
                                     marginTop: isOpen ? '24px' : '0'
                                 }}>
                                     <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '1.05rem', lineHeight: 1.7, margin: 0 }}>
-                                        {faq.a}
+                                        {T(faq.a)}
                                     </p>
                                 </div>
-                            </div>
+                            </button>
                         );
                     })}
                 </div>

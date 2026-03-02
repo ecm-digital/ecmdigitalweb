@@ -2,9 +2,12 @@
 
 import { useState, useEffect } from 'react';
 import DashboardLayout from '@/components/DashboardLayout';
-import { Project, getUserProjects } from '@/lib/firestoreService';
+import { Project, getUserProjects, updateProject, addCaseStudy } from '@/lib/firestoreService';
 import { useAuth } from '@/context/AuthContext';
+import { useLanguage } from '@/context/LanguageContext';
+import confetti from 'canvas-confetti';
 import CommentThread from '@/components/CommentThread';
+import ProjectVault from '@/components/ProjectVault';
 
 const statusConfig = {
     'Planowanie': { color: 'bg-amber-500/10 text-amber-400 border-amber-500/20', icon: '📝' },
@@ -15,9 +18,16 @@ const statusConfig = {
 
 export default function ClientProjectsPage() {
     const { user } = useAuth();
+    const { T } = useLanguage();
     const [projects, setProjects] = useState<Project[]>([]);
     const [loading, setLoading] = useState(true);
     const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+
+    // AI Review Modal State
+    const [showReviewModal, setShowReviewModal] = useState(false);
+    const [reviewComment, setReviewComment] = useState('');
+    const [reviewRating, setReviewRating] = useState(5);
+    const [isCompleting, setIsCompleting] = useState(false);
 
     const loadData = async () => {
         if (!user) return;
@@ -25,14 +35,66 @@ export default function ClientProjectsPage() {
         try {
             const data = await getUserProjects(user.uid);
             setProjects(data);
-            if (data.length > 0 && !selectedProject) {
-                // Optionally select the first one by default if needed, 
-                // but let's keep it null for clean initial state
+            if (selectedProject) {
+                const updated = data.find(p => p.id === selectedProject.id);
+                if (updated) setSelectedProject(updated);
             }
         } catch (error) {
             console.error("Load projects error:", error);
         }
         setLoading(false);
+    };
+
+    const handleApproveClick = () => {
+        setShowReviewModal(true);
+    };
+
+    const submitReviewAndApprove = async () => {
+        if (!selectedProject) return;
+        setIsCompleting(true);
+
+        // 1. Generate & Save AI Case Study
+        try {
+            const res = await fetch('/api/ai/generate-casestudy', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    projectName: selectedProject.title,
+                    clientReview: reviewComment || 'Wspaniała współpraca.',
+                    rating: reviewRating
+                })
+            });
+
+            if (res.ok) {
+                const caseStudyData = await res.json();
+                if (caseStudyData && caseStudyData.translations) {
+                    await addCaseStudy(caseStudyData);
+                }
+            }
+        } catch (error) {
+            console.error('Case study gen error', error);
+        }
+
+        // Trigger Magic Approval Confetti
+        confetti({
+            particleCount: 150,
+            spread: 70,
+            origin: { y: 0.6 },
+            colors: ['#8b5cf6', '#ec4899', '#3b82f6', '#10b981']
+        });
+
+        const newStatus = 'Ukończone';
+
+        try {
+            await updateProject(selectedProject.id, { status: newStatus, progress: 100 });
+            await loadData();
+        } catch (error) {
+            console.error('Error', error);
+            alert(T('dash.ticketError'));
+        }
+
+        setIsCompleting(false);
+        setShowReviewModal(false);
     };
 
     useEffect(() => { loadData(); }, [user]);
@@ -44,10 +106,10 @@ export default function ClientProjectsPage() {
                 <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
                     <div>
                         <h2 className="text-3xl font-black font-space-grotesk tracking-tighter uppercase italic text-white flex items-center gap-3">
-                            🎯 {selectedProject ? `Projekt: ${selectedProject.title}` : 'Twoje Projekty'}
+                            🎯 {selectedProject ? `${T('dash.yourProjects')}: ${selectedProject.title}` : T('dash.yourProjects')}
                         </h2>
                         <p className="text-sm text-white/30 font-black uppercase tracking-[0.2em] mt-2">
-                            {selectedProject ? 'Szczegóły zadania i dyskusja z zespołem' : 'Śledź etap realizacji i postępy swoich zleceń'}
+                            {selectedProject ? T('dash.projectDetails') : T('dash.trackProgress')}
                         </p>
                     </div>
                     {selectedProject && (
@@ -55,7 +117,7 @@ export default function ClientProjectsPage() {
                             onClick={() => setSelectedProject(null)}
                             className="px-6 py-3 bg-white/5 border border-white/10 rounded-2xl text-sm font-black uppercase tracking-widest hover:bg-white/10 transition-all"
                         >
-                            ← Powrót do listy
+                            {T('dash.backToList')}
                         </button>
                     )}
                 </div>
@@ -71,10 +133,10 @@ export default function ClientProjectsPage() {
                         ) : projects.length === 0 ? (
                             <div className="py-32 bg-white/[0.04] backdrop-blur-xl border border-white/10 border-dashed rounded-[48px] text-center group">
                                 <div className="text-7xl mb-10 grayscale opacity-20 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-1000">🎯</div>
-                                <h3 className="text-2xl font-black font-space-grotesk italic uppercase tracking-tighter mb-2">Brak aktywnych projektów</h3>
-                                <p className="text-white/30 text-base max-w-md mx-auto px-6 font-medium">Aktualnie nie realizujemy żadnych projektów dla Twojej marki. Twoje projekty pojawią się tutaj po zaakceptowaniu oferty.</p>
+                                <h3 className="text-2xl font-black font-space-grotesk italic uppercase tracking-tighter mb-2">{T('dash.noProjectsActive')}</h3>
+                                <p className="text-white/30 text-base max-w-md mx-auto px-6 font-medium">{T('dash.noProjectsDesc')}</p>
                                 <button className="mt-12 px-10 py-5 bg-brand-accent text-white rounded-2xl text-sm font-black uppercase tracking-widest hover:shadow-[0_0_30px_rgba(139,92,246,0.3)] transition-all">
-                                    Rozpocznij Nowy Projekt
+                                    {T('dash.startProject')}
                                 </button>
                             </div>
                         ) : selectedProject ? (
@@ -82,7 +144,7 @@ export default function ClientProjectsPage() {
                                 <div className="absolute top-0 right-0 w-64 h-64 bg-brand-accent/5 blur-[100px] -mr-32 -mt-32 rounded-full"></div>
 
                                 <span className={`inline-flex items-center gap-2 text-sm px-4 py-2 rounded-full font-black uppercase tracking-widest border mb-8 transition-colors ${(statusConfig[selectedProject.status as keyof typeof statusConfig] || statusConfig['Planowanie']).color}`}>
-                                    {(statusConfig[selectedProject.status as keyof typeof statusConfig] || statusConfig['Planowanie']).icon} {selectedProject.status}
+                                    {(statusConfig[selectedProject.status as keyof typeof statusConfig] || statusConfig['Planowanie']).icon} {T(`status.${selectedProject.status}`)}
                                 </span>
 
                                 <h3 className="text-4xl font-black font-space-grotesk tracking-tighter uppercase italic leading-tight mb-6">{selectedProject.title}</h3>
@@ -90,7 +152,7 @@ export default function ClientProjectsPage() {
                                 <div className="space-y-8 mb-12">
                                     <div className="space-y-4">
                                         <div className="flex justify-between items-end text-base font-black uppercase tracking-widest italic text-white/40">
-                                            <span>Postęp Realizacji</span>
+                                            <span>{T('dash.progress')}</span>
                                             <span className="text-brand-accent text-lg">{selectedProject.progress}%</span>
                                         </div>
                                         <div className="h-4 bg-white/5 rounded-full overflow-hidden border border-white/5 p-[1px]">
@@ -103,20 +165,36 @@ export default function ClientProjectsPage() {
 
                                     <div className="grid grid-cols-2 gap-6 pt-8 border-t border-white/5">
                                         <div>
-                                            <span className="text-sm text-white/20 font-black uppercase tracking-widest italic">Data Rozpoczęcia</span>
+                                            <span className="text-sm text-white/20 font-black uppercase tracking-widest italic">{T('dash.startDate')}</span>
                                             <p className="text-white/60 font-bold mt-1">{new Date(selectedProject.createdAt.seconds * 1000).toLocaleDateString('pl-PL')}</p>
                                         </div>
                                         <div>
                                             <span className="text-sm text-white/20 font-black uppercase tracking-widest italic">Status</span>
-                                            <p className="text-white/60 font-bold mt-1">{selectedProject.status}</p>
+                                            <p className="text-white/60 font-bold mt-1">{T(`status.${selectedProject.status}`)}</p>
                                         </div>
                                     </div>
                                 </div>
 
+                                {selectedProject.status === 'Testowanie' && (
+                                    <div className="mb-12 p-8 bg-gradient-to-r from-purple-500/10 to-pink-500/10 rounded-[32px] border border-brand-accent/30 text-center relative overflow-hidden group">
+                                        <div className="absolute inset-0 bg-brand-accent/20 translate-y-[100%] group-hover:translate-y-0 transition-transform duration-500"></div>
+                                        <div className="relative z-10">
+                                            <h4 className="text-2xl font-black font-space-grotesk tracking-tighter uppercase italic mb-2">{T('dash.readyPickup')}</h4>
+                                            <p className="text-sm text-white/60 font-medium mb-8">{T('dash.testedAll')}</p>
+                                            <button
+                                                onClick={handleApproveClick}
+                                                className="px-12 py-5 bg-white text-black rounded-2xl text-sm font-black uppercase tracking-widest hover:scale-105 transition-all shadow-[0_0_30px_rgba(255,255,255,0.4)]"
+                                            >
+                                                {T('dash.pickupProject')}
+                                            </button>
+                                        </div>
+                                    </div>
+                                )}
+
                                 <div className="p-8 bg-white/5 rounded-[32px] border border-white/5">
-                                    <h4 className="text-sm font-black uppercase tracking-[0.2em] text-white/30 mb-4 italic">Krótki opis celu</h4>
+                                    <h4 className="text-sm font-black uppercase tracking-[0.2em] text-white/30 mb-4 italic">{T('dash.goalDesc')}</h4>
                                     <p className="text-base text-white/60 leading-relaxed font-medium">
-                                        Ten widok pozwala na bieżąco monitorować szczegóły projektu i zadawać pytania zespołowi realizacyjnemu. Wykorzystaj panel obok, aby wysłać wiadomość.
+                                        {T('dash.monitorDesc')}
                                     </p>
                                 </div>
                             </div>
@@ -135,7 +213,7 @@ export default function ClientProjectsPage() {
                                                 <div className="text-xs font-black text-brand-accent uppercase tracking-[0.2em] mb-3 italic">ID: {p.id.slice(-6).toUpperCase()}</div>
                                                 <h3 className="text-3xl font-black font-space-grotesk tracking-tighter uppercase italic leading-tight group-hover:text-brand-accent transition-colors mb-4">{p.title}</h3>
                                                 <span className={`text-xs px-3 py-1.5 rounded-full font-black uppercase tracking-widest border transition-colors ${(statusConfig[p.status as keyof typeof statusConfig] || statusConfig['Planowanie']).color}`}>
-                                                    {(statusConfig[p.status as keyof typeof statusConfig] || statusConfig['Planowanie']).icon} {p.status}
+                                                    {(statusConfig[p.status as keyof typeof statusConfig] || statusConfig['Planowanie']).icon} {T(`status.${p.status}`)}
                                                 </span>
                                             </div>
                                         </div>
@@ -143,7 +221,7 @@ export default function ClientProjectsPage() {
                                         <div className="mt-auto space-y-6 relative z-10">
                                             <div className="space-y-3">
                                                 <div className="flex justify-between items-end text-sm font-black uppercase tracking-widest italic text-white/40">
-                                                    <span>Postęp Realizacji</span>
+                                                    <span>{T('dash.progress')}</span>
                                                     <span className="text-brand-accent">{p.progress}%</span>
                                                 </div>
                                                 <div className="h-3 bg-white/5 rounded-full overflow-hidden border border-white/5 p-[1px]">
@@ -156,10 +234,10 @@ export default function ClientProjectsPage() {
 
                                             <div className="pt-8 border-t border-white/5 flex items-center justify-between">
                                                 <div className="flex flex-col">
-                                                    <span className="text-xs text-white/20 font-black uppercase tracking-widest italic">Kliknij by otworzyć dyskusję</span>
+                                                    <span className="text-xs text-white/20 font-black uppercase tracking-widest italic">{T('dash.clickDiscussion')}</span>
                                                 </div>
                                                 <button className="px-6 py-3 bg-white/5 border border-white/10 rounded-xl text-xs font-black uppercase tracking-widest group-hover:bg-brand-accent group-hover:border-brand-accent transition-all">
-                                                    Szczegóły & Czat
+                                                    {T('dash.detailsChat')}
                                                 </button>
                                             </div>
                                         </div>
@@ -169,12 +247,14 @@ export default function ClientProjectsPage() {
                         )}
                     </div>
 
-                    {/* Chat Panel */}
+                    {/* Chat & Files Panel */}
                     {selectedProject && (
-                        <div className="xl:w-1/2 min-h-[500px] animate-in slide-in-from-right-10 duration-700">
+                        <div className="xl:w-1/2 min-h-[500px] animate-in slide-in-from-right-10 duration-700 flex flex-col gap-8">
+                            <ProjectVault projectId={selectedProject.id} isAdmin={false} />
+
                             <CommentThread
                                 parentId={selectedProject.id}
-                                title={`Dyskusja: ${selectedProject.title}`}
+                                title={`${T('dash.discussion')}: ${selectedProject.title}`}
                             />
                         </div>
                     )}
@@ -188,17 +268,63 @@ export default function ClientProjectsPage() {
                             <div className="flex items-center gap-6">
                                 <div className="w-20 h-20 rounded-[28px] bg-brand-accent/20 flex items-center justify-center text-3xl shadow-inner border border-brand-accent/30 group-hover:rotate-12 transition-transform duration-700">💬</div>
                                 <div>
-                                    <h4 className="text-sm font-black uppercase tracking-[0.2em] text-white/30 mb-2 italic">Twój Opiekun Projektu</h4>
-                                    <h5 className="text-xl font-black font-space-grotesk uppercase italic tracking-tighter">Zespół Realizacyjny ECM</h5>
+                                    <h4 className="text-sm font-black uppercase tracking-[0.2em] text-white/30 mb-2 italic">{T('dash.projectManager')}</h4>
+                                    <h5 className="text-xl font-black font-space-grotesk uppercase italic tracking-tighter">{T('dash.ecmTeam')}</h5>
                                 </div>
                             </div>
                             <button className="px-10 py-5 bg-brand-accent text-white rounded-2xl text-sm font-black uppercase tracking-widest hover:shadow-[0_0_30px_rgba(139,92,246,0.3)] transition-all">
-                                Skontaktuj się w sprawie projektu
+                                {T('dash.contactProject')}
                             </button>
                         </div>
                     </div>
                 )}
             </div>
+
+            {/* AI Review & Approval Modal */}
+            {showReviewModal && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-md">
+                    <div className="bg-white/10 border border-white/20 p-10 rounded-[32px] max-w-lg w-full text-center relative shadow-2xl animate-in zoom-in-95 duration-300">
+                        <div className="absolute top-0 right-0 w-32 h-32 bg-brand-accent/20 blur-[60px] rounded-full"></div>
+                        <h3 className="text-3xl font-black font-space-grotesk italic uppercase tracking-tighter mb-4">Gratulacje! 🥂</h3>
+                        <p className="text-white/60 text-sm font-medium mb-8">{T('dash.reviewDesc')}</p>
+
+                        <div className="flex justify-center gap-2 mb-6">
+                            {[1, 2, 3, 4, 5].map(star => (
+                                <button
+                                    key={star}
+                                    onClick={() => setReviewRating(star)}
+                                    className={`text-4xl transition-all ${star <= reviewRating ? 'text-amber-400 drop-shadow-[0_0_15px_rgba(251,191,36,0.5)] scale-110' : 'text-white/20 hover:text-white/50'}`}
+                                >
+                                    ★
+                                </button>
+                            ))}
+                        </div>
+
+                        <textarea
+                            value={reviewComment}
+                            onChange={(e) => setReviewComment(e.target.value)}
+                            placeholder={T('dash.reviewPlaceholder')}
+                            className="w-full bg-black/20 border border-white/10 p-4 rounded-2xl text-sm text-white focus:border-brand-accent focus:ring-1 focus:ring-brand-accent outline-none mb-8 resize-none min-h-[100px]"
+                        ></textarea>
+
+                        <div className="flex gap-4">
+                            <button
+                                onClick={() => setShowReviewModal(false)}
+                                className="flex-1 px-6 py-4 bg-white/5 hover:bg-white/10 rounded-xl text-xs font-black uppercase tracking-widest transition-all"
+                            >
+                                {T('dash.cancel')}
+                            </button>
+                            <button
+                                onClick={submitReviewAndApprove}
+                                disabled={isCompleting}
+                                className="flex-1 px-6 py-4 bg-brand-accent text-white rounded-xl text-xs font-black uppercase tracking-widest hover:shadow-[0_0_30px_rgba(139,92,246,0.3)] transition-all flex justify-center items-center"
+                            >
+                                {isCompleting ? T('dash.approving') : T('dash.pickupBtn')}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </DashboardLayout>
     );
 }

@@ -3,7 +3,8 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import AdminLayout from '@/components/AdminLayout';
-import { getAgencyServices, ServiceData } from '@/lib/firestoreService';
+import { useLanguage } from '@/context/LanguageContext';
+import { getAgencyServices, deleteAgencyService, ServiceData } from '@/lib/firestoreService';
 
 const cardStyle: React.CSSProperties = {
     background: 'rgba(255,255,255,0.05)',
@@ -27,6 +28,7 @@ const labelStyle: React.CSSProperties = {
 };
 
 export default function AdminServicesPage() {
+    const { T, lang } = useLanguage();
     const [services, setServices] = useState<ServiceData[]>([]);
     const [loading, setLoading] = useState(true);
     const [status, setStatus] = useState<string | null>(null);
@@ -34,15 +36,24 @@ export default function AdminServicesPage() {
     const fetchServices = async () => {
         setLoading(true);
         try {
-            console.log('Fetching services from Firestore...');
             const data = await getAgencyServices();
-            console.log('Fetched services:', data.length);
             setServices(data);
         } catch (error) {
             console.error('Error fetching services:', error);
-            setStatus('Błąd pobierania danych.');
+            setStatus(T('admin.services.errorFetch'));
         } finally {
             setLoading(false);
+        }
+    };
+
+    const handleDelete = async (slug: string) => {
+        if (!window.confirm(T('admin.services.confirmDelete'))) return;
+        try {
+            await deleteAgencyService(slug);
+            setServices(s => s.filter(service => service.slug !== slug));
+        } catch (error) {
+            console.error('Error deleting service', error);
+            alert(T('admin.services.errorDelete'));
         }
     };
 
@@ -54,7 +65,7 @@ export default function AdminServicesPage() {
         <AdminLayout>
             <div style={{ color: 'white', textAlign: 'center', padding: '100px' }}>
                 <div style={{ fontSize: 24, marginBottom: 20 }}>⌛</div>
-                Ładowanie katalogu usług...
+                {T('admin.services.loading')}
             </div>
         </AdminLayout>
     );
@@ -66,10 +77,10 @@ export default function AdminServicesPage() {
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                     <div>
                         <h1 style={{ fontSize: 36, fontWeight: 900, letterSpacing: '-0.03em', margin: 0, color: 'white' }}>
-                            Katalog <span style={{ color: '#3b82f6' }}>Usług</span> (Dynamic)
+                            {T('admin.services.title')} <span style={{ color: '#3b82f6' }}>(Dynamic)</span>
                         </h1>
                         <p style={{ fontSize: 16, color: 'rgba(255,255,255,0.5)', marginTop: 8, fontWeight: 500 }}>
-                            Zarządzaj ofertą usług wyświetlaną na stronie głównej i w panelu klienta. Dane pobierane z Firestore.
+                            {T('admin.services.subtitle')}
                         </p>
                     </div>
                 </div>
@@ -85,7 +96,7 @@ export default function AdminServicesPage() {
                         color: 'rgba(255,255,255,0.4)'
                     }}>
                         <div style={{ fontSize: 40, marginBottom: 16 }}>📂</div>
-                        <h3 style={{ fontSize: 20, color: 'white', marginBottom: 8 }}>Brak usług w bazie danych</h3>
+                        <h3 style={{ fontSize: 20, color: 'white', marginBottom: 8 }}>{T('admin.services.empty')}</h3>
                     </div>
                 ) : (
                     <div style={{
@@ -119,7 +130,7 @@ export default function AdminServicesPage() {
                                         </div>
                                         <div style={{ flex: 1 }}>
                                             <h3 style={{ fontSize: 20, fontWeight: 800, margin: 0, color: 'white' }}>
-                                                {service.translations?.pl?.title || service.slug}
+                                                {service.translations?.[lang]?.title || service.translations?.pl?.title || service.slug}
                                             </h3>
                                             <div style={{ ...labelStyle, marginTop: 4 }}>Slug: {service.slug}</div>
                                         </div>
@@ -136,7 +147,7 @@ export default function AdminServicesPage() {
                                         WebkitBoxOrient: 'vertical',
                                         overflow: 'hidden'
                                     }}>
-                                        {service.translations?.pl?.subtitle || 'Brak opisu'}
+                                        {service.translations?.[lang]?.subtitle || service.translations?.pl?.subtitle || T('admin.services.noDesc')}
                                     </p>
 
                                     <div style={{
@@ -147,14 +158,14 @@ export default function AdminServicesPage() {
                                         borderTop: '1px solid rgba(255,255,255,0.06)',
                                     }}>
                                         <div>
-                                            <div style={labelStyle}>Cena bazowa</div>
+                                            <div style={labelStyle}>{T('admin.services.basePrice')}</div>
                                             <div style={{ fontSize: 17, fontWeight: 800, color: 'white', marginTop: 4 }}>
                                                 {service.price}
                                             </div>
                                         </div>
                                         <div style={{ display: 'flex', gap: 8 }}>
                                             <Link
-                                                href={`/admin/services/${service.slug}`}
+                                                href={`/admin/services/view?slug=${service.slug}`}
                                                 style={{
                                                     padding: '10px 16px', borderRadius: 12,
                                                     background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)',
@@ -162,20 +173,41 @@ export default function AdminServicesPage() {
                                                     textDecoration: 'none',
                                                 }}
                                             >
-                                                Rozwijaj
+                                                {T('admin.services.btnExpand')}
                                             </Link>
-                                            <a
-                                                href={`/services/${service.slug}`}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
+                                            {/* Preview Link */}
+                                            {(() => {
+                                                const existingSlugs = ['ai-agents', 'websites', 'ecommerce', 'automation', 'ai-executive', 'edu', 'mvp', 'ai-audit'];
+                                                const isDynamic = !existingSlugs.includes(service.slug);
+                                                const targetUrl = isDynamic ? `/services/view?slug=${service.slug}` : `/services/${service.slug}`;
+                                                return (
+                                                    <a
+                                                        href={targetUrl}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        style={{
+                                                            padding: '10px 16px', borderRadius: 12,
+                                                            background: `${accentColor}15`, border: `1px solid ${accentColor}30`,
+                                                            color: accentColor, fontSize: 13, fontWeight: 700, textDecoration: 'none',
+                                                        }}
+                                                    >
+                                                        {T('admin.services.btnPreview')}
+                                                    </a>
+                                                );
+                                            })()}
+                                            <button
+                                                onClick={() => handleDelete(service.slug)}
                                                 style={{
                                                     padding: '10px 16px', borderRadius: 12,
-                                                    background: `${accentColor}15`, border: `1px solid ${accentColor}30`,
-                                                    color: accentColor, fontSize: 13, fontWeight: 700, textDecoration: 'none',
+                                                    background: 'rgba(239, 68, 68, 0.1)', border: 'none',
+                                                    color: '#ef4444', fontSize: 12, fontWeight: 700, cursor: 'pointer',
+                                                    transition: 'all 0.2s',
                                                 }}
+                                                onMouseOver={(e) => e.currentTarget.style.background = 'rgba(239, 68, 68, 0.2)'}
+                                                onMouseOut={(e) => e.currentTarget.style.background = 'rgba(239, 68, 68, 0.1)'}
                                             >
-                                                Podgląd
-                                            </a>
+                                                🗑️
+                                            </button>
                                         </div>
                                     </div>
 

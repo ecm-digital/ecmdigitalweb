@@ -2,12 +2,14 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
-import { Lang, t } from '@/translations';
+import { Lang } from '@/translations';
 import { trackAIChat, trackCTAClick } from '@/lib/ga';
-import { saveAIChatMessage, submitAIFeedback } from '@/lib/firestoreService';
+import { saveAIChatMessage, submitAIFeedback, getUserProjects, logAIOSActivity } from '@/lib/firestoreService';
 import { useAuth } from '@/context/AuthContext';
 import { v4 as uuidv4 } from 'uuid';
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import { traceAICall } from '@/lib/langfuse';
+import { useLanguage } from '@/context/LanguageContext';
 
 interface Message {
     role: 'user' | 'bot';
@@ -16,15 +18,12 @@ interface Message {
 
 export default function AIChatbot() {
     const pathname = usePathname();
+    const { T, lang: globalLang } = useLanguage();
     const [isOpen, setIsOpen] = useState(false);
     const [hasMounted, setHasMounted] = useState(false);
-    // Hide on admin pages
-    // Hide on admin pages
-    if (pathname?.startsWith('/admin')) return null;
     const [messages, setMessages] = useState<Message[]>([]);
     const [inputValue, setInputValue] = useState('');
     const [isTyping, setIsTyping] = useState(false);
-    const [lang, setLang] = useState<Lang>('pl');
     const [sessionId, setSessionId] = useState<string>('');
     const [feedbackSent, setFeedbackSent] = useState<Record<number, boolean>>({});
     const [isOnline, setIsOnline] = useState(false);
@@ -32,11 +31,11 @@ export default function AIChatbot() {
     const scrollRef = useRef<HTMLDivElement>(null);
     const kbData = useRef<any>(null);
 
+    // Hooks must be called before any conditional returns
+    const isVisible = !pathname?.startsWith('/admin');
 
     useEffect(() => {
         setHasMounted(true);
-        const stored = localStorage.getItem('ecm-lang') as Lang;
-        if (stored) setLang(stored);
 
         // Session ID
         let sId = sessionStorage.getItem('ecm-ai-session');
@@ -46,52 +45,43 @@ export default function AIChatbot() {
         }
         setSessionId(sId);
 
-        // Initial greeting
-        if (messages.length === 0) {
-            setTimeout(() => {
-                const greeting = getGreeting(stored || 'pl');
-                addBotMessage(greeting);
-            }, 1000);
-        }
-
         // Load Knowledge Base
         const loadKB = async () => {
             try {
-                // Add version/timestamp to bypass cache
                 const kbUrl = `/kb-ecm.json?v=${Date.now()}`;
                 const response = await fetch(kbUrl);
-
-                if (!response.ok) {
-                    console.warn(`⚠️ KB Load Failed: ${response.status} ${response.statusText} for ${kbUrl}`);
-                    return;
+                if (response.ok) {
+                    kbData.current = await response.json();
                 }
-
-                const data = await response.json();
-                kbData.current = data;
             } catch (error) {
-                console.error('❌ KB Syntax/Network Error:', error);
+                console.error('❌ KB Load Error:', error);
             }
         };
         loadKB();
 
-        // Ensure Gemini client check
+        // Check Online Status
         const checkGemini = () => {
-            const winKey = (window as any).NEXT_PUBLIC_GEMINI_API_KEY;
-            const envKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
-            const localKey = localStorage.getItem('GEMINI_API_KEY');
-
-            // Filter out "undefined" or empty strings
-            const apiKey = [winKey, envKey, localKey].find(k => k && k !== 'undefined' && k !== '');
-
+            const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY ||
+                localStorage.getItem('NEXT_PUBLIC_GEMINI_API_KEY') ||
+                localStorage.getItem('GEMINI_API_KEY') ||
+                localStorage.getItem('gemini_api_key');
             if (apiKey) {
                 setIsOnline(true);
             } else {
-                console.warn('⚠️ Gemini API Key not found');
+                console.warn('⚠️ No Gemini API Key found in env or localStorage');
                 setIsOnline(false);
             }
         };
         checkGemini();
     }, []);
+
+    // Effect for greeting on language change
+    useEffect(() => {
+        if (hasMounted && messages.length === 0) {
+            const greeting = getGreeting(globalLang);
+            addBotMessage(greeting);
+        }
+    }, [hasMounted, globalLang]);
 
     useEffect(() => {
         if (scrollRef.current) {
@@ -119,16 +109,21 @@ export default function AIChatbot() {
                 sessionId,
                 role: 'bot',
                 text,
-                lang,
+                lang: globalLang,
                 userId: user?.uid
             });
         }
     };
 
-    const handleSend = async (text: string) => {
-        if (!text.trim()) return;
+    const handleSend = async (text: string, audioBase64?: string) => {
+        if (!text.trim() && !audioBase64) return;
 
-        setMessages(prev => [...prev, { role: 'user', text }]);
+        if (text) {
+            setMessages(prev => [...prev, { role: 'user', text }]);
+        } else if (audioBase64) {
+            setMessages(prev => [...prev, { role: 'user', text: T('chatbot.audioMessage') || '🎤 Audio Message' }]);
+        }
+
         setInputValue('');
         setIsTyping(true);
         trackAIChat('message_sent');
@@ -138,70 +133,91 @@ export default function AIChatbot() {
             saveAIChatMessage({
                 sessionId,
                 role: 'user',
-                text,
-                lang,
+                text: text || '[Audio Message]',
+                lang: globalLang,
                 userId: user?.uid
+            });
+            logAIOSActivity({
+                source: 'chatbot',
+                role: 'user',
+                text: text || '[Audio Message]',
+                lang: globalLang,
+                userId: user?.uid,
+                metadata: { lang: globalLang, sessionId, hasAudio: !!audioBase64 },
             });
         }
 
         try {
-            const winKey = (window as any).NEXT_PUBLIC_GEMINI_API_KEY;
-            const envKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
-            const localKey = localStorage.getItem('GEMINI_API_KEY');
-            const apiKey = [winKey, envKey, localKey].find(k => k && k !== 'undefined' && k !== '');
+            // Prepare context
+            const historyContext = messages.slice(-5).map(m => `${m.role === 'bot' ? 'Asystent' : 'Użytkownik'}: ${m.text}`).join('\n');
 
-            if (apiKey) {
-                const genAI = new GoogleGenerativeAI(apiKey);
-                const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+            let clientProjectsContext = '';
+            if (user?.uid) {
+                try {
+                    const projects = await getUserProjects(user.uid);
+                    if (projects && projects.length > 0) {
+                        clientProjectsContext = `\nZALOGOWANY KLIENT MA OBECNIE NASTĘPUJĄCE PROJEKTY (ZLECENIA) IN PROGRESS:\n`;
+                        clientProjectsContext += projects.map(p => `- Projekt: "${p.title}", Status: "${p.status}", Progres: ${p.progress}%`).join('\n');
+                    }
+                } catch (e) { console.error('Project context error:', e); }
+            }
 
-                // Prepare context from last 5 messages
-                const historyContext = messages.slice(-5).map(m => `${m.role === 'bot' ? 'Asystent' : 'Użytkownik'}: ${m.text}`).join('\n');
+            const systemPrompt = `You are an official AI Assistant for ECM Digital agency. 
+Your goal is to help clients with services: Shopify, Wix, AI Agents, n8n automations, Web Development.
+Current language: ${globalLang}.
 
-                const systemPrompt = `Jesteś oficjalnym asystentem firmy ECM Digital (Agencja Cyfrowa). 
-                Twoim zadaniem jest pomagać klientom, odpowiadać na pytania o usługi i zachęcać do kontaktu.
-                
-                DANE O FIRMIE I OFERCIE (KNOWLEDGE BASE):
-                ${JSON.stringify(kbData.current)}
-                
-                HISTORIA BIEŻĄCEJ ROZMOWY (CONTEXT):
-                ${historyContext}
-                
-                Język odpowiedzi: ${lang === 'pl' ? 'Polski' : lang === 'de' ? 'Niemiecki' : lang === 'szl' ? 'Śląski (Gwara)' : lang === 'es' ? 'Hiszpański' : lang === 'ar' ? 'Arabski' : 'Angielski'}. 
-                WAŻNE: Jeśli język to 'szl', ODPOWIADAJ PO ŚLĄSKU (śląska godka). Bądź autentyczny, używaj gwary. Jeśli 'ar', odpowiadaj po ARABSKU. Jeśli 'es' po HISZPAŃSKU.
-                
-                Zasady:
-                1. Bądź profesjonalny i konkretny.
-                2. ZAWSZE opieraj się na dostarczonej bazie wiedzy. Jeśli pytają o ceny, podaj konkretne kwoty z bazy (np. Strona BASIC od 3500 PLN).
-                3. Jeśli w bazie nie ma informacji, o którą pyta użytkownik, nie zmyślaj. Powiedz, że nie posiadasz tych danych i zachęć do kontaktu na hello@ecm-digital.com.
-                4. Skup się na korzyściach płynących ze współpracy z ECM Digital (np. wysoki ROI, nowoczesny tech stack).
-                5. Odpowiadaj w formacie tekstowym, używając emoji w sposób umiarkowany i profesjonalny.
-                6. Znasz kontekst poprzednich pytań użytkownika z HISTORII ROZMOWY powyżej.
-                
-                TERAZ ODPOWIEDZ NA NAJNOWSZE ZAPYTANIE UŻYTKOWNIKA:
-                Użytkownik: ${text}`;
+DANE O FIRMIE (BASE):
+${kbData.current ? JSON.stringify(kbData.current) : 'ECM Digital - Software & AI Agency.'}
 
-                const result = await model.generateContent(systemPrompt);
-                let responseText = result.response.text();
-                if (responseText.startsWith('Asystent:')) {
-                    responseText = responseText.replace(/^Asystent:\s*/i, '');
-                }
+HISTORIA ROZMOWY:
+${historyContext}
+${clientProjectsContext}
 
+Reply in ${globalLang} language only. Be professional and helpful. If language is 'szl', use Silesian dialect (śląska gwara).`;
+
+            // Call internal API route
+            const response = await fetch('/api/ai', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    prompt: text,
+                    audio: audioBase64,
+                    systemPrompt: systemPrompt
+                })
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                const responseText = data.text;
+                setIsOnline(true);
                 addBotMessage(responseText.trim());
+
+                traceAICall({
+                    name: 'public-chatbot',
+                    input: text || '[Audio]',
+                    output: responseText.trim(),
+                    userId: user?.uid,
+                    metadata: { lang: globalLang, sessionId, hasAudio: !!audioBase64 },
+                });
+
+                logAIOSActivity({
+                    source: 'chatbot',
+                    role: 'bot',
+                    text: responseText.trim().slice(0, 500),
+                    lang: globalLang,
+                    userId: user?.uid,
+                    sessionId,
+                });
             } else {
-                // Fallback to simulated logic
-                setTimeout(() => {
-                    const response = getAIResponseFallback(text, lang);
-                    addBotMessage(response);
-                }, 1000);
+                throw new Error('API Error');
             }
         } catch (error: any) {
-            console.error('Gemini Error (Falling back to offline):', error);
-            // If API fails, fallback to offline response instead of generic error
+            console.error('❌ Chatbot Fetch Error:', error);
             setIsOnline(false);
             setTimeout(() => {
-                const response = getAIResponseFallback(text, lang);
+                const response = getAIResponseFallback(text, globalLang);
                 addBotMessage(response);
-            }, 1000);
+            }, 800);
         } finally {
             setIsTyping(false);
         }
@@ -260,57 +276,63 @@ export default function AIChatbot() {
         de: ['Preise', 'KI-Dienste', 'Wie fange ich an?'],
         szl: ['Wiela za to?', 'Co robicie?', 'Jak zaczynomy?'],
         es: ['Precios', 'Servicios IA', '¿Cómo empezar?'],
-        ar: ['الأسعار', 'خدمات الذكاء الاصطناعي', 'كيف نبدأ؟']
-    }[lang] || ['Pricing', 'AI Services', 'How to start?'];
+        ar: ['الأسعار', 'خدمات الذكاء الاصناعي', 'كيف نبدأ؟']
+    }[globalLang] || ['Pricing', 'AI Services', 'How to start?'];
 
 
-    const [isListening, setIsListening] = useState(false);
-    const recognitionRef = useRef<any>(null);
+    const [isRecording, setIsRecording] = useState(false);
+    const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+    const audioChunksRef = useRef<Blob[]>([]);
 
-    useEffect(() => {
-        if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
-            const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
-            recognitionRef.current = new SpeechRecognition();
-            recognitionRef.current.continuous = false;
-            recognitionRef.current.interimResults = false;
+    const startRecording = async () => {
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            const mediaRecorder = new MediaRecorder(stream);
+            mediaRecorderRef.current = mediaRecorder;
+            audioChunksRef.current = [];
 
-            recognitionRef.current.onresult = (event: any) => {
-                const transcript = event.results[0][0].transcript;
-                setInputValue(prev => prev + (prev ? ' ' : '') + transcript);
-                setIsListening(false);
+            mediaRecorder.ondataavailable = (event) => {
+                if (event.data.size > 0) {
+                    audioChunksRef.current.push(event.data);
+                }
             };
 
-            recognitionRef.current.onerror = (event: any) => {
-                console.error('Speech recognition error', event.error);
-                setIsListening(false);
+            mediaRecorder.onstop = async () => {
+                const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
+                const reader = new FileReader();
+                reader.readAsDataURL(audioBlob);
+                reader.onloadend = async () => {
+                    const base64Audio = (reader.result as string).split(',')[1];
+                    // Send audio to AI
+                    handleSend('', base64Audio);
+                };
+                stream.getTracks().forEach(track => track.stop());
             };
 
-            recognitionRef.current.onend = () => {
-                setIsListening(false);
-            };
-        }
-    }, []);
-
-    const toggleListening = () => {
-        if (!recognitionRef.current) {
-            alert(lang === 'pl' ? 'Twoja przeglądarka nie obsługuje rozpoznawania mowy.' : 'Your browser does not support speech recognition.');
-            return;
-        }
-
-        if (isListening) {
-            recognitionRef.current.stop();
-            setIsListening(false);
-        } else {
-            const langMap: Record<string, string> = {
-                'pl': 'pl-PL', 'de': 'de-DE', 'en': 'en-US', 'szl': 'pl-PL', 'es': 'es-ES', 'ar': 'ar-SA'
-            };
-            recognitionRef.current.lang = langMap[lang] || 'en-US';
-            recognitionRef.current.start();
-            setIsListening(true);
+            mediaRecorder.start();
+            setIsRecording(true);
+        } catch (err) {
+            console.error('Error accessing microphone:', err);
+            alert(T('chatbot.noSpeech'));
         }
     };
 
-    if (!hasMounted) return null;
+    const stopRecording = () => {
+        if (mediaRecorderRef.current && isRecording) {
+            mediaRecorderRef.current.stop();
+            setIsRecording(false);
+        }
+    };
+
+    const toggleListening = () => {
+        if (isRecording) {
+            stopRecording();
+        } else {
+            startRecording();
+        }
+    };
+
+    if (!hasMounted || !isVisible) return null;
 
     return (
         <div className={`ai-chatbot-wrapper ${isOpen ? 'open' : ''}`}>
@@ -363,7 +385,7 @@ export default function AIChatbot() {
                     {messages.map((msg, idx) => (
                         <div key={idx} className={`message ${msg.role}`}>
                             <div className="message-label text-[10px] font-bold uppercase tracking-wider opacity-40 mb-1">
-                                {msg.role === 'bot' ? 'Asystent ECM' : 'Klient'}
+                                {msg.role === 'bot' ? T('chatbot.assistant') : T('chatbot.client')}
                             </div>
                             <div className={`message-bubble relative group p-3 rounded-2xl text-sm leading-relaxed ${msg.role === 'bot'
                                 ? 'bg-white/10 backdrop-blur-md border border-white/20 text-white rounded-tl-none shadow-xl shadow-black/5'
@@ -375,14 +397,14 @@ export default function AIChatbot() {
                                         <button
                                             onClick={() => handleFeedback(idx, true)}
                                             className="w-5 h-5 flex items-center justify-center rounded-full bg-white/10 hover:bg-green-500/20 border border-white/10 transition-colors"
-                                            title="Pomocne"
+                                            title={T('chatbot.helpful')}
                                         >
                                             <span className="text-[10px]">👍</span>
                                         </button>
                                         <button
                                             onClick={() => handleFeedback(idx, false)}
                                             className="w-5 h-5 flex items-center justify-center rounded-full bg-white/10 hover:bg-red-500/20 border border-white/10 transition-colors"
-                                            title="Niepomocne"
+                                            title={T('chatbot.notHelpful')}
                                         >
                                             <span className="text-[10px]">👎</span>
                                         </button>
@@ -390,7 +412,7 @@ export default function AIChatbot() {
                                 )}
                                 {msg.role === 'bot' && feedbackSent[idx] && (
                                     <div className="absolute -bottom-5 left-0 text-[8px] opacity-40 uppercase font-black tracking-widest text-green-400">
-                                        Dziękujemy za feedback!
+                                        {T('chatbot.feedbackThanks')}
                                     </div>
                                 )}
                             </div>
@@ -418,23 +440,26 @@ export default function AIChatbot() {
                 <div className="chatbot-input-area">
                     <div className="chatbot-input-wrapper">
                         <button
-                            className={`mic-button ${isListening ? 'listening' : ''}`}
                             onClick={toggleListening}
-                            title={lang === 'pl' ? 'Kliknij, aby mówić' : 'Click to speak'}
+                            className={`chatbot-mic-btn ${isRecording ? 'active' : ''}`}
+                            title={T('chatbot.micTitle')}
                         >
-                            {isListening ? '⏹️' : (
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                    <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
-                                    <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
-                                    <line x1="12" y1="19" x2="12" y2="23"></line>
-                                    <line x1="8" y1="23" x2="16" y2="23"></line>
-                                </svg>
-                            )}
-                            {isListening && <span className="mic-pulse"></span>}
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                {isRecording ? (
+                                    <rect x="6" y="6" width="12" height="12" fill="currentColor" />
+                                ) : (
+                                    <>
+                                        <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                                        <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                                        <line x1="12" y1="19" x2="12" y2="23"></line>
+                                        <line x1="8" y1="23" x2="16" y2="23"></line>
+                                    </>
+                                )}
+                            </svg>
                         </button>
                         <input
                             type="text"
-                            placeholder={isListening ? (lang === 'pl' ? 'Słucham...' : 'Listening...') : (lang === 'pl' ? 'Zadaj pytanie...' : 'Ask a question...')}
+                            placeholder={isRecording ? T('chatbot.listening') : T('chatbot.placeholder')}
                             value={inputValue}
                             onChange={(e) => setInputValue(e.target.value)}
                             onKeyPress={(e) => e.key === 'Enter' && handleSend(inputValue)}
@@ -444,6 +469,7 @@ export default function AIChatbot() {
                             className="send-button"
                             onClick={() => handleSend(inputValue)}
                             disabled={!inputValue.trim()}
+                            aria-label={T('chatbot.send')}
                         >
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                                 <line x1="22" y1="2" x2="11" y2="13"></line>

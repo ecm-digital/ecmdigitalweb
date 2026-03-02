@@ -34,10 +34,6 @@
   "rewrites": [
     { "source": "/contact", "destination": "/contact.html" },
     { "source": "/login", "destination": "/login.html" },
-    { "source": "/panel", "destination": "https://frontend-pi-peach-14.vercel.app" },
-    { "source": "/panel/:path*", "destination": "https://frontend-pi-peach-14.vercel.app/:path*" },
-    { "source": "/projekty", "destination": "/projekty.html" },
-    { "source": "/agency-management-panel", "destination": "https://agency-management-panel-1tuakrds3-ecm-digitals-projects.vercel.app" },
-    { "source": "/agency-management-panel/:path*", "destination": "https://agency-management-panel-1tuakrds3-ecm-digitals-projects.vercel.app/:path*" }
+    { "source": "/projekty", "destination": "/projekty.html" }
   ]
 }

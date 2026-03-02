@@ -2,7 +2,7 @@
 
 import Script from 'next/script';
 import { usePathname, useSearchParams } from 'next/navigation';
-import { useEffect, Suspense } from 'react';
+import { useEffect, Suspense, useState } from 'react';
 
 function AnalyticsContent({ GA_MEASUREMENT_ID }: { GA_MEASUREMENT_ID: string }) {
     const pathname = usePathname();
@@ -21,6 +21,17 @@ function AnalyticsContent({ GA_MEASUREMENT_ID }: { GA_MEASUREMENT_ID: string }) 
 }
 
 export default function GoogleAnalytics({ GA_MEASUREMENT_ID }: { GA_MEASUREMENT_ID: string }) {
+    const [hasConsent, setHasConsent] = useState(false);
+
+    useEffect(() => {
+        const consent = localStorage.getItem('cookie-consent');
+        if (consent === 'accepted') {
+            setHasConsent(true);
+        }
+    }, []);
+
+    if (!hasConsent) return null;
+
     return (
         <>
             <Script

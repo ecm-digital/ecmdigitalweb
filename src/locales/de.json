@@ -146,7 +146,7 @@
         },
         "design": {
           "title": "Planung",
-          "description": "Strategia i architectura rozwiązania"
+          "description": "Strategie und Lösungsarchitektur"
         },
         "development": {
           "title": "Umsetzung",
@@ -166,9 +166,9 @@
       "phone": "Anrufen"
     },
     "company": {
-      "name": "Scrum Software Sp. z o.o.",
-      "description1": "Die Marke ECM Digital operiert innerhalb der Scrum Software Sp. z o.o., die der formelle Eigentümer aller von uns bereitgestellten Dienstleistungen und die rechtlich verantwortliche Einheit ist.",
-      "description2": "Es ist Scrum Software Sp. z o.o., die Rechnungen ausstellt und Verträge mit Kunden abschließt und vollständige Transparenz und Sicherheit der Zusammenarbeit garantiert.",
+      "name": "ECM Digital",
+      "description1": "ECM Digital bietet umfassende und moderne digitale Lösungen an.",
+      "description2": "Wir garantieren volle Transparenz und Sicherheit der Zusammenarbeit.",
       "badge": "Registrierte Gesellschaft<br>Sp. z o.o.",
       "stats": {
         "aiProjects": "50+",
@@ -184,6 +184,6 @@
   },
   "footer": {
     "copyright": "© 2025 ECM Digital. Alle Rechte vorbehalten.",
-    "poweredBy": "Powered by Scrum Software Sp. z o.o."
+    "poweredBy": ""
   }
 }

@@ -650,9 +650,9 @@ class I18nManager {
                     }
                 },
                 company: {
-                    name: "Scrum Software Sp. z o.o.",
-                    description1: "ECM Digital działa w ramach Scrum Software Sp. z o.o., która jest formalnym właścicielem wszystkich świadczonych przez nas usług i prawnie odpowiedzialnym podmiotem.",
-                    description2: "To Scrum Software Sp. z o.o. wystawia faktury i zawiera umowy z klientami, gwarantując pełną transparentność i bezpieczeństwo współpracy.",
+                    name: "ECM Digital",
+                    description1: "ECM Digital to marka oferująca nowoczesne rozwiązania cyfrowe.",
+                    description2: "Zapewniamy bezpieczeństwo i transparentność współpracy.",
                     badge: "Spółka Zarejestrowana<br>Sp. z o.o.",
                     stats: {
                         aiProjects: "50+",
@@ -860,9 +860,9 @@ class I18nManager {
                     }
                 },
                 company: {
-                    name: "Scrum Software Sp. z o.o.",
-                    description1: "ECM Digital operates within Scrum Software Sp. z o.o., which is the formal owner of all services we provide and the legally responsible entity.",
-                    description2: "It is Scrum Software Sp. z o.o. that issues invoices and enters into contracts with clients, guaranteeing full transparency and security of cooperation.",
+                    name: "ECM Digital",
+                    description1: "ECM Digital is a brand offering modern digital solutions.",
+                    description2: "We ensure security and transparency of cooperation.",
                     badge: "Registered Company<br>Sp. z o.o.",
                     stats: {
                         aiProjects: "50+",
@@ -1111,9 +1111,9 @@ class I18nManager {
                     }
                 },
                 company: {
-                    name: "Scrum Software Sp. z o.o.",
-                    description1: "Die Marke ECM Digital operiert innerhalb der Scrum Software Sp. z o.o., die der formelle Eigentümer aller von uns bereitgestellten Dienstleistungen und die rechtlich verantwortliche Einheit ist.",
-                    description2: "Es ist Scrum Software Sp. z o.o., die Rechnungen ausstellt und Verträge mit Kunden abschließt und vollständige Transparenz und Sicherheit der Zusammenarbeit garantiert.",
+                    name: "ECM Digital",
+                    description1: "ECM Digital bietet umfassende und moderne digitale Lösungen an.",
+                    description2: "Wir garantieren volle Transparenz und Sicherheit der Zusammenarbeit.",
                     badge: "Registrierte Gesellschaft<br>Sp. z o.o.",
                     stats: {
                         aiProjects: "50+",
