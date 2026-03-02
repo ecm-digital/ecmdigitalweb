@@ -119,13 +119,15 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             {/* Sidebar */}
             <aside style={{
                 width: isSidebarOpen ? 280 : 80,
+                height: '100vh',
                 background: 'rgba(255,255,255,0.025)',
                 borderInlineEnd: '1px solid rgba(255,255,255,0.08)',
                 display: 'flex',
                 flexDirection: 'column',
                 transition: 'width 0.3s ease',
                 flexShrink: 0,
-                position: 'relative',
+                position: 'sticky',
+                top: 0,
                 zIndex: 40,
             }}>
                 {/* Logo + Toggle */}
