@@ -18,8 +18,9 @@ export default function ExitIntentPopup() {
     if (hasShown) return;
 
     const handleMouseLeave = (e: MouseEvent) => {
-      // Trigger when mouse leaves from top of the page
-      if (e.clientY <= 0 && !isVisible) {
+      // Trigger when mouse moves above the page (exit intent)
+      // Only trigger if mouse moves significantly above viewport (prevents accidental triggers)
+      if (e.clientY < -50 && !isVisible) {
         setIsVisible(true);
         sessionStorage.setItem('exit-intent-shown', 'true');
       }
