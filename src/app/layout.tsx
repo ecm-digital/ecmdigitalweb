@@ -56,18 +56,20 @@ export const metadata: Metadata = {
 const jsonLd = [
   {
     "@context": "https://schema.org",
-    "@type": ["Organization", "LocalBusiness"],
+    "@type": ["Organization", "LocalBusiness", "ProfessionalService"],
     "name": "ECM Digital",
+    "alternateName": ["ECM Digital - Agencja AI Warszawa", "AI Agency Warsaw"],
     "url": BASE_URL,
     "logo": `${BASE_URL}/assets/images/ecm-digital-og.svg`,
     "image": `${BASE_URL}/assets/images/ecm-digital-og.svg`,
-    "description": "Profesjonalna agencja cyfrowa. Agenci AI, strony WWW, sklepy, aplikacje mobilne i automatyzacja.",
+    "description": "Profesjonalna agencja cyfrowa specjalizująca się w AI Agents. Agenci AI, strony WWW, sklepy, aplikacje mobilne i automatyzacja dla firm w Warszawie i Polsce.",
     "foundingDate": "2024",
     "address": {
       "@type": "PostalAddress",
       "addressCountry": "PL",
       "addressLocality": "Warszawa",
-      "addressRegion": "mazowieckie"
+      "addressRegion": "mazowieckie",
+      "streetAddress": "Warszawa"
     },
     "geo": {
       "@type": "GeoCoordinates",
@@ -75,33 +77,85 @@ const jsonLd = [
       "longitude": 21.0122
     },
     "hasMap": "https://maps.app.goo.gl/QNFQFWqBxsWEkNETA",
-    "contactPoint": {
-      "@type": "ContactPoint",
-      "email": "kontakt@ecm-digital.com",
-      "telephone": "+48535330323",
-      "contactType": "customer service",
-      "availableLanguage": ["Polish", "English", "German", "Silesian", "Spanish", "Arabic"]
-    },
+    "contactPoint": [
+      {
+        "@type": "ContactPoint",
+        "email": "kontakt@ecm-digital.com",
+        "telephone": "+48535330323",
+        "contactType": "customer service",
+        "availableLanguage": ["Polish", "English", "German", "Silesian", "Spanish", "Arabic"]
+      },
+      {
+        "@type": "ContactPoint",
+        "contactType": "Sales",
+        "email": "kontakt@ecm-digital.com",
+        "telephone": "+48535330323"
+      }
+    ],
     "sameAs": [
       "https://www.linkedin.com/company/ecm-digital/",
       "https://www.facebook.com/ecmdigital"
     ],
     "knowsLanguage": ["pl", "en", "de", "szl", "es", "ar"],
-    "areaServed": ["PL", "DE", "EU"],
+    "areaServed": [
+      {
+        "@type": "City",
+        "name": "Warszawa",
+        "addressCountry": "PL"
+      },
+      {
+        "@type": "Country",
+        "name": "Poland"
+      },
+      {
+        "@type": "Country",
+        "name": "Germany"
+      },
+      "EU"
+    ],
     "priceRange": "$$",
     "serviceType": [
-      "Web Development",
       "AI Agent Development",
-      "Mobile App Development",
+      "AI Audit",
+      "Web Development",
       "E-commerce (Shopify/Wix)",
-      "Business Process Automation (N8N)",
+      "Mobile App Development",
+      "Business Process Automation",
       "MVP Prototyping"
-    ]
+    ],
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "AI & Digital Services",
+      "itemListElement": [
+        {
+          "@type": "Offer",
+          "name": "AI Agents",
+          "description": "Custom AI agents for business automation",
+          "priceCurrency": "PLN",
+          "price": "5000-50000"
+        },
+        {
+          "@type": "Offer",
+          "name": "AI Audit",
+          "description": "Professional AI readiness assessment",
+          "priceCurrency": "PLN",
+          "price": "3000"
+        },
+        {
+          "@type": "Offer",
+          "name": "Web Development",
+          "description": "Custom websites and web applications",
+          "priceCurrency": "PLN",
+          "price": "3000-25000"
+        }
+      ]
+    }
   },
   {
     "@context": "https://schema.org",
     "@type": "WebSite",
     "url": BASE_URL,
+    "name": "ECM Digital",
     "potentialAction": {
       "@type": "SearchAction",
       "target": {
@@ -110,6 +164,30 @@ const jsonLd = [
       },
       "query-input": "required name=search_term_string"
     }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ECM Digital",
+        "item": BASE_URL
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Services",
+        "item": `${BASE_URL}/services`
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "AI Agents",
+        "item": `${BASE_URL}/services/ai-agents`
+      }
+    ]
   }
 ];
 
