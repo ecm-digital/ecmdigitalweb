@@ -67,9 +67,11 @@ export default function FAQSection() {
                                         alignItems: 'center',
                                         justifyContent: 'center',
                                         transition: 'all 0.4s',
-                                        transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)'
+                                        transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+                                        fontSize: '1.1rem',
+                                        lineHeight: 1
                                     }} aria-hidden="true">
-                                        ↓
+                                        ▼
                                     </div>
                                 </div>
 
