@@ -12,6 +12,33 @@
 
 /* ECM Digital - New Design System 2026 */
 
+.logo-anim {
+  animation: logo-float 6s ease-in-out infinite, logo-glow 4s ease-in-out infinite alternate;
+  will-change: transform, filter;
+}
+
+@keyframes logo-float {
+
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+
+  50% {
+    transform: translateY(-8px) scale(1.02);
+  }
+}
+
+@keyframes logo-glow {
+  0% {
+    filter: drop-shadow(0 0 5px rgba(59, 130, 246, 0.2));
+  }
+
+  100% {
+    filter: drop-shadow(0 0 20px rgba(59, 130, 246, 0.4));
+  }
+}
+
 .container {
   width: 100%;
   max-width: var(--container-max);
@@ -123,6 +150,24 @@
   /* Spacing */
   --section-padding: 160px;
   --container-max: 1200px;
+}
+
+@media (max-width: 1024px) {
+  :root {
+    --section-padding: 100px;
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --section-padding: 60px;
+  }
+}
+
+@media (max-width: 640px) {
+  :root {
+    --section-padding: 40px;
+  }
 }
 
 /* Grid Background Utility */
@@ -4821,4 +4866,78 @@ h6 {
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+/* --- MOBILE RESPONSIVE OVERRIDES 2026 --- */
+@media (max-width: 768px) {
+  .hero-section {
+    padding-top: 120px !important;
+    padding-bottom: 60px !important;
+    min-height: auto !important;
+  }
+
+  .hero-content {
+    margin-bottom: 40px !important;
+  }
+
+  section.section,
+  section.bg-grid {
+    padding: 80px 0 !important;
+  }
+
+  .service-card {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 16px !important;
+    padding: 32px 24px !important;
+  }
+
+  .service-card .service-icon {
+    margin-bottom: 20px !important;
+  }
+
+  .premium-glass-panel {
+    padding: 24px !important;
+  }
+
+  .case-card-image-wrapper {
+    height: 180px !important;
+  }
+
+  .premium-marquee-wrapper {
+    padding: 30px 0 !important;
+  }
+
+  .stats-grid,
+  .calendar-booking-grid {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .hero-actions a {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+/* Bento Grid - Services Section */
+.bento-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  grid-auto-rows: minmax(360px, auto);
+}
+
+@media (min-width: 768px) {
+  .bento-grid {
+    grid-template-columns: repeat(12, 1fr);
+  }
+  .col-span-4 { grid-column: span 4; }
+  .col-span-8 { grid-column: span 8; }
+  .col-span-12 { grid-column: span 12; }
 }
