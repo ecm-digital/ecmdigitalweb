@@ -538,6 +538,110 @@ iframe[title*="Lokalizacja"]:hover {
     .service-benefits {
         margin-top: 16px;
     }
+
+    /* Contact Section Mobile */
+    .contact-grid {
+        gap: 20px !important;
+    }
+
+    .contact-info h3,
+    .contact-form-wrapper h3 {
+        font-size: 1.5rem !important;
+        margin-bottom: 24px !important;
+    }
+
+    .contact-method h4 {
+        font-size: 1rem !important;
+    }
+
+    .contact-method-icon {
+        width: 40px !important;
+        height: 40px !important;
+        font-size: 1.2rem !important;
+    }
+
+    /* Map Mobile */
+    .map-embed iframe {
+        height: 250px !important;
+    }
+
+    /* Section Header Mobile */
+    .section-header h2 {
+        margin-bottom: 12px;
+    }
+
+    .section-subtitle {
+        font-size: 0.95rem !important;
+    }
+
+    /* Grid Spacing Mobile */
+    [style*="gap: '32px'"],
+    [style*="gap: 32px"],
+    [style*="gap: '40px'"],
+    [style*="gap: 40px"] {
+        gap: 16px !important;
+    }
+
+    /* Process Grid Mobile */
+    .process-grid {
+        gap: 20px !important;
+    }
+
+    /* Service Cards Mobile */
+    .service-card {
+        flex-direction: column !important;
+        gap: 16px !important;
+    }
+
+    /* Blog & Testimonials Grid Mobile */
+    [style*="gridTemplateColumns"] {
+        grid-template-columns: 1fr !important;
+    }
+
+    /* Hero Actions Mobile */
+    .hero-actions {
+        gap: 12px !important;
+    }
+
+    /* Case Study Layout Mobile */
+    [style*="gap: '32px'"] {
+        flex-direction: column !important;
+        gap: 16px !important;
+    }
+
+    /* Button Sizing Mobile */
+    .btn-primary,
+    .btn-secondary,
+    button[class*="cta"],
+    button[class*="button"] {
+        padding: 12px 20px !important;
+        font-size: 0.95rem !important;
+        min-width: auto !important;
+    }
+
+    /* Input Sizing Mobile */
+    input,
+    textarea,
+    select {
+        width: 100% !important;
+    }
+
+    /* Padding Reduction Mobile */
+    [style*="padding: 'clamp(24px"],
+    [style*="padding: clamp(24px"] {
+        padding: clamp(16px, 4vw, 24px) !important;
+    }
+
+    /* Reduced margins on mobile */
+    [style*="marginBottom: '60px'"],
+    [style*="marginBottom: 60px"] {
+        margin-bottom: 30px !important;
+    }
+
+    [style*="marginBottom: '48px'"],
+    [style*="marginBottom: 48px"] {
+        margin-bottom: 24px !important;
+    }
 }
 
 @media (max-width: 640px) {
