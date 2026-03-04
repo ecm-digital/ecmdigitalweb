@@ -435,6 +435,7 @@ iframe[title*="Lokalizacja"]:hover {
 
 /* ===== MOBILE RESPONSIVE FIX ===== */
 @media (max-width: 768px) {
+
     /* Navbar Mobile */
     .mobile-menu-btn {
         display: block !important;
@@ -487,8 +488,7 @@ iframe[title*="Lokalizacja"]:hover {
 
     /* CTA Button Mobile */
     .navbar-cta {
-        padding: 10px 16px !important;
-        font-size: 0.8rem !important;
+        display: none !important;
     }
 
     /* Form Mobile */
