@@ -433,62 +433,105 @@ iframe[title*="Lokalizacja"]:hover {
     border-color: rgba(255, 255, 255, 0.2) !important;
 }
 
+/* ===== MOBILE NAV DROPDOWN ===== */
+.mobile-nav-dropdown {
+    display: none;
+}
+
 /* ===== MOBILE RESPONSIVE FIX ===== */
 @media (max-width: 768px) {
 
     /* Navbar Mobile */
     .mobile-menu-btn {
         display: block !important;
+        flex-shrink: 0;
     }
 
     .navbar-floating {
         padding: 0 16px !important;
+        flex-wrap: wrap;
+        height: auto !important;
+        min-height: 64px;
+        align-content: flex-start;
+        border-radius: 20px !important;
+        top: 12px !important;
     }
 
-    .navbar-floating .navbar-links {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
-        background: rgba(5, 5, 7, 0.95);
-        backdrop-filter: blur(25px);
-        border-radius: 20px;
-        padding: 20px;
-        margin-top: 12px;
-        flex-direction: column !important;
-        gap: 12px !important;
-        max-height: 0;
-        overflow: hidden;
-        transition: max-height 0.3s ease;
-        width: auto;
+    /* Hide desktop links on mobile - they're in navbar-links-container which is display:none */
+    .navbar-links-container {
+        display: none !important;
     }
 
-    .navbar-floating .navbar-links.open {
-        max-height: 400px;
-    }
-
-    .navbar-links li {
-        width: 100%;
-    }
-
-    .navbar-links a {
-        display: block;
-        padding: 12px;
-    }
-
-    /* Language Switcher Mobile */
+    /* Language Switcher - hidden, moved to mobile dropdown */
     .lang-switcher {
-        gap: 4px;
+        display: none !important;
     }
 
-    .lang-switcher button {
-        padding: 3px 8px !important;
-        font-size: 0.65rem !important;
-    }
-
-    /* CTA Button Mobile */
+    /* CTA Button - hidden, moved to mobile dropdown */
     .navbar-cta {
         display: none !important;
+    }
+
+    /* nav-controls: keep visible but minimal on mobile */
+    .nav-controls {
+        margin-inline-start: auto !important;
+        gap: 0 !important;
+    }
+
+    /* Mobile dropdown menu */
+    .mobile-nav-dropdown {
+        display: block;
+        position: absolute;
+        top: calc(100% + 8px);
+        left: 0;
+        right: 0;
+        background: rgba(5, 5, 10, 0.97);
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+        padding: 0;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.35s cubic-bezier(0.16, 1, 0.3, 1), padding 0.35s ease;
+        z-index: 100;
+        width: 100%;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    }
+
+    .mobile-nav-dropdown.open {
+        max-height: 80vh;
+        padding: 20px 16px 16px;
+        overflow-y: auto;
+    }
+
+    .mobile-nav-dropdown ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .mobile-nav-dropdown ul li a {
+        display: block;
+        padding: 14px 16px;
+        color: rgba(255, 255, 255, 0.85);
+        text-decoration: none;
+        font-size: 1.05rem;
+        font-weight: 500;
+        border-radius: 12px;
+        transition: background 0.2s ease, color 0.2s ease;
+    }
+
+    .mobile-nav-dropdown ul li a:hover,
+    .mobile-nav-dropdown ul li a:active {
+        background: rgba(59, 130, 246, 0.12);
+        color: #60a5fa;
+    }
+
+    .mobile-nav-footer {
+        margin-top: 16px;
+        padding-top: 16px;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
     }
 
     /* Form Mobile */
@@ -801,8 +844,76 @@ iframe[title*="Lokalizacja"]:hover {
         font-size: 0.9rem !important;
     }
 
-    /* Link Spacing Mobile */
-    a {
-        padding: 8px 4px;
+    /* Section padding overrides for inline styles */
+    .hero-section {
+        padding-top: 80px !important;
+        padding-bottom: 40px !important;
+    }
+
+    /* Services / other sections with large inline padding */
+    #services,
+    .section {
+        padding-top: 64px !important;
+        padding-bottom: 64px !important;
+    }
+}
+
+/* ===== PERFORMANCE: Disable expensive blur animations on mobile ===== */
+@media (max-width: 768px) {
+    /* Replace blur-based fade-in with simple opacity fade - much cheaper on GPU */
+    .fade-in-up {
+        animation: mobile-fade-in 0.8s ease forwards !important;
+        will-change: opacity !important;
+    }
+
+    @keyframes mobile-fade-in {
+        0% { opacity: 0; transform: translateY(16px); }
+        100% { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Remove blur filter from reveal-on-scroll */
+    .reveal-on-scroll {
+        filter: none !important;
+        transform: translateY(16px);
+        transition: opacity 0.6s ease, transform 0.6s ease !important;
+    }
+
+    .reveal-on-scroll.active {
+        opacity: 1;
+        filter: none !important;
+        transform: translateY(0);
+    }
+
+    /* Disable logo glow animation - cheaper on mobile */
+    .logo-anim {
+        animation: logo-float 6s ease-in-out infinite !important;
+        will-change: transform !important;
+    }
+
+    /* Disable marquee animation pause effect - GPU friendly */
+    .premium-marquee-animated {
+        will-change: transform;
+    }
+
+    /* Reduce backdrop-filter complexity */
+    .premium-glass-panel {
+        backdrop-filter: blur(10px) !important;
+        -webkit-backdrop-filter: blur(10px) !important;
+    }
+}
+
+/* ===== PERFORMANCE: Respect prefers-reduced-motion ===== */
+@media (prefers-reduced-motion: reduce) {
+    .fade-in-up,
+    .reveal-on-scroll,
+    .logo-anim,
+    .premium-button-shine::after,
+    .premium-marquee-animated {
+        animation: none !important;
+        transition: none !important;
+        opacity: 1 !important;
+        filter: none !important;
+        transform: none !important;
+        will-change: auto !important;
     }
 }

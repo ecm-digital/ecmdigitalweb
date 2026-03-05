@@ -6,11 +6,16 @@ export default function ParticlesBackground() {
     const canvasRef = useRef<HTMLCanvasElement>(null);
 
     useEffect(() => {
+        // Skip animation if user prefers reduced motion
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
         const canvas = canvasRef.current;
         if (!canvas) return;
 
         const ctx = canvas.getContext('2d');
         if (!ctx) return;
+
+        const isMobile = window.innerWidth < 768;
 
         let animationFrameId: number;
         let particles: Particle[] = [];
@@ -58,13 +63,24 @@ export default function ParticlesBackground() {
 
         const init = () => {
             particles = [];
-            const particleCount = Math.floor((window.innerWidth * window.innerHeight) / 15000);
-            for (let i = 0; i < particleCount; i++) {
+            // On mobile use far fewer particles for better performance
+            const density = isMobile ? 60000 : 15000;
+            const particleCount = Math.floor((window.innerWidth * window.innerHeight) / density);
+            for (let i = 0; i < Math.min(particleCount, isMobile ? 20 : 80); i++) {
                 particles.push(new Particle());
             }
         };
 
-        const animate = () => {
+        // On mobile, throttle to ~30fps instead of 60fps
+        let lastFrameTime = 0;
+        const targetInterval = isMobile ? 33 : 0; // ~30fps on mobile, unlimited on desktop
+
+        const animate = (timestamp: number) => {
+            if (isMobile && timestamp - lastFrameTime < targetInterval) {
+                animationFrameId = requestAnimationFrame(animate);
+                return;
+            }
+            lastFrameTime = timestamp;
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             particles.forEach(p => {
                 p.update();
@@ -73,13 +89,18 @@ export default function ParticlesBackground() {
             animationFrameId = requestAnimationFrame(animate);
         };
 
-        window.addEventListener('resize', resize);
+        const handleResize = () => {
+            resize();
+            init();
+        };
+
+        window.addEventListener('resize', handleResize);
         resize();
         init();
-        animate();
+        animationFrameId = requestAnimationFrame(animate);
 
         return () => {
-            window.removeEventListener('resize', resize);
+            window.removeEventListener('resize', handleResize);
             cancelAnimationFrame(animationFrameId);
         };
     }, []);
