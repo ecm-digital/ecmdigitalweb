@@ -18,20 +18,21 @@ export async function POST(req: Request) {
 
         const fetchOpts = { headers: { 'Authorization': `Bearer ${phKey}` } };
 
-        // 1. Get project ID
+        // 1. Determine Project ID
+        let projectId = process.env.POSTHOG_PROJECT_ID;
         const host = phHost.replace('.i.', '.'); // Convert tracking host to API host
-        const projRes = await fetch(`${host}/api/projects/`, fetchOpts);
 
-        if (!projRes.ok) {
-            throw new Error(`Connection error with PostHog projects: ${projRes.statusText}`);
+        if (!projectId) {
+            const projRes = await fetch(`${host}/api/projects/`, fetchOpts);
+            if (!projRes.ok) {
+                throw new Error(`Connection error with PostHog projects: ${projRes.statusText}`);
+            }
+            const projData = await projRes.json();
+            if (!projData.results || projData.results.length === 0) {
+                throw new Error("No projects found under this Personal token.");
+            }
+            projectId = projData.results[0].id;
         }
-
-        const projData = await projRes.json();
-        if (!projData.results || projData.results.length === 0) {
-            throw new Error("No projects found under this Personal token.");
-        }
-
-        const projectId = projData.results[0].id;
 
         // 2. Fetch Top Pageviews last period
         const eventsRes = await fetch(`${host}/api/projects/${projectId}/events/?limit=500&event=$pageview`, fetchOpts);
