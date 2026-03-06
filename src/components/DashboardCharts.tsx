@@ -80,21 +80,25 @@ export default function DashboardCharts({ campaigns }: DashboardChartsProps) {
         return Object.values(platforms);
     }, [campaigns]);
 
-    const aiInsights = useMemo(() => {
-        const avgCpa = campaigns.length > 0 ? campaigns.reduce((acc, c) => acc + c.cpa, 0) / campaigns.length : 0;
-        if (totalConversions > 100 && avgCpa < 50) {
-            return {
-                title: "Optymalizacja Wybitna",
-                text: "Twoje kampanie osiągają wyniki powyżej średniej rynkowej. Koszt pozyskania (CPA) jest stabilny. Zalecamy zwiększenie skali o 15% w nadchodzącym miesiącu.",
-                type: "success"
-            };
-        }
-        return {
-            title: "Potencjał Skalowania",
-            text: "Widzimy stabilny trend wzrostowy konwersji. Twoja obecna struktura konta jest gotowa na przyjęcie większego ruchu bez utraty efektywności.",
-            type: "info"
-        };
-    }, [totalConversions, campaigns]);
+    const [aiInsights, setAiInsights] = useState({
+        title: "Analizowanie Trendów...",
+        text: "Aktywowano Agenturę AI. Trwa połączenie z analityką PostHog, by odszukać kluczowe schematy, zinterpretować kliknięcia i ułożyć raport marketingowy...",
+        type: "info",
+        loading: true
+    });
+
+    useEffect(() => {
+        setHasMounted(true);
+        fetch('/api/ai/posthog-insights', { method: 'POST' })
+            .then(res => res.json())
+            .then(data => setAiInsights({ ...data, loading: false }))
+            .catch(() => setAiInsights({
+                title: "Błąd Modułu",
+                text: "Nie udało się skomunikować z silnikiem Gemini LLM. Spróbuj odświeżyć by przeładować wtyczkę.",
+                type: "error",
+                loading: false
+            }));
+    }, []);
 
     if (!hasMounted) {
         return <div className="grid grid-cols-1 xl:grid-cols-2 gap-10 min-h-[800px] animate-pulse">
