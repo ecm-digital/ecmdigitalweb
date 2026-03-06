@@ -67,6 +67,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 { name: T('admin.nav.meetingAi'), icon: '🗣️', href: '/admin/meeting-intelligence' },
                 { name: T('admin.nav.marketAnalysis'), icon: '📈', href: '/admin/market-analysis' },
                 { name: T('admin.nav.aiosLogs'), icon: '🪵', href: '/admin/aios-logs' },
+                { name: '🔍 Website Analyzer', icon: '🔍', href: '/admin/website-analyzer' },
             ],
         },
         {
