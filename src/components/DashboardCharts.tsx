@@ -20,6 +20,7 @@ import {
 } from 'recharts';
 import { Campaign } from '@/lib/firestoreService';
 import { TrendingUp, AlertCircle, Zap, Target } from 'lucide-react';
+import { PostHogAIService } from '@/lib/posthogAI';
 
 interface DashboardChartsProps {
     campaigns: Campaign[];
@@ -89,12 +90,11 @@ export default function DashboardCharts({ campaigns }: DashboardChartsProps) {
 
     useEffect(() => {
         setHasMounted(true);
-        fetch('/api/ai/posthog-insights', { method: 'POST' })
-            .then(res => res.json())
+        PostHogAIService.getAnalysis()
             .then(data => setAiInsights({ ...data, loading: false }))
             .catch(() => setAiInsights({
                 title: "Błąd Modułu",
-                text: "Nie udało się skomunikować z silnikiem Gemini LLM. Spróbuj odświeżyć by przeładować wtyczkę.",
+                text: "Nie udało się skomunikować z silnikiem Gemini LLM lub PostHog. Sprawdź konfigurację kluczy.",
                 type: "error",
                 loading: false
             }));
