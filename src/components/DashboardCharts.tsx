@@ -47,10 +47,6 @@ const generateDailyTrends = (totalValue: number, days: number = 30) => {
 export default function DashboardCharts({ campaigns }: DashboardChartsProps) {
     const [hasMounted, setHasMounted] = useState(false);
 
-    useEffect(() => {
-        setHasMounted(true);
-    }, []);
-
     const totalConversions = useMemo(() => campaigns.reduce((acc, c) => acc + c.conversions, 0), [campaigns]);
     const totalSpend = useMemo(() => campaigns.reduce((acc, c) => acc + c.spent, 0), [campaigns]);
     const totalBudget = useMemo(() => campaigns.reduce((acc, c) => acc + c.budget, 0), [campaigns]);
@@ -81,12 +77,15 @@ export default function DashboardCharts({ campaigns }: DashboardChartsProps) {
         return Object.values(platforms);
     }, [campaigns]);
 
-    const [aiInsights, setAiInsights] = useState({
+    const [aiInsights, setAiInsights] = useState<{ title: string, text: string, type: string, loading: boolean, trendingUrls?: string[] }>({
         title: "Analizowanie Trendów...",
         text: "Aktywowano Agenturę AI. Trwa połączenie z analityką PostHog, by odszukać kluczowe schematy, zinterpretować kliknięcia i ułożyć raport marketingowy...",
         type: "info",
         loading: true
     });
+
+    const [linkedinPost, setLinkedinPost] = useState<{ text: string, loading: boolean }>({ text: '', loading: false });
+    const [showLinkedIn, setShowLinkedIn] = useState(false);
 
     useEffect(() => {
         setHasMounted(true);
@@ -99,6 +98,35 @@ export default function DashboardCharts({ campaigns }: DashboardChartsProps) {
                 loading: false
             }));
     }, []);
+
+    const generateLinkedInPost = async () => {
+        if (!aiInsights.trendingUrls) return;
+        setLinkedinPost({ text: '', loading: true });
+        setShowLinkedIn(true);
+
+        const prompt = `Jesteś ekspertem social media marketingu dla ECM Digital. Na podstawie tych trendów ruchu:
+        ${aiInsights.trendingUrls.join('\n')}
+        Napisz angażujący post na LinkedIn (po polsku), który promuje nasze najpopularniejsze usługi. 
+        Styl: Premium, bold, wizjonerski (Agencja Przyszłości 2026). 
+        Użyj 3-4 emoji, 3 hashtagów. Post o długości max 1500 znaków.`;
+
+        try {
+            const res = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=' + (process.env.NEXT_PUBLIC_GEMINI_API_KEY || ''), {
+                method: 'POST',
+                body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+            });
+            const data = await res.json();
+            const text = data.candidates?.[0]?.content?.parts?.[0]?.text || 'Błąd generowania. Spróbuj ponownie.';
+            setLinkedinPost({ text, loading: false });
+        } catch (e) {
+            setLinkedinPost({ text: 'Wystąpił błąd połączenia.', loading: false });
+        }
+    };
+
+    const copyToClipboard = (text: string) => {
+        navigator.clipboard.writeText(text);
+        alert('Skopiowano! 📋');
+    };
 
     if (!hasMounted) {
         return <div className="grid grid-cols-1 xl:grid-cols-2 gap-10 min-h-[800px] animate-pulse">
@@ -204,7 +232,7 @@ export default function DashboardCharts({ campaigns }: DashboardChartsProps) {
                 </div>
 
                 <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none mt-16">
-                    <span className="text-4xl font-black font-space-grotesk italic text-gray-900">{Math.round((totalSpend / totalBudget) * 100)}%</span>
+                    <span className="text-4xl font-black font-space-grotesk italic text-gray-900">{totalSpend && totalBudget ? Math.round((totalSpend / totalBudget) * 100) : 0}%</span>
                     <span className="text-[8px] font-black uppercase tracking-[0.3em] text-gray-300">Wydane</span>
                 </div>
             </div>
@@ -269,11 +297,46 @@ export default function DashboardCharts({ campaigns }: DashboardChartsProps) {
                         {aiInsights.text}
                     </p>
 
-                    <div className="flex gap-4">
-                        <button className="px-8 py-4 bg-brand-accent text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:shadow-[0_0_30px_rgba(139,92,246,0.3)] transition-all flex items-center gap-2">
-                            <span>Wdroż rekomendację</span>
-                            <Zap size={12} fill="currentColor" />
-                        </button>
+                    <div className="flex flex-col gap-4">
+                        <div className="flex gap-4">
+                            <button className="px-8 py-4 bg-brand-accent text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:shadow-[0_0_30px_rgba(139,92,246,0.3)] transition-all flex items-center gap-2">
+                                <span>Wdroż rekomendację</span>
+                                <Zap size={12} fill="currentColor" />
+                            </button>
+
+                            {aiInsights.type === 'success' && !aiInsights.loading && (
+                                <button
+                                    onClick={generateLinkedInPost}
+                                    disabled={linkedinPost.loading}
+                                    className="px-6 py-4 bg-white/5 hover:bg-white/10 border border-brand-accent/30 text-brand-accent rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-2"
+                                >
+                                    <span>{linkedinPost.loading ? 'Generowanie...' : '💼 Post LinkedIn'}</span>
+                                </button>
+                            )}
+                        </div>
+
+                        {showLinkedIn && (
+                            <div className="mt-4 bg-black/40 border border-white/10 rounded-3xl p-6 animate-fade-in relative">
+                                <div className="flex justify-between items-center mb-4">
+                                    <span className="text-[9px] font-black text-brand-accent uppercase tracking-widest">Wersja robocza LinkedIn</span>
+                                    <div className="flex gap-4">
+                                        <button onClick={() => copyToClipboard(linkedinPost.text)} className="text-[9px] font-bold text-white hover:text-brand-accent transition-colors uppercase">Kopiuj</button>
+                                        <button onClick={() => setShowLinkedIn(false)} className="text-[9px] font-bold text-white/20 hover:text-white transition-colors uppercase">Zamknij</button>
+                                    </div>
+                                </div>
+                                {linkedinPost.loading ? (
+                                    <div className="space-y-3 animate-pulse">
+                                        <div className="h-2 bg-white/5 rounded w-full"></div>
+                                        <div className="h-2 bg-white/5 rounded w-5/6"></div>
+                                        <div className="h-2 bg-white/5 rounded w-4/6"></div>
+                                    </div>
+                                ) : (
+                                    <div className="max-h-[200px] overflow-y-auto custom-scrollbar pr-2">
+                                        <p className="text-[12px] leading-relaxed text-white/70 whitespace-pre-wrap italic font-inter">{linkedinPost.text}</p>
+                                    </div>
+                                )}
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>

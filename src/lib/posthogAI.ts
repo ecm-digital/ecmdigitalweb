@@ -4,6 +4,7 @@ export interface PostHogInsight {
     title: string;
     text: string;
     type: 'success' | 'info' | 'warning' | 'error';
+    trendingUrls?: string[];
 }
 
 export class PostHogAIService {
@@ -81,7 +82,8 @@ export class PostHogAIService {
             return {
                 title: "Insights z PostHog (AI)",
                 text: aiResponse.text.replace(/\*\*/g, ""),
-                type: "success"
+                type: "success",
+                trendingUrls: sortedUrls
             };
 
         } catch (error: any) {
