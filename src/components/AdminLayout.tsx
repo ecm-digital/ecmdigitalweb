@@ -42,6 +42,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             label: 'CRM & Sprzedaż',
             items: [
                 { name: T('admin.nav.clients'), icon: '👥', href: '/admin/clients' },
+                { name: 'Lead Pipeline', icon: '📈', href: '/admin/leads' },
+                { name: 'Prospect Analyzer', icon: '🔍', href: '/admin/prospect-intelligence' },
                 { name: T('admin.nav.projects'), icon: '🚀', href: '/admin/client-projects' },
                 { name: T('admin.nav.offers'), icon: '💼', href: '/admin/offers' },
                 { name: T('admin.nav.calendar'), icon: '📅', href: '/admin/calendar' },

@@ -77,14 +77,18 @@ export default function DashboardCharts({ campaigns }: DashboardChartsProps) {
         return Object.values(platforms);
     }, [campaigns]);
 
-    const [aiInsights, setAiInsights] = useState<{ title: string, text: string, type: string, loading: boolean, trendingUrls?: string[] }>({
+    const [aiInsights, setAiInsights] = useState<{ title: string, text: string, type: string, loading: boolean, trendingUrls?: string[], reasoning?: string }>({
         title: "Analizowanie Trendów...",
         text: "Aktywowano Agenturę AI. Trwa połączenie z analityką PostHog, by odszukać kluczowe schematy, zinterpretować kliknięcia i ułożyć raport marketingowy...",
         type: "info",
         loading: true
     });
 
-    const [linkedinPost, setLinkedinPost] = useState<{ text: string, loading: boolean }>({ text: '', loading: false });
+    const [linkedinPost, setLinkedinPost] = useState<{ versions: { title: string, text: string }[], currentVersion: number, loading: boolean }>({
+        versions: [],
+        currentVersion: 0,
+        loading: false
+    });
     const [showLinkedIn, setShowLinkedIn] = useState(false);
     const [publishing, setPublishing] = useState(false);
 
@@ -102,25 +106,46 @@ export default function DashboardCharts({ campaigns }: DashboardChartsProps) {
 
     const generateLinkedInPost = async () => {
         if (!aiInsights.trendingUrls) return;
-        setLinkedinPost({ text: '', loading: true });
+        setLinkedinPost({ versions: [], currentVersion: 0, loading: true });
         setShowLinkedIn(true);
 
-        const prompt = `Jesteś ekspertem social media marketingu dla ECM Digital. Na podstawie tych trendów ruchu:
-        ${aiInsights.trendingUrls.join('\n')}
-        Napisz angażujący post na LinkedIn (po polsku), który promuje nasze najpopularniejsze usługi. 
-        Styl: Premium, bold, wizjonerski (Agencja Przyszłości 2026). 
-        Użyj 3-4 emoji, 3 hashtagów. Post o długości max 1500 znaków.`;
-
         try {
+            const settings = await getAgencySettings();
+            const brandDNA = settings?.aiKnowledge || 'ECM Digital to agencja przyszłości 2026.';
+
+            const prompt = `Jesteś ekspertem social media marketingu dla ECM Digital. 
+            Twoja Baza Wiedzy o ECM Digital:
+            ${brandDNA}
+
+            Na podstawie tych trendów ruchu:
+            ${aiInsights.trendingUrls.join('\n')}
+            
+            Napisz 3 różne wersje postów na LinkedIn (po polsku), promujące nasze usługi. 
+            Odpowiedz w formacie JSON:
+            {
+              "versions": [
+                {"title": "Wizjonerski", "text": "treść posta..."},
+                {"title": "Case Study", "text": "treść posta..."},
+                {"title": "Edukacyjny", "text": "treść posta..."}
+              ]
+            }
+            Styl: Premium, bold, 2026. Max 1500 znaków na post.`;
+
             const res = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=' + (process.env.NEXT_PUBLIC_GEMINI_API_KEY || ''), {
                 method: 'POST',
-                body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+                body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }], generationConfig: { response_mime_type: "application/json" } })
             });
             const data = await res.json();
-            const text = data.candidates?.[0]?.content?.parts?.[0]?.text || 'Błąd generowania. Spróbuj ponownie.';
-            setLinkedinPost({ text, loading: false });
+            const resultText = data.candidates?.[0]?.content?.parts?.[0]?.text;
+            const parsed = JSON.parse(resultText);
+
+            setLinkedinPost({
+                versions: parsed.versions || [],
+                currentVersion: 0,
+                loading: false
+            });
         } catch (e) {
-            setLinkedinPost({ text: 'Wystąpił błąd połączenia.', loading: false });
+            setLinkedinPost({ versions: [{ title: 'Błąd', text: 'Wystąpił błąd połączenia.' }], currentVersion: 0, loading: false });
         }
     };
 
@@ -130,7 +155,8 @@ export default function DashboardCharts({ campaigns }: DashboardChartsProps) {
     };
 
     const publishToLinkedIn = async () => {
-        if (!linkedinPost.text) return;
+        const currentPost = linkedinPost.versions[linkedinPost.currentVersion];
+        if (!currentPost?.text) return;
         setPublishing(true);
         try {
             const settings = await getAgencySettings();
@@ -144,9 +170,10 @@ export default function DashboardCharts({ campaigns }: DashboardChartsProps) {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    content: linkedinPost.text,
+                    title: currentPost.title,
+                    content: currentPost.text,
                     timestamp: new Date().toISOString(),
-                    source: 'ECM Admin AI'
+                    source: 'ECM Admin AI Multi-Angle'
                 })
             });
 
@@ -327,9 +354,26 @@ export default function DashboardCharts({ campaigns }: DashboardChartsProps) {
                         {aiInsights.title}
                     </h5>
 
-                    <p className="text-sm text-gray-500 leading-relaxed font-medium mb-10 max-w-md">
+                    <p className="text-sm text-gray-500 leading-relaxed font-medium mb-6 max-w-md">
                         {aiInsights.text}
                     </p>
+
+                    {aiInsights.reasoning && (
+                        <div className="mb-10 p-5 bg-white/5 border border-white/10 rounded-3xl relative group/reasoning overflow-hidden">
+                            <div className="absolute top-0 right-0 p-3 text-[9px] font-black uppercase text-brand-accent/20 tracking-widest italic">Agent Logic Trace</div>
+                            <div className="flex gap-4 items-start">
+                                <div className="p-2 bg-brand-accent/10 rounded-xl text-brand-accent">
+                                    <Zap size={14} fill="currentColor" />
+                                </div>
+                                <div className="space-y-1">
+                                    <span className="text-[10px] font-black text-white/30 uppercase tracking-widest">Wnioskowanie Agenta:</span>
+                                    <p className="text-[11px] leading-relaxed text-white/50 italic font-inter font-medium pr-8">
+                                        {aiInsights.reasoning}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    )}
 
                     <div className="flex flex-col gap-4">
                         <div className="flex gap-4">
@@ -351,18 +395,31 @@ export default function DashboardCharts({ campaigns }: DashboardChartsProps) {
 
                         {showLinkedIn && (
                             <div className="mt-4 bg-black/40 border border-white/10 rounded-3xl p-6 animate-fade-in relative">
-                                <div className="flex justify-between items-center mb-4">
-                                    <span className="text-[9px] font-black text-brand-accent uppercase tracking-widest">Wersja robocza LinkedIn</span>
+                                <div className="flex justify-between items-center mb-6">
+                                    <div className="flex gap-2">
+                                        {!linkedinPost.loading && linkedinPost.versions.map((v, i) => (
+                                            <button
+                                                key={i}
+                                                onClick={() => setLinkedinPost(prev => ({ ...prev, currentVersion: i }))}
+                                                className={`px-3 py-1.5 rounded-xl text-[8px] font-black uppercase tracking-wider transition-all ${linkedinPost.currentVersion === i
+                                                        ? 'bg-brand-accent text-white shadow-lg shadow-brand-accent/20'
+                                                        : 'bg-white/5 text-white/40 hover:bg-white/10'
+                                                    }`}
+                                            >
+                                                {v.title}
+                                            </button>
+                                        ))}
+                                    </div>
                                     <div className="flex gap-4">
                                         <button
                                             onClick={publishToLinkedIn}
-                                            disabled={publishing || !linkedinPost.text}
+                                            disabled={publishing || linkedinPost.loading || !linkedinPost.versions[linkedinPost.currentVersion]}
                                             className="text-[9px] font-black text-brand-accent hover:text-white transition-colors uppercase flex items-center gap-1.5"
                                         >
                                             <Share2 size={10} />
                                             {publishing ? 'Wysyłanie...' : 'Publikuj'}
                                         </button>
-                                        <button onClick={() => copyToClipboard(linkedinPost.text)} className="text-[9px] font-bold text-white hover:text-brand-accent transition-colors uppercase">Kopiuj</button>
+                                        <button onClick={() => copyToClipboard(linkedinPost.versions[linkedinPost.currentVersion]?.text || '')} className="text-[9px] font-bold text-white hover:text-brand-accent transition-colors uppercase">Kopiuj</button>
                                         <button onClick={() => setShowLinkedIn(false)} className="text-[9px] font-bold text-white/20 hover:text-white transition-colors uppercase">Zamknij</button>
                                     </div>
                                 </div>
@@ -373,8 +430,10 @@ export default function DashboardCharts({ campaigns }: DashboardChartsProps) {
                                         <div className="h-2 bg-white/5 rounded w-4/6"></div>
                                     </div>
                                 ) : (
-                                    <div className="max-h-[200px] overflow-y-auto custom-scrollbar pr-2">
-                                        <p className="text-[12px] leading-relaxed text-white/70 whitespace-pre-wrap italic font-inter">{linkedinPost.text}</p>
+                                    <div className="max-h-[250px] overflow-y-auto custom-scrollbar pr-2">
+                                        <p className="text-[12px] leading-relaxed text-white/70 whitespace-pre-wrap italic font-inter">
+                                            {linkedinPost.versions[linkedinPost.currentVersion]?.text}
+                                        </p>
                                     </div>
                                 )}
                             </div>

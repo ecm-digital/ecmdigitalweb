@@ -109,6 +109,11 @@ export interface AgencySettings {
     products?: AgencyProduct[];
     googleAds?: GoogleAdsConfig;
     linkedinWebhook?: string;
+    aiKnowledge?: string;
+    videoOutreachWebhook?: string;
+    outreachWebhook?: string;
+    telegramBotToken?: string;
+    telegramChatId?: string;
     updatedAt: Timestamp;
 }
 
@@ -134,6 +139,38 @@ export interface Offer {
     videoUrl?: string;
 }
 
+export interface Prospect {
+    id: string;
+    companyName: string;
+    url?: string;
+    status: 'New' | 'Video Sent' | 'Outreach Active' | 'Replied' | 'Meeting Booked';
+    painPoints: any[];
+    pitch: any;
+    videoScript: any;
+    agentReasoning: string;
+    createdAt: Timestamp;
+}
+
+export async function saveProspect(prospect: Omit<Prospect, 'id' | 'createdAt'>): Promise<string> {
+    const colRef = collection(db, 'prospects');
+    const docRef = await addDoc(colRef, {
+        ...prospect,
+        createdAt: serverTimestamp()
+    });
+    return docRef.id;
+}
+
+export async function getProspects(): Promise<Prospect[]> {
+    const colRef = collection(db, 'prospects');
+    const q = query(colRef, orderBy('createdAt', 'desc'));
+    const snapshot = await getDocs(q);
+    return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Prospect));
+}
+
+export async function updateProspectStatus(id: string, status: Prospect['status']): Promise<void> {
+    const docRef = doc(db, 'prospects', id);
+    await updateDoc(docRef, { status });
+}
 export type CampaignStatus = 'Planowana' | 'Aktywna' | 'Wstrzymana' | 'Zakończona';
 
 export interface Campaign {

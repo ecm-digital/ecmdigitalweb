@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     url: BASE_URL,
     title: "ECM Digital – Agencja Cyfrowa | AI, Strony WWW, Aplikacje",
     description: "Profesjonalna agencja cyfrowa. Agenci AI, strony WWW, sklepy, aplikacje i automatyzacja.",
-    images: ["/assets/images/ecm-digital-og.svg"],
+    images: ["/assets/images/ecm-og-premium.png"],
     locale: "pl_PL",
     alternateLocale: ["en_US", "de_DE", "szl_PL", "es_ES", "ar_SA"],
   },
@@ -44,6 +44,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "ECM Digital – Agencja Cyfrowa",
     description: "Profesjonalna agencja cyfrowa. Agenci AI, strony WWW, sklepy, aplikacje i automatyzacja.",
+    images: ["/assets/images/ecm-og-premium.png"],
   },
   manifest: "/manifest.webmanifest",
   appleWebApp: {
@@ -60,8 +61,8 @@ const jsonLd = [
     "name": "ECM Digital",
     "alternateName": ["ECM Digital - Agencja AI Warszawa", "AI Agency Warsaw"],
     "url": BASE_URL,
-    "logo": `${BASE_URL}/assets/images/ecm-digital-og.svg`,
-    "image": `${BASE_URL}/assets/images/ecm-digital-og.svg`,
+    "logo": `${BASE_URL}/assets/images/ecm-og-premium.png`,
+    "image": `${BASE_URL}/assets/images/ecm-og-premium.png`,
     "description": "Profesjonalna agencja cyfrowa specjalizująca się w AI Agents. Agenci AI, strony WWW, sklepy, aplikacje mobilne i automatyzacja dla firm w Warszawie i Polsce.",
     "foundingDate": "2024",
     "address": {

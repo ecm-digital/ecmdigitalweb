@@ -11,7 +11,7 @@ import { useLanguage } from '@/context/LanguageContext';
 export default function AdminSettingsPage() {
     const { T } = useLanguage();
     const { showToast } = useNotifications();
-    const [activeTab, setActiveTab] = useState<'branding' | 'contact' | 'services' | 'integrations'>('branding');
+    const [activeTab, setActiveTab] = useState<'branding' | 'contact' | 'services' | 'integrations' | 'knowledge'>('branding');
     const [settings, setSettings] = useState<AgencySettings>({
         agencyName: '',
         tagline: '',
@@ -23,7 +23,12 @@ export default function AdminSettingsPage() {
         services: [],
         products: [],
         googleAds: { clientId: '', clientSecret: '', developerToken: '', refreshToken: '', customerId: '' },
-        linkedinWebhook: '',
+        linkedinWebhook: 'https://hook.eu2.make.com/15r33mjvg6jsv9b7h0uycndx4wm9kcmd',
+        aiKnowledge: '',
+        videoOutreachWebhook: '', // Added videoOutreachWebhook
+        outreachWebhook: '',
+        telegramBotToken: '',
+        telegramChatId: '',
         updatedAt: null as any,
     });
     const [loading, setLoading] = useState(true);
@@ -41,7 +46,12 @@ export default function AdminSettingsPage() {
                     services: data.services || [],
                     products: data.products || [],
                     googleAds: data.googleAds || { clientId: '', clientSecret: '', developerToken: '', refreshToken: '', customerId: '' },
-                    linkedinWebhook: data.linkedinWebhook || '',
+                    linkedinWebhook: data.linkedinWebhook || 'https://hook.eu2.make.com/15r33mjvg6jsv9b7h0uycndx4wm9kcmd',
+                    aiKnowledge: data.aiKnowledge || '',
+                    videoOutreachWebhook: data.videoOutreachWebhook || '', // Initialize videoOutreachWebhook
+                    outreachWebhook: data.outreachWebhook || '',
+                    telegramBotToken: data.telegramBotToken || '',
+                    telegramChatId: data.telegramChatId || '',
                 });
             }
             setLoading(false);
@@ -143,6 +153,25 @@ export default function AdminSettingsPage() {
         handleChange('products', newProducts);
     };
 
+    const registerTelegramWebhook = async () => {
+        if (!settings.telegramBotToken) {
+            showToast('Podaj Bot Token najpierw!', 'warning');
+            return;
+        }
+        try {
+            const webhookUrl = 'https://telegramwebhook-j5kba2tfxa-uc.a.run.app';
+            const res = await fetch(`https://api.telegram.org/bot${settings.telegramBotToken}/setWebhook?url=${webhookUrl}`);
+            const result = await res.json();
+            if (result.ok) {
+                showToast('Telegram Webhook zarejestrowany! ✅', 'success');
+            } else {
+                showToast('Błąd: ' + result.description, 'error');
+            }
+        } catch (e) {
+            showToast('Błąd połączenia z Telegram API', 'error');
+        }
+    };
+
     if (loading) return (
         <AdminLayout>
             <div className="crm-page"><div className="crm-loading">{T('common.loading')}</div></div>
@@ -165,7 +194,8 @@ export default function AdminSettingsPage() {
                         { id: 'branding', icon: '🎨', label: T('admin.settings.tabs.branding') },
                         { id: 'contact', icon: '✉️', label: T('admin.settings.tabs.contact') },
                         { id: 'services', icon: '🛠️', label: T('admin.settings.tabs.services') },
-                        { id: 'integrations', icon: '🔌', label: T('admin.settings.tabs.integrations') }
+                        { id: 'integrations', icon: '🔌', label: T('admin.settings.tabs.integrations') },
+                        { id: 'knowledge', icon: '🧠', label: 'Knowledge AI' }
                     ].map(tab => (
                         <button
                             key={tab.id}
@@ -463,16 +493,117 @@ export default function AdminSettingsPage() {
                                         <div className="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center text-3xl shadow-inner border border-white/10 group-hover:border-brand-accent/30 transition-all">💼</div>
                                         <div>
                                             <h3 className="text-2xl font-bold font-space-grotesk tracking-tight">LinkedIn Automation</h3>
-                                            <p className="text-sm text-white/40 mt-1">Make.com Webhook URL</p>
+                                            <p className="text-xs text-brand-accent/50 mb-6 font-medium leading-relaxed">
+                                                System wyśle treść posta do Make.com, skąd możesz go automatycznie opublikować na LinkedIn.
+                                            </p>
                                         </div>
                                     </div>
-                                    <div className="crm-form-group">
+                                    <div className="crm-form-group mb-6">
                                         <label className="text-[11px] font-bold uppercase tracking-widest text-white/30 mb-3 block">Webhook URL</label>
                                         <input
                                             value={settings.linkedinWebhook || ''}
                                             onChange={e => handleChange('linkedinWebhook', e.target.value)}
                                             className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 px-6 focus:border-brand-accent/50 focus:bg-white/10 outline-none transition-all font-medium font-mono"
                                             placeholder="https://hook.eu1.make.com/..."
+                                        />
+                                    </div>
+
+                                    <div className="space-y-2 mb-10">
+                                        <label className="text-[10px] font-black uppercase tracking-widest text-white/30">Video Outreach Webhook (Make.com/HeyGen)</label>
+                                        <input
+                                            type="text"
+                                            name="videoOutreachWebhook"
+                                            value={settings.videoOutreachWebhook}
+                                            onChange={e => handleChange('videoOutreachWebhook', e.target.value)}
+                                            placeholder="https://hook.eu2.make.com/..."
+                                            className="w-full bg-white/5 border border-white/10 p-5 rounded-2xl text-sm focus:border-brand-accent/50 outline-none transition-all font-medium text-white/90"
+                                        />
+                                    </div>
+                                    <p className="text-xs text-brand-accent/50 mb-6 font-medium leading-relaxed">
+                                        Użyj tego webhooka, aby wysyłać skrypty wideo wygenerowane przez AI прямо do swojego awatara AI (np. HeyGen).
+                                    </p>
+
+                                    <div className="space-y-2 mb-10">
+                                        <label className="text-[10px] font-black uppercase tracking-widest text-white/30">Cold Outreach Webhook (Instantly/Smartlead)</label>
+                                        <input
+                                            type="text"
+                                            name="outreachWebhook"
+                                            value={settings.outreachWebhook}
+                                            onChange={e => handleChange('outreachWebhook', e.target.value)}
+                                            placeholder="https://hook.eu2.make.com/..."
+                                            className="w-full bg-white/5 border border-white/10 p-5 rounded-2xl text-sm focus:border-brand-accent/50 outline-none transition-all font-medium text-white/90"
+                                        />
+                                    </div>
+                                    <p className="text-xs text-brand-accent/50 mb-10 font-medium leading-relaxed">
+                                        Zatwierdzeni leadzi będą przesyłani do kampanii mailowej przez ten webhook.
+                                    </p>
+
+                                    <div className="space-y-6 pt-10 border-t border-white/5">
+                                        <div className="flex items-center gap-3 mb-4">
+                                            <div className="w-8 h-8 rounded-lg bg-[#0088cc]/20 flex items-center justify-center text-[#0088cc]">
+                                                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z" /></svg>
+                                            </div>
+                                            <h3 className="text-xs font-black uppercase tracking-widest">Telegram Command Center</h3>
+                                        </div>
+
+                                        <div className="space-y-4">
+                                            <div className="space-y-2">
+                                                <label className="text-[10px] font-black uppercase tracking-widest text-white/30">Bot Token (@BotFather)</label>
+                                                <input
+                                                    type="text"
+                                                    value={settings.telegramBotToken}
+                                                    onChange={e => handleChange('telegramBotToken', e.target.value)}
+                                                    placeholder="7123456789:AA..."
+                                                    className="w-full bg-white/5 border border-white/10 p-5 rounded-2xl text-sm focus:border-brand-accent/50 outline-none transition-all font-medium text-white/90"
+                                                />
+                                            </div>
+                                            <div className="space-y-2">
+                                                <label className="text-[10px] font-black uppercase tracking-widest text-white/30">Twoje Chat ID (@userinfobot)</label>
+                                                <input
+                                                    type="text"
+                                                    value={settings.telegramChatId}
+                                                    onChange={e => handleChange('telegramChatId', e.target.value)}
+                                                    placeholder="123456789"
+                                                    className="w-full bg-white/5 border border-white/10 p-5 rounded-2xl text-sm focus:border-brand-accent/50 outline-none transition-all font-medium text-white/90"
+                                                />
+                                            </div>
+                                            <button
+                                                onClick={registerTelegramWebhook}
+                                                className="w-full py-4 bg-[#0088cc] text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:scale-[1.02] active:scale-[0.98] transition-all shadow-lg shadow-[#0088cc]/20"
+                                            >
+                                                Połącz Bota z Systemem (Set Webhook)
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                    {activeTab === 'knowledge' && (
+                        <div className="space-y-8 animate-fade-in max-w-4xl">
+                            <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-10 rounded-[48px] relative overflow-hidden group">
+                                <div className="absolute top-0 right-0 w-96 h-96 bg-brand-accent/5 blur-[120px] -mr-48 -mt-48"></div>
+
+                                <div className="relative z-10">
+                                    <div className="flex items-center gap-6 mb-10">
+                                        <div className="w-16 h-16 rounded-2xl bg-brand-accent/10 flex items-center justify-center text-3xl shadow-inner border border-brand-accent/20">🧠</div>
+                                        <div>
+                                            <h3 className="text-2xl font-black font-space-grotesk tracking-tight uppercase italic text-white">Baza Wiedzy AI Agenta</h3>
+                                            <p className="text-sm text-white/40 mt-1">Tu wgrywasz DNA swojej marki. Wszystkie posty, analizy i drafy będą oparte o te dane.</p>
+                                        </div>
+                                    </div>
+
+                                    <div className="crm-form-group">
+                                        <div className="flex justify-between items-center mb-4">
+                                            <label className="text-[11px] font-bold uppercase tracking-widest text-white/30 block">Notatki Strategiczne & Brand Voice</label>
+                                            <span className="text-[9px] font-black text-brand-accent bg-brand-accent/10 px-3 py-1 rounded-full uppercase italic">Advanced Context (RAG)</span>
+                                        </div>
+                                        <textarea
+                                            value={settings.aiKnowledge || ''}
+                                            onChange={e => handleChange('aiKnowledge', e.target.value)}
+                                            className="w-full bg-black/40 border border-white/10 rounded-[32px] p-8 focus:border-brand-accent/50 outline-none transition-all font-medium text-sm leading-relaxed text-white/70 min-h-[400px] shadow-inner"
+                                            placeholder="Np. ECM Digital to agencja z roku 2026. Nasz styl jest odważny, premium, zorientowany na ROI i AI..."
                                         />
                                     </div>
                                 </div>

@@ -1,0 +1,15 @@
+{
+    "name": "ecm-digital-functions",
+    "version": "1.0.0",
+    "main": "index.js",
+    "engines": {
+        "node": "20"
+    },
+    "dependencies": {
+        "firebase-admin": "^12.1.0",
+        "firebase-functions": "^5.0.0",
+        "@google/generative-ai": "^0.11.4",
+        "node-fetch": "^2.7.0"
+    },
+    "private": true
+}

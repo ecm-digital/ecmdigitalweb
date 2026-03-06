@@ -1,10 +1,12 @@
 import { AIService } from '../services/aiService';
+import { getAgencySettings } from './firestoreService';
 
 export interface PostHogInsight {
     title: string;
     text: string;
     type: 'success' | 'info' | 'warning' | 'error';
     trendingUrls?: string[];
+    reasoning?: string;
 }
 
 export class PostHogAIService {
@@ -68,9 +70,19 @@ export class PostHogAIService {
                 };
             }
 
+            const settings = await getAgencySettings();
+            const brandKnowledge = settings?.aiKnowledge || 'ECM Digital to nowoczesna agencja AI i automatyzacji.';
+
             const systemPrompt = `Jesteś starszym analitykiem biznesowym AI w agencji ECM Digital. 
-            Przeanalizuj poniższy ruch na stronie i podaj 1 merytoryczny, bardzo krótki (max 2 zdania) wniosek strategiczny dla szefa firmy.
-            Styl: Profesjonalny, konkretny, bez lania wody.
+            Twoja wiedza o firmie (DNA marki):
+            ${brandKnowledge}
+
+            Przeanalizuj poniższy ruch na stronie i podaj merytoryczny wniosek.
+            Odpowiedz w ściśle określonym formacie:
+            [INSIGHT]: (krótki, max 2 zdania wniosek strategiczny dla szefa)
+            [REASONING]: (wyjaśnienie Twojego toku myślenia, dlaczego to rekomendujesz, na jakich danych się opierasz - max 3 zdania)
+
+            Styl: Profesjonalny, konkretny, bez lania wody. Agencja Przyszłości 2026.
             Dane z PostHog:\n${sortedUrls.join('\n')}`;
 
             const aiResponse = await AIService.generateContent("Wygeneruj raport ruchu", systemPrompt);
@@ -79,9 +91,24 @@ export class PostHogAIService {
                 throw new Error(aiResponse.error);
             }
 
+            const fullText = aiResponse.text.replace(/\*\*/g, "");
+            let insightText = fullText;
+            let reasoningText = "Analiza oparta na wolumenie ruchu i trendach URL.";
+
+            if (fullText.includes('[INSIGHT]:') && fullText.includes('[REASONING]:')) {
+                const parts = fullText.split('[REASONING]:');
+                insightText = parts[0].replace('[INSIGHT]:', '').trim();
+                reasoningText = parts[1].trim();
+            } else if (fullText.includes('[REASONING]:')) {
+                const parts = fullText.split('[REASONING]:');
+                insightText = parts[0].trim();
+                reasoningText = parts[1].trim();
+            }
+
             return {
                 title: "Insights z PostHog (AI)",
-                text: aiResponse.text.replace(/\*\*/g, ""),
+                text: insightText,
+                reasoning: reasoningText,
                 type: "success",
                 trendingUrls: sortedUrls
             };
