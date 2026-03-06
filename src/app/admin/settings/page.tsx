@@ -23,6 +23,7 @@ export default function AdminSettingsPage() {
         services: [],
         products: [],
         googleAds: { clientId: '', clientSecret: '', developerToken: '', refreshToken: '', customerId: '' },
+        linkedinWebhook: '',
         updatedAt: null as any,
     });
     const [loading, setLoading] = useState(true);
@@ -40,6 +41,7 @@ export default function AdminSettingsPage() {
                     services: data.services || [],
                     products: data.products || [],
                     googleAds: data.googleAds || { clientId: '', clientSecret: '', developerToken: '', refreshToken: '', customerId: '' },
+                    linkedinWebhook: data.linkedinWebhook || '',
                 });
             }
             setLoading(false);
@@ -454,6 +456,24 @@ export default function AdminSettingsPage() {
                                                 className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 px-6 focus:border-blue-500/50 focus:bg-white/10 outline-none transition-all text-sm font-mono"
                                             />
                                         </div>
+                                    </div>
+                                </div>
+                                <div className="mt-8 relative z-10 border-t border-white/5 pt-8">
+                                    <div className="flex items-center gap-6 mb-8">
+                                        <div className="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center text-3xl shadow-inner border border-white/10 group-hover:border-brand-accent/30 transition-all">💼</div>
+                                        <div>
+                                            <h3 className="text-2xl font-bold font-space-grotesk tracking-tight">LinkedIn Automation</h3>
+                                            <p className="text-sm text-white/40 mt-1">Make.com Webhook URL</p>
+                                        </div>
+                                    </div>
+                                    <div className="crm-form-group">
+                                        <label className="text-[11px] font-bold uppercase tracking-widest text-white/30 mb-3 block">Webhook URL</label>
+                                        <input
+                                            value={settings.linkedinWebhook || ''}
+                                            onChange={e => handleChange('linkedinWebhook', e.target.value)}
+                                            className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 px-6 focus:border-brand-accent/50 focus:bg-white/10 outline-none transition-all font-medium font-mono"
+                                            placeholder="https://hook.eu1.make.com/..."
+                                        />
                                     </div>
                                 </div>
                             </div>

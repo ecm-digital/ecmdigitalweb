@@ -108,6 +108,7 @@ export interface AgencySettings {
     services?: AgencyService[];
     products?: AgencyProduct[];
     googleAds?: GoogleAdsConfig;
+    linkedinWebhook?: string;
     updatedAt: Timestamp;
 }
 

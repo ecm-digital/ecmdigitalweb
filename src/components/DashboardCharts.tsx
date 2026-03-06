@@ -18,8 +18,8 @@ import {
     Bar,
     Cell
 } from 'recharts';
-import { Campaign } from '@/lib/firestoreService';
-import { TrendingUp, AlertCircle, Zap, Target } from 'lucide-react';
+import { Campaign, getAgencySettings } from '@/lib/firestoreService';
+import { TrendingUp, AlertCircle, Zap, Target, Share2 } from 'lucide-react';
 import { PostHogAIService } from '@/lib/posthogAI';
 
 interface DashboardChartsProps {
@@ -86,6 +86,7 @@ export default function DashboardCharts({ campaigns }: DashboardChartsProps) {
 
     const [linkedinPost, setLinkedinPost] = useState<{ text: string, loading: boolean }>({ text: '', loading: false });
     const [showLinkedIn, setShowLinkedIn] = useState(false);
+    const [publishing, setPublishing] = useState(false);
 
     useEffect(() => {
         setHasMounted(true);
@@ -126,6 +127,39 @@ export default function DashboardCharts({ campaigns }: DashboardChartsProps) {
     const copyToClipboard = (text: string) => {
         navigator.clipboard.writeText(text);
         alert('Skopiowano! 📋');
+    };
+
+    const publishToLinkedIn = async () => {
+        if (!linkedinPost.text) return;
+        setPublishing(true);
+        try {
+            const settings = await getAgencySettings();
+            if (!settings?.linkedinWebhook) {
+                alert('Najpierw skonfiguruj LinkedIn Webhook w ustawieniach! ⚙️');
+                setPublishing(false);
+                return;
+            }
+
+            const res = await fetch(settings.linkedinWebhook, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    content: linkedinPost.text,
+                    timestamp: new Date().toISOString(),
+                    source: 'ECM Admin AI'
+                })
+            });
+
+            if (res.ok) {
+                alert('Wysłano do Make.com! Twój post zaraz pojawi się na LinkedIn. 🚀');
+            } else {
+                throw new Error('Webhook error');
+            }
+        } catch (e) {
+            alert('Błąd publikacji. Sprawdź Webhook URL w ustawieniach.');
+        } finally {
+            setPublishing(false);
+        }
     };
 
     if (!hasMounted) {
@@ -320,6 +354,14 @@ export default function DashboardCharts({ campaigns }: DashboardChartsProps) {
                                 <div className="flex justify-between items-center mb-4">
                                     <span className="text-[9px] font-black text-brand-accent uppercase tracking-widest">Wersja robocza LinkedIn</span>
                                     <div className="flex gap-4">
+                                        <button
+                                            onClick={publishToLinkedIn}
+                                            disabled={publishing || !linkedinPost.text}
+                                            className="text-[9px] font-black text-brand-accent hover:text-white transition-colors uppercase flex items-center gap-1.5"
+                                        >
+                                            <Share2 size={10} />
+                                            {publishing ? 'Wysyłanie...' : 'Publikuj'}
+                                        </button>
                                         <button onClick={() => copyToClipboard(linkedinPost.text)} className="text-[9px] font-bold text-white hover:text-brand-accent transition-colors uppercase">Kopiuj</button>
                                         <button onClick={() => setShowLinkedIn(false)} className="text-[9px] font-bold text-white/20 hover:text-white transition-colors uppercase">Zamknij</button>
                                     </div>
