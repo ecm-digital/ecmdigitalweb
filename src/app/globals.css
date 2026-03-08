@@ -5106,4 +5106,36 @@ h6 {
     background: rgba(59, 130, 246, 0.2) !important;
     font-size: 2.5rem !important;
   }
+
+  /* Mobile Case Cards */
+  .case-card {
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.03) 100%) !important;
+    border: 1px solid rgba(59, 130, 246, 0.2) !important;
+    padding: 24px 20px !important;
+  }
+
+  .case-card h3 {
+    color: #ffffff !important;
+    font-size: 1.15rem !important;
+  }
+
+  .case-card p {
+    color: rgba(255, 255, 255, 0.85) !important;
+    font-size: 0.9rem !important;
+  }
+
+  /* Mobile Testimonial Cards */
+  .testimonial-card-slide {
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.03) 100%) !important;
+    border: 1px solid rgba(59, 130, 246, 0.2) !important;
+    padding: 28px 20px !important;
+  }
+
+  .testimonial-card-slide .testimonial-text {
+    color: rgba(255, 255, 255, 0.85) !important;
+  }
+
+  .testimonial-card-slide .testimonial-author {
+    color: #ffffff !important;
+  }
 }
