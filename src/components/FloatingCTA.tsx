@@ -1,0 +1,47 @@
+'use client';
+
+import React, { useState, useEffect } from 'react';
+
+export default function FloatingCTA() {
+  const [isVisible, setIsVisible] = useState(false);
+  const [showAfterScroll, setShowAfterScroll] = useState(false);
+
+  useEffect(() => {
+    // Show after 3 seconds
+    const timeoutId = setTimeout(() => setIsVisible(true), 3000);
+
+    // Show immediately after 300px scroll
+    const handleScroll = () => {
+      if (window.scrollY > 300) {
+        setShowAfterScroll(true);
+        setIsVisible(true);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      clearTimeout(timeoutId);
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+  const handleClick = () => {
+    const contactSection = document.getElementById('contact');
+    if (contactSection) {
+      contactSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  return (
+    <button
+      onClick={handleClick}
+      className={`floating-cta ${isVisible ? 'visible' : ''}`}
+      title="Bezpłatna konsultacja"
+      aria-label="Skontaktuj się z nami"
+    >
+      <span className="floating-cta-icon">📞</span>
+      <span className="floating-cta-text">Konsultacja</span>
+    </button>
+  );
+}

@@ -39,6 +39,205 @@
   }
 }
 
+/* ============================================
+   ANIMATIONS & EFFECTS
+   ============================================ */
+
+/* Fade in from bottom animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-up {
+  opacity: 0;
+  animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  will-change: opacity, transform;
+}
+
+.fade-in-up:nth-child(1) { animation-delay: 0.1s; }
+.fade-in-up:nth-child(2) { animation-delay: 0.2s; }
+.fade-in-up:nth-child(3) { animation-delay: 0.3s; }
+.fade-in-up:nth-child(4) { animation-delay: 0.4s; }
+
+/* Scroll reveal effect */
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1), transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: opacity, transform;
+}
+
+.reveal-on-scroll.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Floating CTA pulse animation */
+@keyframes pulse-float {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4);
+  }
+  50% {
+    transform: translateY(-4px) scale(1.02);
+  }
+  70% {
+    box-shadow: 0 0 0 12px rgba(59, 130, 246, 0);
+  }
+}
+
+@keyframes float-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Floating CTA Button */
+.floating-cta {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  z-index: 99;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 20px;
+  background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 8px 24px rgba(59, 130, 246, 0.3);
+  white-space: nowrap;
+}
+
+.floating-cta.visible {
+  opacity: 1;
+  pointer-events: auto;
+  animation: float-in 0.5s cubic-bezier(0.4, 0, 0.2, 1), pulse-float 3s ease-in-out 0.5s infinite;
+}
+
+.floating-cta:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 40px rgba(59, 130, 246, 0.4);
+  background: linear-gradient(135deg, #93c5fd 0%, #60a5fa 100%);
+}
+
+.floating-cta:active {
+  transform: translateY(-2px);
+}
+
+.floating-cta-icon {
+  font-size: 1.2rem;
+}
+
+.floating-cta-text {
+  display: none;
+}
+
+/* Desktop: Show text */
+@media (min-width: 1024px) {
+  .floating-cta {
+    padding: 16px 28px;
+    gap: 12px;
+    border-radius: 14px;
+    font-size: 1rem;
+  }
+
+  .floating-cta-text {
+    display: inline;
+  }
+}
+
+/* Tablet: Medium size */
+@media (max-width: 1023px) and (min-width: 768px) {
+  .floating-cta {
+    padding: 14px 22px;
+  }
+
+  .floating-cta-text {
+    display: inline;
+    font-size: 0.9rem;
+  }
+}
+
+/* Mobile: Icon only for ultra-small, text on larger mobile */
+@media (max-width: 640px) {
+  .floating-cta {
+    padding: 14px 18px;
+    font-size: 0.85rem;
+  }
+
+  .floating-cta-text {
+    display: inline;
+  }
+}
+
+/* Premium button shine effect */
+.premium-button-shine {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.premium-button-shine::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.5s ease;
+  pointer-events: none;
+}
+
+.premium-button-shine:hover::before {
+  left: 100%;
+}
+
+.premium-button-shine:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 40px rgba(59, 130, 246, 0.25);
+}
+
+/* Navbar floating glass effect */
+.navbar-floating {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 40;
+  background: rgba(5, 5, 7, 0.6);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.3s ease;
+  will-change: background, border-color;
+}
+
+.navbar-floating.scrolled {
+  background: rgba(5, 5, 7, 0.8);
+  border-bottom-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+}
+
 .container {
   width: 100%;
   max-width: var(--container-max);
@@ -5138,4 +5337,108 @@ h6 {
   .testimonial-card-slide .testimonial-author {
     color: #ffffff !important;
   }
+
+  /* Mobile Hero Improvements */
+  .hero-section {
+    padding: 100px 0 60px !important;
+  }
+
+  .hero-badge {
+    background: rgba(59, 130, 246, 0.15) !important;
+    border: 1px solid rgba(59, 130, 246, 0.4) !important;
+    box-shadow: 0 0 30px rgba(59, 130, 246, 0.3) !important;
+  }
+
+  .hero-title {
+    font-size: clamp(2rem, 6vw, 3rem) !important;
+    letter-spacing: -0.02em !important;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem !important;
+    line-height: 1.7 !important;
+  }
+
+  /* Mobile Hero Buttons */
+  .hero-actions {
+    flex-direction: column !important;
+    gap: 12px !important;
+    width: 100%;
+  }
+
+  .hero-actions a {
+    width: 100% !important;
+    padding: 14px 28px !important;
+    font-size: 1rem !important;
+    text-align: center !important;
+    border-radius: 12px !important;
+    font-weight: 700 !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    box-shadow: 0 8px 24px rgba(59, 130, 246, 0.2) !important;
+  }
+
+  .hero-actions a:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 12px 32px rgba(59, 130, 246, 0.35) !important;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%) !important;
+    color: white !important;
+    border: none !important;
+  }
+
+  .btn-secondary {
+    background: rgba(255, 255, 255, 0.08) !important;
+    color: #ffffff !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  }
+
+  .btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.12) !important;
+    border-color: rgba(255, 255, 255, 0.3) !important;
+  }
+
+  /* Section Headers Mobile */
+  .section-header {
+    margin-bottom: 48px !important;
+  }
+
+  .section-title {
+    font-size: clamp(1.8rem, 5vw, 2.5rem) !important;
+    letter-spacing: -0.01em !important;
+  }
+
+  .section-subtitle {
+    font-size: 1rem !important;
+    line-height: 1.6 !important;
+  }
+
+  /* CTA Banner Mobile */
+  .cta-banner-section {
+    padding: var(--section-padding) 0 !important;
+  }
+
+  .cta-banner-panel {
+    padding: 40px 28px !important;
+  }
+
+  .cta-banner-btn {
+    padding: 14px 32px !important;
+    font-size: 1rem !important;
+  }
+}
+
+/* CTA Banner Desktop */
+.cta-banner-section {
+  padding: 100px 0;
+}
+
+.cta-banner-panel {
+  padding: 60px 40px;
+}
+
+.cta-banner-btn {
+  padding: 18px 48px;
+  font-size: 1.1rem;
 }

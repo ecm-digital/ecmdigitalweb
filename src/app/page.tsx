@@ -22,6 +22,7 @@ const NewsletterSection = dynamic(() => import('@/components/NewsletterSection')
 const ContactSection = dynamic(() => import('@/components/ContactSection'), { ssr: false });
 const FAQSection = dynamic(() => import('@/components/FAQSection'), { ssr: false });
 const ExitIntentPopup = dynamic(() => import('@/components/ExitIntentPopup'), { ssr: false });
+const FloatingCTA = dynamic(() => import('@/components/FloatingCTA'), { ssr: false });
 
 export default function HomePage() {
   const { lang } = useLanguage();
@@ -57,6 +58,7 @@ export default function HomePage() {
   return (
     <>
       <ExitIntentPopup />
+      <FloatingCTA />
       <div>
         <div className="scroll-progress-bar" />
         <Navbar />
