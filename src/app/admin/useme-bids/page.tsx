@@ -34,7 +34,8 @@ export default function UsemeBidsPage() {
 
     // Parser for Useme format
     const parseUsemeText = (text: string) => {
-        const regex = /(.+?)\s—\s(.+?)\s\|\s([\d\s]+)\s PLN\s\/\s(\d+)\s*dni?/g;
+        // More flexible regex: Client — Description | Price PLN / Days dni
+        const regex = /(.+?)\s+—\s+(.+?)\s*\|\s*([0-9\s]+)\s*PLN\s*\/\s*(\d+)\s*dni/gi;
         const parsed: Omit<UsemeBid, 'id'>[] = [];
         let match;
 
