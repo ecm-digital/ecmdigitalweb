@@ -1380,6 +1380,10 @@ export interface UsemeBid {
     days: number;
     status: 'Wysłana' | 'Wygrana' | 'Przegrana' | 'Brak odpowiedzi';
     notes?: string;
+    requirements?: string;
+    mySubmission?: string;
+    coverageScore?: number;
+    coverageNotes?: string;
     sentAt: Timestamp;
     updatedAt?: Timestamp;
 }
