@@ -681,7 +681,7 @@ export const en = {
         "contact.email.title": "Email",
         "contact.email.value": "hello@ecm-digital.com",
         "contact.phone.title": "Phone",
-        "contact.phone.value": "+48 535 330 323",
+        "contact.phone.value": "+48 517 303 400",
         "contact.hours.title": "Working hours",
         "contact.hours.value": "Mon–Fri: 9:00 – 17:00",
         "contact.form.title": "Send a Message",

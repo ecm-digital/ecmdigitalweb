@@ -40,7 +40,7 @@ export default function ContactSection() {
                                     <p style={{ color: 'rgba(255,255,255,0.6)' }}>{T('contact.email.value')}</p>
                                 </div>
                             </a>
-                            <a href="tel:+48535330323" className="contact-method" onClick={() => trackCTAClick('Phone', 'ContactSection')} style={{ display: 'flex', alignItems: 'flex-start', gap: '16px', textDecoration: 'none', color: 'inherit' }}>
+                            <a href="tel:+48517303400" className="contact-method" onClick={() => trackCTAClick('Phone', 'ContactSection')} style={{ display: 'flex', alignItems: 'flex-start', gap: '16px', textDecoration: 'none', color: 'inherit' }}>
                                 <div className="contact-method-icon" style={{ width: '48px', height: '48px', borderRadius: '16px', background: 'rgba(16, 185, 129, 0.1)', color: '#10b981', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.5rem', border: '1px solid rgba(16, 185, 129, 0.2)' }}>📞</div>
                                 <div>
                                     <h4 style={{ fontSize: '1.2rem', color: 'white', marginBottom: '4px' }}>{T('contact.phone.title')}</h4>

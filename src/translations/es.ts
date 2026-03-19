@@ -660,7 +660,7 @@ export const es = {
         "contact.email.title": "Correo",
         "contact.email.value": "hello@ecm-digital.com",
         "contact.phone.title": "Teléfono",
-        "contact.phone.value": "+48 535 330 323",
+        "contact.phone.value": "+48 517 303 400",
         "contact.hours.title": "Horario laboral",
         "contact.hours.value": "Lun–Vie: 9:00 – 17:00",
         "contact.form.title": "Enviar Mensaje",

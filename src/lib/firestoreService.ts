@@ -1369,3 +1369,44 @@ Expected ROI: First agent project pays back all setup costs 5x over.`,
         console.error('[Seed] Error seeding strategies:', error);
     }
 }
+
+// ─── Useme Bids Tracker ───────────────────────────────────────────────────
+
+export interface UsemeBid {
+    id?: string;
+    client: string;
+    description: string;
+    price: number;
+    days: number;
+    status: 'Wysłana' | 'Wygrana' | 'Przegrana' | 'Brak odpowiedzi';
+    notes?: string;
+    sentAt: Timestamp;
+    updatedAt?: Timestamp;
+}
+
+const USEME_BIDS = 'useme_bids';
+
+export async function getUsemeBids(): Promise<UsemeBid[]> {
+    const q = query(collection(db, USEME_BIDS), orderBy('sentAt', 'desc'));
+    const snap = await getDocs(q);
+    return snap.docs.map(doc => ({ id: doc.id, ...doc.data() } as UsemeBid));
+}
+
+export async function addUsemeBid(data: Omit<UsemeBid, 'id' | 'updatedAt'>): Promise<string> {
+    const docRef = await addDoc(collection(db, USEME_BIDS), {
+        ...data,
+        updatedAt: serverTimestamp(),
+    });
+    return docRef.id;
+}
+
+export async function updateUsemeBid(id: string, data: Partial<UsemeBid>): Promise<void> {
+    await updateDoc(doc(db, USEME_BIDS, id), {
+        ...data,
+        updatedAt: serverTimestamp(),
+    });
+}
+
+export async function deleteUsemeBid(id: string): Promise<void> {
+    await deleteDoc(doc(db, USEME_BIDS, id));
+}

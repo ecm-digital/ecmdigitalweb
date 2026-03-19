@@ -82,7 +82,7 @@ const jsonLd = [
       {
         "@type": "ContactPoint",
         "email": "kontakt@ecm-digital.com",
-        "telephone": "+48535330323",
+        "telephone": "+48517303400",
         "contactType": "customer service",
         "availableLanguage": ["Polish", "English", "German", "Silesian", "Spanish", "Arabic"]
       },
@@ -90,7 +90,7 @@ const jsonLd = [
         "@type": "ContactPoint",
         "contactType": "Sales",
         "email": "kontakt@ecm-digital.com",
-        "telephone": "+48535330323"
+        "telephone": "+48517303400"
       }
     ],
     "sameAs": [

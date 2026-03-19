@@ -15,7 +15,7 @@ const GEMINI_API_KEY = "AIzaSyBv52W9jlS79q4OXA0ifXnmR1_bBnwIMpg";
 
 async function sendTelegramMessage(token, chatId, text) {
     try {
-        await fetch(`${TELEGRAM_API}${token}/sendMessage`, {
+        const response = await fetch(`${TELEGRAM_API}${token}/sendMessage`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -24,6 +24,8 @@ async function sendTelegramMessage(token, chatId, text) {
                 parse_mode: "Markdown"
             })
         });
+        const result = await response.text();
+        console.log("Telegram Response:", response.status, result);
     } catch (e) {
         console.error("Telegram Send Error:", e);
     }
