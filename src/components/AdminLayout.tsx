@@ -48,6 +48,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 { name: T('admin.nav.offers'), icon: '💼', href: '/admin/offers' },
                 { name: T('admin.nav.calendar'), icon: '📅', href: '/admin/calendar' },
                 { name: '📤 Useme Bids', icon: '📤', href: '/admin/useme-bids' },
+                { name: '🚀 Proposals (Genspark)', icon: '🚀', href: '/admin/proposals' },
             ],
         },
         {

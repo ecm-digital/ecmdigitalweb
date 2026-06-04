@@ -1414,3 +1414,47 @@ export async function updateUsemeBid(id: string, data: Partial<UsemeBid>): Promi
 export async function deleteUsemeBid(id: string): Promise<void> {
     await deleteDoc(doc(db, USEME_BIDS, id));
 }
+
+// ─── Genspark Proposals Tracker ────────────────────────────────────────────
+
+export interface GensparkProposal {
+    id?: string;
+    client: string;
+    email?: string;
+    platform: 'email' | 'linkedin' | 'useme' | 'other';
+    subject: string;
+    body: string;
+    value?: number;
+    currency?: string;
+    status: 'Wysłana' | 'Zaakceptowana' | 'Odrzucona' | 'Brak odpowiedzi';
+    notes?: string;
+    sentAt: Timestamp;
+    updatedAt?: Timestamp;
+}
+
+const GENSPARK_PROPOSALS = 'genspark_proposals';
+
+export async function getGensparkProposals(): Promise<GensparkProposal[]> {
+    const q = query(collection(db, GENSPARK_PROPOSALS), orderBy('sentAt', 'desc'));
+    const snap = await getDocs(q);
+    return snap.docs.map(doc => ({ id: doc.id, ...doc.data() } as GensparkProposal));
+}
+
+export async function addGensparkProposal(data: Omit<GensparkProposal, 'id' | 'updatedAt'>): Promise<string> {
+    const docRef = await addDoc(collection(db, GENSPARK_PROPOSALS), {
+        ...data,
+        updatedAt: serverTimestamp(),
+    });
+    return docRef.id;
+}
+
+export async function updateGensparkProposal(id: string, data: Partial<GensparkProposal>): Promise<void> {
+    await updateDoc(doc(db, GENSPARK_PROPOSALS, id), {
+        ...data,
+        updatedAt: serverTimestamp(),
+    });
+}
+
+export async function deleteGensparkProposal(id: string): Promise<void> {
+    await deleteDoc(doc(db, GENSPARK_PROPOSALS, id));
+}

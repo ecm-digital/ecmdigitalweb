@@ -10,6 +10,7 @@ import { PostHogProvider } from "@/components/PostHogProvider"
 import CookieBanner from "@/components/CookieBanner"
 import Hotjar from "@/components/Hotjar"
 import Script from "next/script"
+import WhatsAppWidget from "@/components/WhatsAppWidget"
 
 const BASE_URL = "https://www.ecm-digital.com";
 

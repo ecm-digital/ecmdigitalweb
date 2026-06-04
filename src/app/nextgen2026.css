@@ -222,7 +222,7 @@ h3 {
     transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     display: flex;
     align-items: center;
-    padding: 0 12px 0 32px;
+    padding: 0 32px;
 }
 
 .mobile-menu-btn {

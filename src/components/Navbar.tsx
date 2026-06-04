@@ -38,7 +38,7 @@ export default function Navbar() {
             </a>
 
             {/* Desktop links - hidden below 1024px via CSS */}
-            <div className="navbar-links-container" style={{ marginInlineStart: 'auto', marginInlineEnd: '24px' }}>
+            <div className="navbar-links-container" style={{ marginInlineStart: 'auto', marginInlineEnd: '32px' }}>
                 <ul className="navbar-links" style={{ display: 'flex', gap: '20px', fontSize: '0.9rem', listStyle: 'none', margin: 0, padding: 0 }}>
                     <li><a href={anchor('#services')} style={{ color: 'rgba(255,255,255,0.7)', fontWeight: 500, textDecoration: 'none', transition: 'color 0.3s' }}>{T('nav.services')}</a></li>
                     <li><a href="/pricing" style={{ color: 'rgba(255,255,255,0.7)', fontWeight: 500, textDecoration: 'none', transition: 'color 0.3s' }}>Pricing</a></li>
@@ -50,7 +50,7 @@ export default function Navbar() {
                 </ul>
             </div>
 
-            <div className="nav-controls" style={{ display: 'flex', alignItems: 'center', gap: '16px', marginInlineStart: 'auto' }}>
+            <div className="nav-controls" style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
                 <div className="lang-switcher" style={{ background: 'rgba(255,255,255,0.05)', borderRadius: '999px', padding: '4px', border: '1px solid rgba(255,255,255,0.1)' }}>
                     {(['pl', 'en', 'de', 'es'] as Lang[]).map(l => {
                         return (

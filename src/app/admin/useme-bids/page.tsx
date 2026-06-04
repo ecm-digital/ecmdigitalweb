@@ -5,6 +5,7 @@ import AdminLayout from '@/components/AdminLayout';
 import { UsemeBid, getUsemeBids, addUsemeBid, updateUsemeBid, deleteUsemeBid } from '@/lib/firestoreService';
 import { useNotifications } from '@/context/NotificationContext';
 import { Timestamp } from 'firebase/firestore';
+import posthog from 'posthog-js';
 
 const GEMINI_API_KEY = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
 
@@ -86,21 +87,45 @@ export default function UsemeBidsPage() {
         if (parsedBids.length === 0) return;
 
         try {
+            let totalValue = 0;
             for (const bid of parsedBids) {
                 await addUsemeBid(bid);
+                totalValue += bid.price;
             }
+
+            // Track event in PostHog
+            posthog.capture('useme_bids_submitted', {
+                count: parsedBids.length,
+                totalValue: totalValue,
+                avgPrice: Math.round(totalValue / parsedBids.length),
+                source: 'useme',
+                status: 'sent'
+            });
+
             showToast(`Zapisano ${parsedBids.length} ofert`, 'success');
             setPasteText('');
             setParsedBids([]);
             loadBids();
         } catch (err) {
             showToast('Błąd zapisu', 'error');
+            posthog.capture('useme_bids_submit_error', {
+                error: err instanceof Error ? err.message : 'Unknown error',
+                count: parsedBids.length
+            });
         }
     };
 
     const handleStatusChange = async (id: string, newStatus: UsemeBid['status']) => {
         try {
             await updateUsemeBid(id, { status: newStatus });
+
+            // Track status change in PostHog
+            posthog.capture('useme_bid_status_changed', {
+                bidId: id,
+                newStatus: newStatus,
+                source: 'useme'
+            });
+
             showToast('Status zaktualizowany', 'success');
             loadBids();
         } catch (err) {
@@ -154,7 +179,10 @@ export default function UsemeBidsPage() {
         try {
             const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-goog-api-key': GEMINI_API_KEY || ''
+                },
                 body: JSON.stringify({
                     contents: [{
                         parts: [{
@@ -178,11 +206,7 @@ Tylko JSON, bez opisu.`
                         }]
                     }],
                     generationConfig: { temperature: 0.3 }
-                }),
-                headers: {
-                    'Content-Type': 'application/json',
-                    'x-goog-api-key': GEMINI_API_KEY
-                }
+                })
             });
 
             const data = await response.json();
@@ -193,13 +217,34 @@ Tylko JSON, bez opisu.`
             if (jsonMatch) {
                 const result = JSON.parse(jsonMatch[0]);
                 setCoverageResult(result);
+
+                // Track AI analysis in PostHog
+                posthog.capture('useme_bid_coverage_analyzed', {
+                    bidId: selectedBid?.id,
+                    score: result.score,
+                    coveredCount: result.covered?.length || 0,
+                    missingCount: result.missing?.length || 0,
+                    requirementsLength: requirementsText.length,
+                    submissionLength: submissionText.length,
+                    source: 'useme'
+                });
+
                 showToast('Analiza gotowa', 'success');
             } else {
                 showToast('Błąd parsowania odpowiedzi', 'error');
+                posthog.capture('useme_bid_coverage_parse_error', {
+                    bidId: selectedBid?.id,
+                    source: 'useme'
+                });
             }
         } catch (err) {
             showToast('Błąd analizy AI', 'error');
             console.error(err);
+            posthog.capture('useme_bid_coverage_error', {
+                bidId: selectedBid?.id,
+                error: err instanceof Error ? err.message : 'Unknown error',
+                source: 'useme'
+            });
         } finally {
             setAnalyzing(false);
         }
@@ -213,6 +258,16 @@ Tylko JSON, bez opisu.`
                 coverageScore: coverageResult.score,
                 coverageNotes: JSON.stringify(coverageResult),
             });
+
+            // Track coverage result saved in PostHog
+            posthog.capture('useme_bid_coverage_saved', {
+                bidId: selectedBid.id,
+                score: coverageResult.score,
+                coveredCount: coverageResult.covered?.length || 0,
+                missingCount: coverageResult.missing?.length || 0,
+                source: 'useme'
+            });
+
             showToast('Wynik analizy zapisany', 'success');
             loadBids();
             setSelectedBid(null);
