@@ -2,8 +2,8 @@
 
 import React, { useState, useEffect } from 'react';
 import AdminLayout from '@/components/AdminLayout';
-import { getFirestore, collection, query, orderBy, limit, getDocs, addDoc, Timestamp } from 'firebase/firestore';
-import { initializeApp } from 'firebase/app';
+import { initializeFirestore, collection, query, orderBy, limit, getDocs, addDoc, Timestamp } from 'firebase/firestore';
+import { initializeApp, getApps } from 'firebase/app';
 
 interface Analysis {
   id: string;
@@ -66,8 +66,8 @@ export default function WebsiteAnalyzerAdmin() {
         appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
       };
 
-      const app = initializeApp(firebaseConfig);
-      const db = getFirestore(app);
+      const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
+      const db = initializeFirestore(app, { ignoreUndefinedProperties: true });
 
       const q = query(
         collection(db, 'website_analyses'),
@@ -107,8 +107,8 @@ export default function WebsiteAnalyzerAdmin() {
         appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
       };
 
-      const app = initializeApp(firebaseConfig);
-      const db = getFirestore(app);
+      const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
+      const db = initializeFirestore(app, { ignoreUndefinedProperties: true });
 
       await addDoc(collection(db, 'clients'), {
         name: analysis.name || 'Website Analysis Lead',

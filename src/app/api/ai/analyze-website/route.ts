@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { GoogleGenerativeAI } from '@google/generative-ai';
-import { getFirestore, collection, addDoc, Timestamp } from 'firebase/firestore';
-import { initializeApp } from 'firebase/app';
+import { initializeFirestore, collection, addDoc, Timestamp } from 'firebase/firestore';
+import { initializeApp, getApps } from 'firebase/app';
 
 const genAI = new GoogleGenerativeAI(process.env.NEXT_PUBLIC_GEMINI_API_KEY || '');
 
@@ -173,8 +173,8 @@ export async function POST(req: Request) {
       appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
     };
 
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
+    const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
+    const db = initializeFirestore(app, { ignoreUndefinedProperties: true });
 
     await addDoc(collection(db, 'website_analyses'), {
       url: normalizedUrl,

@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import AdminLayout from '@/components/AdminLayout';
-import { addDoc, collection, getDocs, updateDoc, doc, deleteDoc, db } from 'firebase/firestore';
+import { addDoc, collection, getDocs, updateDoc, doc, deleteDoc } from 'firebase/firestore';
+import { db } from '@/lib/firebase';
 import { serverTimestamp } from 'firebase/firestore';
 
 interface Strategy {
