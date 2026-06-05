@@ -5,14 +5,11 @@ import { useLanguage } from "@/context/LanguageContext";
 import { getAgencyServices, ServiceData } from "@/lib/firestoreService";
 
 const STATIC_SERVICES = [
-  { key: 'ai', icon: '🤖', accent: '#3b82f6', href: '/services/ai-agents', span: 'col-span-8', featured: true },
-  { key: 'web', icon: '🌐', accent: '#8b5cf6', href: '/services/websites', span: 'col-span-4' },
-  { key: 'shop', icon: '🛍️', accent: '#ec4899', href: '/services/ecommerce', span: 'col-span-4' },
+  { key: 'ai', icon: '🤖', accent: '#3b82f6', href: '/services/ai-agents', span: 'col-span-6', featured: true },
+  { key: 'executive', icon: '💼', accent: '#FF2D55', href: '/services/ai-executive', span: 'col-span-6', featured: true },
   { key: 'auto', icon: '⚡', accent: '#10b981', href: '/services/automation', span: 'col-span-4' },
-  { key: 'executive', icon: '💼', accent: '#FF2D55', href: '/services/ai-executive', span: 'col-span-4' },
-  { key: 'edu', icon: '🎓', accent: '#30D158', href: '/services/edu', span: 'col-span-4' },
+  { key: 'web', icon: '🌐', accent: '#8b5cf6', href: '/services/websites', span: 'col-span-4' },
   { key: 'mvp', icon: '🚀', accent: '#f59e0b', href: '/services/mvp', span: 'col-span-4' },
-  { key: 'audit', icon: '📊', accent: '#6366f1', href: '/services/ai-audit', span: 'col-span-8', wide: true },
 ];
 
 const EXISTING_SLUGS = ['ai-agents', 'websites', 'ecommerce', 'automation', 'ai-executive', 'edu', 'mvp', 'ai-audit'];

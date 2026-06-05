@@ -21,7 +21,7 @@ export const services: Record<string, ServiceData> = {
         icon: '🌐',
         gradient: 'linear-gradient(135deg, #3b82f6, #60a5fa)',
         features: ['features.1', 'features.2', 'features.3', 'features.4', 'features.5', 'features.6'],
-        techs: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS', 'Firebase', 'Vercel'],
+        techs: ['Next.js', 'Shopify', 'React', 'TypeScript', 'Tailwind CSS', 'Wix & Stripe', 'Vercel'],
         price: 'price',
     },
     'ecommerce': {
@@ -69,7 +69,7 @@ export const services: Record<string, ServiceData> = {
         icon: '🚀',
         gradient: 'linear-gradient(135deg, #ec4899, #f472b6)',
         features: ['features.1', 'features.2', 'features.3', 'features.4', 'features.5', 'features.6'],
-        techs: ['React', 'Next.js', 'Firebase', 'Figma', 'Vercel', 'Stripe'],
+        techs: ['React Native', 'Next.js', 'Swift & Kotlin', 'Firebase', 'Stripe', 'App Store & Google Play'],
         price: 'price',
     },
     'ai-audit': {
