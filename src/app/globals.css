@@ -218,25 +218,7 @@
   box-shadow: 0 20px 40px rgba(59, 130, 246, 0.25);
 }
 
-/* Navbar floating glass effect */
-.navbar-floating {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 40;
-  background: rgba(5, 5, 7, 0.6);
-  backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  transition: all 0.3s ease;
-  will-change: background, border-color;
-}
 
-.navbar-floating.scrolled {
-  background: rgba(5, 5, 7, 0.8);
-  border-bottom-color: rgba(255, 255, 255, 0.1);
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
-}
 
 .container {
   width: 100%;
