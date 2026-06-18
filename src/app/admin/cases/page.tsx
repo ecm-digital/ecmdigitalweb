@@ -27,7 +27,7 @@ const label: React.CSSProperties = {
 
 const COLOR_PRESETS = ['#3b82f6', '#8b5cf6', '#ec4899', '#10b981', '#f59e0b', '#ef4444', '#eab308', '#06b6d4', '#6366f1', '#14b8a6'];
 const CATEGORIES = ['AI & Automatyzacja', 'Agent AI', 'E-commerce', 'Web Design', 'Mobile App', 'MVP', 'Marketing', 'Inne'];
-const YEARS = ['2025', '2024', '2023', '2022', '2021'];
+const YEARS = ['2026', '2025', '2024', '2023', '2022', '2021'];
 const TECHS = ['n8n', 'Gemini AI', 'OpenAI', 'React', 'Next.js', 'Node.js', 'Firebase', 'Shopify', 'WordPress', 'PostgreSQL', 'Python', 'Zapier', 'Make', 'AWS', 'Vite'];
 
 type Tab = 'basic' | 'content' | 'stats' | 'testimonial';
@@ -44,7 +44,7 @@ interface FormState {
 const EMPTY_FORM: FormState = {
     title: '', category: 'AI & Automatyzacja', client: '', industry: '',
     description: '', challenge: '', solution: '', results: '',
-    color: '#3b82f6', year: '2025', duration: '', featured: false,
+    color: '#3b82f6', year: '2026', duration: '', featured: false,
     technologies: [], stats: [{ value: '', label: '' }, { value: '', label: '' }, { value: '', label: '' }],
     testimonialQuote: '', testimonialAuthor: '', testimonialRole: '',
 };

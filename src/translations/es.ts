@@ -679,7 +679,7 @@ export const es = {
         "footer.legal": "Legal",
         "footer.privacy": "Política de Privacidad",
         "footer.terms": "Términos del Servicio",
-        "footer.copyright": "© 2025 ECM Digital. Todos los derechos reservados.",
+        "footer.copyright": "© 2026 ECM Digital. Todos los derechos reservados.",
         "footer.entity": "ECM Digital",
         "footer.knowledgeBase": "Base de Conocimiento",
         "nav.blog": "Blog",

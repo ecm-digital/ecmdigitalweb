@@ -679,7 +679,7 @@ export const szl = {
         "footer.legal": "Prawne",
         "footer.privacy": "Prywatność",
         "footer.terms": "Regulamin",
-        "footer.copyright": "© 2025 ECM Digital. Wszytskie prawa nasze.",
+        "footer.copyright": "© 2026 ECM Digital. Wszytskie prawa nasze.",
         "footer.entity": "ECM Digital",
         "footer.knowledgeBase": "Baza Wiedzy",
         "nav.blog": "Blog",

@@ -12,6 +12,7 @@ import ServicesSection from "@/components/sections/ServicesSection";
 import CaseStudiesSection from "@/components/sections/CaseStudiesSection";
 import ProcessSection from "@/components/sections/ProcessSection";
 import TestimonialsSection from "@/components/sections/TestimonialsSection";
+import TeamSection from "@/components/sections/TeamSection";
 import BlogPreviewSection from "@/components/sections/BlogPreviewSection";
 import KnowledgeSection from "@/components/sections/KnowledgeSection";
 import CTABannerSection from "@/components/sections/CTABannerSection";
@@ -69,6 +70,7 @@ export default function HomePage() {
         <CaseStudiesSection />
         <ProcessSection />
         <TestimonialsSection />
+        <TeamSection />
         <BlogPreviewSection />
         <KnowledgeSection />
         <CTABannerSection />

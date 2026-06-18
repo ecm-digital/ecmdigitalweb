@@ -11,7 +11,7 @@ const SERVICES = [
   { key: 'ecommerce', label: 'E-commerce', price: { min: 4000, max: 12000 } },
   { key: 'automation', label: 'Automation (N8N)', price: { min: 1500, max: 5000 } },
   { key: 'mvp', label: 'MVP Prototype', price: { min: 8000, max: 25000 } },
-  { key: 'ai-audit', label: 'AI Audit', price: { min: 500, max: 2000 } },
+  { key: 'ai-audit', label: 'AI Audit', price: { min: 3000, max: 6000 } },
 ];
 
 const scopeLabels: Record<string, Record<string, string>> = {

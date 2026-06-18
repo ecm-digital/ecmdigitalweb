@@ -220,7 +220,7 @@ export default function ClientProjectsAdminPage() {
                 color: '#3b82f6',
                 featured: false,
                 order: 10,
-                year: '2025',
+                year: '2026',
                 translations: {
                     pl: {
                         category: caseData.category,

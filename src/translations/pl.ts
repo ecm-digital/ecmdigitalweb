@@ -724,7 +724,7 @@ export const pl = {
         "footer.legal": "Prawne",
         "footer.privacy": "Polityka Prywatności",
         "footer.terms": "Regulamin",
-        "footer.copyright": "© 2025 ECM Digital. Wszelkie prawa zastrzeżone.",
+        "footer.copyright": "© 2026 ECM Digital. Wszelkie prawa zastrzeżone.",
         "footer.entity": "ECM Digital",
         "footer.knowledgeBase": "Baza Wiedzy",
 

@@ -5,9 +5,9 @@ import { useLanguage } from "@/context/LanguageContext";
 import { getFeaturedBlogPosts, BlogPost } from "@/lib/firestoreService";
 
 const FALLBACK_POSTS = [
-  { slug: 'ai-agents-biznes-2025', title: 'Jak Agenci AI Zmienią Twój Biznes w 2025', icon: '🤖', color: '#3b82f6' },
+  { slug: 'ai-agents-biznes-2026', title: 'Jak Agenci AI Zmienią Twój Biznes w 2026', icon: '🤖', color: '#3b82f6' },
   { slug: 'automatyzacja-n8n-przewodnik', title: 'Automatyzacja z N8N: Kompletny Przewodnik', icon: '⚡', color: '#f59e0b' },
-  { slug: 'ile-kosztuje-strona-www-2025', title: 'Ile Kosztuje Strona WWW w 2025?', icon: '💰', color: '#8b5cf6' },
+  { slug: 'ile-kosztuje-strona-www-2026', title: 'Ile Kosztuje Strona WWW w 2026?', icon: '💰', color: '#8b5cf6' },
 ];
 
 export default function BlogPreviewSection() {

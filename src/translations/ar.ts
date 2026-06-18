@@ -679,7 +679,7 @@ export const ar = {
         "footer.legal": "قانوني",
         "footer.privacy": "سياسة الخصوصية",
         "footer.terms": "شروط الخدمة",
-        "footer.copyright": "© 2025 ECM Digital. جميع الحقوق محفوظة.",
+        "footer.copyright": "© 2026 ECM Digital. جميع الحقوق محفوظة.",
         "footer.entity": "ECM Digital",
         "footer.knowledgeBase": "قاعدة المعرفة",
         "nav.blog": "المدونة",

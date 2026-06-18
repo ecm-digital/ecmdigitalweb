@@ -12,15 +12,15 @@ export interface BlogPost {
 export const blogPosts: BlogPost[] = [
         {
                 slug: 'aios-wdrozenie',
-                date: '2025-02-27',
+                date: '2026-06-15',
                 category: 'AIOS',
                 readTime: 12,
                 image: '🧠',
                 gradient: 'linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%)',
         },
         {
-                slug: 'ile-kosztuje-strona-www-2025',
-                date: '2025-02-14',
+                slug: 'ile-kosztuje-strona-www-2026',
+                date: '2026-06-10',
                 category: 'Biznes',
                 readTime: 7,
                 image: '💰',
@@ -28,15 +28,15 @@ export const blogPosts: BlogPost[] = [
         },
         {
                 slug: 'chatbot-ai-vs-ludzka-obsluga',
-                date: '2025-02-12',
+                date: '2026-06-05',
                 category: 'AI',
                 readTime: 6,
                 image: '🤖',
                 gradient: 'linear-gradient(135deg, #06b6d4 0%, #22d3ee 100%)',
         },
         {
-                slug: 'ai-agents-biznes-2025',
-                date: '2025-02-10',
+                slug: 'ai-agents-biznes-2026',
+                date: '2026-06-01',
                 category: 'AI',
                 readTime: 6,
                 image: '🤖',
@@ -44,7 +44,7 @@ export const blogPosts: BlogPost[] = [
         },
         {
                 slug: 'automatyzacja-n8n-przewodnik',
-                date: '2025-02-05',
+                date: '2026-05-20',
                 category: 'Automatyzacja',
                 readTime: 8,
                 image: '⚡',
@@ -52,7 +52,7 @@ export const blogPosts: BlogPost[] = [
         },
         {
                 slug: 'strona-www-vs-social-media',
-                date: '2025-01-28',
+                date: '2026-05-12',
                 category: 'Marketing',
                 readTime: 5,
                 image: '🌐',
@@ -60,7 +60,7 @@ export const blogPosts: BlogPost[] = [
         },
         {
                 slug: 'mvp-startup-jak-zaczac',
-                date: '2025-01-20',
+                date: '2026-05-05',
                 category: 'Startup',
                 readTime: 7,
                 image: '🚀',
@@ -68,7 +68,7 @@ export const blogPosts: BlogPost[] = [
         },
         {
                 slug: 'shopify-vs-wix-porownanie',
-                date: '2025-01-15',
+                date: '2026-04-28',
                 category: 'E-commerce',
                 readTime: 6,
                 image: '🛒',
@@ -90,13 +90,13 @@ const blogTranslations: Record<string, Record<string, string>> = {
                 'blog.cta.button': 'Skontaktuj się →',
 
                 // Post NEW 1: Ile kosztuje strona WWW
-                'ile-kosztuje-strona-www-2025.title': 'Ile Kosztuje Strona Internetowa w 2025? Kompletny Cennik',
-                'ile-kosztuje-strona-www-2025.excerpt': 'Przejrzysty przewodnik po cenach stron WWW — od wizytówki za 2000 PLN po zaawansowany sklep za 15 000 PLN.',
-                'ile-kosztuje-strona-www-2025.content': `## Ile kosztuje strona internetowa?
+                'ile-kosztuje-strona-www-2026.title': 'Ile Kosztuje Strona Internetowa w 2026? Kompletny Cennik',
+                'ile-kosztuje-strona-www-2026.excerpt': 'Przejrzysty przewodnik po cenach stron WWW — od wizytówki za 2000 PLN po zaawansowany sklep za 15 000 PLN.',
+                'ile-kosztuje-strona-www-2026.content': `## Ile kosztuje strona internetowa?
 
 To jedno z najczęściej wyszukiwanych pytań w Google. Odpowiedź zależy od wielu czynników. W tym artykule rozkładamy cennik na czynniki pierwsze.
 
-## Ceny stron WWW w 2025 — przegląd
+## Ceny stron WWW w 2026 — przegląd
 
 | Typ strony | Zakres cenowy | Czas realizacji |
 |---|---|---|
@@ -243,11 +243,11 @@ Wdrożenie AIOS to proces iteracyjny – budujemy warstwa po warstwie, dbając o
 Wchodzimy w erę, w której AIOS staje się jedynym sposobem na skalowanie firmy bez zwiększania chaosu operacyjnego. Witaj w erze AGI w biznesie.`,
 
                 // Post NEW 2: Chatbot AI vs ludzka obsługa
-                'chatbot-ai-vs-ludzka-obsluga.title': 'Chatbot AI vs Ludzka Obsługa Klienta — Co Wybrać w 2025?',
+                'chatbot-ai-vs-ludzka-obsluga.title': 'Chatbot AI vs Ludzka Obsługa Klienta — Co Wybrać w 2026?',
                 'chatbot-ai-vs-ludzka-obsluga.excerpt': 'Porównanie kosztów, wydajności i jakości obsługi klienta z AI chatbotem i tradycyjnym zespołem.',
                 'chatbot-ai-vs-ludzka-obsluga.content': `## Rewolucja w obsłudze klienta
 
-W 2025 roku chatboty AI obsługują już ponad 60% zapytań klientów w firmach technologicznych. Ale czy AI naprawdę może zastąpić człowieka?
+W 2026 roku chatboty AI obsługują już ponad 60% zapytań klientów w firmach technologicznych. Ale czy AI naprawdę może zastąpić człowieka?
 
 ## Porównanie: AI Chatbot vs Zespół ludzki
 
@@ -301,9 +301,9 @@ Najskuteczniejsze firmy łączą oba podejścia:
 
 W ECM Digital wdrażamy chatboty AI w ciągu 5–10 dni roboczych.`,
 
-                'ai-agents-biznes-2025.title': 'Jak Agenci AI Zmienią Twój Biznes w 2025',
-                'ai-agents-biznes-2025.excerpt': 'Poznaj 5 praktycznych zastosowań agentów AI, które obniżą koszty i zwiększą wydajność Twojej firmy.',
-                'ai-agents-biznes-2025.content': `## Czym są agenci AI?
+                'ai-agents-biznes-2026.title': 'Jak Agenci AI Zmienią Twój Biznes w 2026',
+                'ai-agents-biznes-2026.excerpt': 'Poznaj 5 praktycznych zastosowań agentów AI, które obniżą koszty i zwiększą wydajność Twojej firmy.',
+                'ai-agents-biznes-2026.content': `## Czym są agenci AI?
 
 Agenci AI to inteligentne programy, które potrafią samodzielnie podejmować decyzje i wykonywać zadania. W odróżnieniu od tradycyjnych chatbotów, agenci AI rozumieją kontekst, uczą się z interakcji i mogą wykonywać złożone operacje.
 
@@ -330,7 +330,7 @@ Podstawowe wdrożenie agenta AI zaczyna się od 3000 PLN. ROI pojawia się zwykl
 
 ## Podsumowanie
 
-Agenci AI to nie przyszłość — to teraźniejszość. Firmy, które wdrożą AI w 2025, zyskają przewagę konkurencyjną na lata.`,
+Agenci AI to nie przyszłość — to teraźniejszość. Firmy, które wdrożą AI w 2026, zyskają przewagę konkurencyjną na lata.`,
 
                 // Post 2: N8N
                 'automatyzacja-n8n-przewodnik.title': 'Automatyzacja z N8N: Kompletny Przewodnik dla Firm',
@@ -614,13 +614,13 @@ Implementing AIOS is an iterative process – we build layer by layer, ensuring 
 
 We are entering an era where AIOS is becoming the only way to scale a company without increasing operational chaos. Welcome to the era of AGI in business.`,
 
-                'ile-kosztuje-strona-www-2025.title': 'How Much Does a Website Cost in 2025? Complete Pricing Guide',
-                'ile-kosztuje-strona-www-2025.excerpt': 'Transparent pricing guide for websites — from a business card site at 500 EUR to an advanced store at 3,500 EUR.',
-                'ile-kosztuje-strona-www-2025.content': `## How much does a website cost?
+                'ile-kosztuje-strona-www-2026.title': 'How Much Does a Website Cost in 2026? Complete Pricing Guide',
+                'ile-kosztuje-strona-www-2026.excerpt': 'Transparent pricing guide for websites — from a business card site at 500 EUR to an advanced store at 3,500 EUR.',
+                'ile-kosztuje-strona-www-2026.content': `## How much does a website cost?
 
 This is one of the most frequently searched questions on Google. The answer depends on many factors. In this article, we break down the pricing in detail.
 
-## Website Prices in 2025 — Overview
+## Website Prices in 2026 — Overview
 
 | Website Type | Price Range | Timeline |
 |---|---|---|
@@ -645,11 +645,11 @@ Every additional feature increases cost. Contact forms, blogs, multilingual supp
 
 ## Contact ECM Digital for a free quote!`,
 
-                'chatbot-ai-vs-ludzka-obsluga.title': 'AI Chatbot vs Human Customer Service — What to Choose in 2025?',
+                'chatbot-ai-vs-ludzka-obsluga.title': 'AI Chatbot vs Human Customer Service — What to Choose in 2026?',
                 'chatbot-ai-vs-ludzka-obsluga.excerpt': 'Comparing costs, efficiency and quality of customer service with AI chatbots vs traditional teams.',
                 'chatbot-ai-vs-ludzka-obsluga.content': `## The Customer Service Revolution
 
-In 2025, AI chatbots already handle over 60% of customer inquiries in tech companies. But can AI truly replace humans?
+In 2026, AI chatbots already handle over 60% of customer inquiries in tech companies. But can AI truly replace humans?
 
 ## When to Choose an AI Chatbot?
 
@@ -671,9 +671,9 @@ The most effective companies combine both approaches:
 
 Contact ECM Digital for AI chatbot implementation.`,
 
-                'ai-agents-biznes-2025.title': 'How AI Agents Will Transform Your Business in 2025',
-                'ai-agents-biznes-2025.excerpt': 'Discover 5 practical AI agent applications that will reduce costs and boost your company\'s efficiency.',
-                'ai-agents-biznes-2025.content': `## What are AI Agents?
+                'ai-agents-biznes-2026.title': 'How AI Agents Will Transform Your Business in 2026',
+                'ai-agents-biznes-2026.excerpt': 'Discover 5 practical AI agent applications that will reduce costs and boost your company\'s efficiency.',
+                'ai-agents-biznes-2026.content': `## What are AI Agents?
 
 AI agents are intelligent programs that can independently make decisions and execute tasks. Unlike traditional chatbots, AI agents understand context, learn from interactions and can perform complex operations.
 
@@ -696,7 +696,7 @@ AI agent guides new employees through the onboarding process, answers questions 
 
 ## Summary
 
-AI agents are not the future — they are the present. Companies that implement AI in 2025 will gain a competitive advantage for years to come.`,
+AI agents are not the future — they are the present. Companies that implement AI in 2026 will gain a competitive advantage for years to come.`,
 
                 'automatyzacja-n8n-przewodnik.title': 'N8N Automation: Complete Guide for Businesses',
                 'automatyzacja-n8n-przewodnik.excerpt': 'How to save 15-20 hours weekly through business process automation with N8N.',
@@ -808,25 +808,25 @@ Sie bringen alle Ihre Kennzahlen und Meeting-Transkripte an einen Ort.
 
 Erhalten Sie das Wichtigste durch einen täglichen Bericht (Daily Brief) auf der ganzen Welt.`,
 
-                'ile-kosztuje-strona-www-2025.title': 'Was kostet eine Website 2025? Kompletter Preisleitfaden',
-                'ile-kosztuje-strona-www-2025.excerpt': 'Transparenter Preisleitfaden für Websites — von der Visitenkarte ab 500 EUR bis zum Shop ab 3.500 EUR.',
-                'ile-kosztuje-strona-www-2025.content': `## Was kostet eine Website?
+                'ile-kosztuje-strona-www-2026.title': 'Was kostet eine Website 2026? Kompletter Preisleitfaden',
+                'ile-kosztuje-strona-www-2026.excerpt': 'Transparenter Preisleitfaden für Websites — von der Visitenkarte ab 500 EUR bis zum Shop ab 3.500 EUR.',
+                'ile-kosztuje-strona-www-2026.content': `## Was kostet eine Website?
 
 Dies ist eine der am häufigsten gesuchten Fragen bei Google. Die Antwort hängt von vielen Faktoren ab.
 
 Kontaktieren Sie ECM Digital für ein kostenloses Angebot!`,
 
-                'chatbot-ai-vs-ludzka-obsluga.title': 'KI-Chatbot vs Menschlicher Kundenservice — Was wählen 2025?',
+                'chatbot-ai-vs-ludzka-obsluga.title': 'KI-Chatbot vs Menschlicher Kundenservice — Was wählen 2026?',
                 'chatbot-ai-vs-ludzka-obsluga.excerpt': 'Vergleich von Kosten, Effizienz und Qualität des Kundenservice mit KI-Chatbots vs. traditionellen Teams.',
                 'chatbot-ai-vs-ludzka-obsluga.content': `## Die Kundenservice-Revolution
 
-2025 bearbeiten KI-Chatbots bereits über 60% der Kundenanfragen in Technologieunternehmen.
+2026 bearbeiten KI-Chatbots bereits über 60% der Kundenanfragen in Technologieunternehmen.
 
 Kontaktieren Sie ECM Digital für KI-Chatbot-Implementierung.`,
 
-                'ai-agents-biznes-2025.title': 'Wie KI-Agenten Ihr Unternehmen 2025 Verändern',
-                'ai-agents-biznes-2025.excerpt': 'Entdecken Sie 5 praktische KI-Agenten-Anwendungen, die Kosten senken und die Effizienz steigern.',
-                'ai-agents-biznes-2025.content': `## Was sind KI-Agenten?
+                'ai-agents-biznes-2026.title': 'Wie KI-Agenten Ihr Unternehmen 2026 Verändern',
+                'ai-agents-biznes-2026.excerpt': 'Entdecken Sie 5 praktische KI-Agenten-Anwendungen, die Kosten senken und die Effizienz steigern.',
+                'ai-agents-biznes-2026.content': `## Was sind KI-Agenten?
 
 KI-Agenten sind intelligente Programme, die selbstständig Entscheidungen treffen und Aufgaben ausführen.
 

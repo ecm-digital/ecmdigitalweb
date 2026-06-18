@@ -37,7 +37,12 @@ export default function CaseStudiesSection() {
     e.currentTarget.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
   };
 
-  const displayCases = cases.length > 0 ? cases : FALLBACK_CASES;
+  const displayCases = (cases.length > 0 ? cases : FALLBACK_CASES).filter((item: any) => {
+    if (cases.length > 0) {
+      return !!(item.translations?.[lang]?.title || item.title);
+    }
+    return true;
+  });
 
   return (
     <section id="cases" className="section relative" style={{ borderTop: '1px solid rgba(255,255,255,0.05)', background: 'linear-gradient(to bottom, transparent, rgba(5,5,7,0.8))' }}>

@@ -700,7 +700,7 @@ export const en = {
         "footer.legal": "Legal",
         "footer.privacy": "Privacy Policy",
         "footer.terms": "Terms of Service",
-        "footer.copyright": "© 2025 ECM Digital. All rights reserved.",
+        "footer.copyright": "© 2026 ECM Digital. All rights reserved.",
         "footer.entity": "ECM Digital",
         "footer.knowledgeBase": "Knowledge Base",
 
