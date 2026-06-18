@@ -176,83 +176,47 @@ exports.onLeadCreate = onDocumentCreated("agency_clients/{clientId}", async (eve
         SMSAPI_TOKEN = SMSAPI_TOKEN || settings.smsapiToken;
         NOTIFY_PHONE = NOTIFY_PHONE || settings.notifyPhone || settings.contactPhone;
 
-        // --- HubSpot CRM Integration ---
-        if (HUBSPOT_ACCESS_TOKEN) {
-            try {
-                // Split name
-                const nameParts = name.trim().split(/\s+/);
-                const firstname = nameParts[0] || '';
-                const lastname = nameParts.slice(1).join(' ') || '';
+        // --- HubSpot Forms Submission API Integration ---
+        try {
+            // Split name
+            const nameParts = name.trim().split(/\s+/);
+            const firstname = nameParts[0] || '';
+            const lastname = nameParts.slice(1).join(' ') || '';
 
-                const combinedMessage = `Selected Service: ${service || 'None'}\nMessage: ${message || ''}`;
+            const hsPortalId = '145940599';
+            const hsFormId = 'fac0d462-6388-49ef-86ea-a34ee139ddb2';
+            const hsUrl = `https://api-eu1.hsforms.com/submissions/v3/integration/submit/${hsPortalId}/${hsFormId}`;
 
-                const contactData = {
-                    properties: {
-                        email: email,
-                        firstname: firstname,
-                        lastname: lastname,
-                        company: company || '',
-                        message: combinedMessage
-                    }
-                };
-
-                const hubspotUrl = 'https://api.hubapi.com/crm/v3/objects/contacts';
-
-                // Attempt to create contact
-                const createRes = await fetch(hubspotUrl, {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': `Bearer ${HUBSPOT_ACCESS_TOKEN}`,
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(contactData)
-                });
-
-                if (createRes.status === 201 || createRes.status === 200) {
-                    const data = await createRes.json();
-                    console.log('✅ Contact created successfully in HubSpot:', data.id);
-                } else if (createRes.status === 409) {
-                    const errorData = await createRes.json();
-                    const match = (errorData.message || '').match(/Existing ID:\s*(\d+)/i);
-                    const contactId = match ? match[1] : null;
-
-                    if (contactId) {
-                        console.log(`ℹ️ Contact already exists with ID ${contactId}. Updating contact...`);
-                        
-                        const updateData = {
-                            properties: {
-                                firstname: firstname,
-                                lastname: lastname,
-                                company: company || '',
-                                message: combinedMessage
-                            }
-                        };
-
-                        const updateRes = await fetch(`${hubspotUrl}/${contactId}`, {
-                            method: 'PATCH',
-                            headers: {
-                                'Authorization': `Bearer ${HUBSPOT_ACCESS_TOKEN}`,
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify(updateData)
-                        });
-
-                        if (updateRes.ok) {
-                            console.log('✅ Contact updated successfully in HubSpot:', contactId);
-                        } else {
-                            const updateError = await updateRes.text();
-                            console.error('❌ HubSpot contact update failed:', updateError);
-                        }
-                    }
-                } else {
-                    const rawError = await createRes.text();
-                    console.error('❌ HubSpot contact creation failed:', rawError);
+            const hsPayload = {
+                fields: [
+                    { name: 'email', value: email },
+                    { name: 'firstname', value: firstname },
+                    { name: 'lastname', value: lastname },
+                    { name: 'company', value: company || '' },
+                    { name: 'message', value: `Selected Service: ${service || 'None'}\nMessage: ${message || ''}` }
+                ],
+                context: {
+                    pageUri: 'https://ecmdigital.pl/kontakt',
+                    pageName: 'Kontakt'
                 }
-            } catch (hsError) {
-                console.error('❌ HubSpot integration exception:', hsError);
+            };
+
+            const hsRes = await fetch(hsUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(hsPayload)
+            });
+
+            if (hsRes.ok) {
+                console.log('✅ Lead successfully submitted to HubSpot Forms API');
+            } else {
+                const rawError = await hsRes.text();
+                console.error('❌ HubSpot Forms API submission failed:', hsRes.status, rawError);
             }
-        } else {
-            console.warn('HubSpot integration skipped: Missing access token');
+        } catch (hsError) {
+            console.error('❌ HubSpot Forms API integration exception:', hsError);
         }
 
         // --- SMS API Notification ---

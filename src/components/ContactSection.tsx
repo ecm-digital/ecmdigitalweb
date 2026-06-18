@@ -1,9 +1,9 @@
 'use client';
 
-import React, { useEffect } from "react";
-import Script from "next/script";
+import React, { useState, useEffect } from "react";
 import { useLanguage } from "@/context/LanguageContext";
-import { trackCTAClick } from '@/lib/ga';
+import { addLead } from '@/lib/firestoreService';
+import { trackLead, trackCTAClick } from '@/lib/ga';
 
 export default function ContactSection() {
     const { T } = useLanguage();
@@ -66,8 +66,7 @@ export default function ContactSection() {
                     <div className="contact-form-wrapper premium-glass-panel fade-in-right" style={{ padding: 'clamp(24px, 5vw, 48px)', borderRadius: '32px', position: 'relative', overflow: 'hidden', background: 'linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%)', boxShadow: '0 0 60px rgba(59, 130, 246, 0.1)', border: '1px solid rgba(59, 130, 246, 0.2)' }}>
                         <div style={{ position: 'absolute', top: 0, left: 0, width: '300px', height: '300px', background: 'radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, transparent 70%)', filter: 'blur(50px)', pointerEvents: 'none', zIndex: 0 }}></div>
                         <h3 style={{ fontSize: '2rem', marginBottom: '32px', color: 'white', position: 'relative', zIndex: 1 }}>{T('contact.form.title')}</h3>
-                        <div className="hs-form-frame" data-region="eu1" data-form-id="fac0d462-6388-49ef-86ea-a34ee139ddb2" data-portal-id="145940599" style={{ position: 'relative', zIndex: 1 }}></div>
-                        <Script src="https://js-eu1.hsforms.net/forms/embed/145940599.js" defer />
+                        <ContactForm T={T} />
                     </div>
                 </div>
                 <div className="map-embed fade-in" style={{ marginTop: '48px', borderRadius: '16px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.08)' }}>
@@ -84,6 +83,142 @@ export default function ContactSection() {
                 </div>
             </div>
         </section>
+    );
+}
+
+function ContactForm({ T }: { T: (key: string) => string }) {
+    const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        setStatus('sending');
+        const form = e.currentTarget;
+        const formData = new FormData(form);
+
+        const data: Record<string, any> = {};
+        formData.forEach((value, key) => {
+            data[key] = value;
+        });
+
+        data.source = 'ecm-digital-website';
+        data.timestamp = new Date().toISOString();
+        data.language = typeof document !== 'undefined' ? document.documentElement.lang : 'pl';
+
+        try {
+            // 1. Save to Firestore
+            await addLead({
+                name: data.name,
+                email: data.email,
+                company: data.company || '',
+                service: data.service || '',
+                message: data.message,
+                source: 'Website Contact Form',
+            });
+            console.log('Lead saved to Firestore');
+
+            // 2. Trigger n8n Webhook
+            const n8nWebhookUrl = 'https://primary-production-4224.up.railway.app/webhook/contact-form';
+            fetch(n8nWebhookUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data),
+            }).catch(e => console.error('n8n error:', e));
+
+            // 3. Submit directly to HubSpot public Forms API
+            const nameParts = (data.name || '').trim().split(/\s+/);
+            const firstname = nameParts[0] || '';
+            const lastname = nameParts.slice(1).join(' ') || '';
+            const getHubSpotCookie = () => {
+                if (typeof document === 'undefined') return undefined;
+                const match = document.cookie.match(/hubspotutk=([^;]+)/);
+                return match ? match[1] : undefined;
+            };
+
+            const hsPayload = {
+                fields: [
+                    { name: 'email', value: data.email },
+                    { name: 'firstname', value: firstname },
+                    { name: 'lastname', value: lastname },
+                    { name: 'company', value: data.company || '' },
+                    { name: 'message', value: `Selected Service: ${data.service || 'None'}\nMessage: ${data.message || ''}` }
+                ],
+                context: {
+                    hutk: getHubSpotCookie(),
+                    pageUri: typeof window !== 'undefined' ? window.location.href : 'https://ecmdigital.pl/kontakt',
+                    pageName: typeof document !== 'undefined' ? document.title : 'Kontakt'
+                }
+            };
+
+            const hsPortalId = '145940599';
+            const hsFormId = 'fac0d462-6388-49ef-86ea-a34ee139ddb2';
+            const hsUrl = `https://api-eu1.hsforms.com/submissions/v3/integration/submit/${hsPortalId}/${hsFormId}`;
+
+            fetch(hsUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(hsPayload),
+            })
+            .then(res => res.json())
+            .then(resData => console.log('HubSpot client-side response:', resData))
+            .catch(err => console.error('HubSpot client-side error:', err));
+
+            setStatus('sent');
+            trackLead('ContactForm', data.service);
+            form.reset();
+            setTimeout(() => setStatus('idle'), 5000);
+
+        } catch (error) {
+            console.error('Submission error:', error);
+            setStatus('error');
+        }
+    };
+
+    if (status === 'sent') {
+        return (
+            <div style={{ textAlign: 'center', padding: '48px 24px' }}>
+                <div style={{ fontSize: '3rem', marginBottom: '16px' }}>✅</div>
+                <h4 style={{ marginBottom: '8px' }}>{T('contact.sent')}</h4>
+                <p style={{ color: 'var(--text-secondary)' }}>{T('contact.sentDesc')}</p>
+            </div>
+        );
+    }
+
+    return (
+        <form onSubmit={handleSubmit}>
+            <div className="form-row">
+                <div className="form-group">
+                    <label htmlFor="contact-name">{T('contact.form.name')}</label>
+                    <input type="text" id="contact-name" name="name" required />
+                </div>
+                <div className="form-group">
+                    <label htmlFor="contact-email">{T('contact.form.email')}</label>
+                    <input type="email" id="contact-email" name="email" required />
+                </div>
+            </div>
+            <div className="form-row">
+                <div className="form-group">
+                    <label htmlFor="contact-company">{T('contact.form.company')}</label>
+                    <input type="text" id="contact-company" name="company" />
+                </div>
+                <div className="form-group">
+                    <label htmlFor="contact-service">{T('contact.form.service')}</label>
+                    <select id="contact-service" name="service">
+                        <option value="">{T('contact.form.service.placeholder')}</option>
+                        <option value="websites_leads">{T('contact.form.service.opt1')}</option>
+                        <option value="ai_followup">{T('contact.form.service.opt2')}</option>
+                        <option value="automation_crm">{T('contact.form.service.opt3')}</option>
+                        <option value="audit_training">{T('contact.form.service.opt4')}</option>
+                    </select>
+                </div>
+            </div>
+            <div className="form-group">
+                <label htmlFor="contact-message">{T('contact.form.message')}</label>
+                <textarea id="contact-message" name="message" required></textarea>
+            </div>
+            <button type="submit" className="btn-submit" disabled={status === 'sending'}>
+                {status === 'sending' ? T('contact.sending') : `${T('contact.form.submit')} →`}
+            </button>
+        </form>
     );
 }
 

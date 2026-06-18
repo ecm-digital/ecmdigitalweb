@@ -4,13 +4,11 @@ import React, { useState } from 'react';
 import { useLanguage } from '@/context/LanguageContext';
 
 const faqKeys = [
-    { q: 'faq.q6', a: 'faq.a6' },
-    { q: 'faq.q7', a: 'faq.a7' },
-    { q: 'faq.q8', a: 'faq.a8' },
-    { q: 'faq.q9', a: 'faq.a9' },
-    { q: 'faq.q10', a: 'faq.a10' },
-    { q: 'faq.q11', a: 'faq.a11' },
-    { q: 'faq.q12', a: 'faq.a12' },
+    { q: 'faq.q1', a: 'faq.a1' },
+    { q: 'faq.q2', a: 'faq.a2' },
+    { q: 'faq.q3', a: 'faq.a3' },
+    { q: 'faq.q4', a: 'faq.a4' },
+    { q: 'faq.q5', a: 'faq.a5' },
 ];
 
 export default function FAQSection() {

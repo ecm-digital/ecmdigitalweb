@@ -7,11 +7,11 @@ import Footer from "@/components/Footer";
 import { useLanguage } from "@/context/LanguageContext";
 import HeroSection from "@/components/sections/HeroSection";
 import MarqueeSection from "@/components/sections/MarqueeSection";
+import ForWhomSection from "@/components/sections/ForWhomSection";
 import ServicesSection from "@/components/sections/ServicesSection";
 import CaseStudiesSection from "@/components/sections/CaseStudiesSection";
 import ProcessSection from "@/components/sections/ProcessSection";
 import TestimonialsSection from "@/components/sections/TestimonialsSection";
-import TechStackSection from "@/components/sections/TechStackSection";
 import BlogPreviewSection from "@/components/sections/BlogPreviewSection";
 import KnowledgeSection from "@/components/sections/KnowledgeSection";
 import CTABannerSection from "@/components/sections/CTABannerSection";
@@ -64,11 +64,11 @@ export default function HomePage() {
         <Navbar />
         <HeroSection />
         <MarqueeSection />
+        <ForWhomSection />
         <ServicesSection />
         <CaseStudiesSection />
         <ProcessSection />
         <TestimonialsSection />
-        <TechStackSection />
         <BlogPreviewSection />
         <KnowledgeSection />
         <CTABannerSection />

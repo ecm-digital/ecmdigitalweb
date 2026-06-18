@@ -9,18 +9,18 @@ interface NewsletterProps {
 
 const translations = {
     pl: {
-        badge: '📬 Newsletter',
-        title: 'Darmowy e-book + cotygodniowe porady',
-        subtitle: 'Zapisz się i otrzymaj bezpłatny przewodnik "10 Sposobów na Automatyzację Firmy z AI" + cotygodniowe porady z marketing, AI i technologii.',
+        badge: '📬 LEAD MAGNET',
+        title: 'Odbierz bezpłatny audyt konwersji (Checklista)',
+        subtitle: 'Zapisz się na nasz newsletter i pobierz PDF: "12 błędów na stronie usługowej, przez które uciekają Twoi klienci (i jak je naprawić w 1 popołudnie)". Praktyczne wskazówki bez lania wody.',
         placeholder: 'Twój adres email',
-        button: 'Pobieram e-book →',
+        button: 'Pobieram bezpłatny PDF →',
         sending: '⏳ Wysyłanie...',
         success: '🎉 Dziękujemy! Sprawdź swoją skrzynkę email.',
         error: 'Coś poszło nie tak. Spróbuj ponownie.',
         privacy: '🔒 Bez spamu. Możesz zrezygnować w każdej chwili.',
-        benefit1: '📖 Darmowy e-book PDF',
-        benefit2: '💡 Cotygodniowe porady',
-        benefit3: '🚀 Ekskluzywne oferty',
+        benefit1: '📖 Darmowa Checklista PDF',
+        benefit2: '💡 Wskazówki bez lania wody',
+        benefit3: '🚀 Przepisy na konwersję',
     },
     en: {
         badge: '📬 Newsletter',

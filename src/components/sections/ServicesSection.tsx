@@ -8,8 +8,6 @@ const STATIC_SERVICES = [
   { key: 'auto', icon: '⚡', accent: '#10b981', href: '/services/automation', span: 'col-span-6', featured: true, wide: true },
   { key: 'ai', icon: '🤖', accent: '#3b82f6', href: '/services/ai-agents', span: 'col-span-3' },
   { key: 'web', icon: '🌐', accent: '#8b5cf6', href: '/services/websites', span: 'col-span-3' },
-  { key: 'shop', icon: '🛒', accent: '#06b6d4', href: '/services/ecommerce', span: 'col-span-3' },
-  { key: 'mvp', icon: '🚀', accent: '#f59e0b', href: '/services/mvp', span: 'col-span-3' },
 ];
 
 export default function ServicesSection() {
