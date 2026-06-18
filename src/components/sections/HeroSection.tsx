@@ -46,10 +46,10 @@ export default function HeroSection() {
       )}
 
       <div className="container relative z-10">
-        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1.15fr 1fr', gap: '64px', alignItems: 'center' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '56px', alignItems: 'center', width: '100%' }}>
           
-          {/* Left Column: Text & CTAs */}
-          <div style={{ textAlign: isMobile ? 'center' : 'left', display: 'flex', flexDirection: 'column', alignItems: isMobile ? 'center' : 'flex-start' }}>
+          {/* Top Column: Text & CTAs */}
+          <div style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', maxWidth: '800px', margin: '0 auto' }}>
             <div className="hero-badge fade-in-up" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '8px 18px', borderRadius: '999px', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', backdropFilter: 'blur(20px)', fontSize: '0.75rem', fontWeight: 600, letterSpacing: '0.05em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.7)', marginBottom: '24px' }}>
               <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#3b82f6' }} className="animate-pulse" />
               {T('hero.badge')}
@@ -65,11 +65,11 @@ export default function HeroSection() {
               )}
             </h1>
 
-            <p className="hero-subtitle fade-in-up" style={{ animationDelay: '0.2s', marginBottom: '36px', maxWidth: '580px', fontSize: '1.08rem', color: 'rgba(255,255,255,0.5)', lineHeight: 1.65, fontWeight: 400 }}>
+            <p className="hero-subtitle fade-in-up" style={{ animationDelay: '0.2s', marginBottom: '36px', maxWidth: '640px', fontSize: '1.08rem', color: 'rgba(255,255,255,0.5)', lineHeight: 1.65, fontWeight: 400 }}>
               {heroSubtitle}
             </p>
 
-            <div className="hero-actions fade-in-up" style={{ animationDelay: '0.3s', display: 'flex', gap: '14px', flexWrap: 'wrap', justifyContent: isMobile ? 'center' : 'flex-start' }}>
+            <div className="hero-actions fade-in-up" style={{ animationDelay: '0.3s', display: 'flex', gap: '14px', flexWrap: 'wrap', justifyContent: 'center' }}>
               <a href="#services" className="btn-primary">
                   {T('hero.cta1')}
               </a>
@@ -79,8 +79,8 @@ export default function HeroSection() {
             </div>
           </div>
 
-          {/* Right Column: Interactive Dashboard Mockup */}
-          <div className="fade-in-up" style={{ animationDelay: '0.4s', width: '100%', maxWidth: isMobile ? '600px' : 'none', margin: '0 auto', filter: 'drop-shadow(0 20px 40px rgba(0,0,0,0.65))', zIndex: 1 }}>
+          {/* Bottom Column: Interactive Dashboard Mockup */}
+          <div className="fade-in-up" style={{ animationDelay: '0.4s', width: '100%', maxWidth: '850px', margin: '0 auto', filter: 'drop-shadow(0 20px 40px rgba(0,0,0,0.65))', zIndex: 1 }}>
             <div className="premium-animated-border" style={{ borderRadius: '20px' }}>
               <AIAgentDemo />
             </div>
