@@ -90,11 +90,7 @@ export default function PricingCalculator() {
         }),
       }).catch(console.error);
 
-      fetch('/api/notify/sms', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, service: selectedService }),
-      }).catch(console.error);
+
 
       trackLead('PricingCalculator', selectedService);
       setStatus('sent');

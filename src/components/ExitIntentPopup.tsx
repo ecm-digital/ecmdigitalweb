@@ -63,11 +63,7 @@ export default function ExitIntentPopup() {
         }),
       }).catch(console.error);
 
-      fetch('/api/notify/sms', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: email.split('@')[0], email, service: 'AI Audit' }),
-      }).catch(console.error);
+
 
       trackLead('ExitIntentPopup', 'AI Audit');
       setStatus('sent');

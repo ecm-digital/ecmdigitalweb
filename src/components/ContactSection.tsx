@@ -124,19 +124,7 @@ function ContactForm({ T }: { T: (key: string) => string }) {
                 body: JSON.stringify(data),
             }).catch(e => console.error('n8n error:', e));
 
-            // 3. Trigger SMS Notification
-            fetch('/api/notify/sms', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data),
-            }).catch(e => console.error('SMS Notification error:', e));
 
-            // 4. Trigger HubSpot Integration
-            fetch('/api/contact', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data),
-            }).catch(e => console.error('HubSpot integration error:', e));
 
             setStatus('sent');
             trackLead('ContactForm', data.service);
