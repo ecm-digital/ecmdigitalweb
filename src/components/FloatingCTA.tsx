@@ -4,24 +4,21 @@ import React, { useState, useEffect } from 'react';
 
 export default function FloatingCTA() {
   const [isVisible, setIsVisible] = useState(false);
-  const [showAfterScroll, setShowAfterScroll] = useState(false);
 
   useEffect(() => {
-    // Show after 3 seconds
-    const timeoutId = setTimeout(() => setIsVisible(true), 3000);
-
-    // Show immediately after 300px scroll
     const handleScroll = () => {
-      if (window.scrollY > 300) {
-        setShowAfterScroll(true);
+      if (window.scrollY > 800) {
         setIsVisible(true);
+      } else {
+        setIsVisible(false);
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    // Run once on mount in case the page is already scrolled
+    handleScroll();
 
     return () => {
-      clearTimeout(timeoutId);
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);

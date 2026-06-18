@@ -19,16 +19,20 @@ export default function TestimonialsSection() {
   }, []);
 
   // Fallback to translation-based testimonials if Firestore is empty
-  const renderCard = (name: string, role: string, text: string, tag: string, result: string, idx: number) => (
-    <div key={idx} className="premium-glass-panel" style={{ padding: '32px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', minHeight: '380px' }}>
-      <div>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '20px', flexWrap: 'wrap', gap: '8px' }}>
-          <span style={{ fontSize: '0.8rem', fontWeight: 700, padding: '4px 12px', borderRadius: '999px', background: 'rgba(59, 130, 246, 0.1)', color: '#60a5fa', border: '1px solid rgba(59, 130, 246, 0.2)' }}>{tag}</span>
-          <span style={{ fontSize: '0.8rem', fontWeight: 800, padding: '4px 12px', borderRadius: '999px', background: 'rgba(52, 211, 153, 0.1)', color: '#34d399', border: '1px solid rgba(52, 211, 153, 0.2)' }}>🏆 {result}</span>
+  const renderCard = (name: string, role: string, text: string, tag: string, result: string, idx: number) => {
+    const displayTag = tag && !tag.startsWith('testimonials.') ? tag : "Automatyzacja";
+    const displayResult = result && !result.startsWith('testimonials.') ? result : "Wzrost ROI";
+
+    return (
+      <div key={idx} className="premium-glass-panel" style={{ padding: '32px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', minHeight: '380px' }}>
+        <div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '20px', flexWrap: 'wrap', gap: '8px' }}>
+            <span style={{ fontSize: '0.8rem', fontWeight: 700, padding: '4px 12px', borderRadius: '999px', background: 'rgba(59, 130, 246, 0.1)', color: '#60a5fa', border: '1px solid rgba(59, 130, 246, 0.2)' }}>{displayTag}</span>
+            <span style={{ fontSize: '0.8rem', fontWeight: 800, padding: '4px 12px', borderRadius: '999px', background: 'rgba(52, 211, 153, 0.1)', color: '#34d399', border: '1px solid rgba(52, 211, 153, 0.2)' }}>🏆 {displayResult}</span>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px', gap: '4px', color: '#fbbf24', fontSize: '1rem' }}>★★★★★</div>
+          <p style={{ fontSize: '1.05rem', color: 'rgba(255,255,255,0.7)', marginBottom: '32px', lineHeight: 1.7 }}>"{text}"</p>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px', gap: '4px', color: '#fbbf24', fontSize: '1rem' }}>★★★★★</div>
-        <p style={{ fontSize: '1.05rem', color: 'rgba(255,255,255,0.7)', marginBottom: '32px', lineHeight: 1.7 }}>"{text}"</p>
-      </div>
       <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
         <div style={{ width: '48px', height: '48px', borderRadius: '50%', background: 'linear-gradient(135deg, #3b82f6, #8b5cf6)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, fontSize: '1.1rem', color: 'white', boxShadow: '0 0 20px rgba(139, 92, 246, 0.4)' }}>
           {name.charAt(0)}
@@ -39,7 +43,8 @@ export default function TestimonialsSection() {
         </div>
       </div>
     </div>
-  );
+    );
+  };
 
   return (
     <section id="testimonials" className="section section-polish relative bg-grid reveal-on-scroll" style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}>
