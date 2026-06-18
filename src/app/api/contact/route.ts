@@ -17,8 +17,8 @@ export async function POST(req: Request) {
         const firstname = nameParts[0] || '';
         const lastname = nameParts.slice(1).join(' ') || '';
 
-        // Combine service and message into standard HubSpot description field
-        const description = `Selected Service: ${service || 'None'}\nMessage: ${message || ''}`;
+        // Combine service and message into standard HubSpot message field
+        const combinedMessage = `Selected Service: ${service || 'None'}\nMessage: ${message || ''}`;
 
         const contactData = {
             properties: {
@@ -26,7 +26,7 @@ export async function POST(req: Request) {
                 firstname: firstname,
                 lastname: lastname,
                 company: company || '',
-                description: description
+                message: combinedMessage
             }
         };
 
@@ -57,13 +57,13 @@ export async function POST(req: Request) {
             if (contactId) {
                 console.log(`ℹ️ Contact already exists with ID ${contactId}. Updating contact...`);
                 
-                // Do not update email in properties when patching, just firstname, lastname, company, description
+                // Do not update email in properties when patching, just firstname, lastname, company, message
                 const updateData = {
                     properties: {
                         firstname: firstname,
                         lastname: lastname,
                         company: company || '',
-                        description: description
+                        message: combinedMessage
                     }
                 };
 

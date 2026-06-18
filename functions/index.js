@@ -184,7 +184,7 @@ exports.onLeadCreate = onDocumentCreated("agency_clients/{clientId}", async (eve
                 const firstname = nameParts[0] || '';
                 const lastname = nameParts.slice(1).join(' ') || '';
 
-                const description = `Selected Service: ${service || 'None'}\nMessage: ${message || ''}`;
+                const combinedMessage = `Selected Service: ${service || 'None'}\nMessage: ${message || ''}`;
 
                 const contactData = {
                     properties: {
@@ -192,7 +192,7 @@ exports.onLeadCreate = onDocumentCreated("agency_clients/{clientId}", async (eve
                         firstname: firstname,
                         lastname: lastname,
                         company: company || '',
-                        description: description
+                        message: combinedMessage
                     }
                 };
 
@@ -224,7 +224,7 @@ exports.onLeadCreate = onDocumentCreated("agency_clients/{clientId}", async (eve
                                 firstname: firstname,
                                 lastname: lastname,
                                 company: company || '',
-                                description: description
+                                message: combinedMessage
                             }
                         };
 
