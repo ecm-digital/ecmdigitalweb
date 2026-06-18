@@ -23,7 +23,7 @@ export default function BlogPreviewSection() {
   const displayPosts = posts.length > 0 ? posts : FALLBACK_POSTS;
 
   return (
-    <section id="blog" className="section relative bg-grid reveal-on-scroll" style={{ padding: '120px 0', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+    <section id="blog" className="section section-polish relative bg-grid reveal-on-scroll" style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}>
       <div className="container relative z-10">
         <div className="section-header fade-in-up">
           <span className="section-label" style={{ padding: '8px 16px', background: 'rgba(96, 165, 250, 0.1)', color: '#60a5fa', borderRadius: '999px', border: '1px solid rgba(96, 165, 250, 0.2)' }}>📝 {T('blog.label')}</span>
@@ -37,7 +37,7 @@ export default function BlogPreviewSection() {
               key={post.slug}
               href={`/blog/${post.slug}`}
               className="premium-glass-panel premium-card-glow fade-in-up"
-              style={{ padding: '40px', borderRadius: '28px', overflow: 'hidden', textDecoration: 'none', color: 'inherit', animationDelay: `${0.1 * idx}s`, display: 'flex', flexDirection: 'column', position: 'relative', minHeight: '380px', border: '1px solid rgba(255,255,255,0.05)', background: 'rgba(255,255,255,0.02)' }}
+              style={{ padding: '32px', animationDelay: `${0.1 * idx}s`, display: 'flex', flexDirection: 'column', minHeight: '380px' }}
             >
               <div style={{ position: 'absolute', top: 0, right: 0, width: '180px', height: '180px', background: `radial-gradient(circle, ${post.color}30 0%, transparent 70%)`, filter: 'blur(30px)', pointerEvents: 'none', zIndex: 1 }} />
               <div style={{ width: '72px', height: '72px', borderRadius: '20px', marginBottom: '32px', background: 'linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.02))', border: '1px solid rgba(255,255,255,0.1)', boxShadow: `0 0 20px ${post.color}30`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2rem', position: 'relative', zIndex: 2 }}>
@@ -54,7 +54,7 @@ export default function BlogPreviewSection() {
         </div>
 
         <div className="text-center fade-in-up">
-          <a href="/blog" className="btn-secondary premium-button-shine" style={{ padding: '14px 40px', borderRadius: '12px', fontSize: '1rem', background: 'rgba(255,255,255,0.05)' }}>
+          <a href="/blog" className="btn-secondary premium-button-shine">
             {T('blog.viewAll')}
           </a>
         </div>

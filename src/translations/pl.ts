@@ -490,6 +490,7 @@ export const pl = {
         "hero.stat4.label": "Czas reakcji AI 24/7",
 
         // For Whom
+        "forwhom.label": "Dla kogo pracujemy",
         "forwhom.title": "Dla kogo projektujemy wzrost?",
         "forwhom.subtitle": "Dostosowujemy narzędzia do skali i charakteru Twojej działalności usługowej.",
         "forwhom.local.title": "Lokalne Firmy Usługowe",
@@ -497,11 +498,19 @@ export const pl = {
         "forwhom.local.bullet1": "Zwiększamy liczbę bezpośrednich telefonów i zapytań z map Google.",
         "forwhom.local.bullet2": "Wdrażamy automatyczne umawianie wizyt bezpośrednio do Twojego kalendarza.",
         "forwhom.local.bullet3": "Uruchamiamy SMS-owe i mailowe potwierdzenia oraz przypomnienia o terminach.",
+        "forwhom.local.symptoms.title": "Objawy, że czas na automatyzację:",
+        "forwhom.local.symptom1": "Przeznaczanie cennego czasu na manualne umawianie i potwierdzanie wizyt.",
+        "forwhom.local.symptom2": "Klienci zapominający o terminach (brak SMS-owych przypomnień).",
+        "forwhom.local.symptom3": "Utrata zapytań spływających wieczorami lub w dni wolne.",
         "forwhom.b2b.title": "Krajowe Usługi B2B & Doradztwo",
         "forwhom.b2b.desc": "Agencje rekrutacyjne, firmy szkoleniowe, doradcy finansowi, logistyka, kancelarie prawne, agencje marketingowe.",
         "forwhom.b2b.bullet1": "Budujemy zaawansowane landing pages i lejki generujące leady wysokiej jakości.",
         "forwhom.b2b.bullet2": "Wdrażamy chatboty AI, które odpowiadają na pytania ofertowe w 15 sekund.",
         "forwhom.b2b.bullet3": "Automatyzujemy CRM, eliminując ręczne przepisywanie danych i pilnując follow-upu.",
+        "forwhom.b2b.symptoms.title": "Objawy, że czas na automatyzację:",
+        "forwhom.b2b.symptom1": "Ręczne przepisywanie danych i leadów z formularzy do CRM.",
+        "forwhom.b2b.symptom2": "Utrata ciepłych kontaktów przez brak regularnego follow-upu.",
+        "forwhom.b2b.symptom3": "Długi czas odpowiedzi na zapytania ofertowe (powyżej 1 godziny).",
 
         // Services
         "services.label": "Co możemy dla Ciebie zrobić?",

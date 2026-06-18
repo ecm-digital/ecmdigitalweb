@@ -35,69 +35,57 @@ export default function HeroSection() {
   return (
     <section
       className="hero-section relative overflow-hidden"
-      style={{ minHeight: isMobile ? '100svh' : '100vh', display: 'flex', alignItems: 'center', paddingTop: '100px' }}
+      style={{ minHeight: isMobile ? 'auto' : '100vh', display: 'flex', alignItems: 'center', paddingTop: isMobile ? '120px' : '140px', paddingBottom: '80px' }}
       onMouseMove={handleMouseMove}
     >
       <ParticlesBackground />
 
-      {/* Ambient gradient blobs - skip on mobile for performance */}
+      {/* Ambient background glow - extremely subtle behind the dashboard mockup */}
       {!isMobile && (
-        <>
-          <div className="absolute" style={{ top: '20%', left: '10%', width: '400px', height: '400px', background: 'radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, transparent 70%)', filter: 'blur(80px)', zIndex: 0, transform: `translate(${mousePos.x * 20}px, ${mousePos.y * 20}px)`, transition: 'transform 0.2s ease-out' }} />
-          <div className="absolute" style={{ bottom: '10%', right: '5%', width: '500px', height: '500px', background: 'radial-gradient(circle, rgba(139, 92, 246, 0.1) 0%, transparent 70%)', filter: 'blur(100px)', zIndex: 0, transform: `translate(${mousePos.x * -30}px, ${mousePos.y * -30}px)`, transition: 'transform 0.2s ease-out' }} />
-        </>
-      )}
-      {isMobile && (
-        <div className="absolute" style={{ top: '20%', left: '50%', transform: 'translateX(-50%)', width: '300px', height: '300px', background: 'radial-gradient(circle, rgba(59, 130, 246, 0.12) 0%, transparent 70%)', filter: 'blur(60px)', zIndex: 0 }} />
+        <div className="absolute" style={{ right: '10%', top: '20%', width: '600px', height: '600px', background: 'radial-gradient(circle, rgba(59, 130, 246, 0.04) 0%, transparent 70%)', filter: 'blur(120px)', zIndex: 0, pointerEvents: 'none' }} />
       )}
 
       <div className="container relative z-10">
-        <div className="hero-content" style={{ maxWidth: '1000px', margin: '0 auto 60px', textAlign: 'center' }}>
-          <div className="hero-badge fade-in-up" style={{ margin: '0 auto 32px', display: 'inline-flex', alignItems: 'center', gap: '12px', padding: '10px 28px', borderRadius: '999px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', boxShadow: '0 0 30px rgba(59, 130, 246, 0.15)', backdropFilter: 'blur(20px)' }}>
-            <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#60a5fa', boxShadow: '0 0 15px #60a5fa' }} className="animate-pulse" />
-            {T('hero.badge')}
+        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1.15fr 1fr', gap: '64px', alignItems: 'center' }}>
+          
+          {/* Left Column: Text & CTAs */}
+          <div style={{ textAlign: isMobile ? 'center' : 'left', display: 'flex', flexDirection: 'column', alignItems: isMobile ? 'center' : 'flex-start' }}>
+            <div className="hero-badge fade-in-up" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '8px 18px', borderRadius: '999px', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', backdropFilter: 'blur(20px)', fontSize: '0.75rem', fontWeight: 600, letterSpacing: '0.05em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.7)', marginBottom: '24px' }}>
+              <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#3b82f6' }} className="animate-pulse" />
+              {T('hero.badge')}
+            </div>
+
+            <h1 className="hero-title fade-in-up" style={{ animationDelay: '0.1s', marginBottom: '24px', lineHeight: 1.15, fontSize: 'clamp(2.4rem, 4.8vw, 3.8rem)', letterSpacing: '-0.03em', fontWeight: 800, color: '#ffffff' }}>
+              {isValidService ? T(`personalization.${serviceParam}.title`) : (
+                <>
+                  <span style={{ fontWeight: 400, color: 'rgba(255,255,255,0.85)' }}>{T('hero.title1')}</span> <br />
+                  <span className="premium-text-gradient font-extrabold" style={{ display: 'inline-block', margin: '4px 0' }}>{T('hero.titleAccent')}</span> <br />
+                  <span style={{ fontWeight: 700 }}>{T('hero.title2')}</span>
+                </>
+              )}
+            </h1>
+
+            <p className="hero-subtitle fade-in-up" style={{ animationDelay: '0.2s', marginBottom: '36px', maxWidth: '580px', fontSize: '1.08rem', color: 'rgba(255,255,255,0.5)', lineHeight: 1.65, fontWeight: 400 }}>
+              {heroSubtitle}
+            </p>
+
+            <div className="hero-actions fade-in-up" style={{ animationDelay: '0.3s', display: 'flex', gap: '14px', flexWrap: 'wrap', justifyContent: isMobile ? 'center' : 'flex-start' }}>
+              <a href="#services" className="btn-primary">
+                  {T('hero.cta1')}
+              </a>
+              <a href="#contact" className="btn-secondary">
+                  {T('hero.cta2')}
+              </a>
+            </div>
           </div>
 
-          <h1 className="hero-title fade-in-up" style={{ animationDelay: '0.1s', marginBottom: '24px', lineHeight: 1.1 }}>
-            {isValidService ? T(`personalization.${serviceParam}.title`) : (
-              <>
-                <span style={{ fontWeight: 400, color: 'rgba(255,255,255,0.9)' }}>{T('hero.title1')}</span> <br />
-                <span className="premium-text-gradient font-extrabold" style={{ display: 'inline-block' }}>{T('hero.titleAccent')}</span> <br />
-                <span style={{ fontWeight: 700 }}>{T('hero.title2')}</span>
-              </>
-            )}
-          </h1>
-
-          <p className="hero-subtitle fade-in-up text-balance" style={{ animationDelay: '0.2s', margin: '0 auto 40px', maxWidth: '740px', fontSize: '1.3rem', color: 'rgba(255,255,255,0.7)', lineHeight: 1.6 }}>
-            {heroSubtitle}
-          </p>
-
-          <div className="hero-actions fade-in-up" style={{ animationDelay: '0.3s', justifyContent: 'center', gap: '16px', display: 'flex', flexWrap: 'wrap' }}>
-            <a href="#services" className="btn-primary premium-button-shine" style={{ padding: '16px 40px', fontSize: '1.05rem', borderRadius: '16px', fontWeight: 600, letterSpacing: '0.02em', transition: 'all 0.3s' }}>{T('hero.cta1')}</a>
-            <a href="#contact" className="btn-secondary premium-button-shine" style={{ padding: '16px 40px', fontSize: '1.05rem', borderRadius: '16px', fontWeight: 600, letterSpacing: '0.02em', transition: 'all 0.3s', background: 'rgba(255,255,255,0.05)' }}>{T('hero.cta2')}</a>
+          {/* Right Column: Interactive Dashboard Mockup */}
+          <div className="fade-in-up" style={{ animationDelay: '0.4s', width: '100%', maxWidth: isMobile ? '600px' : 'none', margin: '0 auto', filter: 'drop-shadow(0 20px 40px rgba(0,0,0,0.65))', zIndex: 1 }}>
+            <div className="premium-animated-border" style={{ borderRadius: '20px' }}>
+              <AIAgentDemo />
+            </div>
           </div>
-        </div>
 
-        <div className="fade-in-up" style={{ animationDelay: '0.4s', maxWidth: '1000px', margin: '0 auto', filter: 'drop-shadow(0 30px 60px rgba(0,0,0,0.5))' }}>
-          <div className="premium-animated-border">
-            <AIAgentDemo />
-          </div>
-        </div>
-
-        <div className="fade-in-up" style={{ animationDelay: '0.5s', maxWidth: '1000px', margin: '60px auto 0' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px' }}>
-            {[
-              { value: T('hero.stat1.value'), label: T('hero.stat1.label'), color: '#60a5fa', glow: 'rgba(96,165,250,0.12)' },
-              { value: T('hero.stat2.value'), label: T('hero.stat2.label'), color: '#34d399', glow: 'rgba(52,211,153,0.12)' },
-              { value: T('hero.stat3.value'), label: T('hero.stat3.label'), color: '#a78bfa', glow: 'rgba(167,139,250,0.12)' },
-              { value: T('hero.stat4.value'), label: T('hero.stat4.label'), color: '#f59e0b', glow: 'rgba(245,158,11,0.12)' }
-            ].map((stat, idx) => (
-              <div key={idx} style={{ padding: '24px', borderRadius: '20px', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)', boxShadow: `0 10px 30px ${stat.glow}`, backdropFilter: 'blur(20px)', textAlign: 'center' }}>
-                <div style={{ fontSize: '2.2rem', fontWeight: 800, color: stat.color, marginBottom: '6px', textShadow: `0 0 15px ${stat.color}30` }}>{stat.value}</div>
-                <div style={{ fontSize: '0.9rem', color: 'rgba(255,255,255,0.6)', fontWeight: 500, lineHeight: 1.4 }}>{stat.label}</div>
-              </div>
-            ))}
-          </div>
         </div>
       </div>
     </section>

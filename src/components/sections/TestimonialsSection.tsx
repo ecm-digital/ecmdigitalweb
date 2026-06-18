@@ -20,7 +20,7 @@ export default function TestimonialsSection() {
 
   // Fallback to translation-based testimonials if Firestore is empty
   const renderCard = (name: string, role: string, text: string, tag: string, result: string, idx: number) => (
-    <div key={idx} className="premium-glass-panel" style={{ padding: '40px', borderRadius: '24px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', minHeight: '380px' }}>
+    <div key={idx} className="premium-glass-panel" style={{ padding: '32px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', minHeight: '380px' }}>
       <div>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '20px', flexWrap: 'wrap', gap: '8px' }}>
           <span style={{ fontSize: '0.8rem', fontWeight: 700, padding: '4px 12px', borderRadius: '999px', background: 'rgba(59, 130, 246, 0.1)', color: '#60a5fa', border: '1px solid rgba(59, 130, 246, 0.2)' }}>{tag}</span>
@@ -42,7 +42,7 @@ export default function TestimonialsSection() {
   );
 
   return (
-    <section id="testimonials" className="section relative bg-grid reveal-on-scroll" style={{ borderTop: '1px solid rgba(255,255,255,0.05)', padding: '120px 0' }}>
+    <section id="testimonials" className="section section-polish relative bg-grid reveal-on-scroll" style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}>
       <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '80%', height: '80%', background: 'radial-gradient(circle, rgba(139, 92, 246, 0.05) 0%, transparent 70%)', filter: 'blur(100px)', zIndex: 0, pointerEvents: 'none' }} />
 
       <div className="container relative z-10">

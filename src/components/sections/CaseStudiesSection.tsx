@@ -21,6 +21,35 @@ function resolveImage(item: any, title: string): string {
   return '/case_study_mvp_startup_mockup_1772144187874.webp';
 }
 
+// Helper to parse description into challenge and solution for premium scannability
+function parseDescription(desc: string) {
+  const result = { challenge: '', solution: '' };
+  
+  if (!desc) return result;
+
+  const challengeRegex = /(?:Wyzwanie|🔴 Wyzwanie|🔴):\s*([^.]+)/i;
+  const solutionRegex = /(?:Rozwiązanie|🟢 Rozwiązanie|🟢):\s*([^.]+)/i;
+
+  const challengeMatch = desc.match(challengeRegex);
+  const solutionMatch = desc.match(solutionRegex);
+
+  if (challengeMatch) {
+    result.challenge = challengeMatch[1].trim() + '.';
+  }
+  if (solutionMatch) {
+    result.solution = solutionMatch[1].trim() + '.';
+  }
+
+  // Fallback if text doesn't contain matching keywords
+  if (!result.challenge && !result.solution) {
+    const lines = desc.split('\n').filter(l => l.trim().length > 0);
+    result.challenge = lines[0] || '';
+    result.solution = lines[1] || '';
+  }
+
+  return result;
+}
+
 export default function CaseStudiesSection() {
   const { T, lang } = useLanguage();
   const [cases, setCases] = useState<CaseStudy[]>([]);
@@ -45,15 +74,24 @@ export default function CaseStudiesSection() {
   });
 
   return (
-    <section id="cases" className="section relative" style={{ borderTop: '1px solid rgba(255,255,255,0.05)', background: 'linear-gradient(to bottom, transparent, rgba(5,5,7,0.8))' }}>
+    <section id="cases" className="section section-polish relative" style={{ borderTop: '1px solid rgba(255,255,255,0.05)', background: 'linear-gradient(to bottom, transparent, rgba(5,5,7,0.85))' }}>
       <div className="container">
-        <div className="section-header fade-in-up text-center w-full max-w-none" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <span className="section-label" style={{ padding: '8px 16px', background: 'rgba(236, 72, 153, 0.1)', color: '#ec4899', borderRadius: '999px', border: '1px solid rgba(236, 72, 153, 0.2)' }}>{T('cases.label')}</span>
-          <h2 className="section-title">{T('cases.title')}</h2>
-          <p className="section-subtitle">{T('cases.subtitle')}</p>
+        
+        {/* Section Header */}
+        <div className="section-header fade-in-up text-center w-full max-w-none" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '72px' }}>
+          <span className="section-label" style={{ padding: '8px 16px', background: 'rgba(236, 72, 153, 0.06)', color: 'rgba(255,255,255,0.7)', borderRadius: '999px', border: '1px solid rgba(255,255,255,0.06)', fontSize: '0.72rem', fontWeight: 600, letterSpacing: '0.05em', textTransform: 'uppercase' }}>
+            {T('cases.label')}
+          </span>
+          <h2 className="section-title" style={{ fontSize: 'clamp(2.2rem, 5vw, 3.4rem)', marginTop: '16px', letterSpacing: '-0.03em', fontWeight: 800 }}>
+            {T('cases.title')}
+          </h2>
+          <p className="section-subtitle" style={{ maxWidth: '600px', color: 'rgba(255,255,255,0.45)', marginTop: '16px', fontSize: '1.05rem', lineHeight: 1.6 }}>
+            {T('cases.subtitle')}
+          </p>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 320px), 1fr))', gap: '32px', padding: '20px 0 40px', justifyContent: displayCases.length <= 2 ? 'center' : 'start' }}>
+        {/* Case Studies Grid */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 340px), 1fr))', gap: '32px', padding: '10px 0 30px', justifyContent: displayCases.length <= 2 ? 'center' : 'start' }}>
           {displayCases.map((item: any, idx) => {
             const i = item.i || (idx + 1);
             const slug = item.slug || `case-${idx}`;
@@ -63,60 +101,88 @@ export default function CaseStudiesSection() {
             const description = item.translations?.[lang]?.description || item.description || T(`cases.case${i}.desc`) || 'Description';
             const image = resolveImage(item, title);
 
+            // Parse text
+            const parsedText = parseDescription(description);
+
             return (
               <a
                 key={slug + idx}
                 href={item.translations ? `/cases/view?slug=${slug}` : `/cases/${slug}`}
                 onMouseMove={handleMouseMove}
-                className="premium-glass-panel premium-card-glow fade-in-up"
-                style={{ padding: '40px', display: 'flex', flexDirection: 'column', animationDelay: `${0.1 * i}s`, textDecoration: 'none', color: 'inherit', borderRadius: '28px', position: 'relative', overflow: 'hidden', minHeight: '420px', border: '1px solid rgba(255,255,255,0.05)', background: 'rgba(255,255,255,0.02)' }}
+                className="case-study-card-polished premium-glass-panel premium-card-glow fade-in-up"
+                style={{
+                  animationDelay: `${0.1 * i}s`,
+                }}
               >
+                {/* Image Container with Inner Border & Hover Scale */}
                 {image && (
-                  <div style={{ position: 'relative', width: '100%', height: '220px', borderRadius: '20px', overflow: 'hidden', marginBottom: '24px' }}>
-                    <Image src={image.startsWith('http') || image.startsWith('/') ? image : `/${image}`} alt={title} fill style={{ objectFit: 'cover' }} />
-                    <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.6) 100%)' }} />
+                  <div style={{ position: 'relative', width: '100%', height: '210px', borderRadius: '14px', overflow: 'hidden', marginBottom: '24px', border: '1px solid rgba(255,255,255,0.05)' }}>
+                    <Image
+                      src={image.startsWith('http') || image.startsWith('/') ? image : `/${image}`}
+                      alt={title}
+                      fill
+                      style={{ objectFit: 'cover', transition: 'transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)' }}
+                      className="case-study-img"
+                    />
+                    <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 40%, rgba(5,5,7,0.8) 100%)' }} />
                   </div>
                 )}
-                <div style={{ position: 'absolute', top: 0, right: 0, width: '180px', height: '180px', background: `radial-gradient(circle, ${color}30 0%, transparent 70%)`, filter: 'blur(30px)', pointerEvents: 'none', zIndex: 1 }} />
-                <div style={{ fontSize: '0.8rem', fontWeight: 700, color, textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '16px', display: 'inline-flex', alignItems: 'center', gap: '8px', position: 'relative', zIndex: 2 }}>
-                  <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: color, flexShrink: 0 }} />
+                
+                {/* Ambient Highlight */}
+                <div style={{ position: 'absolute', top: 0, right: 0, width: '160px', height: '160px', background: `radial-gradient(circle, ${color}08 0%, transparent 70%)`, filter: 'blur(25px)', pointerEvents: 'none', zIndex: 1 }} />
+                
+                {/* Meta Category Tag */}
+                <div style={{ fontSize: '0.68rem', fontWeight: 600, color, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '14px', display: 'inline-flex', alignItems: 'center', gap: '6px', position: 'relative', zIndex: 2, padding: '4px 10px', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '999px', width: 'fit-content' }}>
+                  <span style={{ width: '4px', height: '4px', borderRadius: '50%', background: color }} />
                   {category}
                 </div>
-                <h3 style={{ fontSize: '1.5rem', marginBottom: '16px', lineHeight: 1.3, position: 'relative', zIndex: 2, fontWeight: 800 }}>{title}</h3>
-                <div style={{ fontSize: '0.96rem', marginBottom: '32px', flexGrow: 1, lineHeight: 1.6, position: 'relative', zIndex: 2, display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                  {description.split('\n').map((line: string, lIdx: number) => {
-                    const isProblem = line.trim().startsWith('🔴');
-                    return (
-                      <p key={lIdx} style={{ margin: 0, color: isProblem ? 'rgba(255,255,255,0.6)' : 'white', fontWeight: isProblem ? 400 : 600 }}>
-                        {line}
-                      </p>
-                    );
-                  })}
+
+                {/* Case Title */}
+                <h3 style={{ fontSize: '1.25rem', marginBottom: '16px', lineHeight: 1.35, position: 'relative', zIndex: 2, fontWeight: 700, color: '#f8fafc', letterSpacing: '-0.02em' }}>
+                  {title}
+                </h3>
+                
+                {/* Parsed Challenge & Solution rows */}
+                <div style={{ fontSize: '0.85rem', marginBottom: '28px', flexGrow: 1, position: 'relative', zIndex: 2, display: 'flex', flexDirection: 'column', gap: '10px', borderLeft: '2px solid rgba(255,255,255,0.03)', paddingLeft: '12px' }}>
+                  {parsedText.challenge && (
+                    <div>
+                      <span style={{ fontSize: '0.65rem', fontWeight: 600, color: 'rgba(255,255,255,0.3)', textTransform: 'uppercase', tracking: '0.05em', marginRight: '6px', display: 'inline-block' }}>Wyzwanie:</span>
+                      <span style={{ color: 'rgba(255,255,255,0.5)', lineHeight: 1.5 }}>{parsedText.challenge}</span>
+                    </div>
+                  )}
+                  {parsedText.solution && (
+                    <div>
+                      <span style={{ fontSize: '0.65rem', fontWeight: 600, color: 'rgba(255,255,255,0.3)', textTransform: 'uppercase', tracking: '0.05em', marginRight: '6px', display: 'inline-block' }}>Rozwiązanie:</span>
+                      <span style={{ color: 'rgba(255,255,255,0.85)', lineHeight: 1.5 }}>{parsedText.solution}</span>
+                    </div>
+                  )}
                 </div>
 
-                <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '24px' }}>
+                {/* Metrics Widget (Bottom area) */}
+                <div style={{ borderTop: '1px solid rgba(255,255,255,0.04)', paddingTop: '20px', position: 'relative', zIndex: 2 }}>
                   {item.translations?.[lang]?.results ? (
-                    <div style={{ fontSize: '0.9rem', color: 'white', fontWeight: 700, lineHeight: 1.5 }}>
-                      🚀 {item.translations[lang].results}
+                    <div style={{ fontSize: '0.82rem', color: '#ffffff', fontWeight: 600, lineHeight: 1.5, display: 'flex', alignItems: 'center', gap: '6px' }}>
+                      <span>🚀</span>
+                      <span>{item.translations[lang].results}</span>
                     </div>
                   ) : item.translations?.[lang]?.resultsStats?.length >= 2 ? (
                     <div style={{ display: 'flex', gap: '32px' }}>
                       {item.translations[lang].resultsStats.slice(0, 2).map((stat: any, si: number) => (
                         <div key={si}>
-                          <div style={{ fontSize: '1.5rem', fontWeight: 800, color: 'white', letterSpacing: '-0.02em' }}>{stat.value}</div>
-                          <div style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase', letterSpacing: '0.05em', marginTop: '4px' }}>{stat.label}</div>
+                          <div style={{ fontSize: '1.4rem', fontWeight: 700, color: '#ffffff', letterSpacing: '-0.02em' }}>{stat.value}</div>
+                          <div style={{ fontSize: '0.65rem', color: 'rgba(255,255,255,0.35)', textTransform: 'uppercase', letterSpacing: '0.05em', marginTop: '2px' }}>{stat.label}</div>
                         </div>
                       ))}
                     </div>
                   ) : (
                     <div style={{ display: 'flex', gap: '32px' }}>
                       <div>
-                        <div style={{ fontSize: '1.5rem', fontWeight: 800, color: 'white', letterSpacing: '-0.02em' }}>{T(`cases.case${i}.stat1.value`) || '100%'}</div>
-                        <div style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase', letterSpacing: '0.05em', marginTop: '4px' }}>{T(`cases.case${i}.stat1.label`) || 'ROI'}</div>
+                        <div style={{ fontSize: '1.4rem', fontWeight: 700, color: '#ffffff', letterSpacing: '-0.02em' }}>{T(`cases.case${i}.stat1.value`) || '100%'}</div>
+                        <div style={{ fontSize: '0.65rem', color: 'rgba(255,255,255,0.35)', textTransform: 'uppercase', letterSpacing: '0.05em', marginTop: '2px' }}>{T(`cases.case${i}.stat1.label`) || 'ROI'}</div>
                       </div>
                       <div>
-                        <div style={{ fontSize: '1.5rem', fontWeight: 800, color: 'white', letterSpacing: '-0.02em' }}>{T(`cases.case${i}.stat2.value`) || '2x'}</div>
-                        <div style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase', letterSpacing: '0.05em', marginTop: '4px' }}>{T(`cases.case${i}.stat2.label`) || 'Wzrost'}</div>
+                        <div style={{ fontSize: '1.4rem', fontWeight: 700, color: '#ffffff', letterSpacing: '-0.02em' }}>{T(`cases.case${i}.stat2.value`) || '2x'}</div>
+                        <div style={{ fontSize: '0.65rem', color: 'rgba(255,255,255,0.35)', textTransform: 'uppercase', letterSpacing: '0.05em', marginTop: '2px' }}>{T(`cases.case${i}.stat2.label`) || 'Wzrost'}</div>
                       </div>
                     </div>
                   )}
@@ -126,12 +192,19 @@ export default function CaseStudiesSection() {
           })}
         </div>
 
-        <div className="text-center fade-in-up" style={{ marginTop: '40px' }}>
-          <a href="/portfolio" className="btn-secondary premium-button-shine" style={{ padding: '14px 40px', borderRadius: '12px', fontSize: '1rem', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}>
+        {/* See All Button */}
+        <div className="text-center fade-in-up" style={{ marginTop: '48px' }}>
+          <a href="/portfolio" className="btn-secondary">
             {T('cases.viewAll')}
           </a>
         </div>
       </div>
+
+      <style jsx>{`
+        .case-study-card-polished:hover .case-study-img {
+          transform: scale(1.03) !important;
+        }
+      `}</style>
     </section>
   );
 }

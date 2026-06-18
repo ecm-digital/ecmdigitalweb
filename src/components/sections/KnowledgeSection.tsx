@@ -9,7 +9,7 @@ const ITEMS = [
 
 export default function KnowledgeSection() {
   return (
-    <section id="wiedza" className="section relative reveal-on-scroll" style={{ padding: '100px 0', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+    <section id="wiedza" className="section section-polish relative reveal-on-scroll" style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}>
       <div className="container relative z-10">
         <div className="section-header fade-in-up">
           <span className="section-label" style={{ padding: '8px 16px', background: 'rgba(139, 92, 246, 0.1)', color: '#a78bfa', borderRadius: '999px', border: '1px solid rgba(139, 92, 246, 0.2)' }}>📚 Encyklopedia</span>
@@ -23,7 +23,7 @@ export default function KnowledgeSection() {
               key={item.slug}
               href={`/wiedza/${item.slug}`}
               className="premium-glass-panel premium-hover-lift fade-in-up"
-              style={{ padding: '32px', borderRadius: '24px', textDecoration: 'none', color: 'inherit', animationDelay: `${0.1 * idx}s`, display: 'flex', flexDirection: 'column', transition: 'all 0.4s ease' }}
+              style={{ padding: '32px', animationDelay: `${0.1 * idx}s`, display: 'flex', flexDirection: 'column' }}
             >
               <div style={{ width: '56px', height: '56px', borderRadius: '16px', background: item.gradient, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.8rem', marginBottom: '20px', boxShadow: '0 8px 20px rgba(0,0,0,0.3)' }}>
                 {item.icon}
@@ -38,7 +38,7 @@ export default function KnowledgeSection() {
         </div>
 
         <div className="text-center fade-in-up">
-          <a href="/wiedza" className="btn-secondary premium-button-shine" style={{ padding: '14px 40px', borderRadius: '12px', fontSize: '1rem', background: 'rgba(139,92,246,0.05)', border: '1px solid rgba(139,92,246,0.2)' }}>
+          <a href="/wiedza" className="btn-secondary premium-button-shine">
             Pełna Baza Wiedzy AI →
           </a>
         </div>

@@ -34,7 +34,7 @@ export default function TeamSection() {
   const { T } = useLanguage();
 
   return (
-    <section id="team" className="section relative reveal-on-scroll" style={{ padding: '120px 0', borderTop: '1px solid rgba(255,255,255,0.05)', background: 'rgba(10,10,15,0.3)' }}>
+    <section id="team" className="section section-polish relative reveal-on-scroll" style={{ borderTop: '1px solid rgba(255,255,255,0.05)', background: 'rgba(10,10,15,0.3)' }}>
       <div style={{ position: 'absolute', bottom: '10%', left: '5%', width: '300px', height: '300px', background: 'radial-gradient(circle, rgba(139, 92, 246, 0.05) 0%, transparent 70%)', filter: 'blur(80px)', pointerEvents: 'none', zIndex: 0 }} />
 
       <div className="container relative z-10">
@@ -56,15 +56,9 @@ export default function TeamSection() {
               key={member.key}
               className="team-card premium-glass-panel fade-in-up"
               style={{
-                padding: '40px 30px',
-                borderRadius: '24px',
+                padding: '32px 24px',
                 textAlign: 'center',
-                border: '1px solid rgba(255,255,255,0.05)',
-                background: 'rgba(255,255,255,0.01)',
                 animationDelay: `${idx * 0.1}s`,
-                position: 'relative',
-                overflow: 'hidden',
-                transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)'
               }}
             >
               <div style={{ position: 'absolute', top: 0, right: 0, width: '120px', height: '120px', background: `radial-gradient(circle, ${member.color}15 0%, transparent 70%)`, filter: 'blur(20px)', pointerEvents: 'none' }} />
