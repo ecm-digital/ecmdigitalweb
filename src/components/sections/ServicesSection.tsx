@@ -4,10 +4,10 @@ import React from "react";
 import { useLanguage } from "@/context/LanguageContext";
 
 const STATIC_SERVICES = [
-  { key: 'audit', icon: '🔎', accent: '#FF2D55', href: '/services/ai-audit', span: 'col-span-6', featured: true, wide: true },
-  { key: 'auto', icon: '⚡', accent: '#10b981', href: '/services/automation', span: 'col-span-6', featured: true, wide: true },
-  { key: 'ai', icon: '🤖', accent: '#3b82f6', href: '/services/ai-agents', span: 'col-span-3' },
-  { key: 'web', icon: '🌐', accent: '#8b5cf6', href: '/services/websites', span: 'col-span-3' },
+  { key: 'audit', icon: '🔎', accent: '#FF2D55', href: '/services/ai-audit', span: 'col-span-6' },
+  { key: 'auto', icon: '⚡', accent: '#10b981', href: '/services/automation', span: 'col-span-6' },
+  { key: 'ai', icon: '🤖', accent: '#3b82f6', href: '/services/ai-agents', span: 'col-span-6' },
+  { key: 'web', icon: '🌐', accent: '#8b5cf6', href: '/services/websites', span: 'col-span-6' },
 ];
 
 export default function ServicesSection() {
