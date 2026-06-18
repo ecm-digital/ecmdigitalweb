@@ -44,6 +44,15 @@ export default function ForWhomSection() {
                   <span>{T('forwhom.local.bullet3')}</span>
                 </li>
               </ul>
+
+              <div style={{ marginTop: '24px', paddingTop: '24px', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+                <h4 style={{ fontSize: '0.9rem', color: '#818cf8', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '16px' }}>{T('forwhom.local.symptoms.title')}</h4>
+                <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                  <li style={{ color: 'rgba(255,255,255,0.65)', fontSize: '0.92rem', lineHeight: 1.4 }}>{T('forwhom.local.symptom1')}</li>
+                  <li style={{ color: 'rgba(255,255,255,0.65)', fontSize: '0.92rem', lineHeight: 1.4 }}>{T('forwhom.local.symptom2')}</li>
+                  <li style={{ color: 'rgba(255,255,255,0.65)', fontSize: '0.92rem', lineHeight: 1.4 }}>{T('forwhom.local.symptom3')}</li>
+                </ul>
+              </div>
             </div>
             <div style={{ marginTop: '40px' }}>
               <a href="#contact" className="btn-secondary" style={{ display: 'inline-block', width: '100%', textAlign: 'center', padding: '14px 28px', borderRadius: '14px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', color: 'white', textDecoration: 'none', fontWeight: 600, transition: 'all 0.3s' }}>
@@ -75,6 +84,15 @@ export default function ForWhomSection() {
                   <span>{T('forwhom.b2b.bullet3')}</span>
                 </li>
               </ul>
+
+              <div style={{ marginTop: '24px', paddingTop: '24px', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+                <h4 style={{ fontSize: '0.9rem', color: '#60a5fa', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '16px' }}>{T('forwhom.b2b.symptoms.title')}</h4>
+                <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                  <li style={{ color: 'rgba(255,255,255,0.65)', fontSize: '0.92rem', lineHeight: 1.4 }}>{T('forwhom.b2b.symptom1')}</li>
+                  <li style={{ color: 'rgba(255,255,255,0.65)', fontSize: '0.92rem', lineHeight: 1.4 }}>{T('forwhom.b2b.symptom2')}</li>
+                  <li style={{ color: 'rgba(255,255,255,0.65)', fontSize: '0.92rem', lineHeight: 1.4 }}>{T('forwhom.b2b.symptom3')}</li>
+                </ul>
+              </div>
             </div>
             <div style={{ marginTop: '40px' }}>
               <a href="#contact" className="btn-secondary" style={{ display: 'inline-block', width: '100%', textAlign: 'center', padding: '14px 28px', borderRadius: '14px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', color: 'white', textDecoration: 'none', fontWeight: 600, transition: 'all 0.3s' }}>

@@ -62,6 +62,32 @@ export default function ContactSection() {
                                 </div>
                             </a>
                         </div>
+                        <div className="consultation-steps" style={{ marginTop: '40px', paddingTop: '40px', borderTop: '1px solid rgba(255,255,255,0.1)' }}>
+                            <h4 style={{ fontSize: '1.2rem', color: 'white', marginBottom: '24px', fontWeight: 800 }}>Co się wydarzy po wysłaniu zgłoszenia?</h4>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                                <div style={{ display: 'flex', gap: '16px' }}>
+                                    <div style={{ width: '28px', height: '28px', borderRadius: '50%', background: '#34d399', color: 'black', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: '0.85rem', flexShrink: 0 }}>1</div>
+                                    <div>
+                                        <h5 style={{ fontSize: '1rem', color: 'white', margin: '0 0 4px', fontWeight: 700 }}>Analiza w 24h</h5>
+                                        <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.9rem', margin: 0, lineHeight: 1.4 }}>Przeanalizujemy Twoją obecną stronę oraz procesy obsługi leadów, zanim się zdzwonimy.</p>
+                                    </div>
+                                </div>
+                                <div style={{ display: 'flex', gap: '16px' }}>
+                                    <div style={{ width: '28px', height: '28px', borderRadius: '50%', background: '#60a5fa', color: 'black', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: '0.85rem', flexShrink: 0 }}>2</div>
+                                    <div>
+                                        <h5 style={{ fontSize: '1rem', color: 'white', margin: '0 0 4px', fontWeight: 700 }}>30 minut bez presji</h5>
+                                        <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.9rem', margin: 0, lineHeight: 1.4 }}>Pokażemy Ci 2-3 konkretne miejsca, gdzie uciekają zapytania i przedstawimy rekomendacje wdrożeń.</p>
+                                    </div>
+                                </div>
+                                <div style={{ display: 'flex', gap: '16px' }}>
+                                    <div style={{ width: '28px', height: '28px', borderRadius: '50%', background: '#a78bfa', color: 'black', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: '0.85rem', flexShrink: 0 }}>3</div>
+                                    <div>
+                                        <h5 style={{ fontSize: '1rem', color: 'white', margin: '0 0 4px', fontWeight: 700 }}>Wycena i decyzja</h5>
+                                        <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.9rem', margin: 0, lineHeight: 1.4 }}>Dostaniesz jasną wycenę. Jeśli wolisz wdrożyć zalecenia we własnym zakresie – mapa drogowa zostaje u Ciebie.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div className="contact-form-wrapper premium-glass-panel fade-in-right" style={{ padding: 'clamp(24px, 5vw, 48px)', borderRadius: '32px', position: 'relative', overflow: 'hidden', background: 'linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%)', boxShadow: '0 0 60px rgba(59, 130, 246, 0.1)', border: '1px solid rgba(59, 130, 246, 0.2)' }}>
                         <div style={{ position: 'absolute', top: 0, left: 0, width: '300px', height: '300px', background: 'radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, transparent 70%)', filter: 'blur(50px)', pointerEvents: 'none', zIndex: 0 }}></div>

@@ -83,6 +83,22 @@ export default function HeroSection() {
             <AIAgentDemo />
           </div>
         </div>
+
+        <div className="fade-in-up" style={{ animationDelay: '0.5s', maxWidth: '1000px', margin: '60px auto 0' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px' }}>
+            {[
+              { value: T('hero.stat1.value'), label: T('hero.stat1.label'), color: '#60a5fa', glow: 'rgba(96,165,250,0.12)' },
+              { value: T('hero.stat2.value'), label: T('hero.stat2.label'), color: '#34d399', glow: 'rgba(52,211,153,0.12)' },
+              { value: T('hero.stat3.value'), label: T('hero.stat3.label'), color: '#a78bfa', glow: 'rgba(167,139,250,0.12)' },
+              { value: T('hero.stat4.value'), label: T('hero.stat4.label'), color: '#f59e0b', glow: 'rgba(245,158,11,0.12)' }
+            ].map((stat, idx) => (
+              <div key={idx} style={{ padding: '24px', borderRadius: '20px', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)', boxShadow: `0 10px 30px ${stat.glow}`, backdropFilter: 'blur(20px)', textAlign: 'center' }}>
+                <div style={{ fontSize: '2.2rem', fontWeight: 800, color: stat.color, marginBottom: '6px', textShadow: `0 0 15px ${stat.color}30` }}>{stat.value}</div>
+                <div style={{ fontSize: '0.9rem', color: 'rgba(255,255,255,0.6)', fontWeight: 500, lineHeight: 1.4 }}>{stat.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );

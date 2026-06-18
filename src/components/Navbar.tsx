@@ -50,17 +50,17 @@ export default function Navbar() {
                 </ul>
             </div>
 
-            <div className="nav-controls" style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-                <div className="lang-switcher" style={{ background: 'rgba(255,255,255,0.05)', borderRadius: '999px', padding: '4px', border: '1px solid rgba(255,255,255,0.1)' }}>
+            <div className="nav-controls" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <div className="lang-switcher" style={{ background: 'rgba(255,255,255,0.03)', borderRadius: '999px', padding: '2px', border: '1px solid rgba(255,255,255,0.05)', display: 'inline-flex' }}>
                     {(['pl', 'en', 'de', 'es'] as Lang[]).map(l => {
                         return (
                             <button key={l} className={lang === l ? 'active' : ''} onClick={() => switchLang(l)} style={{
                                 background: lang === l ? 'white' : 'transparent',
                                 color: lang === l ? 'black' : 'rgba(255,255,255,0.4)',
                                 border: 'none',
-                                padding: '4px 10px',
+                                padding: '3px 8px',
                                 borderRadius: '999px',
-                                fontSize: '0.7rem',
+                                fontSize: '0.68rem',
                                 fontWeight: 700,
                                 cursor: 'pointer',
                                 transition: 'all 0.3s'
@@ -70,14 +70,14 @@ export default function Navbar() {
                         );
                     })}
                 </div>
-                <div className="navbar-socials-desktop" style={{ display: 'inline-flex', gap: '8px' }}>
-                    <a href="https://www.linkedin.com/company/ecm-digital/" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: '36px', height: '36px', borderRadius: '50%', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'white', textDecoration: 'none', transition: 'all 0.3s' }} onMouseOver={e => { e.currentTarget.style.background = '#0a66c2'; e.currentTarget.style.borderColor = '#0a66c2'; }} onMouseOut={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.05)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)'; }}>
-                        <svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24">
+                <div className="navbar-socials-desktop" style={{ display: 'inline-flex', gap: '6px' }}>
+                    <a href="https://www.linkedin.com/company/ecm-digital/" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: '32px', height: '32px', borderRadius: '50%', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.7)', textDecoration: 'none', transition: 'all 0.3s' }} onMouseOver={e => { e.currentTarget.style.background = '#0a66c2'; e.currentTarget.style.color = 'white'; }} onMouseOut={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.03)'; e.currentTarget.style.color = 'rgba(255,255,255,0.7)'; }}>
+                        <svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.779-1.75-1.75s.784-1.75 1.75-1.75 1.75.779 1.75 1.75-.784 1.75-1.75 1.75zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
                         </svg>
                     </a>
-                    <a href="https://www.facebook.com/ecmdigital" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: '36px', height: '36px', borderRadius: '50%', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'white', textDecoration: 'none', transition: 'all 0.3s' }} onMouseOver={e => { e.currentTarget.style.background = '#1877f2'; e.currentTarget.style.borderColor = '#1877f2'; }} onMouseOut={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.05)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)'; }}>
-                        <svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24">
+                    <a href="https://www.facebook.com/ecmdigital" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: '32px', height: '32px', borderRadius: '50%', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.7)', textDecoration: 'none', transition: 'all 0.3s' }} onMouseOver={e => { e.currentTarget.style.background = '#1877f2'; e.currentTarget.style.color = 'white'; }} onMouseOut={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.03)'; e.currentTarget.style.color = 'rgba(255,255,255,0.7)'; }}>
+                        <svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
                         </svg>
                     </a>
@@ -85,12 +85,12 @@ export default function Navbar() {
                 <a href={anchor('#contact')} className="navbar-cta premium-button-shine" style={{
                     background: 'white',
                     color: 'black',
-                    padding: '12px 28px',
+                    padding: '8px 20px',
                     borderRadius: '999px',
                     fontWeight: 700,
-                    fontSize: '0.9rem',
+                    fontSize: '0.82rem',
                     textDecoration: 'none',
-                    boxShadow: '0 10px 20px rgba(0,0,0,0.2)'
+                    boxShadow: '0 4px 12px rgba(255,255,255,0.1)'
                 }} onClick={() => {
                     trackCTAClick('MainCTA', 'Navbar');
                 }}>{T('nav.cta')}</a>

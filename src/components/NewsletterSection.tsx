@@ -9,18 +9,18 @@ interface NewsletterProps {
 
 const translations = {
     pl: {
-        badge: '📬 LEAD MAGNET',
-        title: 'Odbierz bezpłatny audyt konwersji (Checklista)',
-        subtitle: 'Zapisz się na nasz newsletter i pobierz PDF: "12 błędów na stronie usługowej, przez które uciekają Twoi klienci (i jak je naprawić w 1 popołudnie)". Praktyczne wskazówki bez lania wody.',
+        badge: '📬 BEZPŁATNY RAPORT PDF',
+        title: 'Gdzie polskie firmy usługowe tracą najwięcej leadów?',
+        subtitle: 'Zapisz się na nasz newsletter i pobierz PDF: „5 krytycznych miejsc w Twoim procesie sprzedaży, przez które klienci odchodzą do konkurencji (i jak to naprawić w jedno popołudnie)”. Konkretne instrukcje bez lania wody.',
         placeholder: 'Twój adres email',
-        button: 'Pobieram bezpłatny PDF →',
+        button: 'Pobieram bezpłatny raport PDF →',
         sending: '⏳ Wysyłanie...',
         success: '🎉 Dziękujemy! Sprawdź swoją skrzynkę email.',
         error: 'Coś poszło nie tak. Spróbuj ponownie.',
         privacy: '🔒 Bez spamu. Możesz zrezygnować w każdej chwili.',
-        benefit1: '📖 Darmowa Checklista PDF',
-        benefit2: '💡 Wskazówki bez lania wody',
-        benefit3: '🚀 Przepisy na konwersję',
+        benefit1: '📖 Darmowy Raport PDF',
+        benefit2: '💡 Wskazówki krok po kroku',
+        benefit3: '🚀 Szybka automatyzacja',
     },
     en: {
         badge: '📬 Newsletter',

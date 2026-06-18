@@ -19,10 +19,16 @@ export default function TestimonialsSection() {
   }, []);
 
   // Fallback to translation-based testimonials if Firestore is empty
-  const renderCard = (name: string, role: string, text: string, idx: number) => (
-    <div key={idx} className="premium-glass-panel" style={{ padding: '40px', borderRadius: '24px' }}>
-      <div style={{ display: 'flex', alignItems: 'center', marginBottom: '24px', gap: '4px', color: '#fbbf24', fontSize: '1.2rem' }}>★★★★★</div>
-      <p style={{ fontSize: '1.05rem', color: 'rgba(255,255,255,0.7)', marginBottom: '32px', lineHeight: 1.7 }}>"{text}"</p>
+  const renderCard = (name: string, role: string, text: string, tag: string, result: string, idx: number) => (
+    <div key={idx} className="premium-glass-panel" style={{ padding: '40px', borderRadius: '24px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', minHeight: '380px' }}>
+      <div>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '20px', flexWrap: 'wrap', gap: '8px' }}>
+          <span style={{ fontSize: '0.8rem', fontWeight: 700, padding: '4px 12px', borderRadius: '999px', background: 'rgba(59, 130, 246, 0.1)', color: '#60a5fa', border: '1px solid rgba(59, 130, 246, 0.2)' }}>{tag}</span>
+          <span style={{ fontSize: '0.8rem', fontWeight: 800, padding: '4px 12px', borderRadius: '999px', background: 'rgba(52, 211, 153, 0.1)', color: '#34d399', border: '1px solid rgba(52, 211, 153, 0.2)' }}>🏆 {result}</span>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px', gap: '4px', color: '#fbbf24', fontSize: '1rem' }}>★★★★★</div>
+        <p style={{ fontSize: '1.05rem', color: 'rgba(255,255,255,0.7)', marginBottom: '32px', lineHeight: 1.7 }}>"{text}"</p>
+      </div>
       <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
         <div style={{ width: '48px', height: '48px', borderRadius: '50%', background: 'linear-gradient(135deg, #3b82f6, #8b5cf6)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, fontSize: '1.1rem', color: 'white', boxShadow: '0 0 20px rgba(139, 92, 246, 0.4)' }}>
           {name.charAt(0)}
@@ -47,8 +53,11 @@ export default function TestimonialsSection() {
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '32px' }}>
           {useFallback
-            ? [1, 2, 3].map(i => renderCard(T(`testimonials.t${i}.name`), T(`testimonials.t${i}.role`), T(`testimonials.t${i}.text`), i))
-            : testimonials.map((t, idx) => renderCard(t.name, t.role, t.text, idx))
+            ? [1, 2, 3].map(i => renderCard(T(`testimonials.t${i}.name`), T(`testimonials.t${i}.role`), T(`testimonials.t${i}.text`), T(`testimonials.t${i}.tag`), T(`testimonials.t${i}.result`), i))
+            : testimonials.map((t, idx) => {
+                const i = (idx % 3) + 1;
+                return renderCard(t.name, t.role, t.text, t.industry || T(`testimonials.t${i}.tag`), t.result || T(`testimonials.t${i}.result`), idx);
+              })
           }
         </div>
       </div>

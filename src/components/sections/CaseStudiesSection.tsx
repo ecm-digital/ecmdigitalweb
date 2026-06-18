@@ -83,7 +83,16 @@ export default function CaseStudiesSection() {
                   {category}
                 </div>
                 <h3 style={{ fontSize: '1.5rem', marginBottom: '16px', lineHeight: 1.3, position: 'relative', zIndex: 2, fontWeight: 800 }}>{title}</h3>
-                <p style={{ fontSize: '0.95rem', color: 'rgba(255,255,255,0.6)', marginBottom: '32px', flexGrow: 1, lineHeight: 1.6, position: 'relative', zIndex: 2 }}>{description}</p>
+                <div style={{ fontSize: '0.96rem', marginBottom: '32px', flexGrow: 1, lineHeight: 1.6, position: 'relative', zIndex: 2, display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                  {description.split('\n').map((line: string, lIdx: number) => {
+                    const isProblem = line.trim().startsWith('🔴');
+                    return (
+                      <p key={lIdx} style={{ margin: 0, color: isProblem ? 'rgba(255,255,255,0.6)' : 'white', fontWeight: isProblem ? 400 : 600 }}>
+                        {line}
+                      </p>
+                    );
+                  })}
+                </div>
 
                 <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '24px' }}>
                   {item.translations?.[lang]?.results ? (

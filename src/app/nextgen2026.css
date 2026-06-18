@@ -207,22 +207,22 @@ h3 {
 /* ===== FLOATING NAVBAR ===== */
 .navbar-floating {
     position: fixed;
-    top: 24px;
+    top: 18px;
     left: 50%;
     transform: translateX(-50%);
-    width: 90%;
+    width: 92%;
     max-width: 1200px;
-    height: 72px;
-    background: rgba(10, 10, 15, 0.45);
-    backdrop-filter: blur(25px);
-    -webkit-backdrop-filter: blur(25px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    height: 60px;
+    background: rgba(8, 8, 12, 0.4);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.06);
     border-radius: 100px;
     z-index: 1000;
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     display: flex;
     align-items: center;
-    padding: 0 32px;
+    padding: 0 28px;
 }
 
 .mobile-menu-btn {
@@ -230,11 +230,12 @@ h3 {
 }
 
 .navbar-floating.scrolled {
-    width: 80%;
-    top: 16px;
-    background: rgba(5, 5, 7, 0.85);
-    border-color: rgba(59, 130, 246, 0.4);
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    width: 82%;
+    top: 12px;
+    height: 56px;
+    background: rgba(5, 5, 8, 0.8);
+    border-color: rgba(255, 255, 255, 0.12);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
 }
 
 @media (max-width: 1024px) {
@@ -916,4 +917,44 @@ iframe[title*="Lokalizacja"]:hover {
         transform: none !important;
         will-change: auto !important;
     }
+}
+
+/* ===== THE PORTAL SHOWCASE ENHANCEMENTS ===== */
+.portal-step-card {
+    border-left: 3px solid transparent !important;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+.portal-step-card.active {
+    border-left: 3px solid #6366f1 !important;
+}
+.btn-approve-click {
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+.btn-approve-click:hover {
+    background: #ffffff !important;
+    box-shadow: 0 0 25px rgba(255, 255, 255, 0.2) !important;
+    transform: translateY(-2px);
+}
+.btn-approve-click:active {
+    transform: translateY(0) scale(0.98);
+}
+.vod-card {
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+.vod-card:hover {
+    transform: translateY(-3px) scale(1.01);
+}
+.vod-card:hover .vod-thumbnail {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(168, 85, 247, 0.2) 100%) !important;
+    color: white !important;
+}
+.live-log-container::-webkit-scrollbar {
+    width: 4px;
+}
+.live-log-container::-webkit-scrollbar-track {
+    background: rgba(0,0,0,0.1);
+}
+.live-log-container::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.1);
+    border-radius: 99px;
 }
