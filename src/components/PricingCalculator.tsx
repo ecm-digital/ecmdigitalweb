@@ -14,6 +14,28 @@ const SERVICES = [
   { key: 'ai-audit', label: 'AI Audit', price: { min: 500, max: 2000 } },
 ];
 
+const scopeLabels: Record<string, Record<string, string>> = {
+  'Small (MVP)': { pl: 'Mały (MVP)', en: 'Small (MVP)', de: 'Klein (MVP)', es: 'Pequeño (MVP)', szl: 'Mały (MVP)', ar: 'صغير (MVP)' },
+  'Medium (Production)': { pl: 'Średni (Produkcyjny)', en: 'Medium (Production)', de: 'Mittel (Produktion)', es: 'Mediano (Producción)', szl: 'Średni (Produkcyjny)', ar: 'متوسط (إنتاجي)' },
+  'Large (Enterprise)': { pl: 'Duży (Enterprise)', en: 'Large (Enterprise)', de: 'Groß (Enterprise)', es: 'Grande (Enterprise)', szl: 'Duży (Enterprise)', ar: 'كبير (مؤسسات)' }
+};
+
+const timelineLabels: Record<string, Record<string, string>> = {
+  'ASAP (1-2 weeks)': { pl: 'Jak najszybciej (1-2 tyg.)', en: 'ASAP (1-2 weeks)', de: 'Schnellstmöglich (1-2 Wochen)', es: 'Lo antes posible (1-2 semanas)', szl: 'Jak nojgibcij (1-2 tyg.)', ar: 'في أسرع وقت ممكن (1-2 أسبوع)' },
+  '1 Month': { pl: '1 miesiąc', en: '1 Month', de: '1 Monat', es: '1 mes', szl: '1 miesiąc', ar: 'شهر واحد' },
+  '2-3 Months': { pl: '2-3 miesiące', en: '2-3 Months', de: '2-3 Monate', es: '2-3 meses', szl: '2-3 miesiące', ar: '2-3 أشهر' },
+  'No deadline': { pl: 'Brak konkretnego terminu', en: 'No deadline', de: 'Keine Frist', es: 'Sin fecha límite', szl: 'Bez terminu', ar: 'لا يوجد موعد نهائي' }
+};
+
+const serviceLabels: Record<string, Record<string, string>> = {
+  'ai-agents': { pl: 'Agenci AI & Chatboty', en: 'AI Agents', de: 'KI-Assistenten', es: 'Agentes de IA', szl: 'Agenci AI', ar: 'وكلاء الذكاء الاصطناعي' },
+  'websites': { pl: 'Strony www & Landing Pages', en: 'Websites & Landing Pages', de: 'Websites & Landingpages', es: 'Sitios Web y Landings', szl: 'Stronki www', ar: 'المواقع الإلكترونية' },
+  'ecommerce': { pl: 'Automatyzacja E-commerce', en: 'E-commerce Automation', de: 'E-Commerce-Automatisierung', es: 'Automatización E-commerce', szl: 'E-commerce', ar: 'أتمتة التجارة الإلكترونية' },
+  'automation': { pl: 'Automatyzacje procesów (n8n)', en: 'Process Automation (n8n)', de: 'Prozessautomatisierung (n8n)', es: 'Automatización de Procesos (n8n)', szl: 'Automatyzacyje (n8n)', ar: 'أتمتة العمليات (n8n)' },
+  'mvp': { pl: 'Prototyp MVP aplikacji', en: 'MVP App Prototype', de: 'MVP-App-Prototyp', es: 'Prototipo MVP de App', szl: 'Prototyp MVP', ar: 'النموذج الأولي MVP' },
+  'ai-audit': { pl: 'Audyt wdrożenia AI', en: 'AI Implementation Audit', de: 'KI-Implementierungs-Audit', es: 'Auditoría de IA', szl: 'Audyt AI', ar: 'تدقيق الذكاء الاصطناعي' }
+};
+
 export default function PricingCalculator() {
   const { T, lang } = useLanguage();
   const [step, setStep] = useState(1);
@@ -91,7 +113,7 @@ export default function PricingCalculator() {
     } catch (error) {
       console.error('Submission error:', error);
       setStatus('error');
-      setErrorMsg('Error saving lead. Please try again.');
+      setErrorMsg(lang === 'pl' ? 'Błąd zapisu danych. Spróbuj ponownie.' : 'Error saving lead. Please try again.');
     }
   };
 
@@ -103,7 +125,7 @@ export default function PricingCalculator() {
           {T('common.success')}
         </h3>
         <p style={{ color: 'rgba(255,255,255,0.7)' }}>
-          Our team will contact you with a customized quote within 24 hours.
+          {lang === 'pl' ? 'Nasz zespół skontaktuje się z Tobą z indywidualną wyceną w ciągu 24 godzin.' : 'Our team will contact you with a customized quote within 24 hours.'}
         </p>
       </div>
     );
@@ -116,7 +138,9 @@ export default function PricingCalculator() {
         {step >= 1 && (
           <div className="fade-in-up" style={{ opacity: step === 1 ? 1 : 0.5, marginBottom: step === 1 ? '0' : '0', transition: 'opacity 0.3s' }}>
             <h3 style={{ fontSize: '1.3rem', fontWeight: 800, marginBottom: '24px', color: 'white' }}>
-              {step === 1 ? '1. What service are you interested in?' : '✓ Service Selected'}
+              {step === 1 
+                ? (lang === 'pl' ? '1. Jaka usługa Cię interesuje?' : lang === 'szl' ? '1. Jakiŏ usługa Ciã interesuje?' : '1. What service are you interested in?') 
+                : (lang === 'pl' ? '✓ Wybrana usługa' : lang === 'szl' ? '✓ Wybranŏ usługa' : '✓ Service Selected')}
             </h3>
             {step === 1 && (
               <div style={{ display: 'grid', gap: '12px' }}>
@@ -144,9 +168,9 @@ export default function PricingCalculator() {
                       style={{ cursor: 'pointer' }}
                     />
                     <div>
-                      <div style={{ fontWeight: 700, color: 'white', marginBottom: '4px' }}>{s.label}</div>
+                      <div style={{ fontWeight: 700, color: 'white', marginBottom: '4px' }}>{serviceLabels[s.key]?.[lang] || s.label}</div>
                       <div style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.6)' }}>
-                        from {s.price.min.toLocaleString()} PLN
+                        {lang === 'pl' || lang === 'szl' ? 'od' : 'from'} {s.price.min.toLocaleString()} PLN
                       </div>
                     </div>
                   </label>
@@ -155,7 +179,7 @@ export default function PricingCalculator() {
             )}
             {step > 1 && selectedService && (
               <p style={{ padding: '16px', borderRadius: '12px', background: 'rgba(16, 185, 129, 0.1)', color: '#10b981' }}>
-                ✓ {SERVICES.find(s => s.key === selectedService)?.label}
+                ✓ {selectedService && (serviceLabels[selectedService]?.[lang] || SERVICES.find(s => s.key === selectedService)?.label)}
               </p>
             )}
           </div>
@@ -165,7 +189,9 @@ export default function PricingCalculator() {
         {step >= 2 && selectedService && (
           <div className="fade-in-up" style={{ marginTop: '32px', opacity: step === 2 ? 1 : 0.5, transition: 'opacity 0.3s' }}>
             <h3 style={{ fontSize: '1.3rem', fontWeight: 800, marginBottom: '24px', color: 'white' }}>
-              {step === 2 ? '2. What is the scope?' : '✓ Scope Defined'}
+              {step === 2 
+                ? (lang === 'pl' ? '2. Jaki jest zakres projektu?' : lang === 'szl' ? '2. Jaki je zakres projektu?' : '2. What is the scope?') 
+                : (lang === 'pl' ? '✓ Zakres określony' : lang === 'szl' ? '✓ Zakres określōny' : '✓ Scope Defined')}
             </h3>
             {step === 2 && (
               <div style={{ display: 'grid', gap: '12px' }}>
@@ -192,14 +218,14 @@ export default function PricingCalculator() {
                       onChange={(e) => setScope(e.target.value)}
                       style={{ cursor: 'pointer' }}
                     />
-                    <span style={{ fontWeight: 700, color: 'white' }}>{s}</span>
+                    <span style={{ fontWeight: 700, color: 'white' }}>{scopeLabels[s]?.[lang] || s}</span>
                   </label>
                 ))}
               </div>
             )}
             {step > 2 && scope && (
               <p style={{ padding: '16px', borderRadius: '12px', background: 'rgba(16, 185, 129, 0.1)', color: '#10b981' }}>
-                ✓ {scope}
+                ✓ {scopeLabels[scope]?.[lang] || scope}
               </p>
             )}
           </div>
@@ -209,7 +235,9 @@ export default function PricingCalculator() {
         {step >= 3 && scope && (
           <div className="fade-in-up" style={{ marginTop: '32px', opacity: step === 3 ? 1 : 0.5, transition: 'opacity 0.3s' }}>
             <h3 style={{ fontSize: '1.3rem', fontWeight: 800, marginBottom: '24px', color: 'white' }}>
-              {step === 3 ? '3. When do you need it?' : '✓ Timeline Set'}
+              {step === 3 
+                ? (lang === 'pl' ? '3. Kiedy potrzebujesz wdrożenia?' : lang === 'szl' ? '3. Kedy potrzebujesz wdrożyniŏ?' : '3. When do you need it?') 
+                : (lang === 'pl' ? '✓ Termin określony' : lang === 'szl' ? '✓ Termin określōny' : '✓ Timeline Set')}
             </h3>
             {step === 3 && (
               <div style={{ display: 'grid', gap: '12px' }}>
@@ -236,14 +264,14 @@ export default function PricingCalculator() {
                       onChange={(e) => setTimeline(e.target.value)}
                       style={{ cursor: 'pointer' }}
                     />
-                    <span style={{ fontWeight: 700, color: 'white' }}>{t}</span>
+                    <span style={{ fontWeight: 700, color: 'white' }}>{timelineLabels[t]?.[lang] || t}</span>
                   </label>
                 ))}
               </div>
             )}
             {step > 3 && timeline && (
               <p style={{ padding: '16px', borderRadius: '12px', background: 'rgba(16, 185, 129, 0.1)', color: '#10b981' }}>
-                ✓ {timeline}
+                ✓ {timelineLabels[timeline]?.[lang] || timeline}
               </p>
             )}
           </div>
@@ -253,13 +281,13 @@ export default function PricingCalculator() {
         {step >= 4 && timeline && (
           <div className="fade-in-up" style={{ marginTop: '32px', opacity: step === 4 ? 1 : 0.5, transition: 'opacity 0.3s' }}>
             <h3 style={{ fontSize: '1.3rem', fontWeight: 800, marginBottom: '24px', color: 'white' }}>
-              4. Tell us about yourself
+              {lang === 'pl' ? '4. Opowiedz nam o sobie' : '4. Tell us about yourself'}
             </h3>
             {step === 4 && (
               <div style={{ display: 'grid', gap: '16px' }}>
                 <input
                   type="text"
-                  placeholder="Your Name"
+                  placeholder={lang === 'pl' ? 'Twoje imię' : 'Your Name'}
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   required
@@ -274,7 +302,7 @@ export default function PricingCalculator() {
                 />
                 <input
                   type="email"
-                  placeholder="Your Email"
+                  placeholder={lang === 'pl' ? 'Twój adres e-mail' : 'Your Email'}
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
@@ -289,7 +317,7 @@ export default function PricingCalculator() {
                 />
                 <input
                   type="text"
-                  placeholder="Company (optional)"
+                  placeholder={lang === 'pl' ? 'Nazwa firmy (opcjonalnie)' : 'Company (optional)'}
                   value={company}
                   onChange={(e) => setCompany(e.target.value)}
                   style={{
@@ -309,7 +337,9 @@ export default function PricingCalculator() {
                     border: '1px solid rgba(59, 130, 246, 0.3)',
                     color: '#93c5fd',
                   }}>
-                    <div style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.7)', marginBottom: '8px' }}>Estimated Budget:</div>
+                    <div style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.7)', marginBottom: '8px' }}>
+                      {lang === 'pl' ? 'Szacowany budżet:' : 'Estimated Budget:'}
+                    </div>
                     <div style={{ fontSize: '1.2rem', fontWeight: 800 }}>{estimatedPrice}</div>
                   </div>
                 )}
@@ -328,7 +358,7 @@ export default function PricingCalculator() {
             border: '1px solid rgba(239, 68, 68, 0.3)',
             color: '#fca5a5',
           }}>
-            {errorMsg}
+            {lang === 'pl' ? 'Wystąpił błąd. Spróbuj ponownie.' : errorMsg}
           </div>
         )}
 
@@ -349,7 +379,7 @@ export default function PricingCalculator() {
                 transition: 'all 0.2s',
               }}
             >
-              ← Back
+              {lang === 'pl' ? '← Wstecz' : '← Back'}
             </button>
           )}
           <button
@@ -376,9 +406,9 @@ export default function PricingCalculator() {
           >
             {step === 4
               ? status === 'sending'
-                ? 'Sending...'
-                : 'Get Free Quote →'
-              : 'Next Step →'}
+                ? (lang === 'pl' ? 'Wysyłanie...' : 'Sending...')
+                : (lang === 'pl' ? 'Wyślij zapytanie →' : 'Get Free Quote →')
+              : (lang === 'pl' ? 'Kolejny krok →' : 'Next Step →')}
           </button>
         </div>
 

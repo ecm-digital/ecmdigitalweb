@@ -20,6 +20,6 @@ fi
 
 # 4. Deploy to Firebase
 echo "🔥 Deploying to Firebase..."
-firebase deploy --only hosting
+firebase deploy --only hosting,functions --force
 
 echo "✨ Deployment complete!"

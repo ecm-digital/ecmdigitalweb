@@ -19,8 +19,8 @@ export function AgencyProvider({ children }: { children: React.ReactNode }) {
         try {
             const data = await getAgencySettings();
             setSettings(data);
-        } catch (error) {
-            console.error('Error loading agency settings:', error);
+        } catch {
+            setSettings(null);
         } finally {
             setLoading(false);
         }

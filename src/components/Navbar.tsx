@@ -41,7 +41,7 @@ export default function Navbar() {
             <div className="navbar-links-container" style={{ marginInlineStart: 'auto', marginInlineEnd: '32px' }}>
                 <ul className="navbar-links" style={{ display: 'flex', gap: '20px', fontSize: '0.9rem', listStyle: 'none', margin: 0, padding: 0 }}>
                     <li><a href={anchor('#services')} style={{ color: 'rgba(255,255,255,0.7)', fontWeight: 500, textDecoration: 'none', transition: 'color 0.3s' }}>{T('nav.services')}</a></li>
-                    <li><a href="/pricing" style={{ color: 'rgba(255,255,255,0.7)', fontWeight: 500, textDecoration: 'none', transition: 'color 0.3s' }}>Pricing</a></li>
+                    <li><a href="/wycena" style={{ color: 'rgba(255,255,255,0.7)', fontWeight: 500, textDecoration: 'none', transition: 'color 0.3s' }}>{T('nav.pricing')}</a></li>
                     <li><a href="/portfolio" style={{ color: 'rgba(255,255,255,0.7)', fontWeight: 500, textDecoration: 'none', transition: 'color 0.3s' }}>{T('nav.caseStudies')}</a></li>
                     <li><a href="/blog" style={{ color: 'rgba(255,255,255,0.7)', fontWeight: 500, textDecoration: 'none', transition: 'color 0.3s' }}>{T('nav.blog')}</a></li>
                     <li><a href="/wiedza" style={{ color: 'rgba(255,255,255,0.7)', fontWeight: 500, textDecoration: 'none', transition: 'color 0.3s' }}>{T('nav.knowledgeAI')}</a></li>
@@ -99,7 +99,7 @@ export default function Navbar() {
             <div className={`mobile-nav-dropdown${mobileMenuOpen ? ' open' : ''}`}>
                 <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: '4px' }}>
                     <li><a href={anchor('#services')} onClick={() => setMobileMenuOpen(false)}>{T('nav.services')}</a></li>
-                    <li><a href="/pricing" onClick={() => setMobileMenuOpen(false)}>Pricing</a></li>
+                    <li><a href="/wycena" onClick={() => setMobileMenuOpen(false)}>{T('nav.pricing')}</a></li>
                     <li><a href="/portfolio" onClick={() => setMobileMenuOpen(false)}>{T('nav.caseStudies')}</a></li>
                     <li><a href="/blog" onClick={() => setMobileMenuOpen(false)}>{T('nav.blog')}</a></li>
                     <li><a href="/wiedza" onClick={() => setMobileMenuOpen(false)}>{T('nav.knowledgeAI')}</a></li>

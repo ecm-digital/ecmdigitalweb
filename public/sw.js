@@ -1,12 +1,5 @@
-const CACHE_NAME = 'ecm-digital-v3';
+const CACHE_NAME = 'ecm-digital-v4';
 const STATIC_ASSETS = [
-    '/',
-    '/dashboard',
-    '/dashboard/clients',
-    '/dashboard/offers',
-    '/dashboard/campaigns',
-    '/dashboard/kanban',
-    '/dashboard/calendar',
     '/manifest.webmanifest',
 ];
 
@@ -41,10 +34,8 @@ self.addEventListener('fetch', (event) => {
     // For navigation requests, use network-first
     if (event.request.mode === 'navigate') {
         event.respondWith(
-            fetch(event.request)
+            fetch(event.request, { cache: 'reload' })
                 .then((response) => {
-                    const clone = response.clone();
-                    caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
                     return response;
                 })
                 .catch(() => caches.match(event.request).then((r) => r || caches.match('/')))

@@ -36,14 +36,21 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
             limit(20)
         );
 
-        const unsubscribe = onSnapshot(q, (snapshot) => {
-            const newNotifications = snapshot.docs.map(doc => ({
-                id: doc.id,
-                ...doc.data()
-            })) as Notification[];
-            setNotifications(newNotifications);
-            setUnreadCount(newNotifications.filter(n => !n.read).length);
-        });
+        const unsubscribe = onSnapshot(
+            q,
+            (snapshot) => {
+                const newNotifications = snapshot.docs.map(doc => ({
+                    id: doc.id,
+                    ...doc.data()
+                })) as Notification[];
+                setNotifications(newNotifications);
+                setUnreadCount(newNotifications.filter(n => !n.read).length);
+            },
+            () => {
+                setNotifications([]);
+                setUnreadCount(0);
+            }
+        );
 
         return () => unsubscribe();
     }, []);

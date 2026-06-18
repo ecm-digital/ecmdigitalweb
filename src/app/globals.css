@@ -5227,6 +5227,10 @@ h6 {
     grid-column: span 4;
   }
 
+  .col-span-3 {
+    grid-column: span 3;
+  }
+
   .col-span-6 {
     grid-column: span 6;
   }
@@ -5428,3 +5432,13 @@ h6 {
   padding: 18px 48px;
   font-size: 1.1rem;
 }
+
+/* Bento Grid Tablet Responsiveness */
+@media (max-width: 1023px) and (min-width: 768px) {
+  .bento-grid .col-span-3,
+  .bento-grid .col-span-4,
+  .bento-grid .col-span-6 {
+    grid-column: span 6 !important;
+  }
+}
+

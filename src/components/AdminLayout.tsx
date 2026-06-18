@@ -25,7 +25,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             router.push('/admin/login');
         }
         if (user) {
-            seedAgencyServices();
+            seedAgencyServices(true);
             seedCaseStudies();
             seedStrategies();
         }

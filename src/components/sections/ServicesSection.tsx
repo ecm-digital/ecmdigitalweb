@@ -1,49 +1,25 @@
 'use client';
 
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useLanguage } from "@/context/LanguageContext";
-import { getAgencyServices, ServiceData } from "@/lib/firestoreService";
 
 const STATIC_SERVICES = [
-  { key: 'ai', icon: '🤖', accent: '#3b82f6', href: '/services/ai-agents', span: 'col-span-6', featured: true },
-  { key: 'executive', icon: '💼', accent: '#FF2D55', href: '/services/ai-executive', span: 'col-span-6', featured: true },
-  { key: 'auto', icon: '⚡', accent: '#10b981', href: '/services/automation', span: 'col-span-4' },
-  { key: 'web', icon: '🌐', accent: '#8b5cf6', href: '/services/websites', span: 'col-span-4' },
-  { key: 'mvp', icon: '🚀', accent: '#f59e0b', href: '/services/mvp', span: 'col-span-4' },
+  { key: 'audit', icon: '🔎', accent: '#FF2D55', href: '/services/ai-audit', span: 'col-span-6', featured: true, wide: true },
+  { key: 'auto', icon: '⚡', accent: '#10b981', href: '/services/automation', span: 'col-span-6', featured: true, wide: true },
+  { key: 'ai', icon: '🤖', accent: '#3b82f6', href: '/services/ai-agents', span: 'col-span-3' },
+  { key: 'web', icon: '🌐', accent: '#8b5cf6', href: '/services/websites', span: 'col-span-3' },
+  { key: 'shop', icon: '🛒', accent: '#06b6d4', href: '/services/ecommerce', span: 'col-span-3' },
+  { key: 'mvp', icon: '🚀', accent: '#f59e0b', href: '/services/mvp', span: 'col-span-3' },
 ];
 
-const EXISTING_SLUGS = ['ai-agents', 'websites', 'ecommerce', 'automation', 'ai-executive', 'edu', 'mvp', 'ai-audit'];
-
 export default function ServicesSection() {
-  const { T, lang } = useLanguage();
-  const [dynServices, setDynServices] = useState<ServiceData[]>([]);
-
-  useEffect(() => {
-    getAgencyServices()
-      .then(data => setDynServices(data.filter(s => !EXISTING_SLUGS.includes(s.slug))))
-      .catch(console.error);
-  }, []);
+  const { T } = useLanguage();
 
   const handleMouseMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
     e.currentTarget.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
     e.currentTarget.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
   };
-
-  const allServices = [
-    ...STATIC_SERVICES,
-    ...dynServices.map(s => ({
-      key: s.slug,
-      icon: s.icon || '🚀',
-      accent: s.gradient.match(/#([0-9a-fA-F]{6})/)?.[0] || '#3b82f6',
-      href: `/services/view?slug=${s.slug}`,
-      span: 'col-span-4' as const,
-      dynamic: true,
-      title: s.translations?.[lang as 'pl' | 'en']?.title || s.slug,
-      desc: s.translations?.[lang as 'pl' | 'en']?.subtitle || '',
-      tag1: s.price || T('services.new'),
-    })),
-  ];
 
   return (
     <section id="services" className="section bg-grid reveal-on-scroll" style={{ padding: '140px 0' }}>
@@ -57,7 +33,7 @@ export default function ServicesSection() {
         </div>
 
         <div className="services-grid bento-grid">
-          {allServices.map((s: any, idx) => (
+          {STATIC_SERVICES.map((s: any, idx) => (
             <a
               href={s.href}
               key={s.key}
@@ -70,10 +46,10 @@ export default function ServicesSection() {
                 {s.icon}
               </div>
               <div style={{ flex: 1, position: 'relative', zIndex: 2 }}>
-                <h3 style={{ fontSize: s.featured ? '2rem' : '1.5rem', marginBottom: '16px', letterSpacing: '-0.02em' }}>{s.dynamic ? s.title : T(`services.${s.key}.title`)}</h3>
-                <p style={{ marginBottom: '24px', fontSize: '1.05rem', color: 'rgba(255,255,255,0.6)', lineHeight: 1.7 }}>{s.dynamic ? s.desc : T(`services.${s.key}.desc`)}</p>
+                <h3 style={{ fontSize: s.featured ? '2rem' : '1.5rem', marginBottom: '16px', letterSpacing: '-0.02em' }}>{T(`services.${s.key}.title`)}</h3>
+                <p style={{ marginBottom: '24px', fontSize: '1.05rem', color: 'rgba(255,255,255,0.6)', lineHeight: 1.7 }}>{T(`services.${s.key}.desc`)}</p>
                 <div className="service-tag" style={{ border: `1px solid ${s.accent}50`, color: s.accent, background: `${s.accent}10` }}>
-                  {s.dynamic ? s.tag1 : T(`services.${s.key}.tag1`)}
+                  {T(`services.${s.key}.tag1`)}
                 </div>
               </div>
             </a>

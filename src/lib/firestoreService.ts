@@ -241,15 +241,7 @@ export interface ServiceData {
     price: string;
     internalKnowledge?: string;
     translations: {
-        pl: {
-            title: string;
-            subtitle: string;
-            long: string;
-            features: string[];
-            metaTitle?: string;
-            metaDescription?: string;
-        };
-        en?: {
+        [lang: string]: {
             title: string;
             subtitle: string;
             long: string;

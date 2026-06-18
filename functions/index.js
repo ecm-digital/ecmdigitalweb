@@ -1,4 +1,5 @@
 const { onRequest } = require("firebase-functions/v2/https");
+const { onDocumentCreated } = require("firebase-functions/v2/firestore");
 const { getFirestore, Timestamp, FieldValue } = require("firebase-admin/firestore");
 const { initializeApp, getApps } = require("firebase-admin/app");
 const { GoogleGenerativeAI } = require("@google/generative-ai");
@@ -142,3 +143,141 @@ exports.telegramWebhook = onRequest({ cors: true }, async (req, res) => {
         res.status(200).send("Error: " + error.message);
     }
 });
+
+exports.onLeadCreate = onDocumentCreated("agency_clients/{clientId}", async (event) => {
+    try {
+        const snapshot = event.data;
+        if (!snapshot) return;
+        const lead = snapshot.data();
+
+        // 1. Only process new leads (avoid trigger on updates if status changes, but onDocumentCreated only runs on creation)
+        if (lead.status !== 'Lead') {
+            console.log(`Lead status is ${lead.status}, skipping integrations.`);
+            return;
+        }
+
+        const name = lead.name || '';
+        const email = lead.email || '';
+        const company = lead.company || '';
+        const service = lead.service || '';
+        const message = lead.notes || ''; // in firestoreService addLead, notes stores the message
+
+        console.log(`Processing integrations for lead: ${name} (${email})`);
+
+        // Get secrets from environment variables or fallback to Firestore settings
+        let HUBSPOT_ACCESS_TOKEN = process.env.HUBSPOT_ACCESS_TOKEN;
+        let SMSAPI_TOKEN = process.env.SMSAPI_TOKEN;
+        let NOTIFY_PHONE = process.env.NOTIFY_PHONE || process.env.NEXT_PUBLIC_CONTACT_PHONE;
+
+        const settingsDoc = await db.collection("settings").doc("agency").get();
+        const settings = settingsDoc.data() || {};
+
+        HUBSPOT_ACCESS_TOKEN = HUBSPOT_ACCESS_TOKEN || settings.hubspotAccessToken;
+        SMSAPI_TOKEN = SMSAPI_TOKEN || settings.smsapiToken;
+        NOTIFY_PHONE = NOTIFY_PHONE || settings.notifyPhone || settings.contactPhone;
+
+        // --- HubSpot CRM Integration ---
+        if (HUBSPOT_ACCESS_TOKEN) {
+            try {
+                // Split name
+                const nameParts = name.trim().split(/\s+/);
+                const firstname = nameParts[0] || '';
+                const lastname = nameParts.slice(1).join(' ') || '';
+
+                const description = `Selected Service: ${service || 'None'}\nMessage: ${message || ''}`;
+
+                const contactData = {
+                    properties: {
+                        email: email,
+                        firstname: firstname,
+                        lastname: lastname,
+                        company: company || '',
+                        description: description
+                    }
+                };
+
+                const hubspotUrl = 'https://api.hubapi.com/crm/v3/objects/contacts';
+
+                // Attempt to create contact
+                const createRes = await fetch(hubspotUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${HUBSPOT_ACCESS_TOKEN}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(contactData)
+                });
+
+                if (createRes.status === 201 || createRes.status === 200) {
+                    const data = await createRes.json();
+                    console.log('✅ Contact created successfully in HubSpot:', data.id);
+                } else if (createRes.status === 409) {
+                    const errorData = await createRes.json();
+                    const match = (errorData.message || '').match(/Existing ID:\s*(\d+)/i);
+                    const contactId = match ? match[1] : null;
+
+                    if (contactId) {
+                        console.log(`ℹ️ Contact already exists with ID ${contactId}. Updating contact...`);
+                        
+                        const updateData = {
+                            properties: {
+                                firstname: firstname,
+                                lastname: lastname,
+                                company: company || '',
+                                description: description
+                            }
+                        };
+
+                        const updateRes = await fetch(`${hubspotUrl}/${contactId}`, {
+                            method: 'PATCH',
+                            headers: {
+                                'Authorization': `Bearer ${HUBSPOT_ACCESS_TOKEN}`,
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(updateData)
+                        });
+
+                        if (updateRes.ok) {
+                            console.log('✅ Contact updated successfully in HubSpot:', contactId);
+                        } else {
+                            const updateError = await updateRes.text();
+                            console.error('❌ HubSpot contact update failed:', updateError);
+                        }
+                    }
+                } else {
+                    const rawError = await createRes.text();
+                    console.error('❌ HubSpot contact creation failed:', rawError);
+                }
+            } catch (hsError) {
+                console.error('❌ HubSpot integration exception:', hsError);
+            }
+        } else {
+            console.warn('HubSpot integration skipped: Missing access token');
+        }
+
+        // --- SMS API Notification ---
+        if (SMSAPI_TOKEN && NOTIFY_PHONE) {
+            try {
+                const smsMessage = `Nowy Lead: ${name} (${email}). Usługa: ${service || 'Brak'}. Firma: ${company || 'Brak'}. Wiadomość: ${message?.substring(0, 100)}...`;
+                const smsApiUrl = `https://api.smsapi.pl/sms.do?to=${NOTIFY_PHONE}&message=${encodeURIComponent(smsMessage)}&format=json&access_token=${SMSAPI_TOKEN}`;
+
+                const smsRes = await fetch(smsApiUrl, { method: 'POST' });
+                const result = await smsRes.json();
+
+                if (result.error) {
+                    console.error('SMSAPI error:', result.error);
+                } else {
+                    console.log('✅ SMS notification sent successfully:', result.list?.[0]?.id);
+                }
+            } catch (smsError) {
+                console.error('❌ SMS notification exception:', smsError);
+            }
+        } else {
+            console.warn('SMS notification skipped: Missing SMSAPI_TOKEN or NOTIFY_PHONE');
+        }
+
+    } catch (err) {
+        console.error("onLeadCreate trigger failed:", err);
+    }
+});
+
