@@ -676,7 +676,7 @@ export const de = {
         "team.marta.desc": "Designerin für Interfaces, die Menschen mit Technologie verbinden.",
         "team.marta.skill1": "UX-Forschung",
         "team.marta.skill2": "KI/UX-Design",
-        "team.roman.name": "Roman Domina",
+        "team.roman.name": "Aleksander Zawadzki",
         "team.roman.role": "Automatisierungsspezialist",
         "team.roman.desc": "Experte für Prozessautomatisierung und Datenanalyse.",
         "team.roman.skill1": "Automatisierung",

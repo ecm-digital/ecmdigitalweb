@@ -24,7 +24,7 @@ const TEAM_MEMBERS = [
   },
   {
     key: 'roman',
-    initials: 'RD',
+    initials: 'AZ',
     color: '#10b981',
     skills: ['Automation', 'AI Analytics']
   }

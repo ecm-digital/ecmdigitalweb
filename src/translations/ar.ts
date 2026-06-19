@@ -676,7 +676,7 @@ export const ar = {
         "team.marta.desc": "مصممة واجهات تربط الناس بالتكنولوجيا.",
         "team.marta.skill1": "بحث تجربة المستخدم",
         "team.marta.skill2": "تصميم الذكاء الاصطناعي",
-        "team.roman.name": "Roman Domina",
+        "team.roman.name": "Aleksander Zawadzki",
         "team.roman.role": "أخصائي أتمتة",
         "team.roman.desc": "خبير في أتمتة العمليات وتحليل البيانات.",
         "team.roman.skill1": "أتمتة",
