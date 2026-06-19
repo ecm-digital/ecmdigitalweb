@@ -74,7 +74,7 @@ export default function PricingCalculator() {
         email,
         company,
         service: selectedService,
-        message: `Pricing Calculator Lead\nScope: ${scope}\nTimeline: ${timeline}`,
+        message: `Pricing Calculator Lead\nScope: ${scope}\nTimeline: ${timeline}\nEstimated Price: ${estimatedPrice}`,
         source: 'Pricing Calculator',
       });
 
@@ -84,6 +84,9 @@ export default function PricingCalculator() {
         body: JSON.stringify({
           name, email, company,
           service: selectedService,
+          scope,
+          timeline,
+          estimatedPrice,
           source: 'Pricing Calculator',
           timestamp: new Date().toISOString(),
           language: lang,

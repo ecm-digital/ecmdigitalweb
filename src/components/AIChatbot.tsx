@@ -10,6 +10,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { traceAICall } from '@/lib/langfuse';
 import { useLanguage } from '@/context/LanguageContext';
+import { faqItems } from '@/app/wiedza/wiedzaData';
 
 interface Message {
     role: 'user' | 'bot';
@@ -162,12 +163,21 @@ export default function AIChatbot() {
                 } catch (e) { console.error('Project context error:', e); }
             }
 
+            const faqContext = faqItems.map(item => {
+                const content = item.translations[globalLang] || item.translations.pl || item.translations.en;
+                if (!content) return '';
+                return `Q: ${content.question}\nA: ${content.answer}`;
+            }).filter(Boolean).join('\n\n');
+
             const systemPrompt = `You are an official AI Assistant for ECM Digital agency. 
 Your goal is to help clients with services: Shopify, Wix, AI Agents, n8n automations, Web Development.
 Current language: ${globalLang}.
 
 DANE O FIRMIE (BASE):
 ${kbData.current ? JSON.stringify(kbData.current) : 'ECM Digital - Software & AI Agency.'}
+
+Często Zadawane Pytania & Cennik (FAQ):
+${faqContext}
 
 HISTORIA ROZMOWY:
 ${historyContext}
@@ -241,6 +251,28 @@ Reply in ${globalLang} language only. Be professional and helpful. If language i
 
     const getAIResponseFallback = (input: string, l: Lang): string => {
         const q = input.toLowerCase();
+
+        // Try to match against dynamic FAQ items first!
+        for (const item of faqItems) {
+            const content = item.translations[l] || item.translations.pl || item.translations.en;
+            if (!content) continue;
+
+            const stopWords = ['lub', 'czy', 'dla', 'pod', 'nad', 'oraz', 'jest', 'dane', 'baza', 'pracy', 'firm'];
+            const questionWords = content.question.toLowerCase().replace(/[?.,()]/g, '').split(' ').filter(w => w.length >= 3 && !stopWords.includes(w));
+            const matches = questionWords.filter(word => q.includes(word) || word.includes(q) || (q.length >= 4 && word.startsWith(q.slice(0, 4))));
+            
+            const hasCriticalConcept = matches.some(w => 
+                w.includes('koszt') || w.includes('cen') || w.includes('bezpiecz') || 
+                w.includes('termin') || w.includes('czas') || w.includes('portal') || 
+                w.includes('wsparc') || w.includes('pomoc') || w.includes('wdroż') || 
+                w.includes('hali') || w.includes('wymyśl') || w.includes('sdr') || 
+                w.includes('crm')
+            );
+
+            if (matches.length >= 2 || (matches.length >= 1 && hasCriticalConcept)) {
+                return content.answer;
+            }
+        }
 
         if (l === 'pl') {
             if (q.includes('slasku') || q.includes('śląsku') || q.includes('godosz')) {
