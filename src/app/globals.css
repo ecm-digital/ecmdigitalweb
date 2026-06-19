@@ -5432,3 +5432,23 @@ h6 {
   }
 }
 
+/* Knowledge Grid Homepage */
+.knowledge-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  margin-bottom: 50px;
+}
+
+@media (min-width: 768px) {
+  .knowledge-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .knowledge-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
