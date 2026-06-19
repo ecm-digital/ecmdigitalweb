@@ -114,7 +114,7 @@ class I18nManager {
                 "sections.team.members.marta.description": "Projektantka skupiająca się na potrzebach użytkowników w erze AI. Tworzy interfejsy, które naturalnie łączą ludzi z technologią.",
                 "sections.team.members.marta.skills.uxResearch": "Badania UX",
                 "sections.team.members.marta.skills.aiUxDesign": "Projektowanie AI/UX",
-                "sections.team.members.roman.name": "Roman Dominia",
+                "sections.team.members.roman.name": "Roman Domina",
                 "sections.team.members.roman.position": "Specjalista Automatyzacji AI",
                 "sections.team.members.roman.description": "Ekspert od automatyzacji procesów biznesowych z AI i analizy danych social media. Zwiększa efektywność operacyjną.",
                 "sections.team.members.roman.skills.processAutomation": "Automatyzacja Procesów",
@@ -241,7 +241,7 @@ class I18nManager {
                 "sections.team.members.karol.description": "Specialist in AI solution quality assurance and automated testing. Guarantees system reliability.",
                 "sections.team.members.karol.skills.aiTesting": "AI Testing",
                 "sections.team.members.karol.skills.qualityAssurance": "Quality Assurance",
-                "sections.team.members.roman.name": "Roman Dominia",
+                "sections.team.members.roman.name": "Roman Domina",
                 "sections.team.members.roman.position": "AI Automation Specialist",
                 "sections.team.members.roman.description": "Expert in business process automation with AI and social media data analysis. Increases operational efficiency.",
                 "sections.team.members.roman.skills.processAutomation": "Process Automation",
@@ -368,7 +368,7 @@ class I18nManager {
                 "sections.team.members.karol.description": "Spezialist für Qualitätssicherung von KI-Lösungen und automatisiertes Testen. Garantiert Systemzuverlässigkeit.",
                 "sections.team.members.karol.skills.aiTesting": "KI-Tests",
                 "sections.team.members.karol.skills.qualityAssurance": "Qualitätssicherung",
-                "sections.team.members.roman.name": "Roman Dominia",
+                "sections.team.members.roman.name": "Roman Domina",
                 "sections.team.members.roman.position": "KI-Automatisierungs-Spezialist",
                 "sections.team.members.roman.description": "Experte für Geschäftsprozessautomatisierung mit KI und Social-Media-Datenanalyse. Steigert die Betriebseffizienz.",
                 "sections.team.members.roman.skills.processAutomation": "Prozessautomatisierung",
@@ -625,7 +625,7 @@ class I18nManager {
                                 skills: { aiTesting: "AI Testing", qualityAssurance: "Quality Assurance" }
                             },
                             roman: {
-                                name: "Roman Dominia",
+                                name: "Roman Domina",
                                 position: "Specjalista Automatyzacji AI",
                                 description: "Ekspert w automatyzacji procesów biznesowych z AI i analizie danych social media. Zwiększa efektywność operacyjną.",
                                 skills: { processAutomation: "Process Automation", aiAnalytics: "AI Analytics" }
@@ -1083,7 +1083,7 @@ class I18nManager {
                                 }
                             },
                             roman: {
-                                name: "Roman Dominia",
+                                name: "Roman Domina",
                                 position: "Social Media & Automatisierungsspezialist",
                                 description: "Experte für Social Media und Geschäftsprozessautomatisierung",
                                 skills: {

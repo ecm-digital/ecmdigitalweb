@@ -703,7 +703,7 @@ export const pl = {
         "team.marta.desc": "Projektantka interfejsów łączących ludzi z technologią.",
         "team.marta.skill1": "UX Research",
         "team.marta.skill2": "AI/UX Design",
-        "team.roman.name": "Roman Dominia",
+        "team.roman.name": "Roman Domina",
         "team.roman.role": "Specjalista Automatyzacji",
         "team.roman.desc": "Ekspert od automatyzacji procesów i analizy danych.",
         "team.roman.skill1": "Automatyzacja",

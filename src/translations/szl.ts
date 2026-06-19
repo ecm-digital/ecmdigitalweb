@@ -676,7 +676,7 @@ export const szl = {
         "team.marta.desc": "Robi tak, żeby było ładnie i wygodnie.",
         "team.marta.skill1": "Research",
         "team.marta.skill2": "Design",
-        "team.roman.name": "Roman Dominia",
+        "team.roman.name": "Roman Domina",
         "team.roman.role": "Automatyk",
         "team.roman.desc": "Ekspert od tego, żeby się samo robiło.",
         "team.roman.skill1": "Automatyzacja",

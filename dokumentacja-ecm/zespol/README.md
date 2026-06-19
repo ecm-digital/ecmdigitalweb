@@ -228,7 +228,7 @@ Specjalista od zapewnienia jakości z doświadczeniem w testowaniu aplikacji i r
 
 ### Dział Marketingu
 
-#### [Roman Dominia - Social Media & Automations Specialist](./roman-dominia-social.md)
+#### [Roman Domina - Social Media & Automations Specialist](./roman-dominia-social.md)
 Specjalista od social media i automatyzacji procesów biznesowych. Ekspert w tworzeniu skutecznych kampanii i optymalizacji workflow.
 
 **Kluczowe kompetencje:**
