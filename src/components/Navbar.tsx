@@ -45,13 +45,13 @@ export default function Navbar() {
             {/* Desktop links - hidden below 1024px via CSS */}
             <div className="navbar-links-container" style={{ marginInlineStart: 'auto', marginInlineEnd: '24px' }}>
                 <ul className="navbar-links" style={{ display: 'flex', gap: '24px', fontSize: '0.85rem', listStyle: 'none', margin: 0, padding: 0 }}>
-                    <li><a href={anchor('#services')} className="navbar-link">{T('nav.services')}</a></li>
+                    <li><a href="/services" className="navbar-link">{T('nav.services')}</a></li>
                     <li><a href="/wycena" className="navbar-link">{T('nav.pricing')}</a></li>
                     <li><a href="/portfolio" className="navbar-link">{T('nav.caseStudies')}</a></li>
                     <li><a href="/blog" className="navbar-link">{T('nav.blog')}</a></li>
                     <li><a href="/wiedza" className="navbar-link">{T('nav.knowledgeAI')}</a></li>
-                    <li><a href="/login" className="navbar-link">{T('nav.portal')}</a></li>
-                    <li><a href={anchor('#contact')} className="navbar-link">{T('nav.contact')}</a></li>
+                    <li><a href="/panel" className="navbar-link">{T('nav.portal')}</a></li>
+                    <li><a href={lang === 'en' ? '/contact' : '/kontakt'} className="navbar-link">{T('nav.contact')}</a></li>
                 </ul>
             </div>
 
@@ -76,7 +76,7 @@ export default function Navbar() {
                         </svg>
                     </a>
                 </div>
-                <a href={anchor('#contact')} className="nav-cta-btn" onClick={() => {
+                <a href={lang === 'en' ? '/contact' : '/kontakt'} className="nav-cta-btn" onClick={() => {
                     trackCTAClick('MainCTA', 'Navbar');
                 }}>{T('nav.cta')}</a>
             </div>
@@ -95,13 +95,13 @@ export default function Navbar() {
             {/* Mobile dropdown menu - direct child of nav so it works even when desktop container is hidden */}
             <div className={`mobile-nav-dropdown${mobileMenuOpen ? ' open' : ''}`}>
                 <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                    <li><a href={anchor('#services')} onClick={() => setMobileMenuOpen(false)}>{T('nav.services')}</a></li>
+                    <li><a href="/services" onClick={() => setMobileMenuOpen(false)}>{T('nav.services')}</a></li>
                     <li><a href="/wycena" onClick={() => setMobileMenuOpen(false)}>{T('nav.pricing')}</a></li>
                     <li><a href="/portfolio" onClick={() => setMobileMenuOpen(false)}>{T('nav.caseStudies')}</a></li>
                     <li><a href="/blog" onClick={() => setMobileMenuOpen(false)}>{T('nav.blog')}</a></li>
                     <li><a href="/wiedza" onClick={() => setMobileMenuOpen(false)}>{T('nav.knowledgeAI')}</a></li>
-                    <li><a href="/login" onClick={() => setMobileMenuOpen(false)}>{T('nav.portal')}</a></li>
-                    <li><a href={anchor('#contact')} onClick={() => setMobileMenuOpen(false)}>{T('nav.contact')}</a></li>
+                    <li><a href="/panel" onClick={() => setMobileMenuOpen(false)}>{T('nav.portal')}</a></li>
+                    <li><a href={lang === 'en' ? '/contact' : '/kontakt'} onClick={() => setMobileMenuOpen(false)}>{T('nav.contact')}</a></li>
                 </ul>
                 <div className="mobile-nav-footer">
                     <div className="mobile-nav-socials" style={{ display: 'flex', gap: '16px', justifyContent: 'center', marginBottom: '20px' }}>

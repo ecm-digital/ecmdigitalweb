@@ -301,3 +301,170 @@ export const kbTranslations: Record<string, Record<string, string>> = {
 export function tkb(lang: Lang, key: string): string {
     return kbTranslations[lang]?.[key] || kbTranslations.pl[key] || key;
 }
+
+export interface FAQItem {
+    id: string;
+    translations: Record<string, {
+        question: string;
+        answer: string;
+    }>;
+}
+
+export const faqItems: FAQItem[] = [
+    {
+        id: 'pricing',
+        translations: {
+            pl: {
+                question: 'Ile kosztuje wdrożenie automatyzacji lub sztucznej inteligencji?',
+                answer: 'Ceny wdrożeń automatyzacji (np. w n8n lub Make) zaczynają się od 3 000 PLN za prosty proces, a zaawansowani asystenci AI i integracje to koszt od 5 000 do 15 000 PLN. Każdy projekt wyceniamy indywidualnie po bezpłatnej konsultacji i analizie.'
+            },
+            en: {
+                question: 'How much does it cost to implement automation or AI?',
+                answer: 'Automation implementation (e.g. in n8n or Make) starts at 3,000 PLN for simple workflows, while advanced AI assistants and deep integrations range from 5,000 to 15,000 PLN. Each project is quoted individually after a free discovery call.'
+            }
+        }
+    },
+    {
+        id: 'timeline',
+        translations: {
+            pl: {
+                question: 'Jak długo trwa wdrożenie projektu?',
+                answer: 'Proste automatyzacje i audyty realizujemy w 2-3 tygodnie. Dedykowani asystenci AI i średniej wielkości systemy to zazwyczaj 4-6 tygodni, a budowa pełnych aplikacji MVP trwa od 8 do 12 tygodni.'
+            },
+            en: {
+                question: 'How long does project implementation take?',
+                answer: 'Simple automations and audits are delivered in 2-3 weeks. Dedicated AI assistants and medium-sized systems usually take 4-6 weeks, while full MVP application development takes 8 to 12 weeks.'
+            }
+        }
+    },
+    {
+        id: 'security',
+        translations: {
+            pl: {
+                question: 'Czy moje dane firmowe i dane klientów są bezpieczne z AI?',
+                answer: 'Bezpieczeństwo to nasz priorytet. Wdrażamy systemy zgodne z RODO/GDPR. Dla wrażliwych danych konfigurujemy prywatne modele LLM uruchamiane w odizolowanej chmurze lub lokalnie, dzięki czemu dane nie są wykorzystywane do trenowania publicznych modeli.'
+            },
+            en: {
+                question: 'Are my company and customer data safe with AI?',
+                answer: 'Security is our top priority. We implement GDPR-compliant systems. For sensitive data, we configure Private LLMs hosted in isolated clouds or on-premise, ensuring your inputs are never used to train public models.'
+            }
+        }
+    },
+    {
+        id: 'maintenance',
+        translations: {
+            pl: {
+                question: 'Jakie są koszty utrzymania wdrożonych systemów (API i licencje)?',
+                answer: 'Koszty zależą od skali użytkowania. Korzystanie z modeli takich jak GPT-4o czy Claude 3.5 rozliczane jest za zużycie (tokeny) – dla małej firmy to często zaledwie kilkanaście dolarów miesięcznie. Narzędzia takie jak n8n wdrażamy w wersji self-hosted, co pozwala uniknąć drogich abonamentów.'
+            },
+            en: {
+                question: 'What are the maintenance costs (API and licensing)?',
+                answer: 'Costs depend on usage. Models like GPT-4o or Claude 3.5 are billed on a pay-as-you-go basis (tokens) – for small companies, this is often just a few dozen dollars a month. We set up tools like n8n as self-hosted to avoid expensive subscriptions.'
+            }
+        }
+    },
+    {
+        id: 'progress',
+        translations: {
+            pl: {
+                question: 'Jak mogę śledzić postępy prac nad moim projektem?',
+                answer: 'Każdy klient otrzymuje dostęp do Panelu Klienta (The Portal). Widzisz tam aktualny status prac, ukończone sprinty, dokumentację techniczną oraz zaplanowane zadania. Pracujemy w 100% transparentnie.'
+            },
+            en: {
+                question: 'How can I track the progress of my project?',
+                answer: 'Every client receives access to our Client Panel (The Portal). You can see the current project status, completed sprints, technical documentation, and planned tasks there. We work with 100% transparency.'
+            }
+        }
+    },
+    {
+        id: 'the-portal',
+        translations: {
+            pl: {
+                question: 'Co to jest "The Portal" / Panel Klienta?',
+                answer: 'To nasze dedykowane narzędzie do zarządzania współpracą. Pozwala klientom w czasie rzeczywistym na wgląd w postępy, komunikację z zespołem, zatwierdzanie kolejnych etapów oraz dostęp do dokumentacji powdrożeniowej.'
+            },
+            en: {
+                question: 'What is "The Portal" / Client Panel?',
+                answer: 'It is our dedicated tool for collaboration management. It gives clients real-time visibility into progress, team communication, phase approvals, and post-deployment documentation.'
+            }
+        }
+    },
+    {
+        id: 'no-tech-knowledge',
+        translations: {
+            pl: {
+                question: 'Czy muszę mieć wiedzę techniczną, aby z Wami współpracować?',
+                answer: 'Nie, nie musisz. Cały proces techniczny bierzemy na siebie. Tłumaczymy działanie systemów prostym językiem, a po wdrożeniu przeprowadzamy szkolenia dla Twojego zespołu oraz przekazujemy przejrzyste instrukcje.'
+            },
+            en: {
+                question: 'Do I need technical knowledge to work with you?',
+                answer: 'No, you don\'t. We handle the entire technical process. We explain how the systems work in plain language, and after deployment, we train your team and deliver clear instructions.'
+            }
+        }
+    },
+    {
+        id: 'hallucinations',
+        translations: {
+            pl: {
+                question: 'Czy AI może halucynować (wymyślać nieprawdziwe informacje)?',
+                answer: 'Tak, surowe modele językowe mają taką tendencję. Aby temu zapobiec, stosujemy architekturę RAG (Retrieval-Augmented Generation) oraz restrykcyjne instrukcje (guardrails). Dzięki temu AI odpowiada wyłącznie na podstawie dostarczonych baz wiedzy i dokumentów Twojej firmy.'
+            },
+            en: {
+                question: 'Can AI hallucinate (make up false information)?',
+                answer: 'Yes, raw language models tend to do so. To prevent this, we use RAG (Retrieval-Augmented Generation) architectures and strict guardrails. This limits the AI to answer solely based on your provided company documentation.'
+            }
+        }
+    },
+    {
+        id: 'tech-stack',
+        translations: {
+            pl: {
+                question: 'Z jakimi technologiami pracujecie najczęściej?',
+                answer: 'Nasz główny stack to Next.js, TypeScript, Node.js oraz chmura Firebase/Google Cloud. W automatyzacjach wykorzystujemy n8n i Make, a w e-commerce Shopify. Integracje AI opieramy o biblioteki LangChain oraz interfejsy OpenAI, Gemini i Anthropic.'
+            },
+            en: {
+                question: 'What technologies do you work with most often?',
+                answer: 'Our core stack includes Next.js, TypeScript, Node.js, and Firebase/Google Cloud. For automations we use n8n and Make, and for e-commerce, we rely on Shopify. We build AI integrations using LangChain, OpenAI, Gemini, and Anthropic APIs.'
+            }
+        }
+    },
+    {
+        id: 'support',
+        translations: {
+            pl: {
+                question: 'Czy oferujecie wsparcie po wdrożeniu projektu?',
+                answer: 'Tak, oferujemy elastyczne pakiety wsparcia technicznego i powdrożeniowego (SLA). Dbamy o to, aby automatyzacje działały bez przerw, a modele AI były na bieżąco optymalizowane i aktualizowane do najnowszych wersji.'
+            },
+            en: {
+                question: 'Do you offer support after project launch?',
+                answer: 'Yes, we offer flexible post-deployment technical support and maintenance packages (SLA). We ensure your automations run smoothly and update AI models regularly to their latest versions.'
+            }
+        }
+    },
+    {
+        id: 'start',
+        translations: {
+            pl: {
+                question: 'Jak rozpocząć współpracę?',
+                answer: 'Najlepszym krokiem jest wypełnienie formularza kontaktowego lub rezerwacja bezpłatnej, 30-minutowej konsultacji. Przeanalizujemy Twoje potrzeby i przygotujemy konkretne rekomendacje wraz z wyceną.'
+            },
+            en: {
+                question: 'How do we start collaborating?',
+                answer: 'The best way to start is by filling out our contact form or booking a free 30-minute consultation. We will analyze your requirements and provide tailored recommendations with a quotation.'
+            }
+        }
+    },
+    {
+        id: 'crm-integrations',
+        translations: {
+            pl: {
+                question: 'Czy integrujecie AI z istniejącymi systemami CRM?',
+                answer: 'Tak, większość naszych projektów to integracje z systemami CRM (np. HubSpot, Pipedrive, Salesforce), komunikatorami (Slack, Teams, WhatsApp, Messenger) czy skrzynkami e-mail.'
+            },
+            en: {
+                question: 'Do you integrate AI with existing CRM systems?',
+                answer: 'Yes, most of our projects involve integrations with CRMs (e.g. HubSpot, Pipedrive, Salesforce), messaging platforms (Slack, Teams, WhatsApp, Messenger), or email accounts.'
+            }
+        }
+    }
+];

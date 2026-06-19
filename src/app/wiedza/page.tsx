@@ -2,13 +2,14 @@
 
 import React, { useEffect, useState } from 'react';
 import { useLanguage } from '@/context/LanguageContext';
-import { knowledgeItems, tkb } from './wiedzaData';
+import { knowledgeItems, tkb, faqItems } from './wiedzaData';
 import Footer from '@/components/Footer';
 import Navbar from '@/components/Navbar';
 import Link from 'next/link';
 
 export default function KnowledgeBasePage() {
     const { lang } = useLanguage();
+    const [openFAQ, setOpenFAQ] = useState<string | null>(null);
 
     return (
         <div className="lp-wrapper">
@@ -73,7 +74,7 @@ export default function KnowledgeBasePage() {
             <section className="section bg-grid relative" style={{
                 borderTop: '1px solid rgba(255,255,255,0.05)',
                 background: 'transparent',
-                padding: '80px 0 160px'
+                padding: '80px 0 120px'
             }}>
                 <div className="container relative z-10">
                     <div style={{
@@ -124,6 +125,100 @@ export default function KnowledgeBasePage() {
                                         {tkb(lang, 'kb.read')} <span style={{ transition: 'transform 0.3s' }}>→</span>
                                     </div>
                                 </Link>
+                            );
+                        })}
+                    </div>
+                </div>
+            </section>
+
+            {/* FAQ Accordion Section */}
+            <section className="section relative" style={{
+                borderTop: '1px solid rgba(255,255,255,0.05)',
+                background: 'rgba(255,255,255,0.01)',
+                padding: '100px 20px 160px'
+            }}>
+                <div className="container relative z-10">
+                    <div className="section-header text-center" style={{ marginBottom: '64px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                        <span className="section-label" style={{
+                            padding: '8px 16px',
+                            background: 'rgba(139, 92, 246, 0.1)',
+                            color: '#a78bfa',
+                            borderRadius: '999px',
+                            border: '1px solid rgba(139, 92, 246, 0.2)',
+                            fontSize: '0.8rem',
+                            fontWeight: 600
+                        }}>FAQ</span>
+                        <h2 className="section-title" style={{ marginTop: '16px', fontSize: 'clamp(2rem, 5vw, 3rem)', fontWeight: 800, letterSpacing: '-0.03em' }}>
+                            {lang === 'pl' ? 'Często Zadawane Pytania' : 'Frequently Asked Questions'}
+                        </h2>
+                        <p className="section-subtitle" style={{ color: 'rgba(255,255,255,0.5)', maxWidth: '600px', margin: '16px auto 0', fontSize: '1.05rem', lineHeight: 1.6 }}>
+                            {lang === 'pl' 
+                                ? 'Masz pytania dotyczące bezpieczeństwa, cen lub czasu realizacji? Poznaj odpowiedzi na najczęstsze wątpliwości naszych klientów.' 
+                                : 'Do you have questions about security, pricing, or timelines? Get answers to the most common concerns of our clients.'}
+                        </p>
+                    </div>
+
+                    <div style={{ maxWidth: '800px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                        {faqItems.map((item) => {
+                            const content = item.translations[lang] || item.translations.pl || item.translations.en;
+                            if (!content) return null;
+                            const isOpen = openFAQ === item.id;
+
+                            return (
+                                <div
+                                    key={item.id}
+                                    className="premium-glass-panel"
+                                    style={{
+                                        borderRadius: '20px',
+                                        border: isOpen ? '1px solid rgba(59, 130, 246, 0.3)' : '1px solid rgba(255,255,255,0.05)',
+                                        background: isOpen ? 'rgba(59, 130, 246, 0.02)' : 'rgba(255,255,255,0.01)',
+                                        transition: 'all 0.3s ease',
+                                        overflow: 'hidden'
+                                    }}
+                                >
+                                    <button
+                                        onClick={() => setOpenFAQ(isOpen ? null : item.id)}
+                                        style={{
+                                            width: '100%',
+                                            display: 'flex',
+                                            justifyContent: 'space-between',
+                                            alignItems: 'center',
+                                            padding: '24px 32px',
+                                            background: 'none',
+                                            border: 'none',
+                                            color: 'white',
+                                            fontSize: '1.1rem',
+                                            fontWeight: 700,
+                                            textAlign: 'left',
+                                            cursor: 'pointer',
+                                            gap: '20px'
+                                        }}
+                                    >
+                                        <span>{content.question}</span>
+                                        <span style={{
+                                            color: isOpen ? '#60a5fa' : 'rgba(255,255,255,0.3)',
+                                            transform: isOpen ? 'rotate(45deg)' : 'rotate(0deg)',
+                                            transition: 'transform 0.3s ease',
+                                            fontSize: '1.5rem',
+                                            lineHeight: 1
+                                        }}>+</span>
+                                    </button>
+                                    <div style={{
+                                        maxHeight: isOpen ? '500px' : '0px',
+                                        opacity: isOpen ? 1 : 0,
+                                        transition: 'all 0.35s cubic-bezier(0.4, 0, 0.2, 1)',
+                                        overflow: 'hidden'
+                                    }}>
+                                        <div style={{
+                                            padding: '0 32px 32px',
+                                            color: 'rgba(255,255,255,0.6)',
+                                            lineHeight: 1.7,
+                                            fontSize: '0.95rem'
+                                        }}>
+                                            {content.answer}
+                                        </div>
+                                    </div>
+                                </div>
                             );
                         })}
                     </div>
