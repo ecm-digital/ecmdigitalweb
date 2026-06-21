@@ -13,6 +13,7 @@ export const caseStudies: CaseStudy[] = [
     { slug: 'automatyzacja-n8n', num: 3, icon: '⚡', gradient: 'linear-gradient(135deg, #f59e0b, #fbbf24)' },
     { slug: 'aplikacja-mvp', num: 4, icon: '📱', gradient: 'linear-gradient(135deg, #8b5cf6, #a78bfa)' },
     { slug: 'automatyzacja-nieruchomosci', num: 5, icon: '🏠', gradient: 'linear-gradient(135deg, #eab308, #f59e0b)' },
+    { slug: 'kamar-serwis', num: 6, icon: '🏗️', gradient: 'linear-gradient(135deg, #f97316, #facc15)' },
 ];
 
 const csTranslations: Record<string, Record<string, string>> = {
@@ -105,6 +106,22 @@ const csTranslations: Record<string, Record<string, string>> = {
         'automatyzacja-nieruchomosci.result4.value': '<2 min',
         'automatyzacja-nieruchomosci.result4.label': 'Czas odpowiedzi',
         'automatyzacja-nieruchomosci.techs': 'Google Gemini,N8N,Calendly API,Pipedrive CRM,Facebook API',
+
+        'kamar-serwis.title': 'Kamar Serwis - Wypożyczalnia Sprzętu Budowlanego',
+        'kamar-serwis.subtitle': 'Wielojęzyczna strona internetowa z zaawansowanym kalkulatorem zapytania ofertowego i optymalizacją SEO',
+        'kamar-serwis.client': 'Kamar Serwis Sp. z o.o.',
+        'kamar-serwis.timeline': '3 tygodnie',
+        'kamar-serwis.challenge': 'Tradycyjna branża wynajmu sprzętu budowlanego w Warszawie cechuje się niską cyfryzacją. Klienci musieli dzwonić lub pisać maile, aby poznać stawki za wynajem maszyn (agregatów, sprężarek, minikoparek), co obciążało dział obsługi i wydłużało proces wyceny. Klient potrzebował platformy, która zautomatyzuje wyceny i ułatwi szybkie przesyłanie specyfikacji zapotrzebowania.',
+        'kamar-serwis.solution': 'Zbudowaliśmy zoptymalizowaną pod SEO (Core Web Vitals) platformę SPA z dynamicznym kalkulatorem zapotrzebowania. Klienci mogą wybrać typ i ilość maszyn, określić czas wynajmu w dniach i otrzymać natychmiastową wycenę szacunkową. Integracja z Firebase i webhookami automatycznie przesyła specyfikację zamówienia do CRM, co pozwala handlowcom na szybką finalizację umowy.',
+        'kamar-serwis.result1.value': '+150%',
+        'kamar-serwis.result1.label': 'Zapytań ofertowych',
+        'kamar-serwis.result2.value': '-40%',
+        'kamar-serwis.result2.label': 'Czasu rozmów tel.',
+        'kamar-serwis.result3.value': '100%',
+        'kamar-serwis.result3.label': 'Zgodności z SEO',
+        'kamar-serwis.result4.value': '<2.0s',
+        'kamar-serwis.result4.label': 'Czas ładowania',
+        'kamar-serwis.techs': 'React,Tailwind CSS,Vite,Firebase,SEO Audit,Lead Automation',
     },
     en: {
         'cs.back': '← Back to homepage',
@@ -175,6 +192,22 @@ const csTranslations: Record<string, Record<string, string>> = {
         'automatyzacja-nieruchomosci.result3.value': '-80%', 'automatyzacja-nieruchomosci.result3.label': 'Agent time saved',
         'automatyzacja-nieruchomosci.result4.value': '<2 min', 'automatyzacja-nieruchomosci.result4.label': 'Response time',
         'automatyzacja-nieruchomosci.techs': 'Google Gemini,N8N,Calendly API,Pipedrive CRM,Facebook API',
+
+        'kamar-serwis.title': 'Kamar Serwis - Construction Rental Platform',
+        'kamar-serwis.subtitle': 'A multilingual website featuring an interactive rental cost estimator and SEO optimization',
+        'kamar-serwis.client': 'Kamar Serwis Sp. z o.o.',
+        'kamar-serwis.timeline': '3 weeks',
+        'kamar-serwis.challenge': 'The traditional construction equipment rental market in Warsaw suffers from low digitalization. Customers had to make phone calls or send emails to get rental rates, increasing office workload and delaying quotes. The client needed a platform that automates pricing estimations and streamlines lead generation.',
+        'kamar-serwis.solution': 'We built an SEO-optimized (Core Web Vitals) SPA platform with an interactive rental calculator. Customers can select equipment types, quantities, and rental duration to get an instant cost estimate. Firebase integration automatically posts the detailed lead payloads directly into the client\'s CRM.',
+        'kamar-serwis.result1.value': '+150%',
+        'kamar-serwis.result1.label': 'Online inquiries',
+        'kamar-serwis.result2.value': '-40%',
+        'kamar-serwis.result2.label': 'Call time saved',
+        'kamar-serwis.result3.value': '100%',
+        'kamar-serwis.result3.label': 'SEO optimization',
+        'kamar-serwis.result4.value': '<2.0s',
+        'kamar-serwis.result4.label': 'Page load time',
+        'kamar-serwis.techs': 'React,Tailwind CSS,Vite,Firebase,SEO Audit,Lead Automation',
     },
     de: {
         'cs.back': '← Zurück zur Startseite',

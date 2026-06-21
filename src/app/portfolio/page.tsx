@@ -35,6 +35,7 @@ export default function PortfolioPage() {
         { id: '2', i: 2, slug: 'sklep-shopify-ai', color: '#ec4899', img: '/case_study_shopify_ai_mockup_1772144156310.webp' },
         { id: '3', i: 3, slug: 'automatyzacja-n8n', color: '#10b981', img: '/case_study_automation_n8n_mockup_1772144173711.webp' },
         { id: '4', i: 4, slug: 'aplikacja-mvp', color: '#f59e0b', img: '/case_study_mvp_startup_mockup_1772144187874.webp' },
+        { id: '6', i: 6, slug: 'kamar-serwis', color: '#f97316', img: '/img_case_kamar_serwis.png' },
     ]).filter((item: any) => {
         if (cases.length > 0) {
             return !!(item.translations?.[lang]?.title || item.title);

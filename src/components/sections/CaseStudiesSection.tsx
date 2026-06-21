@@ -9,6 +9,7 @@ const FALLBACK_CASES = [
   { i: 1, slug: 'chatbot-ai-ecommerce', color: '#3b82f6', img: '/case_study_ai_chatbot_mockup_1772144142535.webp' },
   { i: 2, slug: 'sklep-shopify-ai', color: '#ec4899', img: '/case_study_shopify_ai_mockup_1772144156310.webp' },
   { i: 3, slug: 'automatyzacja-n8n', color: '#10b981', img: '/case_study_automation_n8n_mockup_1772144173711.webp' },
+  { i: 6, slug: 'kamar-serwis', color: '#f97316', img: '/img_case_kamar_serwis.png' },
 ];
 
 function resolveImage(item: any, title: string): string {
