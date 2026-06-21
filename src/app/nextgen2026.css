@@ -288,18 +288,6 @@ h3 {
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
 }
 
-@media (max-width: 1024px) {
-    .navbar-floating {
-        width: 95%;
-        border-radius: 20px;
-        padding-right: 20px;
-        padding-left: 20px;
-    }
-
-    .navbar-floating .navbar-links-container {
-        display: none;
-    }
-}
 
 /* ===== PREMIUM FORM STYLES ===== */
 .contact-form-wrapper input,
@@ -490,7 +478,7 @@ iframe[title*="Lokalizacja"]:hover {
 }
 
 /* ===== MOBILE RESPONSIVE FIX ===== */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
 
     /* Navbar Mobile */
     .mobile-menu-btn {
@@ -506,6 +494,11 @@ iframe[title*="Lokalizacja"]:hover {
         align-content: flex-start;
         border-radius: 20px !important;
         top: 12px !important;
+        width: 95% !important;
+    }
+
+    .navbar-floating.scrolled {
+        width: 95% !important;
     }
 
     /* Hide desktop links on mobile - they're in navbar-links-container which is display:none */
@@ -514,12 +507,19 @@ iframe[title*="Lokalizacja"]:hover {
     }
 
     /* Language Switcher - hidden, moved to mobile dropdown */
-    .lang-switcher {
+    .lang-switcher,
+    .lang-switcher-glass {
+        display: none !important;
+    }
+
+    /* Socials - hidden, moved to mobile dropdown */
+    .navbar-socials-desktop {
         display: none !important;
     }
 
     /* CTA Button - hidden, moved to mobile dropdown */
-    .navbar-cta {
+    .navbar-cta,
+    .nav-cta-btn {
         display: none !important;
     }
 
@@ -584,6 +584,9 @@ iframe[title*="Lokalizacja"]:hover {
         padding-top: 16px;
         border-top: 1px solid rgba(255, 255, 255, 0.08);
     }
+}
+
+@media (max-width: 768px) {
 
     /* Form Mobile */
     .contact-form-wrapper input,
@@ -688,6 +691,7 @@ iframe[title*="Lokalizacja"]:hover {
     }
 
     /* Blog & Testimonials Grid Mobile */
+    [style*="grid-template-columns"],
     [style*="gridTemplateColumns"] {
         grid-template-columns: 1fr !important;
     }
@@ -698,7 +702,9 @@ iframe[title*="Lokalizacja"]:hover {
     }
 
     /* Case Study Layout Mobile */
-    [style*="gap: '32px'"] {
+    [style*="gap: '32px'"],
+    [style*="gap: 32px"],
+    [style*="gap:32px"] {
         flex-direction: column !important;
         gap: 16px !important;
     }
@@ -727,14 +733,27 @@ iframe[title*="Lokalizacja"]:hover {
     }
 
     /* Reduced margins on mobile */
-    [style*="marginBottom: '60px'"],
+    [style*="margin-bottom: 60px"],
+    [style*="margin-bottom:60px"],
     [style*="marginBottom: 60px"] {
         margin-bottom: 30px !important;
     }
 
-    [style*="marginBottom: '48px'"],
+    [style*="margin-bottom: 48px"],
+    [style*="margin-bottom:48px"],
     [style*="marginBottom: 48px"] {
         margin-bottom: 24px !important;
+    }
+
+    /* Automation Flow Visualizer Mobile Scaling */
+    .automation-node {
+        padding: 4px 8px !important;
+        font-size: 0.65rem !important;
+        gap: 4px !important;
+        border-radius: 6px !important;
+    }
+    .automation-connector {
+        flex-grow: 1 !important;
     }
 }
 
@@ -835,7 +854,8 @@ iframe[title*="Lokalizacja"]:hover {
     }
 
     [style*="gap: '16px'"],
-    [style*="gap: 16px"] {
+    [style*="gap: 16px"],
+    [style*="gap:16px"] {
         gap: 8px !important;
     }
 
@@ -845,7 +865,11 @@ iframe[title*="Lokalizacja"]:hover {
     }
 
     #faq button div[style*="width: '32px'"],
-    #faq button div[style*="borderRadius: '50%'"] {
+    #faq button div[style*="width: 32px"],
+    #faq button div[style*="width:32px"],
+    #faq button div[style*="borderRadius: '50%'"],
+    #faq button div[style*="border-radius: 50%"],
+    #faq button div[style*="border-radius:50%"] {
         width: 28px !important;
         height: 28px !important;
         font-size: 1rem !important;

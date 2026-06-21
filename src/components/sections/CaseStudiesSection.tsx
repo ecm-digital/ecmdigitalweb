@@ -91,7 +91,7 @@ export default function CaseStudiesSection() {
         </div>
 
         {/* Case Studies Grid */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 340px), 1fr))', gap: '32px', padding: '10px 0 30px', justifyContent: displayCases.length <= 2 ? 'center' : 'start' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))', gap: '32px', padding: '10px 0 30px', justifyContent: displayCases.length <= 2 ? 'center' : 'start' }}>
           {displayCases.map((item: any, idx) => {
             const i = item.i || (idx + 1);
             const slug = item.slug || `case-${idx}`;

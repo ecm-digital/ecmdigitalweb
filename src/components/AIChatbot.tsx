@@ -252,24 +252,79 @@ Reply in ${globalLang} language only. Be professional and helpful. If language i
     const getAIResponseFallback = (input: string, l: Lang): string => {
         const q = input.toLowerCase();
 
-        // Try to match against dynamic FAQ items first!
+        const faqKeywords: Record<string, { pl: string[], en: string[] }> = {
+            pricing: {
+                pl: ['koszt', 'cen', 'ile płac', 'ile plac', 'wycen'],
+                en: ['cost', 'price', 'pricing', 'how much']
+            },
+            timeline: {
+                pl: ['ile trwa', 'długo trwa', 'termin', 'czas real', 'kiedy gotow', 'jak długo'],
+                en: ['how long', 'timeline', 'duration', 'when will', 'ready in', 'how long does']
+            },
+            security: {
+                pl: ['bezpiecz', 'rodo', 'gdpr', 'poufne', 'wyciek', 'dane bezp'],
+                en: ['safe', 'security', 'gdpr', 'rodo', 'confidential', 'leak']
+            },
+            maintenance: {
+                pl: ['utrzyman', 'licencj', 'opłat', 'abonament', 'api'],
+                en: ['maintenance', 'licensing', 'subscription', 'api cost']
+            },
+            progress: {
+                pl: ['postęp', 'śledzić', 'co się dzieje', 'status prac'],
+                en: ['progress', 'track', 'status of']
+            },
+            'the-portal': {
+                pl: ['portal', 'panel klienta'],
+                en: ['the portal', 'client panel']
+            },
+            'no-tech-knowledge': {
+                pl: ['wiedza techn', 'muszę się znać', 'nie znam się'],
+                en: ['technical knowledge', 'need to know tech']
+            },
+            hallucinations: {
+                pl: ['halucyn', 'wymyśla', 'kłamie', 'prawda czy fałsz'],
+                en: ['hallucinat', 'make up', 'fake info', 'lying']
+            },
+            'tech-stack': {
+                pl: ['technolog', 'tech stack', 'narzędzia', 'jakich narzędzi'],
+                en: ['technolog', 'tech stack', 'tools do you use', 'which languages']
+            },
+            support: {
+                pl: ['wsparc', 'support', 'pomoc po', 'opieka'],
+                en: ['support', 'help after', 'post-deployment']
+            },
+            start: {
+                pl: ['rozpocząć', 'zacząć', 'zaczac', 'współprac', 'kontakt'],
+                en: ['start', 'collaborat', 'get started']
+            },
+            'crm-integrations': {
+                pl: ['crm', 'hubspot', 'pipedrive', 'salesforce', 'integrujecie'],
+                en: ['crm', 'hubspot', 'pipedrive', 'salesforce', 'integrate']
+            }
+        };
+
+        let bestItem = null;
+        let maxScore = 0;
+
         for (const item of faqItems) {
-            const content = item.translations[l] || item.translations.pl || item.translations.en;
-            if (!content) continue;
+            const kw = faqKeywords[item.id];
+            if (!kw) continue;
+            const list = kw[l] || kw.pl;
+            let score = 0;
+            for (const word of list) {
+                if (q.includes(word)) {
+                    score += 1;
+                }
+            }
+            if (score > maxScore) {
+                maxScore = score;
+                bestItem = item;
+            }
+        }
 
-            const stopWords = ['lub', 'czy', 'dla', 'pod', 'nad', 'oraz', 'jest', 'dane', 'baza', 'pracy', 'firm'];
-            const questionWords = content.question.toLowerCase().replace(/[?.,()]/g, '').split(' ').filter(w => w.length >= 3 && !stopWords.includes(w));
-            const matches = questionWords.filter(word => q.includes(word) || word.includes(q) || (q.length >= 4 && word.startsWith(q.slice(0, 4))));
-            
-            const hasCriticalConcept = matches.some(w => 
-                w.includes('koszt') || w.includes('cen') || w.includes('bezpiecz') || 
-                w.includes('termin') || w.includes('czas') || w.includes('portal') || 
-                w.includes('wsparc') || w.includes('pomoc') || w.includes('wdroż') || 
-                w.includes('hali') || w.includes('wymyśl') || w.includes('sdr') || 
-                w.includes('crm')
-            );
-
-            if (matches.length >= 2 || (matches.length >= 1 && hasCriticalConcept)) {
+        if (maxScore >= 1 && bestItem) {
+            const content = bestItem.translations[l] || bestItem.translations.pl || bestItem.translations.en;
+            if (content) {
                 return content.answer;
             }
         }

@@ -31,7 +31,7 @@ export default function BlogPreviewSection() {
           <p className="section-subtitle">{T('blog.subtitle')}</p>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '32px', marginBottom: '60px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))', gap: '32px', marginBottom: '60px' }}>
           {displayPosts.map((post, idx) => (
             <a
               key={post.slug}

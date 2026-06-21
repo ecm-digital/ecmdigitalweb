@@ -28,7 +28,7 @@ export default function ContactSection() {
                     <h2 className="section-title">{T('contact.title')}</h2>
                     <p className="section-subtitle">{T('contact.subtitle')}</p>
                 </div>
-                <div className="contact-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))', gap: '32px', alignItems: 'flex-start' }}>
+                <div className="contact-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))', gap: '32px', alignItems: 'flex-start' }}>
                     <div className="contact-info premium-glass-panel fade-in-left" style={{ padding: 'clamp(24px, 5vw, 48px)', borderRadius: '32px', position: 'relative', overflow: 'hidden' }}>
                         <div style={{ position: 'absolute', top: 0, right: 0, width: '200px', height: '200px', background: 'radial-gradient(circle, rgba(139, 92, 246, 0.2) 0%, transparent 70%)', filter: 'blur(40px)', pointerEvents: 'none' }}></div>
                         <h3 style={{ fontSize: '2rem', marginBottom: '32px', color: 'white' }}>{T('contact.callUs')}</h3>

@@ -20,7 +20,7 @@ export default function ForWhomSection() {
           <p className="section-subtitle" style={{ maxWidth: '600px', margin: '16px auto 0' }}>{T('forwhom.subtitle') || "Dostosowujemy narzędzia do skali i charakteru Twojej działalności usługowej."}</p>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '32px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))', gap: '32px' }}>
           {/* Lokalne Usługi */}
           <div className="premium-glass-panel premium-hover-lift fade-in-left" style={{ padding: 'clamp(24px, 5vw, 48px)', borderRadius: '20px', border: '1px solid rgba(99, 102, 241, 0.08)', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
             <div>

@@ -184,7 +184,7 @@ export default function AIAgentDemo() {
           </div>
 
           {/* Right Side: Metrics & Logs (4 Cols) */}
-          <div className="lg:col-span-4 flex flex-col gap-3">
+          <div className="hidden lg:flex lg:col-span-4 flex-col gap-3">
             
             {/* Lead Counter */}
             <div className="dashboard-metric-card flex flex-col justify-between py-3">
