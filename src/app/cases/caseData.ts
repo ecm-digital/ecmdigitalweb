@@ -5,6 +5,7 @@ export interface CaseStudy {
     num: number;
     icon: string;
     gradient: string;
+    link?: string;
 }
 
 export const caseStudies: CaseStudy[] = [
@@ -13,7 +14,7 @@ export const caseStudies: CaseStudy[] = [
     { slug: 'automatyzacja-n8n', num: 3, icon: '⚡', gradient: 'linear-gradient(135deg, #f59e0b, #fbbf24)' },
     { slug: 'aplikacja-mvp', num: 4, icon: '📱', gradient: 'linear-gradient(135deg, #8b5cf6, #a78bfa)' },
     { slug: 'automatyzacja-nieruchomosci', num: 5, icon: '🏠', gradient: 'linear-gradient(135deg, #eab308, #f59e0b)' },
-    { slug: 'kamar-serwis', num: 6, icon: '🏗️', gradient: 'linear-gradient(135deg, #f97316, #facc15)' },
+    { slug: 'kamar-serwis', num: 6, icon: '🏗️', gradient: 'linear-gradient(135deg, #f97316, #facc15)', link: 'https://kamar-serwis.web.app/' },
 ];
 
 const csTranslations: Record<string, Record<string, string>> = {
@@ -26,6 +27,8 @@ const csTranslations: Record<string, Record<string, string>> = {
         'cs.timeline': 'Czas realizacji',
         'cs.cta.title': 'Chcesz podobne wyniki?',
         'cs.cta.button': 'Umów Konsultację →',
+        'cs.visitSite': 'Zobacz projekt online →',
+        'cs.clientLabel': 'Klient',
 
         'chatbot-ai-ecommerce.title': 'Chatbot AI dla E-commerce',
         'chatbot-ai-ecommerce.subtitle': 'Inteligentny agent AI obsługujący klientów 24/7 i zwiększający konwersję o 40%',
@@ -132,6 +135,8 @@ const csTranslations: Record<string, Record<string, string>> = {
         'cs.timeline': 'Timeline',
         'cs.cta.title': 'Want similar results?',
         'cs.cta.button': 'Book Consultation →',
+        'cs.visitSite': 'Visit live site →',
+        'cs.clientLabel': 'Client',
 
         'chatbot-ai-ecommerce.title': 'AI Chatbot for E-commerce',
         'chatbot-ai-ecommerce.subtitle': 'Intelligent AI agent serving customers 24/7 and boosting conversions by 40%',
@@ -218,6 +223,8 @@ const csTranslations: Record<string, Record<string, string>> = {
         'cs.timeline': 'Zeitrahmen',
         'cs.cta.title': 'Möchten Sie ähnliche Ergebnisse?',
         'cs.cta.button': 'Beratung buchen →',
+        'cs.visitSite': 'Website besuchen →',
+        'cs.clientLabel': 'Kunde',
 
         'chatbot-ai-ecommerce.title': 'KI-Chatbot für E-Commerce',
         'chatbot-ai-ecommerce.subtitle': 'Intelligenter KI-Agent für 24/7-Kundenservice mit 40% Konversionssteigerung',
@@ -266,6 +273,30 @@ const csTranslations: Record<string, Record<string, string>> = {
         'aplikacja-mvp.result3.value': '2k+', 'aplikacja-mvp.result3.label': 'Downloads Monat 1',
         'aplikacja-mvp.result4.value': '€200k', 'aplikacja-mvp.result4.label': 'Finanzierung',
         'aplikacja-mvp.techs': 'React Native,Firebase,Google Gemini,HealthKit,Node.js,Figma',
+
+        'automatyzacja-nieruchomosci.title': 'KI-Automatisierung für Immobilien',
+        'automatyzacja-nieruchomosci.subtitle': 'Ein KI-Agent für 24/7-Kundenbetreuung und automatische Besichtigungstermine',
+        'automatyzacja-nieruchomosci.client': 'Premium-Immobilienagentur, Warschau',
+        'automatyzacja-nieruchomosci.timeline': '3 Wochen',
+        'automatyzacja-nieruchomosci.challenge': 'Das Vertriebsteam verlor Zeit mit manuellen Antworten auf Portalanfragen und Lead-Qualifizierung. Über 40% der Anfragen kamen abends und am Wochenende, was zu Verzögerungen führte.',
+        'automatyzacja-nieruchomosci.solution': 'Implementierung eines KI-Agenten, integriert in CRM und Portale. Sofortige Antworten, technisches Wissen zu Standards/Lage und automatische Terminbuchung im Kalender der Makler.',
+        'automatyzacja-nieruchomosci.result1.value': '+400%', 'automatyzacja-nieruchomosci.result1.label': 'Mehr Besichtigungen',
+        'automatyzacja-nieruchomosci.result2.value': '24/7', 'automatyzacja-nieruchomosci.result2.label': 'Lead-Abdeckung',
+        'automatyzacja-nieruchomosci.result3.value': '-80%', 'automatyzacja-nieruchomosci.result3.label': 'Zeitersparnis Makler',
+        'automatyzacja-nieruchomosci.result4.value': '<2 Min', 'automatyzacja-nieruchomosci.result4.label': 'Antwortzeit',
+        'automatyzacja-nieruchomosci.techs': 'Google Gemini,N8N,Calendly API,Pipedrive CRM,Facebook API',
+
+        'kamar-serwis.title': 'Kamar Serwis - Baugeräte-Vermietungsplattform',
+        'kamar-serwis.subtitle': 'Mehrsprachige Website mit interaktivem Mietpreiskalkulator und SEO-Optimierung',
+        'kamar-serwis.client': 'Kamar Serwis Sp. z o.o.',
+        'kamar-serwis.timeline': '3 Wochen',
+        'kamar-serwis.challenge': 'Der traditionelle Mietmarkt für Baugeräte in Warschau leidet unter geringer Digitalisierung. Kunden mussten anrufen oder E-Mails schreiben, um Preise zu erfahren. Der Kunde brauchte eine Plattform zur Preisautomatisierung.',
+        'kamar-serwis.solution': 'Wir bauten eine SEO-optimierte SPA mit interaktivem Mietkalkulator. Kunden wählen Geräte und Dauer für ein sofortiges Angebot. Firebase-Integration leitet Leads direkt an das CRM weiter.',
+        'kamar-serwis.result1.value': '+150%', 'kamar-serwis.result1.label': 'Online-Anfragen',
+        'kamar-serwis.result2.value': '-40%', 'kamar-serwis.result2.label': 'Telefonzeit gespart',
+        'kamar-serwis.result3.value': '100%', 'kamar-serwis.result3.label': 'SEO-Optimierung',
+        'kamar-serwis.result4.value': '<2.0s', 'kamar-serwis.result4.label': 'Ladezeit',
+        'kamar-serwis.techs': 'React,Tailwind CSS,Vite,Firebase,SEO Audit,Lead Automation',
     },
 };
 

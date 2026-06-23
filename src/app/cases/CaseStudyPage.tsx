@@ -22,6 +22,22 @@ export default function CaseStudyPage({ slug }: { slug: string }) {
         return () => observer.disconnect();
     }, []);
 
+    useEffect(() => {
+        if (cs) {
+            const title = T(`${slug}.title`);
+            const subtitle = T(`${slug}.subtitle`);
+            if (title && title !== `${slug}.title`) {
+                document.title = `${title} | ECM Digital Case Study`;
+            }
+            if (subtitle && subtitle !== `${slug}.subtitle`) {
+                const metaDesc = document.querySelector('meta[name="description"]');
+                if (metaDesc) {
+                    metaDesc.setAttribute('content', subtitle);
+                }
+            }
+        }
+    }, [slug, lang, cs]);
+
     if (!cs) return <div>Case study not found</div>;
 
     const techs = T(`${slug}.techs`).split(',');
@@ -68,6 +84,11 @@ export default function CaseStudyPage({ slug }: { slug: string }) {
                             <span style={{ display: 'inline-flex', alignItems: 'center', padding: '12px 24px', background: `rgba(255,255,255,0.05)`, border: `1px solid rgba(255,255,255,0.1)`, borderRadius: '999px', fontSize: '1.1rem', fontWeight: 700, color: 'white' }}>
                                 ⏱ {T(`${slug}.timeline`)}
                             </span>
+                            {cs.link && (
+                                <a href={cs.link} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '12px 24px', background: `${accentColor}25`, border: `1px solid ${accentColor}40`, borderRadius: '999px', fontSize: '1.1rem', fontWeight: 700, color: 'white', textDecoration: 'none', transition: 'all 0.3s' }} className="premium-hover-lift">
+                                    🔗 {T('cs.visitSite')}
+                                </a>
+                            )}
                         </div>
                     </div>
                 </div>

@@ -274,6 +274,7 @@ export interface CaseStudy {
     order?: number;
     year?: string;
     duration?: string;
+    link?: string;
     translations: {
         [lang: string]: {
             category: string;

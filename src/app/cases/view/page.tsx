@@ -84,6 +84,11 @@ export default function CaseStudyViewPage() {
                             {t.client && <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', fontWeight: 600 }}>👤 {t.client}</span>}
                             {cs.year && <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.3)' }}>📅 {cs.year}</span>}
                             {cs.duration && <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.3)' }}>⏱ {cs.duration}</span>}
+                            {cs.link && (
+                                <a href={cs.link} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: 12, fontWeight: 700, padding: '5px 14px', borderRadius: 999, background: `${color}25`, border: `1px solid ${color}40`, color: 'white', textDecoration: 'none', transition: 'all 0.3s' }} className="premium-hover-lift">
+                                    🔗 {T('cs.visitSite')}
+                                </a>
+                            )}
                         </div>
 
                         <h1 style={{ fontSize: 'clamp(2.2rem, 5.5vw, 4rem)', fontWeight: 900, letterSpacing: '-0.04em', lineHeight: 1.05, color: 'white', marginBottom: 28 }}>
