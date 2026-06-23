@@ -477,6 +477,9 @@ export const pl = {
         "hero.title1": "Pomagamy firmom usługowym zdobywać ",
         "hero.titleAccent": "więcej leadów",
         "hero.title2": " i automatycznie skracać czas odpowiedzi do 15 sekund",
+        "hero.variant_b.title1": "Zamieniamy ",
+        "hero.variant_b.titleAccent": "pomysły",
+        "hero.variant_b.title2": " w produkty cyfrowe",
         "hero.subtitle": "Wdrażamy strony sprzedażowe, systemy automatyzacji follow-up oraz inteligentnych agentów AI, którzy przejmują do 80% powtarzalnych zapytań. Przestań tracić klientów na rzecz szybszej konkurencji i odzyskaj dziesiątki godzin miesięcznie.",
         "hero.cta1": "Sprawdź, jak pomożemy Twojej firmie",
         "hero.cta2": "Umów darmową analizę procesów",
@@ -546,6 +549,21 @@ export const pl = {
         "services.ai.what.desc": "Agenta AI wyszkolonego na procedurach Twojej firmy, zintegrowanego z czatem, WhatsAppem lub skrzynką e-mail.",
         "services.ai.effect": "Główny efekt:",
         "services.ai.effect.desc": "Natychmiastowa obsługa zapytań i odciążenie zespołu o 80% przy zerowych błędach.",
+
+        "services.shop.title": "Automatyzacja E-commerce",
+        "services.shop.desc": "Projektujemy i wdrażamy automatyczne systemy obsługi zamówień, zaawansowane rekomendacje produktowe AI oraz spersonalizowany marketing posprzedażowy.",
+        "services.shop.tag1": "Sklep + procesy",
+        "services.shop.tag2": "Automatyzacje",
+
+        "services.mvp.title": "Dedykowane MVP i aplikacje",
+        "services.mvp.desc": "Budujemy dashboardy, panele klienta, dedykowane narzędzia wewnętrzne oraz prototypy aplikacji SaaS zintegrowane z funkcjami AI.",
+        "services.mvp.tag1": "Szybkie wdrożenie",
+        "services.mvp.tag2": "Aplikacje webowe",
+
+        "services.audit.title": "Audyt wdrożenia AI & procesów",
+        "services.audit.desc": "Analizujemy operacje, dane i narzędzia w Twojej firmie, identyfikujemy Quick Wins oraz przygotowujemy priorytety i gotową mapę drogową wdrożenia AI.",
+        "services.audit.tag1": "Quick Wins",
+        "services.audit.tag2": "Mapa drogowa",
 
         // Case Studies
         "cases.label": "Efekty w liczbach",

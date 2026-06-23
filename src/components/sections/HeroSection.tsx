@@ -3,6 +3,8 @@
 import React, { useState, useEffect, useCallback } from "react";
 import dynamic from "next/dynamic";
 import { useLanguage } from "@/context/LanguageContext";
+import posthog from "posthog-js";
+import { useFeatureFlagVariantKey } from "posthog-js/react";
 
 const ParticlesBackground = dynamic(() => import('@/components/ParticlesBackground'), { ssr: false });
 const AIAgentDemo = dynamic(() => import('@/components/AIAgentDemo'), { ssr: false });
@@ -12,6 +14,10 @@ export default function HeroSection() {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [serviceParam, setServiceParam] = useState<string | null>(null);
   const [isMobile, setIsMobile] = useState(false);
+
+  // Retrieve the active variant from PostHog
+  const variant = useFeatureFlagVariantKey('homepage-hero-ab-test');
+  const isVariantB = variant === 'test-headline';
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -29,8 +35,19 @@ export default function HeroSection() {
     });
   }, [isMobile]);
 
+  const handleCtaClick = (ctaName: string) => {
+    posthog.capture('hero_cta_clicked', {
+      cta_name: ctaName,
+      variant: variant || 'control'
+    });
+  };
+
   const isValidService = serviceParam && serviceParam !== 'null' && (T(`personalization.${serviceParam}.title`) !== `personalization.${serviceParam}.title`);
   const heroSubtitle = isValidService ? T(`personalization.${serviceParam}.subtitle`) : T('hero.subtitle');
+
+  const title1Key = isVariantB ? 'hero.variant_b.title1' : 'hero.title1';
+  const titleAccentKey = isVariantB ? 'hero.variant_b.titleAccent' : 'hero.titleAccent';
+  const title2Key = isVariantB ? 'hero.variant_b.title2' : 'hero.title2';
 
   return (
     <section
@@ -58,9 +75,9 @@ export default function HeroSection() {
             <h1 className="hero-title fade-in-up" style={{ animationDelay: '0.1s', marginBottom: '24px', lineHeight: 1.15, fontSize: 'clamp(2.4rem, 4.8vw, 3.8rem)', letterSpacing: '-0.03em', fontWeight: 800, color: '#ffffff' }}>
               {isValidService ? T(`personalization.${serviceParam}.title`) : (
                 <>
-                  <span style={{ fontWeight: 400, color: 'rgba(255,255,255,0.85)' }}>{T('hero.title1')}</span> <br />
-                  <span className="premium-text-gradient font-extrabold" style={{ display: 'inline-block', margin: '4px 0' }}>{T('hero.titleAccent')}</span> <br />
-                  <span style={{ fontWeight: 700 }}>{T('hero.title2')}</span>
+                  <span style={{ fontWeight: 400, color: 'rgba(255,255,255,0.85)' }}>{T(title1Key)}</span> <br />
+                  <span className="premium-text-gradient font-extrabold" style={{ display: 'inline-block', margin: '4px 0' }}>{T(titleAccentKey)}</span> <br />
+                  <span style={{ fontWeight: 700 }}>{T(title2Key)}</span>
                 </>
               )}
             </h1>
@@ -70,10 +87,10 @@ export default function HeroSection() {
             </p>
 
             <div className="hero-actions fade-in-up" style={{ animationDelay: '0.3s', display: 'flex', gap: '14px', flexWrap: 'wrap', justifyContent: 'center' }}>
-              <a href="#services" className="btn-primary">
+              <a href="#services" className="btn-primary" onClick={() => handleCtaClick('explore_services')}>
                   {T('hero.cta1')}
               </a>
-              <a href="#contact" className="btn-secondary">
+              <a href="#contact" className="btn-secondary" onClick={() => handleCtaClick('book_analysis')}>
                   {T('hero.cta2')}
               </a>
             </div>
