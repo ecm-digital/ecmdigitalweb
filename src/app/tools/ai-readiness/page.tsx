@@ -383,6 +383,7 @@ export default function AIReadinessAuditPage() {
 
   // Results & Loading
   const [scorePercentage, setScorePercentage] = useState(0);
+  const [animatedScore, setAnimatedScore] = useState(0);
   const [loadingMsgIndex, setLoadingMsgIndex] = useState(0);
   const [report, setReport] = useState<AnalysisResponse | null>(null);
   const [callbackRequested, setCallbackRequested] = useState(false);
@@ -400,6 +401,30 @@ export default function AIReadinessAuditPage() {
     }
     return () => clearInterval(interval);
   }, [step, displayLang]);
+
+  // Animate readiness score on result step activation
+  useEffect(() => {
+    if (step === 'results' && scorePercentage > 0) {
+      setAnimatedScore(0);
+      let start = 0;
+      const duration = 1200; // 1.2s total animation
+      const steps = 60; // 60 updates
+      const increment = scorePercentage / steps;
+      const stepDuration = duration / steps;
+      
+      const timer = setInterval(() => {
+        start += increment;
+        if (start >= scorePercentage) {
+          setAnimatedScore(scorePercentage);
+          clearInterval(timer);
+        } else {
+          setAnimatedScore(Math.round(start));
+        }
+      }, stepDuration);
+      
+      return () => clearInterval(timer);
+    }
+  }, [step, scorePercentage]);
 
   // Calculate score percentage
   const calculateScore = () => {
@@ -610,6 +635,32 @@ export default function AIReadinessAuditPage() {
 
   return (
     <div className="lp-wrapper">
+      <style dangerouslySetInnerHTML={{ __html: `
+        @keyframes fadeInSlideUp {
+          from {
+            opacity: 0;
+            transform: translateY(12px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        .step-transition-container {
+          animation: fadeInSlideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        
+        .option-button-hover {
+          transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+        }
+        .option-button-hover:hover {
+          transform: translateY(-2px);
+          border-color: rgba(59, 130, 246, 0.3) !important;
+          background: rgba(59, 130, 246, 0.03) !important;
+          box-shadow: 0 4px 20px rgba(59, 130, 246, 0.06) !important;
+        }
+      ` }} />
+
       {/* Background glow effects */}
       <div style={{ position: 'absolute', top: '-10%', left: '-10%', width: '400px', height: '400px', background: 'radial-gradient(circle, rgba(59, 130, 246, 0.08) 0%, transparent 70%)', filter: 'blur(100px)', zIndex: 0, pointerEvents: 'none' }} />
       <div style={{ position: 'absolute', bottom: '-10%', right: '-10%', width: '400px', height: '400px', background: 'radial-gradient(circle, rgba(139, 92, 246, 0.08) 0%, transparent 70%)', filter: 'blur(100px)', zIndex: 0, pointerEvents: 'none' }} />
@@ -624,7 +675,7 @@ export default function AIReadinessAuditPage() {
           
           {/* INTRO STEP */}
           {step === 'intro' && (
-            <div style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', maxWidth: '750px', margin: '0 auto', padding: '24px 0' }}>
+            <div className="step-transition-container" style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', maxWidth: '750px', margin: '0 auto', padding: '24px 0' }}>
               <div className="premium-pill" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', marginBottom: '28px', color: '#60a5fa' }}>
                 <Sparkles size={14} style={{ color: '#60a5fa' }} />
                 <span>{isPl ? 'Bezpłatny Audyt AI' : 'Free AI Audit'}</span>
@@ -696,7 +747,7 @@ export default function AIReadinessAuditPage() {
 
           {/* QUESTIONS STEP (WIZARD) */}
           {step === 'questions' && (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '28px' }}>
+            <div className="step-transition-container" style={{ display: 'flex', flexDirection: 'column', gap: '28px' }}>
               {/* Stepper Header */}
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.8rem', color: 'rgba(255,255,255,0.5)', fontWeight: 600, padding: '0 4px' }}>
                 <span className="premium-text-gradient" style={{ textTransform: 'uppercase', letterSpacing: '0.05em' }}>
@@ -735,6 +786,7 @@ export default function AIReadinessAuditPage() {
                       <button
                         key={index}
                         onClick={() => handleSelectOption(opt)}
+                        className="option-button-hover"
                         style={{
                           textAlign: 'left',
                           padding: '20px 24px',
@@ -743,7 +795,6 @@ export default function AIReadinessAuditPage() {
                           background: isSelected ? 'rgba(59, 130, 246, 0.08)' : 'rgba(255,255,255,0.01)',
                           color: isSelected ? '#ffffff' : 'rgba(255,255,255,0.7)',
                           cursor: 'pointer',
-                          transition: 'all 0.2s ease',
                           display: 'flex',
                           alignItems: 'center',
                           gap: '16px',
@@ -790,7 +841,7 @@ export default function AIReadinessAuditPage() {
 
           {/* LEAD CAPTURE STEP */}
           {step === 'lead' && (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '28px', maxWidth: '600px', margin: '0 auto' }}>
+            <div className="step-transition-container" style={{ display: 'flex', flexDirection: 'column', gap: '28px', maxWidth: '600px', margin: '0 auto' }}>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', textAlign: 'center', maxWidth: '500px', margin: '0 auto' }}>
                 <div className="premium-pill" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', alignSelf: 'center', color: '#10b981', background: 'rgba(16, 185, 129, 0.05)', borderColor: 'rgba(16, 185, 129, 0.1)' }}>
                   <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#10b981' }} className="animate-pulse" />
@@ -921,7 +972,7 @@ export default function AIReadinessAuditPage() {
 
           {/* LOADING STEP */}
           {step === 'loading' && (
-            <div className="premium-glass-panel" style={{ padding: '60px 40px', borderRadius: '32px', background: 'rgba(255,255,255,0.02)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '32px', textAlign: 'center', maxWidth: '500px', margin: '0 auto' }}>
+            <div className="step-transition-container premium-glass-panel" style={{ padding: '60px 40px', borderRadius: '32px', background: 'rgba(255,255,255,0.02)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '32px', textAlign: 'center', maxWidth: '500px', margin: '0 auto' }}>
               <div style={{ position: 'relative', width: '80px', height: '80px' }}>
                 <div className="animate-spin" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', borderRadius: '50%', border: '4px solid rgba(59, 130, 246, 0.05)', borderTopColor: '#3b82f6' }} />
                 <Cpu size={32} style={{ position: 'absolute', top: '24px', left: '24px', color: '#a78bfa' }} className="animate-pulse" />
@@ -939,7 +990,7 @@ export default function AIReadinessAuditPage() {
 
           {/* RESULTS STEP */}
           {step === 'results' && report && (
-            <div ref={resultsRef} style={{ display: 'flex', flexDirection: 'column', gap: '48px' }}>
+            <div ref={resultsRef} className="step-transition-container" style={{ display: 'flex', flexDirection: 'column', gap: '48px' }}>
               
               {/* Top Overview Cards */}
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '32px' }}>
@@ -965,9 +1016,9 @@ export default function AIReadinessAuditPage() {
                         stroke="url(#gradientScore)" 
                         strokeWidth="8"
                         strokeDasharray={263.89}
-                        strokeDashoffset={263.89 - (263.89 * scorePercentage) / 100}
+                        strokeDashoffset={263.89 - (263.89 * animatedScore) / 100}
                         strokeLinecap="round"
-                        style={{ transition: 'stroke-dashoffset 1s ease-out' }}
+                        style={{ transition: 'stroke-dashoffset 0.1s ease-out' }}
                       />
                       <defs>
                         <linearGradient id="gradientScore" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -978,7 +1029,7 @@ export default function AIReadinessAuditPage() {
                     </svg>
                     <div style={{ position: 'absolute', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
                       <span style={{ fontSize: '2.5rem', fontWeight: 900, color: 'white' }}>
-                        {scorePercentage}%
+                        {animatedScore}%
                       </span>
                     </div>
                   </div>
