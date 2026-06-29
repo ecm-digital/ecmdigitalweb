@@ -473,7 +473,7 @@ export default function AIReadinessAuditPage() {
       <div style={{ position: 'absolute', top: '-10%', left: '-10%', width: '400px', height: '400px', background: 'radial-gradient(circle, rgba(59, 130, 246, 0.08) 0%, transparent 70%)', filter: 'blur(100px)', zIndex: 0, pointerEvents: 'none' }} />
       <div style={{ position: 'absolute', bottom: '-10%', right: '-10%', width: '400px', height: '400px', background: 'radial-gradient(circle, rgba(139, 92, 246, 0.08) 0%, transparent 70%)', filter: 'blur(100px)', zIndex: 0, pointerEvents: 'none' }} />
 
-      <Navbar />
+      <Navbar minimal />
 
       {/* Spacer to push content below the transparent fixed Navbar */}
       <div style={{ height: '130px', flexShrink: 0 }} />
@@ -631,7 +631,7 @@ export default function AIReadinessAuditPage() {
                     className="btn-secondary"
                     style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '12px 24px', borderRadius: '12px', cursor: 'pointer' }}
                   >
-                    <ArrowLeft size={16} />
+                    <ChevronLeft size={16} />
                     {isPl ? 'Wstecz' : 'Back'}
                   </button>
                   <span style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.4)', fontWeight: 500 }}>
