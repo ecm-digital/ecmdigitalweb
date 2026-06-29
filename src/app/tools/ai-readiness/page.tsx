@@ -475,7 +475,10 @@ export default function AIReadinessAuditPage() {
 
       <Navbar />
 
-      <main className="flex-grow flex items-center justify-center pt-28 pb-16 px-4 z-10">
+      {/* Spacer to push content below the transparent fixed Navbar */}
+      <div className="h-20 md:h-28 flex-shrink-0" />
+
+      <main className="flex-grow flex items-center justify-center pb-16 px-4 z-10">
         <div className="w-full max-w-4xl">
           
           {/* INTRO STEP */}
