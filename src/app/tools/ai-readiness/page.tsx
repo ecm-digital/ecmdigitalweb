@@ -1090,8 +1090,16 @@ export default function AIReadinessAuditPage() {
 
         </div>
       </main>
-
-      <Footer />
+      {/* Minimal Landing Page Footer */}
+      <footer style={{ borderTop: '1px solid rgba(255, 255, 255, 0.05)', padding: '24px 0', textAlign: 'center', fontSize: '0.8rem', color: 'rgba(255, 255, 255, 0.4)', zIndex: 10, position: 'relative' }}>
+        <div className="container" style={{ display: 'flex', flexDirection: 'column', gap: '8px', alignItems: 'center' }}>
+          <div>© {new Date().getFullYear()} ECM Digital. Wszelkie prawa zastrzeżone.</div>
+          <div style={{ display: 'flex', gap: '16px' }}>
+            <a href="/privacy" style={{ color: 'rgba(255, 255, 255, 0.4)', textDecoration: 'underline' }}>{isPl ? 'Polityka Prywatności' : 'Privacy Policy'}</a>
+            <a href="/terms" style={{ color: 'rgba(255, 255, 255, 0.4)', textDecoration: 'underline' }}>{isPl ? 'Regulamin' : 'Terms of Service'}</a>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
