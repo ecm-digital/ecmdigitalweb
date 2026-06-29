@@ -645,7 +645,7 @@ export default function AIReadinessAuditPage() {
               </p>
 
               {/* High-value bullets */}
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '24px', width: '100%', textAlign: 'left', marginBottom: '48px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '24px', width: '100%', textAlign: 'left', marginBottom: '48px' }}>
                 {[
                   {
                     icon: <BarChart2 style={{ color: '#60a5fa' }} size={24} />,
@@ -661,6 +661,11 @@ export default function AIReadinessAuditPage() {
                     icon: <Shield style={{ color: '#34d399' }} size={24} />,
                     title: isPl ? '3 Szybkie Wygrane' : '3 Quick Wins',
                     desc: isPl ? 'Konkretne pomysły automatyzacji, które możesz wdrożyć jutro.' : 'Actionable automation ideas you can deploy in your company tomorrow.'
+                  },
+                  {
+                    icon: <Award style={{ color: '#fb923c' }} size={24} />,
+                    title: isPl ? 'Porównanie rynkowe' : 'Market Benchmark',
+                    desc: isPl ? 'Zobaczysz, jak Twoje przygotowanie wypada na tle konkurencji z branży.' : 'See how your readiness compares against competitors in your sector.'
                   }
                 ].map((item, index) => (
                   <div key={index} className="premium-glass-panel" style={{ padding: '28px', borderRadius: '24px', display: 'flex', flexDirection: 'column', background: 'rgba(255,255,255,0.02)' }}>
