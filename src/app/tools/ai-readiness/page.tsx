@@ -663,6 +663,7 @@ export default function AIReadinessAuditPage() {
             { name: 'firstname', value: firstname },
             { name: 'lastname', value: lastname },
             { name: 'company', value: company || '' },
+            { name: 'phone', value: phone || '' },
             { name: 'message', value: `Selected Service: AI Audit\nMessage: ${leadMessage}` }
           ],
           context: {
@@ -672,14 +673,13 @@ export default function AIReadinessAuditPage() {
           }
         };
 
-        fetch(hsUrl, {
+        const hsRes = await fetch(hsUrl, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(hsPayload),
-        })
-        .then(res => res.json())
-        .then(hsData => console.log('HubSpot client-side response:', hsData))
-        .catch(err => console.error('HubSpot client-side error:', err));
+        });
+        const hsData = await hsRes.json();
+        console.log('HubSpot client-side response:', hsData);
       } catch (hsClientErr) {
         console.error('HubSpot client-side integration exception:', hsClientErr);
       }
@@ -768,6 +768,7 @@ export default function AIReadinessAuditPage() {
             { name: 'firstname', value: firstname },
             { name: 'lastname', value: lastname },
             { name: 'company', value: company || '' },
+            { name: 'phone', value: phone || '' },
             { name: 'message', value: `Selected Service: AI Audit Consultation\nMessage: PILNE: Klient zamówił darmową konsultację bezpośrednio z wyników Audytu AI. Wynik audytu: ${scorePercentage}%.` }
           ],
           context: {
@@ -777,14 +778,13 @@ export default function AIReadinessAuditPage() {
           }
         };
 
-        fetch(hsUrl, {
+        const hsRes = await fetch(hsUrl, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(hsPayload),
-        })
-        .then(res => res.json())
-        .then(hsData => console.log('HubSpot client-side callback response:', hsData))
-        .catch(err => console.error('HubSpot client-side callback error:', err));
+        });
+        const hsData = await hsRes.json();
+        console.log('HubSpot client-side callback response:', hsData);
       } catch (hsClientErr) {
         console.error('HubSpot client-side callback exception:', hsClientErr);
       }
