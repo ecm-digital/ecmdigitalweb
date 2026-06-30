@@ -568,6 +568,26 @@ export default function AIReadinessAuditPage() {
     e.preventDefault();
     if (!name || !email) return;
 
+    // Validate phone number if provided (minimum 7 digits, allowed chars: +, digits, spaces, hyphens)
+    if (phone && phone.trim() !== '') {
+      const digitsOnly = phone.replace(/\D/g, '');
+      if (digitsOnly.length < 7) {
+        alert(isPl 
+          ? 'Podaj prawidłowy numer telefonu (minimum 7 cyfr).' 
+          : 'Please enter a valid phone number (minimum 7 digits).'
+        );
+        return;
+      }
+      const validPhoneRegex = /^[+0-9\s-]+$/;
+      if (!validPhoneRegex.test(phone)) {
+        alert(isPl
+          ? 'Numer telefonu może zawierać tylko cyfry, spacje, myślniki oraz "+".'
+          : 'Phone number can only contain digits, spaces, hyphens, and "+".'
+        );
+        return;
+      }
+    }
+
     calculateScore();
     setStep('loading');
 
@@ -1275,7 +1295,7 @@ export default function AIReadinessAuditPage() {
                           {/* Animated Fill Bar */}
                           <div 
                             style={{ 
-                              width: `${cat.score * ratio}%`, 
+                              width: `${Math.max(4, cat.score) * ratio}%`, 
                               height: '100%', 
                               background: cat.color, 
                               borderRadius: '99px',
