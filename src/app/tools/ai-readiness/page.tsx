@@ -570,21 +570,21 @@ export default function AIReadinessAuditPage() {
 
     // Validate phone number if provided (minimum 7 digits, allowed chars: +, digits, spaces, hyphens)
     if (phone && phone.trim() !== '') {
+      const phoneInput = e.currentTarget.querySelector('input[type="tel"]') as HTMLInputElement;
       const digitsOnly = phone.replace(/\D/g, '');
-      if (digitsOnly.length < 7) {
-        alert(isPl 
-          ? 'Podaj prawidłowy numer telefonu (minimum 7 cyfr).' 
-          : 'Please enter a valid phone number (minimum 7 digits).'
-        );
+      if (digitsOnly.length < 7 || !/^[+0-9\s-]+$/.test(phone)) {
+        if (phoneInput) {
+          phoneInput.setCustomValidity(
+            isPl 
+              ? 'Podaj prawidłowy numer telefonu (minimum 7 cyfr).' 
+              : 'Please enter a valid phone number (minimum 7 digits).'
+          );
+          phoneInput.reportValidity();
+        }
         return;
       }
-      const validPhoneRegex = /^[+0-9\s-]+$/;
-      if (!validPhoneRegex.test(phone)) {
-        alert(isPl
-          ? 'Numer telefonu może zawierać tylko cyfry, spacje, myślniki oraz "+".'
-          : 'Phone number can only contain digits, spaces, hyphens, and "+".'
-        );
-        return;
+      if (phoneInput) {
+        phoneInput.setCustomValidity('');
       }
     }
 
@@ -1010,7 +1010,10 @@ export default function AIReadinessAuditPage() {
                       <input
                         type="tel"
                         value={phone}
-                        onChange={e => setPhone(e.target.value)}
+                        onChange={e => {
+                          setPhone(e.target.value);
+                          e.target.setCustomValidity('');
+                        }}
                         pattern="[+0-9\s-]{9,20}"
                         title={isPl ? 'Podaj prawidłowy numer telefonu (np. +48 500 600 700)' : 'Please enter a valid phone number (e.g. +1 555 123 456)'}
                         style={{ padding: '14px 18px', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.02)', color: 'white', outline: 'none', fontSize: '1rem', width: '100%' }}
