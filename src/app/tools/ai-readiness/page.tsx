@@ -670,7 +670,7 @@ export default function AIReadinessAuditPage() {
           ],
           context: {
             hutk: getHubSpotCookie(),
-            pageUri: 'https://ecmdigital.pl/tools/ai-readiness',
+            pageUri: 'https://www.ecm-digital.com/tools/ai-readiness',
             pageName: typeof document !== 'undefined' ? document.title : 'Bezpłatny Audyt Gotowości AI'
           }
         };
@@ -777,7 +777,7 @@ export default function AIReadinessAuditPage() {
           ],
           context: {
             hutk: getHubSpotCookie(),
-            pageUri: 'https://ecmdigital.pl/tools/ai-readiness',
+            pageUri: 'https://www.ecm-digital.com/tools/ai-readiness',
             pageName: typeof document !== 'undefined' ? document.title : 'Bezpłatny Audyt Gotowości AI'
           }
         };
