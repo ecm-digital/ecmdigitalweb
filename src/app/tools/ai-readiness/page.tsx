@@ -282,15 +282,15 @@ async function generateReportClientSide(answers: any, displayLang: string): Prom
       formattedAnswers += `- **${val.question}**: ${val.answerText} (Ocena: ${val.score}/4)\n`;
     });
 
-    const responseLang = isPl ? 'Polish' : 'English';
-    const prompt = `Jesteś doświadczonym dyrektorem ds. technologii (CTO) i doradcą ds. sztucznej inteligencji w agencji interaktywnej ECM Digital.
+    const prompt = isPl
+      ? `Jesteś doświadczonym dyrektorem ds. technologii (CTO) i doradcą ds. sztucznej inteligencji w agencji interaktywnej ECM Digital.
 Przeanalizuj poniższe odpowiedzi z audytu gotowości AI (AI Readiness Audit) wypełnionego przez firmę i przygotuj spersonalizowaną analizę oraz rekomendacje.
 
 Odpowiedzi firmy:
 ${formattedAnswers}
 
 Wymagania dotyczące odpowiedzi:
-1. Odpowiedz w języku: **${responseLang}**.
+1. Odpowiedz w języku: Polskim.
 2. Zwróć dane w formacie czystego obiektu JSON. Nie dodawaj znaczników markdown \`\`\`json ani innych tekstów przed i po obiekcie JSON.
 3. Obiekt JSON musi mieć następującą strukturę:
 {
@@ -318,7 +318,43 @@ ECM Digital oferuje następujące usługi główne:
 - **Kompleksowy Audyt AI** (analiza przedwdrożeniowa, strategia transformacji)
 
 Upewnij się, że zaproponujesz 2 lub 3 usługi o najwyższym priorytecie (high/medium) powiązane z ich wąskimi gardłami.
-Zwróć TYLKO poprawny obiekt JSON.`;
+Zwróć TYLKO poprawny obiekt JSON.`
+      : `You are an experienced Chief Technology Officer (CTO) and AI Consultant at ECM Digital interactive agency.
+Analyze the following answers from the AI Readiness Audit filled out by a company and prepare a personalized analysis and recommendations.
+
+Company answers:
+${formattedAnswers}
+
+Response requirements:
+1. Answer in the language: English.
+2. Return data strictly in the format of a clean JSON object. Do not include markdown code block formatting (like \`\`\`json) or any additional text before or after the JSON object.
+3. The JSON object must follow this structure:
+{
+  "recommendation": "A detailed, professional assessment of the company's readiness, strengths, and key areas for improvement (around 100-150 words). Reference their answers directly (e.g. data quality or customer service). Write in an expert, motivating tone that offers real business value.",
+  "quickWins": [
+    "Quick Win 1: concrete, easy-to-implement AI/automation action item (e.g. via n8n or simple scripts) that yields immediate results without a high budget.",
+    "Quick Win 2: another specific and easy action item tailored to their business profile.",
+    "Quick Win 3: a third easy action item."
+  ],
+  "suggestedServices": [
+    {
+      "name": "Name of service from ECM Digital portfolio (e.g. AI Agents / Process Automation / Custom Websites & Apps / MVP Prototypes / AI Audit)",
+      "emoji": "Suitable emoji for the service",
+      "reason": "Why this specific service is recommended for them based on their answers.",
+      "priority": "high|medium|low"
+    }
+  ]
+}
+
+ECM Digital offers the following core services:
+- **AI Agents** (customer support automation, virtual assistants, RAG, lead qualification)
+- **Process Automation** (connecting systems via n8n, document flow automation, marketing automation)
+- **Custom Websites & Apps** (high-performance portals, Shopify/Wix e-commerce, modern websites)
+- **MVP Prototypes** (rapid prototyping for startups and innovations)
+- **AI Audit** (pre-implementation analysis, transformation strategy)
+
+Make sure to suggest 2 or 3 services with high/medium priority matching their bottlenecks.
+Return ONLY a valid JSON object.`;
 
     const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${API_KEY}`;
     const apiResponse = await fetch(API_URL, {
@@ -536,21 +572,25 @@ export default function AIReadinessAuditPage() {
     setStep('loading');
 
     try {
-      // 1. Submit answers to backend endpoint (with client-side fallback)
-      let data: AnalysisResponse;
-      try {
-        const response = await fetch('/api/ai/audit', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ answers, lang: displayLang }),
-        });
+      // 1. Submit answers to backend endpoint (with client-side fallback and 2s minimum load time for UX)
+      const [data] = await Promise.all([
+        (async (): Promise<AnalysisResponse> => {
+          try {
+            const response = await fetch('/api/ai/audit', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ answers, lang: displayLang }),
+            });
 
-        if (!response.ok) throw new Error('Failed to generate report');
-        data = (await response.json()) as AnalysisResponse;
-      } catch (backendErr) {
-        console.warn('Backend API failed/404, calling Gemini client-side fallback:', backendErr);
-        data = await generateReportClientSide(answers, displayLang);
-      }
+            if (!response.ok) throw new Error('Failed to generate report');
+            return (await response.json()) as AnalysisResponse;
+          } catch (backendErr) {
+            console.warn('Backend API failed/404, calling Gemini client-side fallback:', backendErr);
+            return await generateReportClientSide(answers, displayLang);
+          }
+        })(),
+        new Promise((resolve) => setTimeout(resolve, 2000))
+      ]);
       setReport(data);
 
       // Calculate final score for lead details
@@ -604,7 +644,7 @@ export default function AIReadinessAuditPage() {
 
       setStep('results');
       setTimeout(() => {
-        resultsRef.current?.scrollIntoView({ behavior: 'smooth' });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       }, 100);
     } catch (err) {
       console.error('Audit submission error:', err);
@@ -817,7 +857,7 @@ export default function AIReadinessAuditPage() {
               </div>
 
               {/* Question Card */}
-              <div className="premium-glass-panel" style={{ padding: 'clamp(24px, 5vw, 44px)', borderRadius: '32px', background: 'rgba(255,255,255,0.02)', display: 'flex', flexDirection: 'column', gap: '32px' }}>
+              <div key={currentQuestionIndex} className="step-transition-container premium-glass-panel" style={{ padding: 'clamp(24px, 5vw, 44px)', borderRadius: '32px', background: 'rgba(255,255,255,0.02)', display: 'flex', flexDirection: 'column', gap: '32px' }}>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                   <h2 style={{ fontSize: 'clamp(1.5rem, 4vw, 2.1rem)', fontWeight: 800, color: 'white', lineHeight: 1.25 }}>
                     {currentQuestion.title[displayLang]}
@@ -873,15 +913,17 @@ export default function AIReadinessAuditPage() {
                 </div>
 
                 {/* Navigation Bar */}
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: '16px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-                  <button
-                    onClick={handleBack}
-                    className="btn-secondary"
-                    style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '12px 24px', borderRadius: '12px', cursor: 'pointer' }}
-                  >
-                    <ChevronLeft size={16} />
-                    {isPl ? 'Wstecz' : 'Back'}
-                  </button>
+                <div style={{ display: 'flex', justifyContent: currentQuestionIndex > 0 ? 'space-between' : 'flex-end', alignItems: 'center', paddingTop: '16px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+                  {currentQuestionIndex > 0 && (
+                    <button
+                      onClick={handleBack}
+                      className="btn-secondary"
+                      style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '12px 24px', borderRadius: '12px', cursor: 'pointer' }}
+                    >
+                      <ChevronLeft size={16} />
+                      {isPl ? 'Wstecz' : 'Back'}
+                    </button>
+                  )}
                   <span style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.4)', fontWeight: 500 }}>
                     {isPl ? 'Odpowiedź automatycznie przejdzie dalej' : 'Selecting an option advances automatically'}
                   </span>
@@ -949,6 +991,8 @@ export default function AIReadinessAuditPage() {
                         type="tel"
                         value={phone}
                         onChange={e => setPhone(e.target.value)}
+                        pattern="[+0-9\s-]{9,20}"
+                        title={isPl ? 'Podaj prawidłowy numer telefonu (np. +48 500 600 700)' : 'Please enter a valid phone number (e.g. +1 555 123 456)'}
                         style={{ padding: '14px 18px', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.02)', color: 'white', outline: 'none', fontSize: '1rem', width: '100%' }}
                         placeholder={isPl ? 'np. +48 500 600 700' : 'e.g. +1 555 123 456'}
                       />
@@ -1088,6 +1132,79 @@ export default function AIReadinessAuditPage() {
                   {/* Badge */}
                   <div className={tier.class} style={{ padding: '8px 18px', borderRadius: '999px', fontSize: '0.78rem', fontWeight: 800, border: '1px solid currentColor' }}>
                     {tier.name}
+                  </div>
+
+                  {/* Social Share Buttons */}
+                  <div style={{ display: 'flex', gap: '10px', marginTop: '20px', alignItems: 'center' }}>
+                    <span style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.4)', fontWeight: 600 }}>
+                      {isPl ? 'Udostępnij wynik:' : 'Share score:'}
+                    </span>
+                    <a
+                      href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent('https://www.ecm-digital.com/tools/ai-readiness')}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      title="Share on LinkedIn"
+                      style={{
+                        width: '28px',
+                        height: '28px',
+                        borderRadius: '50%',
+                        background: 'rgba(255,255,255,0.04)',
+                        border: '1px solid rgba(255,255,255,0.06)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: 'rgba(255,255,255,0.6)',
+                        textDecoration: 'none',
+                        fontSize: '0.75rem',
+                        fontWeight: 800,
+                        transition: 'all 0.2s ease',
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.background = '#0077b5';
+                        e.currentTarget.style.color = '#ffffff';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.background = 'rgba(255,255,255,0.04)';
+                        e.currentTarget.style.color = 'rgba(255,255,255,0.6)';
+                      }}
+                    >
+                      in
+                    </a>
+                    <a
+                      href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(
+                        isPl
+                          ? `Mój wynik gotowości AI to ${animatedScore}%! Sprawdź bezpłatnie gotowość technologiczną swojej firmy w audycie od ECM Digital:`
+                          : `My AI readiness score is ${animatedScore}%! Check your company's technological readiness for free in the ECM Digital audit:`
+                      )}&url=${encodeURIComponent('https://www.ecm-digital.com/tools/ai-readiness')}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      title="Share on X"
+                      style={{
+                        width: '28px',
+                        height: '28px',
+                        borderRadius: '50%',
+                        background: 'rgba(255,255,255,0.04)',
+                        border: '1px solid rgba(255,255,255,0.06)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: 'rgba(255,255,255,0.6)',
+                        textDecoration: 'none',
+                        fontSize: '0.75rem',
+                        fontWeight: 800,
+                        transition: 'all 0.2s ease',
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.background = '#000000';
+                        e.currentTarget.style.color = '#ffffff';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.background = 'rgba(255,255,255,0.04)';
+                        e.currentTarget.style.color = 'rgba(255,255,255,0.6)';
+                      }}
+                    >
+                      𝕏
+                    </a>
                   </div>
                 </div>
 
