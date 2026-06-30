@@ -641,7 +641,50 @@ export default function AIReadinessAuditPage() {
       // 3. Trigger GA Lead Tracking
       trackLead('AI Readiness Audit', 'ai-audit');
 
-      // 4. Trigger n8n Webhook
+      // 4. Trigger HubSpot Forms Submission client-side (to bypass Google Cloud Functions IP spam filter)
+      try {
+        const nameParts = name.trim().split(/\s+/);
+        const firstname = nameParts[0] || '';
+        const lastname = nameParts.slice(1).join(' ') || '';
+
+        const getHubSpotCookie = () => {
+          if (typeof document === 'undefined') return '';
+          const match = document.cookie.match(/hubspotutk=([^;]+)/);
+          return match ? match[1] : '';
+        };
+
+        const hsPortalId = '145940599';
+        const hsFormId = 'fac0d462-6388-49ef-86ea-a34ee139ddb2';
+        const hsUrl = `https://api-eu1.hsforms.com/submissions/v3/integration/submit/${hsPortalId}/${hsFormId}`;
+
+        const hsPayload = {
+          fields: [
+            { name: 'email', value: email },
+            { name: 'firstname', value: firstname },
+            { name: 'lastname', value: lastname },
+            { name: 'company', value: company || '' },
+            { name: 'message', value: `Selected Service: AI Audit\nMessage: ${leadMessage}` }
+          ],
+          context: {
+            hutk: getHubSpotCookie(),
+            pageUri: typeof window !== 'undefined' ? window.location.href : 'https://www.ecm-digital.com/tools/ai-readiness',
+            pageName: typeof document !== 'undefined' ? document.title : 'Bezpłatny Audyt Gotowości AI'
+          }
+        };
+
+        fetch(hsUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(hsPayload),
+        })
+        .then(res => res.json())
+        .then(hsData => console.log('HubSpot client-side response:', hsData))
+        .catch(err => console.error('HubSpot client-side error:', err));
+      } catch (hsClientErr) {
+        console.error('HubSpot client-side integration exception:', hsClientErr);
+      }
+
+      // 5. Trigger n8n Webhook
       const n8nWebhookUrl = 'https://primary-production-4224.up.railway.app/webhook/contact-form';
       fetch(n8nWebhookUrl, {
         method: 'POST',
@@ -702,6 +745,49 @@ export default function AIReadinessAuditPage() {
           language: displayLang,
         }),
       }).catch(console.error);
+
+      // Trigger HubSpot Forms Submission client-side for direct callback request
+      try {
+        const nameParts = name.trim().split(/\s+/);
+        const firstname = nameParts[0] || '';
+        const lastname = nameParts.slice(1).join(' ') || '';
+
+        const getHubSpotCookie = () => {
+          if (typeof document === 'undefined') return '';
+          const match = document.cookie.match(/hubspotutk=([^;]+)/);
+          return match ? match[1] : '';
+        };
+
+        const hsPortalId = '145940599';
+        const hsFormId = 'fac0d462-6388-49ef-86ea-a34ee139ddb2';
+        const hsUrl = `https://api-eu1.hsforms.com/submissions/v3/integration/submit/${hsPortalId}/${hsFormId}`;
+
+        const hsPayload = {
+          fields: [
+            { name: 'email', value: email },
+            { name: 'firstname', value: firstname },
+            { name: 'lastname', value: lastname },
+            { name: 'company', value: company || '' },
+            { name: 'message', value: `Selected Service: AI Audit Consultation\nMessage: PILNE: Klient zamówił darmową konsultację bezpośrednio z wyników Audytu AI. Wynik audytu: ${scorePercentage}%.` }
+          ],
+          context: {
+            hutk: getHubSpotCookie(),
+            pageUri: typeof window !== 'undefined' ? window.location.href : 'https://www.ecm-digital.com/tools/ai-readiness',
+            pageName: typeof document !== 'undefined' ? document.title : 'Bezpłatny Audyt Gotowości AI'
+          }
+        };
+
+        fetch(hsUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(hsPayload),
+        })
+        .then(res => res.json())
+        .then(hsData => console.log('HubSpot client-side callback response:', hsData))
+        .catch(err => console.error('HubSpot client-side callback error:', err));
+      } catch (hsClientErr) {
+        console.error('HubSpot client-side callback exception:', hsClientErr);
+      }
 
       setCallbackRequested(true);
     } catch (e) {
