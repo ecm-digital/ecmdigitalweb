@@ -370,6 +370,57 @@ export default function AIReadinessAuditPage() {
   const isPl = lang === 'pl' || lang === 'szl';
   const displayLang = isPl ? 'pl' : 'en';
 
+  const getCategoryScores = () => {
+    const getScore = (id: string) => answers[id]?.score || 1;
+
+    // 1. Strategia i Wizja: vision, skills, budget, size (4 questions)
+    // Max = 16, Min = 4
+    const strategyPoints = getScore('vision') + getScore('skills') + getScore('budget') + getScore('size');
+    const strategyScore = Math.round(((strategyPoints - 4) / 12) * 100);
+
+    // 2. Dane i Infrastruktura: data, integration, compliance (3 questions)
+    // Max = 12, Min = 3
+    const dataPoints = getScore('data') + getScore('integration') + getScore('compliance');
+    const dataScore = Math.round(((dataPoints - 3) / 9) * 100);
+
+    // 3. Automatyzacja Operacji: automation, processes (2 questions)
+    // Max = 8, Min = 2
+    const operationsPoints = getScore('automation') + getScore('processes');
+    const operationsScore = Math.round(((operationsPoints - 2) / 6) * 100);
+
+    // 4. Obsługa i Kwalifikacja: support, crm (2 questions)
+    // Max = 8, Min = 2
+    const supportPoints = getScore('support') + getScore('crm');
+    const supportScore = Math.round(((supportPoints - 2) / 6) * 100);
+
+    return [
+      {
+        name: isPl ? 'Strategia i Wizja' : 'Strategy & Vision',
+        score: strategyScore,
+        color: '#60a5fa', // Blue
+        desc: isPl ? 'Wizja, budżet i przygotowanie zespołu.' : 'Vision, budget, and team readiness.'
+      },
+      {
+        name: isPl ? 'Dane i Infrastruktura' : 'Data & Infrastructure',
+        score: dataScore,
+        color: '#a78bfa', // Purple
+        desc: isPl ? 'Uporządkowanie danych, integracje API i RODO.' : 'Data structures, integration APIs, and GDPR.'
+      },
+      {
+        name: isPl ? 'Automatyzacja Operacji' : 'Process Automation',
+        score: operationsScore,
+        color: '#34d399', // Green
+        desc: isPl ? 'Jasność procedur i poziom automatyzacji zadań.' : 'Process documentation and automation of daily tasks.'
+      },
+      {
+        name: isPl ? 'Obsługa i Kwalifikacja' : 'Customer Support & Sales',
+        score: supportScore,
+        color: '#fb923c', // Orange
+        desc: isPl ? 'Sposób obsługi zapytań klientów i lej sprzedaży.' : 'Customer support replies and lead funnel.'
+      }
+    ];
+  };
+
   const [step, setStep] = useState<'intro' | 'questions' | 'lead' | 'loading' | 'results'>('intro');
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<string, { question: string; answerText: string; score: number }>>({});
@@ -1058,6 +1109,66 @@ export default function AIReadinessAuditPage() {
                       "{report.recommendation}"
                     </p>
                   </div>
+                </div>
+              </div>
+
+              {/* Category Breakdown (Maturity Profile) */}
+              <div className="premium-glass-panel" style={{ padding: '36px', borderRadius: '28px', display: 'flex', flexDirection: 'column', gap: '28px', background: 'rgba(255,255,255,0.02)' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                  <div style={{ width: '36px', height: '36px', borderRadius: '10px', background: 'rgba(96, 165, 250, 0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid rgba(96, 165, 250, 0.15)', color: '#60a5fa' }}>
+                    <BarChart2 size={16} />
+                  </div>
+                  <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: 'white', margin: 0, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                    {isPl ? 'Profil Dojrzałości Technologicznej' : 'Technology Maturity Profile'}
+                  </h3>
+                </div>
+
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '28px' }}>
+                  {getCategoryScores().map((cat, idx) => {
+                    const ratio = scorePercentage > 0 ? animatedScore / scorePercentage : 0;
+                    
+                    // Determine maturity label based on score
+                    let statusLabel = isPl ? 'Niska dojrzałość' : 'Low maturity';
+                    let statusColor = '#ef4444'; // Red
+                    if (cat.score >= 35 && cat.score < 75) {
+                      statusLabel = isPl ? 'Średnia dojrzałość' : 'Medium maturity';
+                      statusColor = '#f59e0b'; // Amber
+                    } else if (cat.score >= 75) {
+                      statusLabel = isPl ? 'Wysoka dojrzałość' : 'High maturity';
+                      statusColor = '#10b981'; // Green
+                    }
+
+                    return (
+                      <div key={idx} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', gap: '12px' }}>
+                          <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                            <span style={{ fontSize: '1rem', fontWeight: 700, color: 'white' }}>{cat.name}</span>
+                            <span style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.4)', fontWeight: 500 }}>{cat.desc}</span>
+                          </div>
+                          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '4px', flexShrink: 0 }}>
+                            <span style={{ fontSize: '1.15rem', fontWeight: 800, color: cat.color }}>{cat.score}%</span>
+                            <span style={{ fontSize: '0.68rem', fontWeight: 700, color: statusColor, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                              {statusLabel}
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* Progress Bar Track */}
+                        <div style={{ width: '100%', height: '8px', background: 'rgba(255,255,255,0.04)', borderRadius: '99px', overflow: 'hidden' }}>
+                          {/* Animated Fill Bar */}
+                          <div 
+                            style={{ 
+                              width: `${cat.score * ratio}%`, 
+                              height: '100%', 
+                              background: cat.color, 
+                              borderRadius: '99px',
+                              transition: 'width 0.1s ease-out'
+                            }} 
+                          />
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
 
