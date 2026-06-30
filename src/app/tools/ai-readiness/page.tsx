@@ -664,7 +664,9 @@ export default function AIReadinessAuditPage() {
             { name: 'lastname', value: lastname },
             { name: 'company', value: company || '' },
             { name: 'phone', value: phone || '' },
-            { name: 'message', value: `Selected Service: AI Audit\nMessage: ${leadMessage}` }
+            { name: 'message', value: `Selected Service: AI Audit\nMessage: ${leadMessage}` },
+            { name: 'description', value: `Selected Service: AI Audit\nMessage: ${leadMessage}` },
+            { name: 'notes', value: `Selected Service: AI Audit\nMessage: ${leadMessage}` }
           ],
           context: {
             hutk: getHubSpotCookie(),
@@ -769,7 +771,9 @@ export default function AIReadinessAuditPage() {
             { name: 'lastname', value: lastname },
             { name: 'company', value: company || '' },
             { name: 'phone', value: phone || '' },
-            { name: 'message', value: `Selected Service: AI Audit Consultation\nMessage: PILNE: Klient zamówił darmową konsultację bezpośrednio z wyników Audytu AI. Wynik audytu: ${scorePercentage}%.` }
+            { name: 'message', value: `Selected Service: AI Audit Consultation\nMessage: PILNE: Klient zamówił darmową konsultację bezpośrednio z wyników Audytu AI. Wynik audytu: ${scorePercentage}%.` },
+            { name: 'description', value: `Selected Service: AI Audit Consultation\nMessage: PILNE: Klient zamówił darmową konsultację bezpośrednio z wyników Audytu AI. Wynik audytu: ${scorePercentage}%.` },
+            { name: 'notes', value: `Selected Service: AI Audit Consultation\nMessage: PILNE: Klient zamówił darmową konsultację bezpośrednio z wyników Audytu AI. Wynik audytu: ${scorePercentage}%.` }
           ],
           context: {
             hutk: getHubSpotCookie(),
