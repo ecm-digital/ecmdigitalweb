@@ -230,6 +230,42 @@ const statusMessages = {
   ]
 };
 
+const getServiceDetails = (serviceName: string, priority: string, isPl: boolean) => {
+  const nameLower = serviceName.toLowerCase();
+  
+  if (nameLower.includes('automatyza') || nameLower.includes('process') || nameLower.includes('n8n')) {
+    return {
+      time: isPl ? '2 - 3 tygodnie' : '2 - 3 weeks',
+      roi: isPl ? 'Oszczędność do 15 godzin/tydzień na pracownika' : 'Saves up to 15 hours/week per employee',
+      tech: 'n8n, Make, Custom Python Scripts, REST APIs'
+    };
+  } else if (nameLower.includes('agent') || nameLower.includes('chat') || nameLower.includes('bot') || nameLower.includes('wsparcie')) {
+    return {
+      time: isPl ? '3 - 5 tygodni' : '3 - 5 weeks',
+      roi: isPl ? 'Skrócenie czasu odpowiedzi o 85% i obsługa 24/7' : 'Reduces response time by 85% & 24/7 support',
+      tech: 'OpenAI Assistants API, Claude, Pinecone Vector DB, RAG'
+    };
+  } else if (nameLower.includes('audyt') || nameLower.includes('consult') || nameLower.includes('warsztat') || nameLower.includes('audit')) {
+    return {
+      time: isPl ? '1 - 2 tygodnie' : '1 - 2 weeks',
+      roi: isPl ? 'Jasny plan wdrożeń i zlokalizowane oszczędności' : 'Clear roadmap & identified operational savings',
+      tech: 'Analiza procesów biznesowych, modelowanie ROI'
+    };
+  } else if (nameLower.includes('dan') || nameLower.includes('data') || nameLower.includes('base') || nameLower.includes('infrastr')) {
+    return {
+      time: isPl ? '3 - 4 tygodnie' : '3 - 4 weeks',
+      roi: isPl ? 'Zintegrowane i uporządkowane źródła prawdy gotowe pod AI' : 'Clean & unified data source ready for AI analysis',
+      tech: 'PostgreSQL, Vector Embeddings, ETL Sync, LangChain'
+    };
+  } else {
+    return {
+      time: isPl ? '2 - 4 tygodnie' : '2 - 4 weeks',
+      roi: isPl ? 'Redukcja powtarzalnych zadań i szybsze skalowanie' : 'Reduces repetitive task time and scales faster',
+      tech: 'Dedykowane integracje API, customowe modele LLM'
+    };
+  }
+};
+
 async function generateReportClientSide(answers: any, displayLang: string): Promise<AnalysisResponse> {
   const isPl = displayLang === 'pl';
   const API_KEY = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
@@ -475,6 +511,7 @@ export default function AIReadinessAuditPage() {
   const [report, setReport] = useState<AnalysisResponse | null>(null);
   const [callbackRequested, setCallbackRequested] = useState(false);
   const [submittingCallback, setSubmittingCallback] = useState(false);
+  const [expandedServices, setExpandedServices] = useState<Record<number, boolean>>({});
 
   const resultsRef = useRef<HTMLDivElement>(null);
 
@@ -484,7 +521,7 @@ export default function AIReadinessAuditPage() {
     if (step === 'loading') {
       interval = setInterval(() => {
         setLoadingMsgIndex((prev) => (prev + 1) % statusMessages[displayLang].length);
-      }, 1500);
+      }, 800);
     }
     return () => clearInterval(interval);
   }, [step, displayLang]);
@@ -512,6 +549,22 @@ export default function AIReadinessAuditPage() {
       return () => clearInterval(timer);
     }
   }, [step, scorePercentage]);
+
+  // Interactive cursor glow effect helper
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      const wrapper = document.getElementById('ai-readiness-wrapper');
+      if (wrapper) {
+        const rect = wrapper.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        wrapper.style.setProperty('--mouse-x', `${x}px`);
+        wrapper.style.setProperty('--mouse-y', `${y}px`);
+      }
+    };
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
 
   // Calculate score percentage
   const calculateScore = () => {
@@ -609,7 +662,7 @@ export default function AIReadinessAuditPage() {
             return await generateReportClientSide(answers, displayLang);
           }
         })(),
-        new Promise((resolve) => setTimeout(resolve, 2000))
+        new Promise((resolve) => setTimeout(resolve, 4000))
       ]);
       setReport(data);
 
@@ -835,7 +888,7 @@ export default function AIReadinessAuditPage() {
   const progressPercent = Math.round(((currentQuestionIndex) / QUESTIONS.length) * 100);
 
   return (
-    <div className="lp-wrapper">
+    <div id="ai-readiness-wrapper" className="lp-wrapper">
       <style dangerouslySetInnerHTML={{ __html: `
         @keyframes fadeInSlideUp {
           from {
@@ -859,6 +912,22 @@ export default function AIReadinessAuditPage() {
           border-color: rgba(59, 130, 246, 0.3) !important;
           background: rgba(59, 130, 246, 0.03) !important;
           box-shadow: 0 4px 20px rgba(59, 130, 246, 0.06) !important;
+        }
+
+        #ai-readiness-wrapper {
+          position: relative;
+          overflow: hidden;
+        }
+        #ai-readiness-wrapper::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: radial-gradient(600px circle at var(--mouse-x, 0px) var(--mouse-y, 0px), rgba(59, 130, 246, 0.04), transparent 80%);
+          pointer-events: none;
+          z-index: 1;
         }
 
         .navbar-spacer {
@@ -1216,18 +1285,61 @@ export default function AIReadinessAuditPage() {
 
           {/* LOADING STEP */}
           {step === 'loading' && (
-            <div className="step-transition-container premium-glass-panel" style={{ padding: '60px 40px', borderRadius: '32px', background: 'rgba(255,255,255,0.02)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '32px', textAlign: 'center', maxWidth: '500px', margin: '0 auto' }}>
-              <div style={{ position: 'relative', width: '80px', height: '80px' }}>
+            <div className="step-transition-container premium-glass-panel" style={{ padding: '40px 32px', borderRadius: '32px', background: 'rgba(255,255,255,0.02)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '28px', maxWidth: '550px', margin: '0 auto' }}>
+              <div style={{ position: 'relative', width: '70px', height: '70px' }}>
                 <div className="animate-spin" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', borderRadius: '50%', border: '4px solid rgba(59, 130, 246, 0.05)', borderTopColor: '#3b82f6' }} />
-                <Cpu size={32} style={{ position: 'absolute', top: '24px', left: '24px', color: '#a78bfa' }} className="animate-pulse" />
+                <Cpu size={28} style={{ position: 'absolute', top: '21px', left: '21px', color: '#a78bfa' }} className="animate-pulse" />
               </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                <h2 style={{ fontSize: '1.8rem', fontWeight: 800, color: 'white', margin: 0 }}>
-                  {isPl ? 'Analizowanie gotowości AI...' : 'Analyzing AI readiness...'}
+              
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', width: '100%', textAlign: 'center' }}>
+                <h2 style={{ fontSize: '1.5rem', fontWeight: 800, color: 'white', margin: 0 }}>
+                  {isPl ? 'Analizowanie dojrzałości AI...' : 'Analyzing AI readiness...'}
                 </h2>
-                <p style={{ fontSize: '0.95rem', color: 'rgba(255,255,255,0.5)', minHeight: '24px', margin: '8px 0 0' }}>
-                  {statusMessages[displayLang][loadingMsgIndex]}
-                </p>
+                
+                {/* Loader Progress Bar */}
+                <div style={{ width: '100%', height: '6px', background: 'rgba(255,255,255,0.06)', borderRadius: '99px', overflow: 'hidden', marginTop: '12px' }}>
+                  <div 
+                    style={{ 
+                      width: `${Math.round(((loadingMsgIndex + 1) / statusMessages[displayLang].length) * 100)}%`, 
+                      height: '100%', 
+                      background: 'linear-gradient(90deg, #3b82f6, #8b5cf6)', 
+                      transition: 'width 0.3s ease-out' 
+                    }}
+                  />
+                </div>
+              </div>
+
+              {/* Status Messages Checklist */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', width: '100%', background: 'rgba(0,0,0,0.2)', padding: '20px', borderRadius: '20px', border: '1px solid rgba(255,255,255,0.03)' }}>
+                {statusMessages[displayLang].map((msg, idx) => {
+                  const isCompleted = idx < loadingMsgIndex;
+                  const isActive = idx === loadingMsgIndex;
+                  
+                  return (
+                    <div 
+                      key={idx} 
+                      style={{ 
+                        display: 'flex', 
+                        alignItems: 'center', 
+                        gap: '12px', 
+                        fontSize: '0.85rem', 
+                        fontWeight: 500,
+                        color: isCompleted ? 'rgba(255,255,255,0.6)' : isActive ? '#60a5fa' : 'rgba(255,255,255,0.25)',
+                        transition: 'all 0.3s ease',
+                        textAlign: 'left'
+                      }}
+                    >
+                      {isCompleted ? (
+                        <CheckCircle2 size={16} style={{ color: '#34d399', flexShrink: 0 }} />
+                      ) : isActive ? (
+                        <RefreshCw size={14} className="animate-spin" style={{ color: '#3b82f6', flexShrink: 0 }} />
+                      ) : (
+                        <div style={{ width: '14px', height: '14px', borderRadius: '50%', border: '2px solid rgba(255,255,255,0.1)', flexShrink: 0 }} />
+                      )}
+                      <span style={{ textDecoration: isCompleted ? 'line-through' : 'none' }}>{msg}</span>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           )}
@@ -1535,6 +1647,71 @@ export default function AIReadinessAuditPage() {
                           {service.reason}
                         </p>
                       </div>
+
+                      {/* Accordion details */}
+                      {(() => {
+                        const isExpanded = expandedServices[idx];
+                        const details = getServiceDetails(service.name, service.priority, isPl);
+                        return (
+                          <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', marginTop: '4px', borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '16px' }}>
+                            <button
+                              onClick={() => setExpandedServices(prev => ({ ...prev, [idx]: !prev[idx] }))}
+                              style={{
+                                background: 'none',
+                                border: 'none',
+                                padding: 0,
+                                color: '#60a5fa',
+                                fontSize: '0.8rem',
+                                fontWeight: 700,
+                                cursor: 'pointer',
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                gap: '6px',
+                                textAlign: 'left',
+                                width: 'fit-content'
+                              }}
+                            >
+                              <span>{isExpanded ? (isPl ? 'Ukryj szczegóły wdrożenia' : 'Hide implementation details') : (isPl ? 'Pokaż szczegóły wdrożenia' : 'Show implementation details')}</span>
+                              <ChevronRight 
+                                size={12} 
+                                style={{ 
+                                  transform: isExpanded ? 'rotate(90deg)' : 'rotate(0deg)', 
+                                  transition: 'transform 0.2s ease' 
+                                }} 
+                              />
+                            </button>
+
+                            {isExpanded && (
+                              <div className="step-transition-container" style={{ 
+                                display: 'flex', 
+                                flexDirection: 'column', 
+                                gap: '10px', 
+                                background: 'rgba(0,0,0,0.15)', 
+                                padding: '16px', 
+                                borderRadius: '16px', 
+                                border: '1px solid rgba(255,255,255,0.03)',
+                                fontSize: '0.8rem',
+                                color: 'rgba(255,255,255,0.7)',
+                                lineHeight: 1.45,
+                                textAlign: 'left'
+                              }}>
+                                <div>
+                                  <strong style={{ color: 'white' }}>⏱️ {isPl ? 'Czas wdrożenia:' : 'Implementation time:'}</strong>{' '}
+                                  <span>{details.time}</span>
+                                </div>
+                                <div>
+                                  <strong style={{ color: 'white' }}>📈 Prognozowany zwrot (ROI):</strong>{' '}
+                                  <span>{details.roi}</span>
+                                </div>
+                                <div>
+                                  <strong style={{ color: 'white' }}>🛠️ Narzędzia:</strong>{' '}
+                                  <span>{details.tech}</span>
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        );
+                      })()}
 
                       {/* Go to services button link */}
                       <div style={{ borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '16px' }}>
