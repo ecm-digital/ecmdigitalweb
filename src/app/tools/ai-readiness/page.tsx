@@ -860,6 +860,42 @@ export default function AIReadinessAuditPage() {
           background: rgba(59, 130, 246, 0.03) !important;
           box-shadow: 0 4px 20px rgba(59, 130, 246, 0.06) !important;
         }
+
+        .navbar-spacer {
+          height: 130px;
+          transition: height 0.2s ease;
+        }
+
+        @media (max-width: 768px) {
+          .navbar-spacer {
+            height: 90px !important;
+          }
+        }
+
+        @media (max-width: 640px) {
+          .container {
+            padding: 0 16px 48px !important;
+          }
+          .premium-glass-panel {
+            padding: 24px 20px !important;
+          }
+          .hero-title {
+            font-size: 1.85rem !important;
+          }
+          .hero-subtitle {
+            font-size: 0.94rem !important;
+            margin-bottom: 24px !important;
+          }
+          .callback-panel {
+            padding: 32px 20px !important;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .nav-helper-text {
+            display: none !important;
+          }
+        }
       ` }} />
 
       {/* Background glow effects */}
@@ -869,7 +905,7 @@ export default function AIReadinessAuditPage() {
       <Navbar minimal />
 
       {/* Spacer to push content below the transparent fixed Navbar */}
-      <div style={{ height: '130px', flexShrink: 0 }} />
+      <div className="navbar-spacer" style={{ flexShrink: 0 }} />
 
       <main className="container" style={{ padding: '0 24px 80px', display: 'flex', justifyContent: 'center', position: 'relative', zIndex: 10 }}>
         <div style={{ width: '100%', maxWidth: '850px' }}>
@@ -897,7 +933,7 @@ export default function AIReadinessAuditPage() {
               </p>
 
               {/* High-value bullets */}
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '24px', width: '100%', textAlign: 'left', marginBottom: '48px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))', gap: '24px', width: '100%', textAlign: 'left', marginBottom: '48px' }}>
                 {[
                   {
                     icon: <BarChart2 style={{ color: '#60a5fa' }} size={24} />,
@@ -1034,7 +1070,7 @@ export default function AIReadinessAuditPage() {
                       {isPl ? 'Wstecz' : 'Back'}
                     </button>
                   )}
-                  <span style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.4)', fontWeight: 500 }}>
+                  <span className="nav-helper-text" style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.4)', fontWeight: 500 }}>
                     {isPl ? 'Odpowiedź automatycznie przejdzie dalej' : 'Selecting an option advances automatically'}
                   </span>
                 </div>
@@ -1201,7 +1237,7 @@ export default function AIReadinessAuditPage() {
             <div ref={resultsRef} className="step-transition-container" style={{ display: 'flex', flexDirection: 'column', gap: '48px' }}>
               
               {/* Top Overview Cards */}
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '32px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))', gap: '32px' }}>
                 
                 {/* Radial Gauge Card */}
                 <div className="premium-glass-panel" style={{ padding: '32px', borderRadius: '28px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', background: 'rgba(255,255,255,0.02)' }}>
@@ -1353,7 +1389,7 @@ export default function AIReadinessAuditPage() {
                   </h3>
                 </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '28px' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))', gap: '28px' }}>
                   {getCategoryScores().map((cat, idx) => {
                     const ratio = scorePercentage > 0 ? animatedScore / scorePercentage : 0;
                     
@@ -1413,7 +1449,7 @@ export default function AIReadinessAuditPage() {
                   </h3>
                 </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '24px' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 240px), 1fr))', gap: '24px' }}>
                   {report.quickWins.map((win, idx) => (
                     <div 
                       key={idx} 
@@ -1443,7 +1479,7 @@ export default function AIReadinessAuditPage() {
                   </h3>
                 </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '24px' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))', gap: '24px' }}>
                   {report.suggestedServices.map((service, idx) => (
                     <div 
                       key={idx} 
@@ -1517,7 +1553,7 @@ export default function AIReadinessAuditPage() {
 
               {/* Consultation Callback Section */}
               <div 
-                className="premium-glass-panel" 
+                className="premium-glass-panel callback-panel" 
                 style={{
                   background: 'linear-gradient(145deg, rgba(59, 130, 246, 0.08) 0%, rgba(139, 92, 246, 0.03) 100%)',
                   border: '1px solid rgba(59, 130, 246, 0.3)',
