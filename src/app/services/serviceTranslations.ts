@@ -33,6 +33,21 @@ const serviceTranslations: Record<string, Record<string, string>> = {
         'ai-agents.testimonial.author': 'Karol Wiśniewski',
         'ai-agents.testimonial.role': 'Dyrektor Operacyjny, ModaStyles',
 
+        // AI Governance & AgentOps
+        'ai-governance-agentops.title': 'AI Governance & AgentOps Review',
+        'ai-governance-agentops.subtitle': 'Kwartalny przegląd kosztów AI, KPI agentów, bezpieczeństwa i kolejnych priorytetów rozwoju.',
+        'ai-governance-agentops.long': 'Po wdrożeniu AI pomagamy utrzymać kontrolę nad jego rozwojem. Co kwartał analizujemy koszty modeli, skuteczność agentów oraz bezpieczeństwo i uprawnienia. Na tej podstawie przygotowujemy rekomendacje nowych automatyzacji i praktyczny plan rozwoju na kolejne 90 dni. Usługa jest naturalną kontynuacją AI Agent Sprint i AI Operations, świadczoną w modelu abonamentowym.',
+        'ai-governance-agentops.features.1': 'Analiza kosztów modeli AI i wykorzystania zasobów',
+        'ai-governance-agentops.features.2': 'Ocena KPI, jakości odpowiedzi i niezawodności agentów',
+        'ai-governance-agentops.features.3': 'Przegląd bezpieczeństwa, dostępu do danych i uprawnień',
+        'ai-governance-agentops.features.4': 'Rekomendacje nowych automatyzacji według priorytetu',
+        'ai-governance-agentops.features.5': 'Raport ryzyk, decyzji i usprawnień po każdym kwartale',
+        'ai-governance-agentops.features.6': 'Roadmapa rozwoju AI na kolejne 90 dni',
+        'ai-governance-agentops.price': 'abonament — wycena indywidualna',
+        'ai-governance-agentops.testimonial.quote': 'Kwartalny przegląd pozwolił nam ograniczyć niepotrzebne koszty modeli i jasno ustalić, które usprawnienia agentów dają największą wartość biznesową.',
+        'ai-governance-agentops.testimonial.author': 'Dyrektor Operacyjny',
+        'ai-governance-agentops.testimonial.role': 'firma usługowa B2B',
+
         // Websites
         'websites.title': 'Strony i landing pages sprzedażowe',
         'websites.subtitle': 'Projektujemy strony firmowe i landing pages pod kampanie, lead generation, SEO, analitykę i mierzalną konwersję.',
@@ -139,6 +154,21 @@ const serviceTranslations: Record<string, Record<string, string>> = {
         'ai-agents.testimonial.quote': 'Implementing the AI assistant revolutionized our customer service. The chatbot responds in seconds and resolves 70% of tickets without human intervention.',
         'ai-agents.testimonial.author': 'Karol Wisniewski',
         'ai-agents.testimonial.role': 'COO, ModaStyles',
+
+        // AI Governance & AgentOps
+        'ai-governance-agentops.title': 'AI Governance & AgentOps Review',
+        'ai-governance-agentops.subtitle': 'A quarterly review of AI costs, agent KPIs, security, and the next development priorities.',
+        'ai-governance-agentops.long': 'After AI implementation, we help you keep its growth under control. Every quarter we review model costs, agent effectiveness, security, and permissions. Based on the findings, you receive new automation recommendations and a practical 90-day development plan. This subscription service naturally extends AI Agent Sprint and AI Operations.',
+        'ai-governance-agentops.features.1': 'Analysis of AI model costs and resource use',
+        'ai-governance-agentops.features.2': 'Review of agent KPIs, answer quality, and reliability',
+        'ai-governance-agentops.features.3': 'Security, data access, and permissions review',
+        'ai-governance-agentops.features.4': 'Prioritized recommendations for new automations',
+        'ai-governance-agentops.features.5': 'Quarterly report of risks, decisions, and improvements',
+        'ai-governance-agentops.features.6': 'AI development roadmap for the next 90 days',
+        'ai-governance-agentops.price': 'subscription — custom pricing',
+        'ai-governance-agentops.testimonial.quote': 'The quarterly review helped us reduce unnecessary model costs and prioritize the agent improvements with the greatest business value.',
+        'ai-governance-agentops.testimonial.author': 'Operations Director',
+        'ai-governance-agentops.testimonial.role': 'B2B services company',
 
         // Websites
         'websites.title': 'Websites & Sales Landing Pages',
@@ -347,6 +377,21 @@ const serviceTranslations: Record<string, Record<string, string>> = {
         'ai-agents.testimonial.quote': 'La implementación del asistente de IA revolucionó nuestro servicio al cliente. El chatbot responde en segundos y resuelve el 70% de los casos sin intervención humana.',
         'ai-agents.testimonial.author': 'Karol Wiśniewski',
         'ai-agents.testimonial.role': 'COO, ModaStyles',
+
+        // AI Governance & AgentOps
+        'ai-governance-agentops.title': 'AI Governance & AgentOps Review',
+        'ai-governance-agentops.subtitle': 'Vierteljährlicher Review von KI-Kosten, Agenten-KPIs, Sicherheit und den nächsten Entwicklungsprioritäten.',
+        'ai-governance-agentops.long': 'Nach der KI-Einführung helfen wir Ihnen, die Weiterentwicklung unter Kontrolle zu halten. Jedes Quartal prüfen wir Modellkosten, Agentenleistung, Sicherheit und Berechtigungen. Daraus entstehen Empfehlungen für neue Automatisierungen und ein praktischer 90-Tage-Plan. Der Abonnement-Service ergänzt AI Agent Sprint und AI Operations.',
+        'ai-governance-agentops.features.1': 'Analyse von KI-Modellkosten und Ressourcennutzung',
+        'ai-governance-agentops.features.2': 'Prüfung von Agenten-KPIs, Antwortqualität und Zuverlässigkeit',
+        'ai-governance-agentops.features.3': 'Prüfung von Sicherheit, Datenzugriff und Berechtigungen',
+        'ai-governance-agentops.features.4': 'Priorisierte Empfehlungen für neue Automatisierungen',
+        'ai-governance-agentops.features.5': 'Quartalsbericht zu Risiken, Entscheidungen und Verbesserungen',
+        'ai-governance-agentops.features.6': 'KI-Roadmap für die nächsten 90 Tage',
+        'ai-governance-agentops.price': 'Abonnement — individuelle Preisgestaltung',
+        'ai-governance-agentops.testimonial.quote': 'Der quartalsweise Review half uns, unnötige Modellkosten zu reduzieren und die wertvollsten Verbesserungen für unsere Agenten zu priorisieren.',
+        'ai-governance-agentops.testimonial.author': 'Operations Director',
+        'ai-governance-agentops.testimonial.role': 'B2B-Dienstleistungsunternehmen',
 
         // Websites
         'websites.title': 'Sitios Web & Landing Pages de Ventas',

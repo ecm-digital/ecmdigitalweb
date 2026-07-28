@@ -32,6 +32,14 @@ export const services: Record<string, ServiceData> = {
         techs: ['Google Gemini', 'OpenAI', 'LangChain', 'N8N', 'Firebase', 'REST API'],
         price: 'price',
     },
+    'ai-governance-agentops': {
+        slug: 'ai-governance-agentops',
+        icon: '🛡️',
+        gradient: 'linear-gradient(135deg, #8b5cf6, #c084fc)',
+        features: ['features.1', 'features.2', 'features.3', 'features.4', 'features.5', 'features.6'],
+        techs: ['LLM Observability', 'AI Gateway', 'IAM', 'Langfuse', 'OpenTelemetry', 'n8n'],
+        price: 'price',
+    },
     'websites': {
         slug: 'websites',
         icon: '🌐',
