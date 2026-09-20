@@ -82,4 +82,19 @@ export const services: Record<string, ServiceData> = {
     },
 };
 
+export const CORE_SERVICE_KEYS = [
+    'ai-audit',
+    'ai-agent-sprint',
+    'automation',
+    'ai-agents',
+    'ai-growth-partner',
+    'websites',
+    'ecommerce',
+    'mvp'
+];
+
+export const ADDON_SERVICE_KEYS = [
+    'ai-governance-agentops'
+];
+
 export const serviceKeys = Object.keys(services);

@@ -8,37 +8,86 @@ import { trackLead } from '@/lib/ga';
 interface ServiceOption {
   key: string;
   label: string;
-  price: { min: number; max: number };
+  basePrice: number;
   isSubscription?: boolean;
 }
 
+// Canonical catalog (8 core services)
 const SERVICES: ServiceOption[] = [
-  { key: 'ai-agent-sprint', label: 'AI Agent Sprint (14 Days)', price: { min: 9900, max: 14900 } },
-  { key: 'ai-audit', label: 'AI & Process Audit', price: { min: 3900, max: 6000 } },
-  { key: 'automation', label: 'Automation (n8n / API)', price: { min: 3500, max: 9000 } },
-  { key: 'ai-agents', label: 'AI Agents & Chatbots', price: { min: 4500, max: 16000 } },
-  { key: 'ai-growth-partner', label: 'AI Growth Partner (Retainer)', price: { min: 2500, max: 5500 }, isSubscription: true },
-  { key: 'websites', label: 'Websites & Landing Pages', price: { min: 5500, max: 14000 } },
-  { key: 'ecommerce', label: 'E-commerce Automation', price: { min: 5000, max: 15000 } },
-  { key: 'mvp', label: 'MVP Web App with AI', price: { min: 12000, max: 35000 } },
+  { key: 'ai-agent-sprint', label: 'AI Agent Sprint (14 Days)', basePrice: 9900 },
+  { key: 'ai-audit', label: 'AI & Process Audit', basePrice: 3900 },
+  { key: 'automation', label: 'Automation (n8n / API)', basePrice: 3500 },
+  { key: 'ai-agents', label: 'AI Agents & Chatbots', basePrice: 4500 },
+  { key: 'ai-growth-partner', label: 'AI Growth Partner (Retainer)', basePrice: 2500, isSubscription: true },
+  { key: 'websites', label: 'Websites & Landing Pages', basePrice: 5500 },
+  { key: 'ecommerce', label: 'E-commerce Automation', basePrice: 5000 },
+  { key: 'mvp', label: 'MVP Web App with AI', basePrice: 12000 },
 ];
 
+// Exact tiers mapped to KANONICZNA-OFERTA-I-CENNIK-2026.md
+const SERVICE_TIERS: Record<string, {
+  small: { min: number; max: number; label: Record<string, string> };
+  medium: { min: number; max: number; label: Record<string, string> };
+  large: { min: number; max: number; label: Record<string, string> };
+}> = {
+  'ai-agent-sprint': {
+    small: { min: 9900, max: 9900, label: { pl: '1 proces (Standard 14 Dni, Fixed)', en: '1 Process (Standard 14 Days, Fixed)' } },
+    medium: { min: 9900, max: 12500, label: { pl: '1 proces + zaawansowany CRM / API', en: '1 Process + Custom CRM / API' } },
+    large: { min: 12500, max: 15000, label: { pl: 'Złożony proces + SLA hiper-care', en: 'Complex Process + SLA hyper-care' } },
+  },
+  'ai-audit': {
+    small: { min: 3900, max: 4500, label: { pl: 'Audyt Quick-Wins (100% odliczany)', en: 'Quick-Wins Audit (100% deductible)' } },
+    medium: { min: 4500, max: 6000, label: { pl: 'Audyt procesów + struktura RAG', en: 'Process Audit + RAG structure' } },
+    large: { min: 6000, max: 7500, label: { pl: 'Pełny audyt enterprise + roadmapa ROI', en: 'Full Enterprise Audit + ROI roadmap' } },
+  },
+  'automation': {
+    small: { min: 3500, max: 6500, label: { pl: 'Pojedynczy workflow (1-2 tyg.)', en: 'Single workflow (1-2 wks)' } },
+    medium: { min: 6500, max: 12000, label: { pl: 'System 3-5 procesów n8n', en: 'System of 3-5 n8n processes' } },
+    large: { min: 12000, max: 18000, label: { pl: 'Złożona integracja ERP/CRM + webhooki', en: 'Complex ERP/CRM integration + webhooks' } },
+  },
+  'ai-agents': {
+    small: { min: 4500, max: 9000, label: { pl: 'Standard RAG Assistant (2-3 tyg.)', en: 'Standard RAG Assistant (2-3 wks)' } },
+    medium: { min: 9000, max: 16000, label: { pl: 'Agent wielokanałowy (Web, CRM, E-mail)', en: 'Multi-channel Agent (Web, CRM, Email)' } },
+    large: { min: 16000, max: 25000, label: { pl: 'Advanced Multi-Agentic System / VPC', en: 'Advanced Multi-Agentic System / VPC' } },
+  },
+  'ai-growth-partner': {
+    small: { min: 2500, max: 4500, label: { pl: 'Pakiet Standard (monitoring + SLA 24h)', en: 'Standard Package (monitoring + SLA 24h)' } },
+    medium: { min: 5000, max: 7500, label: { pl: 'Pakiet Growth (nowe scenariusze + R&D)', en: 'Growth Package (new scenarios + R&D)' } },
+    large: { min: 7500, max: 12000, label: { pl: 'Pakiet Scale (dedykowany inżynier + AgentOps)', en: 'Scale Package (dedicated engineer + AgentOps)' } },
+  },
+  'websites': {
+    small: { min: 5500, max: 8500, label: { pl: 'High-Converting Sales Landing Page', en: 'High-Converting Sales Landing Page' } },
+    medium: { min: 9000, max: 18000, label: { pl: 'Serwis Firmowy (Corporate Website)', en: 'Corporate Website (Next.js)' } },
+    large: { min: 18000, max: 35000, label: { pl: 'Dedykowany Portal / Web Application', en: 'Custom Portal / Web Application' } },
+  },
+  'ecommerce': {
+    small: { min: 5000, max: 9500, label: { pl: 'Starter Store (Shopify / Baselinker)', en: 'Starter Store (Shopify / Baselinker)' } },
+    medium: { min: 12000, max: 25000, label: { pl: 'Business Scale & Automatyzacje zamówień', en: 'Business Scale & Order Automations' } },
+    large: { min: 25000, max: 60000, label: { pl: 'Enterprise E-commerce (B2B / Headless)', en: 'Enterprise E-commerce (B2B / Headless)' } },
+  },
+  'mvp': {
+    small: { min: 12000, max: 25000, label: { pl: 'Starter MVP (walidacja pomysłu z AI)', en: 'Starter MVP (AI idea validation)' } },
+    medium: { min: 25000, max: 45000, label: { pl: 'Zaawansowane MVP z integracjami i płatnościami', en: 'Advanced MVP with integrations & Stripe' } },
+    large: { min: 45000, max: 60000, label: { pl: 'Skalowane MVP (gotowe na rundę finansowania)', en: 'Scaled MVP (investor-ready platform)' } },
+  },
+};
+
 const scopeLabels: Record<string, Record<string, string>> = {
-  'Small (MVP)': { pl: 'Mały (MVP / Podstawowy)', en: 'Small (MVP / Basic)', de: 'Klein (MVP / Basis)', es: 'Pequeño (MVP / Básico)', szl: 'Mały (MVP)', ar: 'صغير (MVP)' },
-  'Medium (Production)': { pl: 'Średni (Produkcyjny)', en: 'Medium (Production)', de: 'Mittel (Produktion)', es: 'Mediano (Producción)', szl: 'Średni (Produkcyjny)', ar: 'متوسط (إنتاجي)' },
-  'Large (Enterprise)': { pl: 'Duży (Enterprise / Dedykowany)', en: 'Large (Enterprise / Custom)', de: 'Groß (Enterprise / Custom)', es: 'Grande (Enterprise / Custom)', szl: 'Duży (Enterprise)', ar: 'كبير (مؤسسات)' }
+  'Small (MVP)': { pl: 'Podstawowy / Starter', en: 'Starter / MVP', de: 'Basis / MVP', es: 'Básico / MVP', szl: 'Podstawowy / Starter', ar: 'أساسي / MVP' },
+  'Medium (Production)': { pl: 'Średni / Produkcyjny', en: 'Medium / Production', de: 'Mittel / Produktion', es: 'Medio / Producción', szl: 'Średni / Produkcyjny', ar: 'متوسط / إنتاجي' },
+  'Large (Enterprise)': { pl: 'Duży / Enterprise', en: 'Large / Enterprise', de: 'Groß / Enterprise', es: 'Grande / Enterprise', szl: 'Duży / Enterprise', ar: 'كبير / مؤسسات' }
 };
 
 const timelineLabels: Record<string, Record<string, string>> = {
-  'ASAP (1-2 weeks)': { pl: 'Jak najszybciej (1-2 tyg.)', en: 'ASAP (1-2 weeks)', de: 'Schnellstmöglich (1-2 Wochen)', es: 'Lo antes posible (1-2 semanas)', szl: 'Jak nojgibcij (1-2 tyg.)', ar: 'في أسرع وقت ممكن (1-2 أسبوع)' },
-  '1 Month': { pl: '1 miesiąc', en: '1 Month', de: '1 Monat', es: '1 mes', szl: '1 miesiąc', ar: 'شهر واحد' },
-  '2-3 Months': { pl: '2-3 miesiące', en: '2-3 Months', de: '2-3 Monate', es: '2-3 meses', szl: '2-3 miesiące', ar: '2-3 أشهر' },
-  'No deadline': { pl: 'Brak konkretnego terminu', en: 'No deadline', de: 'Keine Frist', es: 'Sin fecha límite', szl: 'Bez terminu', ar: 'لا يوجد موعد نهائي' }
+  'ASAP (1-2 weeks)': { pl: 'Express (1-2 tyg.) [+15%]', en: 'Express (1-2 weeks) [+15%]', de: 'Express (1-2 Wochen) [+15%]', es: 'Express (1-2 semanas) [+15%]', szl: 'Express (1-2 tyg.) [+15%]', ar: 'سريع (1-2 أسبوع) [+15%]' },
+  '1 Month': { pl: 'Standard (1 miesiąc)', en: 'Standard (1 Month)', de: 'Standard (1 Monat)', es: 'Estándar (1 mes)', szl: 'Standard (1 miesiąc)', ar: 'قياسي (شهر واحد)' },
+  '2-3 Months': { pl: 'Elastyczny (2-3 miesiące)', en: 'Flexible (2-3 Months)', de: 'Flexibel (2-3 Monate)', es: 'Flexible (2-3 meses)', szl: 'Elastyczny (2-3 miesiące)', ar: 'مرن (2-3 أشهر)' },
+  'No deadline': { pl: 'Brak limitu czasu [-5% rabat]', en: 'No deadline [-5% discount]', de: 'Keine Frist [-5% Rabatt]', es: 'Sin límite [-5% descuento]', szl: 'Bez terminu [-5% rabat]', ar: 'دون موعد نهائي [-5% خصم]' }
 };
 
 const serviceLabels: Record<string, Record<string, string>> = {
   'ai-agent-sprint': { pl: 'AI Agent Sprint — 14 dni ⭐ (Bestseller)', en: 'AI Agent Sprint — 14 Days ⭐ (Bestseller)', de: 'KI-Agenten-Sprint — 14 Tage ⭐ (Bestseller)', es: 'Sprint de Agente de IA — 14 Días ⭐', szl: 'AI Agent Sprint — 14 dni ⭐', ar: 'سبرنت وكيل الذكاء الاصطناعي — 14 يوماً ⭐' },
-  'ai-audit': { pl: 'Audyt wdrożenia AI & procesów (100% odliczane)', en: 'AI & Process Audit (100% deductible)', de: 'KI- & Prozess-Audit (100% anrechenbar)', es: 'Auditoría de IA y Procesos (100% deducible)', szl: 'Audyt wdrożeniŏ AI & procesōw', ar: 'تدقيق الذكاء الاصطناعي والعمليات' },
+  'ai-audit': { pl: 'Audyt gotowości AI & procesów (100% odliczane)', en: 'AI & Process Audit (100% deductible)', de: 'KI- & Prozess-Audit (100% anrechenbar)', es: 'Auditoría de IA y Procesos (100% deducible)', szl: 'Audyt wdrożeniŏ AI & procesōw', ar: 'تدقيق الذكاء الاصطناعي والعمليات' },
   'automation': { pl: 'Automatyzacje procesów biznesowych (n8n / API)', en: 'Business Process Automation (n8n / API)', de: 'Geschäftsprozessautomatisierung (n8n / API)', es: 'Automatización de Procesos (n8n / API)', szl: 'Automatyzacyje procesōw (n8n / API)', ar: 'أتمتة العمليات التجارية (n8n / API)' },
   'ai-agents': { pl: 'Dedykowani Agenci AI & Chatboty (custom)', en: 'Custom AI Agents & Chatbots', de: 'Maßgeschneiderte KI-Agenten & Chatbots', es: 'Agentes de IA y Chatbots personalizados', szl: 'Dedykowani Agenci AI & Chatboty', ar: 'وكلاء ذكاء اصطناعي مخصصون وأنظمة دردشة' },
   'ai-growth-partner': { pl: 'AI Growth Partner (stały abonament opieki)', en: 'AI Growth Partner (monthly retainer)', de: 'AI Growth Partner (Monats-Abonnement)', es: 'AI Growth Partner (suscripción mensual)', szl: 'AI Growth Partner (abonamynt)', ar: 'شريك نمو الذكاء الاصطناعي (اشتراك شهري)' },
@@ -61,9 +110,43 @@ export default function PricingCalculator() {
 
   const selectedServiceData = SERVICES.find(s => s.key === selectedService);
   const subSuffix = selectedServiceData?.isSubscription ? (lang === 'pl' || lang === 'szl' ? ' / msc' : ' / mo') : '';
-  const estimatedPrice = selectedServiceData
-    ? `${selectedServiceData.price.min.toLocaleString()} - ${selectedServiceData.price.max.toLocaleString()} PLN${subSuffix}`
-    : '';
+
+  // Dynamic Multi-Factor Calculation
+  const calculateEstimate = () => {
+    if (!selectedService) return '';
+    const tiers = SERVICE_TIERS[selectedService];
+    if (!tiers) return '';
+
+    let min = tiers.small.min;
+    let max = tiers.large.max;
+
+    if (scope === 'Small (MVP)') {
+      min = tiers.small.min;
+      max = tiers.small.max;
+    } else if (scope === 'Medium (Production)') {
+      min = tiers.medium.min;
+      max = tiers.medium.max;
+    } else if (scope === 'Large (Enterprise)') {
+      min = tiers.large.min;
+      max = tiers.large.max;
+    }
+
+    // Timeline modifier
+    if (timeline === 'ASAP (1-2 weeks)') {
+      min = Math.round(min * 1.15);
+      max = Math.round(max * 1.15);
+    } else if (timeline === 'No deadline') {
+      min = Math.round(min * 0.95);
+      max = Math.round(max * 0.95);
+    }
+
+    if (min === max) {
+      return `${min.toLocaleString()} PLN${subSuffix}`;
+    }
+    return `${min.toLocaleString()} - ${max.toLocaleString()} PLN${subSuffix}`;
+  };
+
+  const estimatedPrice = calculateEstimate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -86,7 +169,7 @@ export default function PricingCalculator() {
         email,
         company,
         service: selectedService,
-        message: `Pricing Calculator Lead\nScope: ${scope}\nTimeline: ${timeline}\nEstimated Price: ${estimatedPrice}`,
+        message: `Pricing Calculator Lead\nService: ${selectedService}\nScope: ${scope}\nTimeline: ${timeline}\nCalculated Price: ${estimatedPrice}`,
         source: 'Pricing Calculator',
       });
 
@@ -104,8 +187,6 @@ export default function PricingCalculator() {
           language: lang,
         }),
       }).catch(console.error);
-
-
 
       trackLead('PricingCalculator', selectedService);
       setStatus('sent');
@@ -181,7 +262,7 @@ export default function PricingCalculator() {
                     <div>
                       <div style={{ fontWeight: 700, color: 'white', marginBottom: '4px' }}>{serviceLabels[s.key]?.[lang] || s.label}</div>
                       <div style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.6)' }}>
-                        {lang === 'pl' || lang === 'szl' ? 'od' : 'from'} {s.price.min.toLocaleString()} PLN{s.isSubscription ? (lang === 'pl' || lang === 'szl' ? ' / msc' : ' / mo') : ''}
+                        {lang === 'pl' || lang === 'szl' ? 'od' : 'from'} {s.basePrice.toLocaleString()} PLN{s.isSubscription ? (lang === 'pl' || lang === 'szl' ? ' / msc' : ' / mo') : ''}
                       </div>
                     </div>
                   </label>
@@ -206,32 +287,62 @@ export default function PricingCalculator() {
             </h3>
             {step === 2 && (
               <div style={{ display: 'grid', gap: '12px' }}>
-                {['Small (MVP)', 'Medium (Production)', 'Large (Enterprise)'].map((s, idx) => (
-                  <label
-                    key={idx}
-                    style={{
-                      padding: '16px',
-                      borderRadius: '12px',
-                      border: `2px solid ${scope === s ? '#60a5fa' : 'rgba(255,255,255,0.1)'}`,
-                      background: scope === s ? 'rgba(96, 165, 250, 0.1)' : 'rgba(255,255,255,0.02)',
-                      cursor: 'pointer',
-                      transition: 'all 0.2s',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '12px',
-                    }}
-                  >
-                    <input
-                      type="radio"
-                      name="scope"
-                      value={s}
-                      checked={scope === s}
-                      onChange={(e) => setScope(e.target.value)}
-                      style={{ cursor: 'pointer' }}
-                    />
-                    <span style={{ fontWeight: 700, color: 'white' }}>{scopeLabels[s]?.[lang] || s}</span>
-                  </label>
-                ))}
+                {([
+                  { key: 'Small (MVP)', tierKey: 'small' as const },
+                  { key: 'Medium (Production)', tierKey: 'medium' as const },
+                  { key: 'Large (Enterprise)', tierKey: 'large' as const }
+                ]).map((item, idx) => {
+                  const s = item.key;
+                  const tierData = selectedService ? SERVICE_TIERS[selectedService]?.[item.tierKey] : null;
+                  const tierDesc = tierData?.label?.[lang] || tierData?.label?.['pl'] || '';
+                  const tierPrice = tierData
+                    ? (tierData.min === tierData.max
+                      ? `${tierData.min.toLocaleString()} PLN`
+                      : `${tierData.min.toLocaleString()} - ${tierData.max.toLocaleString()} PLN`) + subSuffix
+                    : '';
+
+                  return (
+                    <label
+                      key={idx}
+                      style={{
+                        padding: '16px',
+                        borderRadius: '12px',
+                        border: `2px solid ${scope === s ? '#60a5fa' : 'rgba(255,255,255,0.1)'}`,
+                        background: scope === s ? 'rgba(96, 165, 250, 0.1)' : 'rgba(255,255,255,0.02)',
+                        cursor: 'pointer',
+                        transition: 'all 0.2s',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        gap: '12px',
+                      }}
+                    >
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                        <input
+                          type="radio"
+                          name="scope"
+                          value={s}
+                          checked={scope === s}
+                          onChange={(e) => setScope(e.target.value)}
+                          style={{ cursor: 'pointer' }}
+                        />
+                        <div>
+                          <div style={{ fontWeight: 700, color: 'white' }}>{scopeLabels[s]?.[lang] || s}</div>
+                          {tierDesc && (
+                            <div style={{ fontSize: '0.82rem', color: 'rgba(255,255,255,0.5)', marginTop: '2px' }}>
+                              {tierDesc}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                      {tierPrice && (
+                        <div style={{ fontSize: '0.85rem', fontWeight: 700, color: '#60a5fa', whiteSpace: 'nowrap' }}>
+                          {tierPrice}
+                        </div>
+                      )}
+                    </label>
+                  );
+                })}
               </div>
             )}
             {step > 2 && scope && (
