@@ -4,16 +4,20 @@
 
 Witamy w kompleksowej dokumentacji **ECM Digital** - wiodącej agencji cyfrowej specjalizującej się w tworzeniu nowoczesnych rozwiązań internetowych. Nasza dokumentacja zawiera wszystkie informacje potrzebne do zrozumienia naszej oferty, procesów i możliwości.
 
+> 📘 **Główny dokument oferty:** Przejdź do [**KANONICZNA-OFERTA-I-CENNIK-2026.md**](KANONICZNA-OFERTA-I-CENNIK-2026.md) dla pełnego, wiążącego opisu oferty i cennika.
+
 ## 📋 Spis Treści
 
 ### 🎯 [Oferta Usług](oferta-uslug/README.md)
-Poznaj nasze główne usługi i specjalizacje:
-- **[Strony WWW](oferta-uslug/strony-www/README.md)** - Nowoczesne strony internetowe
-- **[Sklepy Shopify](oferta-uslug/sklepy-shopify/README.md)** - E-commerce na najwyższym poziomie
-- **[Prototypy MVP](oferta-uslug/prototypy-mvp/README.md)** - Szybkie wejście na rynek
-- **[Audyty UX](oferta-uslug/audyty-ux/README.md)** - Optymalizacja doświadczeń użytkowników
-- **[Social Media & Data Science](oferta-uslug/social-media-data-science/README.md)** - Analityka i automatyzacja
-- **[Automatyzacje n8n](oferta-uslug/automatyzacje-n8n/README.md)** - Workflow automation
+Oficjalna drabina wartości (Value Ladder) i specjalizacje:
+- 🔍 **[Audyt Gotowości AI & Procesów](cennik/audyt-ai.md)** - od 3 900 PLN *(100% odliczane)*
+- ⭐ **[AI Agent Sprint — 14 Dni](oferta-uslug/ai-agent-sprint/README.md)** - od 9 900 PLN *(Fixed-Price, Bestseller)*
+- 🔄 **[AI Growth Partner (Abonament)](oferta-uslug/ai-growth-partner/README.md)** - od 2 500 PLN / msc
+- 🤖 **[Dedykowani Asystenci AI & Chatboty](oferta-uslug/asystencja-ai-bedrock/README.md)** - od 4 500 PLN
+- ⚡ **[Automatyzacje n8n & API](oferta-uslug/automatyzacje-n8n/README.md)** - od 3 500 PLN
+- 🌐 **[Strony WWW & Landing Pages](oferta-uslug/strony-www/README.md)** - od 5 500 PLN
+- 🛒 **[E-commerce & Sklepy Shopify](oferta-uslug/sklepy-shopify/README.md)** - od 5 000 PLN
+- 🚀 **[Prototypy MVP & Aplikacje Webowe](oferta-uslug/prototypy-mvp/README.md)** - od 12 000 PLN
 
 ### 📂 [Portfolio](portfolio-case-studies/README.md)
 Przykłady naszych realizacji z mierzalnymi rezultatami:
@@ -24,18 +28,22 @@ Przykłady naszych realizacji z mierzalnymi rezultatami:
 
 ### 🔄 [Proces Współpracy](proces-wspolpracy/README.md)
 Jak przebiega współpraca z ECM Digital:
-- Metodologia Agile i Design Thinking
-- Transparentny proces realizacji
+- Metodologia Agile i 14-dniowe sprinty
+- Transparentny proces w The Portal z wglądem na żywo
 - Regularne aktualizacje i feedback
-- Wsparcie po wdrożeniu
+- Stałe wsparcie w modelu AI Growth Partner
 
-### 💰 [Cennik](cennik/)
-Przejrzyste modele wyceny:
-- **[Strony WWW](cennik/strony-www.md)** - od 3,500 PLN
-- **[Sklepy Shopify](cennik/sklepy-shopify.md)** - od 4,500 PLN
-- **[Prototypy MVP](cennik/prototypy-mvp.md)** - od 25,000 PLN
-- **[Audyty UX](cennik/audyty-ux.md)** - od 3,500 PLN
-- **[🧮 Kalkulator Wyceny](cennik/kalkulator.html)** - Oszacuj koszt online
+### 💰 [Cennik](cennik/README.md)
+Przejrzyste, zsynchronizowane z produkcją modele wyceny:
+- **[📘 Kanoniczny Cennik 2026](KANONICZNA-OFERTA-I-CENNIK-2026.md)** - Pojedyncze źródło prawdy
+- **[AI Agent Sprint — 14 Dni](cennik/ai-agent-sprint.md)** - od 9 900 PLN
+- **[Audyt Gotowości AI](cennik/audyt-ai.md)** - od 3 900 PLN *(100% odliczane)*
+- **[AI Growth Partner](cennik/ai-growth-partner.md)** - od 2 500 PLN / msc
+- **[Strony WWW](cennik/strony-www.md)** - od 5 500 PLN
+- **[Sklepy Shopify](cennik/sklepy-shopify.md)** - od 5 000 PLN
+- **[Automatyzacje n8n](cennik/automatyzacje-n8n.md)** - od 3 500 PLN
+- **[Prototypy MVP](cennik/prototypy-mvp.md)** - od 12 000 PLN
+- **[🧮 Kalkulator Wyceny Online](https://www.ecm-digital.com/wycena)** - Interaktywne szacowanie kosztów
 
 ### 👥 [Zespół](zespol/README.md)
 Poznaj naszych ekspertów:

@@ -1,8 +1,14 @@
 # Oferta Usług ECM Digital
 
+> 📘 **Dokument nadrzędny:** Zobacz [**KANONICZNA-OFERTA-I-CENNIK-2026.md**](../KANONICZNA-OFERTA-I-CENNIK-2026.md) dla oficjalnej drabiny wartości, stawek i matrycy decyzyjnej.
+
 ## Wprowadzenie
 
-ECM Digital to nowoczesna agencja interaktywna specjalizująca się w dostarczaniu kompleksowych rozwiązań cyfrowych dla biznesu. Nasze usługi obejmują projektowanie i implementację stron internetowych, sklepów na platformie Shopify, prototypów MVP aplikacji oraz przeprowadzanie profesjonalnych audytów UX. Dzięki wieloletniemu doświadczeniu i zespołowi ekspertów, pomagamy naszym klientom osiągać cele biznesowe poprzez efektywne wykorzystanie technologii cyfrowych.
+ECM Digital to wiodąca agencja **AI & Digital Systems** na 2026 rok. Pomagamy firmom w automatyzacji powtarzalnych procesów, wdrażaniu autonomicznych Agentów AI i budowie skalowalnych platform cyfrowych w oparciu o 4 filary wartości (Value Ladder):
+1. **Audyt Gotowości AI & Procesów** (od 3 900 PLN, 100% odliczane od wdrożenia)
+2. **AI Agent Sprint — 14 Dni ⭐** (od 9 900 PLN, Bestseller Fixed-Price)
+3. **Dedykowane Systemy & Automatyzacje** (Next.js, n8n, headless e-commerce, MVP)
+4. **AI Growth Partner** (Abonament R&D i utrzymania od 2 500 PLN / msc)
 
 Naszą misją jest tworzenie rozwiązań, które nie tylko wyglądają atrakcyjnie, ale przede wszystkim realizują konkretne cele biznesowe - zwiększają konwersję, poprawiają doświadczenia użytkowników i budują przewagę konkurencyjną. Każdy projekt traktujemy indywidualnie, dostosowując nasze podejście do specyficznych potrzeb i wyzwań klienta.
 

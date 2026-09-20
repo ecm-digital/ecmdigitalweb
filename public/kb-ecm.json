@@ -1,7 +1,33 @@
 {
     "agency": {
         "name": "ECM Digital",
-        "description": "Wiodąca agencja cyfrowa specjalizująca się w nowoczesnych rozwiązaniach internetowych, AI i automatyzacji.",
+        "description": "Wiodąca agencja AI & Digital Systems 2026. Specjalizujemy się w zwinnych wdrożeniach Agentów AI, automatyzacji procesów (n8n), platformach Next.js i stałym partnerstwie technologicznym.",
+        "value_ladder": [
+            {
+                "pillar": 1,
+                "name": "Audyt Gotowości AI & Procesów",
+                "price": "od 3 900 PLN",
+                "key_benefit": "100% odliczane od kosztu wdrożenia kolejnego etapu. Identyfikacja wąskich gardeł i 90-dniowa roadmapa."
+            },
+            {
+                "pillar": 2,
+                "name": "AI Agent Sprint — 14 Dni ⭐",
+                "price": "od 9 900 PLN (Fixed Price)",
+                "key_benefit": "Bestseller. Działający autonomiczny agent w 14 dni, integracja z CRM i dashboard KPI."
+            },
+            {
+                "pillar": 3,
+                "name": "Dedykowane Systemy & Automatyzacje",
+                "price": "od 3 500 do 12 000+ PLN",
+                "key_benefit": "n8n, Next.js, headless e-commerce, MVP aplikacji webowych i zaawansowane chatboty."
+            },
+            {
+                "pillar": 4,
+                "name": "AI Growth Partner",
+                "price": "od 2 500 PLN / msc",
+                "key_benefit": "Stały retainer, SLA, monitoring, aktualizacje pod nowe LLM i ciągły rozwój procesów."
+            }
+        ],
         "stats": {
             "projects": "150+",
             "satisfaction": "98%",
@@ -17,186 +43,190 @@
     },
     "services": [
         {
-            "name": "Strony WWW",
-            "description": "Responsywne, szybkie, SEO-friendly strony internetowe.",
+            "name": "AI Agent Sprint — 14 Dni ⭐",
+            "slug": "ai-agent-sprint",
+            "badge": "Bestseller",
+            "price": "od 9 900 PLN",
+            "description": "Szybkie, mierzalne wdrożenie autonomicznego agenta AI zintegrowanego z CRM i dashboardem KPI.",
             "packages": [
                 {
-                    "name": "BASIC (Landing Page)",
-                    "price": "3,500 - 6,000 PLN",
+                    "name": "Sprint 14 Dni",
+                    "price": "9 900 - 15 000 PLN",
+                    "time": "14 dni (2 tygodnie)",
+                    "features": [
+                        "Audyt procesu i wybór najbardziej rentownego use-case",
+                        "Projekt architektury, persony i logiki decyzyjnej agenta",
+                        "Budowa scenariusza w n8n / chmurze",
+                        "Integracja dwukierunkowa z CRM (HubSpot, Pipedrive, Salesforce)",
+                        "Dashboard KPI do śledzenia skuteczności w czasie rzeczywistym",
+                        "Przekazanie bazy wiedzy, procedur i pełnych praw majątkowych"
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Audyt Gotowości AI & Procesów",
+            "slug": "ai-audit",
+            "price": "od 3 900 PLN (100% odliczane)",
+            "description": "Diagnoza infrastruktury, mapowanie procesów i roadmapa wdrożeń AI.",
+            "packages": [
+                {
+                    "name": "Audyt Procesowy & AI",
+                    "price": "3 900 - 7 500 PLN",
+                    "time": "1-2 tygodnie",
+                    "features": [
+                        "Analiza procesów operacyjnych i wąskich gardeł w firmie",
+                        "Weryfikacja jakości i dostępności danych pod modele AI",
+                        "Identyfikacja 3-5 quick-winów o najwyższym ROI",
+                        "Praktyczna 90-dniowa roadmapa wdrożenia",
+                        "Gwarancja: 100% kwoty audytu odliczane przy wdrożeniu projektu"
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "AI Growth Partner (Abonament)",
+            "slug": "ai-growth-partner",
+            "price": "od 2 500 PLN / msc",
+            "description": "Stała opieka techniczna, monitoring, aktualizacje pod nowe LLM i ciągły rozwój agentów.",
+            "packages": [
+                {
+                    "name": "STANDARD",
+                    "price": "2 500 - 4 500 PLN / msc",
+                    "features": [
+                        "Aktywny monitoring wdrożonych agentów AI",
+                        "Optymalizacja promptów pod nowe modele",
+                        "Aktualizacja wektorowej bazy wiedzy (RAG)",
+                        "Wsparcie techniczne SLA (reakcja do 24h)"
+                    ]
+                },
+                {
+                    "name": "GROWTH & SCALE",
+                    "price": "5 000 - 9 000 PLN / msc",
+                    "features": [
+                        "Wszystko z pakietu Standard",
+                        "Nowe automatyzacje n8n dodawane co miesiąc",
+                        "Priorytetowe SLA z dedykowanym inżynierem AI",
+                        "Miesięczny raport oszczędności, kosztów API i ROI",
+                        "R&D i testowanie najnowszych modeli AI"
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Dedykowani Asystenci AI & Chatboty",
+            "slug": "ai-agents",
+            "price": "od 4 500 PLN",
+            "description": "Inteligentni asystenci pracujący na firmowej bazie wiedzy, CRM i procedurach wewnętrznych.",
+            "packages": [
+                {
+                    "name": "RAG Chatbot",
+                    "price": "4 500 - 9 000 PLN",
                     "time": "2-3 tygodnie"
                 },
                 {
-                    "name": "STANDARD (Firmowa)",
-                    "price": "8,000 - 15,000 PLN",
-                    "time": "4-6 tygodnie"
-                },
-                {
-                    "name": "PREMIUM (Portal)",
-                    "price": "20,000 - 50,000 PLN",
-                    "time": "8-12 tygodnie"
+                    "name": "Advanced Agentic System",
+                    "price": "10 000 - 25 000 PLN",
+                    "time": "3-5 tygodni"
                 }
             ]
         },
         {
-            "name": "Sklepy Shopify & Wix",
-            "description": "Profesjonalne platformy e-commerce z pełnym wsparciem.",
+            "name": "Automatyzacje Procesów (n8n / API)",
+            "slug": "automation",
+            "price": "od 3 500 PLN",
+            "description": "Stabilne workflowy łączące CRM, ERP, mailing, arkusze i bazy danych bez pracy ręcznej.",
             "packages": [
                 {
-                    "name": "STARTER",
-                    "price": "4,500 - 8,000 PLN",
-                    "time": "2-3 tygodnie",
-                    "features": [
-                        "Customizacja gotowego szablonu (Logo, Kolory, Typografia)",
-                        "Podstawowa konfiguracja sklepu (Płatności, Wysyłka)",
-                        "Import do 50 produktów",
-                        "Podstawowe SEO",
-                        "Optymalizacja mobilna",
-                        "Szkolenie z obsługi panelu"
-                    ]
+                    "name": "Pojedynczy Workflow",
+                    "price": "3 500 - 6 500 PLN",
+                    "time": "1-2 tygodnie"
                 },
                 {
-                    "name": "BUSINESS",
-                    "price": "12,000 - 22,000 PLN",
-                    "time": "4-6 tygodnie",
-                    "features": [
-                        "Dedykowany projekt UI/UX (Landing + Produkty)",
-                        "Rozbudowane funkcje filtrowania i nawigacji",
-                        "Integracja z systemem logistycznym (InPost/DPD)",
-                        "Integracja z bramką płatności (PayU/P24)",
-                        "Import do 500 produktów",
-                        "Zaawansowana analityka (GA4/GTM)"
-                    ]
-                },
-                {
-                    "name": "ENTERPRISE",
-                    "price": "25,000 - 60,000 PLN",
-                    "time": "8-12 tygodnie",
-                    "features": [
-                        "Pełny Custom Design od zera",
-                        "Integracja z ERP (Baselinker/Comarch/Subiekt)",
-                        "Funkcje B2B i cenniki hurtowe",
-                        "Systemy subskrypcyjne",
-                        "Wielojęzyczność i multiship",
-                        "Pełna optymalizacja wydajnościowa"
-                    ]
+                    "name": "Kompleksowy System",
+                    "price": "8 000 - 18 000 PLN",
+                    "time": "3-5 tygodni"
                 }
             ]
         },
         {
-            "name": "Prototypy MVP",
-            "description": "Szybka walidacja pomysłów biznesowych przed pełnym wdrożeniem.",
+            "name": "Strony WWW & Landing Pages",
+            "slug": "websites",
+            "price": "od 5 500 PLN",
+            "description": "Nowoczesne, zoptymalizowane pod konwersję i SEO serwisy w Next.js i Tailwind CSS.",
             "packages": [
                 {
-                    "name": "STARTER",
-                    "price": "25,000 - 40,000 PLN",
-                    "time": "4-5 tygodnie"
+                    "name": "High-Converting Landing Page",
+                    "price": "5 500 - 8 500 PLN",
+                    "time": "2-3 tygodnie"
                 },
                 {
-                    "name": "BUSINESS",
-                    "price": "50,000 - 80,000 PLN",
-                    "time": "6-8 tygodnie"
+                    "name": "Strona Firmowa (Corporate)",
+                    "price": "9 000 - 18 000 PLN",
+                    "time": "3-5 tygodni"
                 },
                 {
-                    "name": "ENTERPRISE",
-                    "price": "100,000 - 200,000 PLN",
-                    "time": "8-12 tygodnie"
+                    "name": "Portal / Serwis Dedykowany",
+                    "price": "18 000 - 35 000 PLN",
+                    "time": "5-8 tygodni"
                 }
             ]
         },
         {
-            "name": "Softwaryzacja & Automatyzacja",
-            "description": "Łączymy dedykowane oprogramowanie z automatyzacją AI. Budujemy narzędzia, które oszczędzają czas i eliminują błędy. Model 80/20 (Software/AI).",
+            "name": "E-commerce & Sklepy Internetowe",
+            "slug": "ecommerce",
+            "price": "od 5 000 PLN",
+            "description": "Profesjonalne platformy sprzedażowe (Shopify, WooCommerce, Baselinker) z automatyzacją zamówień.",
             "packages": [
                 {
-                    "name": "Workflow",
-                    "price": "2,500 PLN",
-                    "time": "Zależnie od złożoności",
-                    "features": [
-                        "Pojedyncza automatyzacja",
-                        "Analiza procesu",
-                        "Budowa scenariusza n8n/Make",
-                        "Testy i wdrożenie"
-                    ]
+                    "name": "Starter Store",
+                    "price": "5 000 - 9 500 PLN",
+                    "time": "2-3 tygodnie"
                 },
                 {
-                    "name": "System",
-                    "price": "od 15,000 PLN",
-                    "time": "Wycena Indywidualna",
-                    "features": [
-                        "Dedykowane narzędzie",
-                        "Własny Frontend",
-                        "Backend integracyjny",
-                        "Agenty AI",
-                        "On-premise"
-                    ]
-                }
-            ]
-        },
-        {
-            "name": "AI Executive",
-            "description": "Twój osobisty, cyfrowy doradca. Prywatna instancja AI z pełnym kontekstem Twojej firmy - dostępna 24/7 dla wsparcia kluczowych decyzji.",
-            "packages": [
-                {
-                    "name": "Enterprise",
-                    "price": "Wycena Indywidualna",
-                    "time": "Zależnie od integracji",
-                    "features": [
-                        "Prywatna instancja LLM",
-                        "Pełne szyfrowanie danych",
-                        "Integracja z ERP/CRM/Slack",
-                        "Custom Knowledge Base"
-                    ]
-                }
-            ]
-        },
-        {
-            "name": "Edukacja i Wdrożenia AI",
-            "description": "Praktyczne szkolenia z AI i warsztaty dla firm. Wsparcie liderów i zespołów w adopcji technologii i zarządzaniu zmianą.",
-            "packages": [
-                {
-                    "name": "Warsztat",
-                    "price": "3,500 PLN",
-                    "time": "Jednodniowe szkolenie (do 10 os.)",
-                    "features": [
-                        "Wstęp do Generative AI",
-                        "Prompt Engineering",
-                        "Praktyczne ćwiczenia",
-                        "Materiały szkoleniowe PDF"
-                    ]
+                    "name": "Scale Store & Integracje",
+                    "price": "12 000 - 25 000 PLN",
+                    "time": "4-6 tygodni"
                 },
                 {
-                    "name": "Akademia",
-                    "price": "12,000 PLN",
-                    "time": "Cykl wdrożeniowy (1 miesiąc)",
-                    "features": [
-                        "4 spotkania warsztatowe",
-                        "Analiza use-cases w firmie",
-                        "Konsultacje 1:1 dla liderów",
-                        "Monitoring postępów"
-                    ]
+                    "name": "Enterprise E-commerce",
+                    "price": "25 000 - 60 000 PLN",
+                    "time": "6-10 tygodni"
                 }
             ]
         },
         {
-            "name": "Audyty UX",
-            "description": "Optymalizacja ścieżek zakupowych i doświadczeń użytkownika.",
-            "price": "od 3,500 PLN"
+            "name": "Prototypy MVP & Aplikacje Webowe",
+            "slug": "mvp",
+            "price": "od 12 000 PLN",
+            "description": "Szybka budowa działającego produktu cyfrowego z AI, logowaniem i płatnościami.",
+            "packages": [
+                {
+                    "name": "Starter MVP",
+                    "price": "12 000 - 25 000 PLN",
+                    "time": "3-4 tygodnie"
+                },
+                {
+                    "name": "Skalowane MVP",
+                    "price": "25 000 - 60 000 PLN",
+                    "time": "5-8 tygodni"
+                }
+            ]
         }
     ],
     "tech_stack": [
-        "Frontend: React, Next.js, Vue.js, Tailwind CSS",
-        "Backend: Node.js, Python, PHP, Firebase",
-        "Mobile: React Native, Flutter, PWA",
-        "Cloud: AWS, Google Cloud, Amazon Bedrock",
-        "Automatyzacja: n8n, Zapier, Custom scripts"
+        "Frontend: React, Next.js 14, TypeScript, Tailwind CSS",
+        "Backend & DB: Firebase (Firestore, Auth, Functions), Node.js, PostgreSQL",
+        "AI & LLM: Google Gemini, OpenAI, Claude, Langfuse, RAG / Vector Stores",
+        "Automatyzacja: n8n, Make, Custom API Webhooks",
+        "Integracje: HubSpot, Pipedrive, Baselinker, Stripe, InPost"
     ],
     "process": [
-        "Briefing i analiza potrzeb",
-        "Warsztaty strategiczne i Discovery",
-        "Projekt UX/UI i prototypowanie",
-        "Zwinna implementacja (Agile/Scrum)",
-        "Testy funkcjonalne i QA",
-        "Wdrożenie i szkolenie zespołu",
-        "Wsparcie techniczne i optymalizacja po-wdrożeniowa"
+        "1. Diagnoza & Audyt — analiza procesów, wybór quick-winów",
+        "2. Architektura & Strategia — KPI, schematy integracji, roadmapa",
+        "3. Zwinna Implementacja — 14-dniowe sprinty z wglądem na żywo",
+        "4. Testy QA & Pomiary — walidacja skuteczności, kalibracja promptów",
+        "5. Wdrożenie & Baza Wiedzy — przekazanie kodu, dostępów i instrukcji",
+        "6. AI Growth Partner — stały monitoring, SLA i rozbudowa w abonamencie"
     ]
 }

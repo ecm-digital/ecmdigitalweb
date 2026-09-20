@@ -19,7 +19,7 @@ Specjalizujemy się w tworzeniu profesjonalnych sklepów internetowych na platfo
 | **Czas realizacji** | 2-3 tygodnie |
 | **Wsparcie** | 30 dni wsparcia + instrukcja obsługi |
 
-**💰 Cena: 4 500 - 8 000 PLN**
+**💰 Cena: 5 000 - 9 500 PLN**
 
 ---
 
@@ -32,12 +32,12 @@ Specjalizujemy się w tworzeniu profesjonalnych sklepów internetowych na platfo
 | **Design** | Custom design lub mocno zmodyfikowany theme |
 | **Produkty** | Import do 500 produktów, warianty, kolekcje |
 | **Funkcjonalności** | Zaawansowane filtry, wishlist, porównywarka |
-| **Integracje** | CRM, email marketing, social media, reviews |
+| **Integracje** | CRM, email marketing, Baselinker, reviews |
 | **SEO** | Optymalizacja produktów, blog, rich snippets |
 | **Czas realizacji** | 4-6 tygodni |
 | **Wsparcie** | 60 dni wsparcia + szkolenie zespołu |
 
-**💰 Cena: 12 000 - 22 000 PLN**
+**💰 Cena: 12 000 - 25 000 PLN**
 
 ---
 

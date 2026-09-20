@@ -73,31 +73,39 @@ Wybór odpowiedniego modelu rozliczeń zależy od kilku kluczowych czynników:
 - **Długość współpracy** - długoterminowe projekty mogą skorzystać z modelu Retainer
 - **Cele biznesowe** - gdy można zdefiniować mierzalne KPI, warto rozważyć Success Fee
 
-## Cenniki Usług
+> 📘 **Dokument nadrzędny:** Zobacz [**KANONICZNA-OFERTA-I-CENNIK-2026.md**](../KANONICZNA-OFERTA-I-CENNIK-2026.md) dla pełnej specyfikacji i matrycy decyzyjnej.
 
-Poniżej znajdziesz szczegółowe cenniki dla poszczególnych kategorii naszych usług:
+## Cenniki Usług (Stan na Wrzesień 2026)
 
-### 🌐 [Cennik Stron WWW](strony-www.md)
-Kompleksowe rozwiązania dla stron korporacyjnych, landing page i portali internetowych.
+Poniżej znajdziesz szczegółowe cenniki dla poszczególnych kategorii naszych usług, w 100% zsynchronizowane z produkcją i kalkulatorem:
 
-### 🛒 [Cennik Sklepów Shopify](sklepy-shopify.md)  
-Profesjonalne sklepy internetowe na platformie Shopify z pełną customizacją.
+### ⭐ [AI Agent Sprint — 14 Dni](ai-agent-sprint.md) — od 9 900 PLN *(Bestseller)*
+Szybkie wdrożenie produkcyjne autonomicznego agenta zintegrowanego z CRM i dashboardem KPI w stałej cenie Fixed Price.
 
-### 🚀 [Cennik Prototypów MVP](prototypy-mvp.md)
-Szybkie prototypowanie i walidacja pomysłów biznesowych.
+### 🔍 [Audyt Gotowości AI & Procesów](audyt-ai.md) — od 3 900 PLN *(100% odliczane)*
+Diagnoza operacji i wyznaczenie 3-5 Quick-Wins. 100% kosztu audytu odliczamy od wdrożenia kolejnego etapu.
 
-### 🎯 [Cennik Audytów UX](audyty-ux.md)
-Kompleksowa analiza użyteczności i optymalizacja doświadczeń użytkownika.
+### 🔄 [AI Growth Partner (Abonament)](ai-growth-partner.md) — od 2 500 PLN / msc
+Stały monitoring, optymalizacja promptów, aktualizacja bazy wiedzy RAG i SLA. Zewnętrzny dział AI R&D.
 
-### ⚡ [Cennik Automatyzacji z n8n](automatyzacje-n8n.md)
-Zaawansowane rozwiązania automatyzacji procesów biznesowych dla zwiększenia efektywności.
+### 🤖 [Dedykowani Asystenci AI & Chatboty](asystencja-ai.md) — od 4 500 PLN
+Zaawansowani agenci pracujący na firmowej bazie wiedzy, procedurach prawnych i wewnętrznych systemach.
 
-### 📊 [Cennik Kampanii Social Media z Data Science](social-media-data-science.md)
-Kampanie social media oparte na data science z gwarantowanymi wysokimi współczynnikami konwersji.
+### ⚡ [Cennik Automatyzacji z n8n](automatyzacje-n8n.md) — od 3 500 PLN
+Zaawansowane workflowy eliminujące powtarzalną pracę ręczną i integrujące systemy CRM/ERP.
 
-## 💰 Kalkulator Wyceny
+### 🌐 [Cennik Stron WWW & Landing Pages](strony-www.md) — od 5 500 PLN
+Wysokokonwertujące landing pages i serwisy korporacyjne w Next.js 14 zoptymalizowane pod SEO i Core Web Vitals.
 
-Skorzystaj z naszego interaktywnego [kalkulatora wyceny](kalkulator.html) aby uzyskać przybliżoną wycenę swojego projektu w kilka minut.
+### 🛒 [Cennik Sklepów Shopify & E-commerce](sklepy-shopify.md) — od 5 000 PLN
+Profesjonalne sklepy internetowe (Shopify / Baselinker) z automatyzacją procesów zamówień i marketingu.
+
+### 🚀 [Cennik Prototypów MVP](prototypy-mvp.md) — od 12 000 PLN
+Szybka budowa działającego produktu cyfrowego z AI, logowaniem i płatnościami dla startupów i innowacji.
+
+## 💰 Kalkulator Wyceny Online
+
+Skorzystaj z naszego oficjalnego, interaktywnego [kalkulatora wyceny](https://www.ecm-digital.com/wycena), aby natychmiast oszacować budżet i wybrać pożądane moduły.
 
 ## Często Zadawane Pytania
 

@@ -6,7 +6,23 @@ Specjalizujemy się w tworzeniu prototypów MVP (Minimum Viable Product), które
 
 ## Pakiety Cenowe
 
-### 🚀 STARTER - MVP Podstawowy
+### ⚡ PROOF OF CONCEPT / LIGHT MVP
+**Idealne dla:** Szybkiej weryfikacji pomysłu z AI, działającego prototypu z logowaniem i pojedynczą kluczową funkcją
+
+| Zakres prac | Opis |
+|-------------|------|
+| **Discovery** | Warsztat założeń, wybór pojedynczego kluczowego use-case |
+| **Design UX/UI** | Responsywny interfejs, 3-5 kluczowych widoków aplikacji |
+| **Implementacja** | Next.js 14, integracja z modelem AI (Gemini/Claude), autoryzacja |
+| **Backend & DB** | Firebase (Auth, Firestore, Functions) |
+| **Czas realizacji** | 3-4 tygodnie |
+| **Wsparcie** | 14 dni wsparcia powdrożeniowego |
+
+**💰 Cena: 12 000 - 25 000 PLN**
+
+---
+
+### 🚀 STARTER - MVP Skalowane
 **Idealne dla:** Pierwszych startupów, walidacji prostych koncepcji, proof of concept
 
 | Zakres prac | Opis |

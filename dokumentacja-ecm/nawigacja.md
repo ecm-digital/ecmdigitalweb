@@ -20,15 +20,16 @@ dokumentacja-ecm/
 
 ## Menu Główne
 
-### 🎯 Oferta Usług
-- [Strony WWW](oferta-uslug/strony-www/README.md)
-- [Sklepy Shopify & Wix](oferta-uslug/sklepy-shopify/README.md)
-- [Prototypy MVP](oferta-uslug/prototypy-mvp/README.md)
-- [Audyty UX](oferta-uslug/audyty-ux/README.md)
-- [Social Media & Data Science](oferta-uslug/social-media-data-science/README.md)
-- [Automatyzacje n8n](oferta-uslug/automatyzacje-n8n/README.md)
-- [Asystencji AI na Amazon Bedrock](oferta-uslug/asystencja-ai-bedrock/index.html)
-- [Aplikacje Mobilne](oferta-uslug/aplikacje-mobilne/index.html)
+### 🎯 Oferta Usług (4 Filary Wartości)
+- [📘 Kanoniczna Oferta i Cennik 2026](KANONICZNA-OFERTA-I-CENNIK-2026.md) *(Dokument nadrzędny)*
+- ⭐ [AI Agent Sprint — 14 Dni](oferta-uslug/ai-agent-sprint/README.md) *(Bestseller)*
+- 🔍 [Audyt Gotowości AI & Procesów](cennik/audyt-ai.md) *(100% odliczane)*
+- 🔄 [AI Growth Partner (Abonament)](oferta-uslug/ai-growth-partner/README.md)
+- [Strony WWW & Landing Pages](oferta-uslug/strony-www/README.md)
+- [Sklepy Shopify & E-commerce](oferta-uslug/sklepy-shopify/README.md)
+- [Prototypy MVP & Aplikacje Webowe](oferta-uslug/prototypy-mvp/README.md)
+- [Automatyzacje n8n & API](oferta-uslug/automatyzacje-n8n/README.md)
+- [Dedykowani Asystenci AI](oferta-uslug/asystencja-ai-bedrock/index.html)
 
 ### 📂 Portfolio
 - [Przegląd Portfolio](portfolio-case-studies/README.md)
@@ -64,14 +65,16 @@ dokumentacja-ecm/
 - [Prototypy MVP](proces-wspolpracy/prototypy-mvp/README.md)
 - [Audyty UX](proces-wspolpracy/audyty-ux/README.md)
 
-### 💰 Cennik
-- [Strony WWW](cennik/strony-www.md)
-- [Sklepy Shopify & Wix](cennik/sklepy-shopify.md)
-- [Prototypy MVP](cennik/prototypy-mvp.md)
-- [Audyty UX](cennik/audyty-ux.md)
-- [Social Media & Data Science](cennik/social-media-data-science.md)
-- [Automatyzacje n8n](cennik/automatyzacje-n8n.md)
-- [🧮 Kalkulator Wyceny](cennik/kalkulator.html)
+### 💰 Cennik (Zsynchronizowany z Produkcją)
+- [📘 Kanoniczny Cennik 2026](KANONICZNA-OFERTA-I-CENNIK-2026.md) *(Główny arkusz)*
+- [AI Agent Sprint — 14 Dni](cennik/ai-agent-sprint.md) — od 9 900 PLN
+- [Audyt Gotowości AI](cennik/audyt-ai.md) — od 3 900 PLN
+- [AI Growth Partner](cennik/ai-growth-partner.md) — od 2 500 PLN / msc
+- [Strony WWW & Landing Pages](cennik/strony-www.md) — od 5 500 PLN
+- [Sklepy Shopify & E-commerce](cennik/sklepy-shopify.md) — od 5 000 PLN
+- [Automatyzacje n8n](cennik/automatyzacje-n8n.md) — od 3 500 PLN
+- [Prototypy MVP](cennik/prototypy-mvp.md) — od 12 000 PLN
+- [🧮 Kalkulator Wyceny Online](https://www.ecm-digital.com/wycena)
 
 ### 👥 Zespół
 - [Przegląd Zespołu](zespol/README.md)

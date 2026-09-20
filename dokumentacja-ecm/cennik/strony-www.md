@@ -18,7 +18,7 @@ Oferujemy kompleksowe rozwiązania dla stron internetowych - od prostych landing
 | **Czas realizacji** | 2-3 tygodnie |
 | **Wsparcie** | 30 dni wsparcia technicznego |
 
-**💰 Cena: 3 500 - 6 000 PLN**
+**💰 Cena: 5 500 - 8 500 PLN**
 
 ---
 
@@ -28,32 +28,32 @@ Oferujemy kompleksowe rozwiązania dla stron internetowych - od prostych landing
 | Zakres prac | Opis |
 |-------------|------|
 | **Projekt UX/UI** | Responsywny design, do 8 podstron |
-| **Implementacja** | WordPress/Custom CMS, zaawansowane animacje |
+| **Implementacja** | Next.js 14 / Headless CMS, zaawansowane animacje |
 | **Zawartość** | Blog, galeria, multiple formularze |
 | **Integracje** | CRM, Newsletter, Social Media, Mapy |
 | **SEO** | Optymalizacja on-page, sitemap, schema markup |
-| **Czas realizacji** | 4-6 tygodni |
+| **Czas realizacji** | 3-5 tygodni |
 | **Wsparcie** | 60 dni wsparcia + szkolenie |
 
-**💰 Cena: 8 000 - 15 000 PLN**
+**💰 Cena: 9 000 - 18 000 PLN**
 
 ---
 
-### 🚀 PREMIUM - Portal/Platforma
+### 🚀 PREMIUM - Portal/Platforma Dedykowana
 **Idealne dla:** Dużych firm, platform B2B, zaawansowanych serwisów
 
 | Zakres prac | Opis |
 |-------------|------|
 | **Projekt UX/UI** | Custom design, nieograniczona liczba stron |
-| **Implementacja** | Headless CMS, zaawansowane funkcjonalności |
+| **Implementacja** | Next.js 14, Firebase / PostgreSQL, zaawansowane funkcjonalności |
 | **Zawartość** | Panel administracyjny, system użytkowników |
 | **Integracje** | API, płatności, CRM, ERP, analytics |
 | **SEO** | Zaawansowana optymalizacja, wielojęzyczność |
 | **Bezpieczeństwo** | SSL, backup, monitoring, GDPR |
-| **Czas realizacji** | 8-12 tygodni |
+| **Czas realizacji** | 5-8 tygodni |
 | **Wsparcie** | 90 dni wsparcia + dedykowany opiekun |
 
-**💰 Cena: 20 000 - 50 000 PLN**
+**💰 Cena: 18 000 - 35 000 PLN**
 
 ## Opcje Dodatkowe
 

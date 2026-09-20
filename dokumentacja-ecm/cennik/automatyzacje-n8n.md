@@ -8,7 +8,23 @@ Oferujemy elastyczne modele cenowe dostosowane do wielkości firmy i złożonoś
 
 ## Pakiety Cenowe
 
-### 🚀 STARTER - Podstawowe Automatyzacje
+### ⚡ QUICK-WIN - Pojedynczy Workflow / Integracja
+**Idealne dla:** Szybkich automatyzacji pojedynczego wąskiego procesu (np. Lead → CRM, webhooki, notyfikacje)
+
+| Zakres prac | Opis |
+|-------------|------|
+| **Liczba workflow'ów** | 1 dedykowany scenariusz n8n |
+| **Integracje** | 2-3 narzędzia (np. Formularz + CRM + Slack/Email) |
+| **Setup & Testy** | Wdrożenie na instancji n8n (chmura lub on-premise), testy błędów |
+| **Dokumentacja** | Schemat procesu i instrukcja obsługi |
+| **Czas realizacji** | 1-2 tygodnie |
+| **Wsparcie** | 14 dni gwarancji stabilności |
+
+**💰 Cena: 3 500 - 6 500 PLN**
+
+---
+
+### 🚀 STARTER - Pakiet Podstawowych Automatyzacji
 **Idealne dla:** Małych firm, pierwszych automatyzacji
 
 | Zakres prac | Opis |
