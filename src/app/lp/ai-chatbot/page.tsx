@@ -25,20 +25,20 @@ const campaign = {
     ],
     pricing: [
         {
-            name: 'Starter',
-            price: 'od 2 500 PLN',
-            features: ['Chatbot na stronie WWW', 'Do 100 konwersacji/mies.', 'Baza wiedzy do 50 pytań', 'Zbieranie danych kontaktowych', 'Podstawowe raportowanie'],
+            name: 'Standard RAG Assistant',
+            price: 'od 4 500 PLN',
+            features: ['Chatbot / Asystent na stronie WWW', 'Baza wiedzy z plików firmy (RAG)', 'Do 500 konwersacji/mies.', 'Kwalifikacja i zbieranie leadów', 'Podstawowe raportowanie intencji'],
         },
         {
-            name: 'Business',
-            price: 'od 5 000 PLN',
+            name: 'Multi-Channel Business Agent',
+            price: 'od 9 000 PLN',
             highlighted: true,
-            features: ['Chatbot + WhatsApp/Messenger', 'Do 500 konwersacji/mies.', 'Baza wiedzy bez limitu', 'Integracja z CRM', 'AI uczący się z rozmów', 'Analityka zaawansowana'],
+            features: ['Wielokanałowość: Web + WhatsApp / E-mail', 'Integracja z CRM (HubSpot / Pipedrive)', 'Baza wiedzy bez limitu dokumentów', 'Dedykowane prompty i logika decyzyjna', 'Dashboard analityczny jakości odpowiedzi'],
         },
         {
-            name: 'Enterprise',
-            price: 'Indywidualnie',
-            features: ['Bez limitu konwersacji', 'Dedykowany model AI', 'Multi-platform', 'API integracje', 'Priorytetowe wsparcie', 'SLA gwarantowane'],
+            name: 'Advanced Multi-Agent / VPC',
+            price: 'od 16 000 – 25 000 PLN',
+            features: ['Agenci autonomiczni na prywatnym VPC', 'Własne bazy wektorowe on-premise', 'Dostęp do baz ERP / baz SQL', 'Polityki bezpieczeństwa i audyt tokenów', 'Priorytetowe SLA i utrzymanie'],
         },
     ],
     faq: [

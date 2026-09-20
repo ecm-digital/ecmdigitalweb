@@ -169,12 +169,21 @@ export default function AIChatbot() {
                 return `Q: ${content.question}\nA: ${content.answer}`;
             }).filter(Boolean).join('\n\n');
 
-            const systemPrompt = `You are an official AI Assistant for ECM Digital agency. 
-Your goal is to help clients with services: Shopify, Wix, AI Agents, n8n automations, Web Development.
+            const systemPrompt = `You are an official AI Assistant for ECM Digital agency (2026).
+Your goal is to guide clients through our core offer:
+1. Audyt Gotowości AI & Procesów (od 3 900 PLN, 100% odejmowane od kolejnego etapu)
+2. AI Agent Sprint — 14 Dni ⭐ [Bestseller] (od 9 900 PLN fixed price, działający agent AI w CRM + dashboard KPI + 14 dni hyper-care)
+3. Dedykowane Rozwiązania:
+   - Dedykowani Asystenci AI & RAG (od 4 500 PLN)
+   - Automatyzacje procesów n8n (od 3 500 PLN)
+   - Strony WWW & Landing Pages Next.js (od 5 500 PLN)
+   - Automatyzacja E-commerce Shopify / Baselinker (od 5 000 PLN)
+   - MVP i Aplikacje Webowe z AI (od 12 000 PLN)
+4. AI Growth Partner — Stała opieka abonamentowa (od 2 500 PLN / msc) + AI Governance & AgentOps Review
 Current language: ${globalLang}.
 
 DANE O FIRMIE (BASE):
-${kbData.current ? JSON.stringify(kbData.current) : 'ECM Digital - Software & AI Agency.'}
+${kbData.current ? JSON.stringify(kbData.current) : 'ECM Digital - AI & Software Engineering Agency.'}
 
 Często Zadawane Pytania & Cennik (FAQ):
 ${faqContext}
@@ -183,7 +192,7 @@ HISTORIA ROZMOWY:
 ${historyContext}
 ${clientProjectsContext}
 
-Reply in ${globalLang} language only. Be professional and helpful. If language is 'szl', use Silesian dialect (śląska gwara).`;
+Reply in ${globalLang} language only. Be professional, concise, and business outcome oriented. If language is 'szl', use Silesian dialect (śląska gwara).`;
 
             // Call internal API route
             const response = await fetch('/api/ai', {
@@ -249,80 +258,34 @@ Reply in ${globalLang} language only. Be professional and helpful. If language i
         }
     };
 
-    const getAIResponseFallback = (input: string, l: Lang): string => {
-        const q = input.toLowerCase();
+    const getAIResponseFallback = (userMessage: string, l: string) => {
+        const q = userMessage.toLowerCase();
 
-        const faqKeywords: Record<string, { pl: string[], en: string[] }> = {
-            pricing: {
-                pl: ['koszt', 'cen', 'ile płac', 'ile plac', 'wycen'],
-                en: ['cost', 'price', 'pricing', 'how much']
-            },
-            timeline: {
-                pl: ['ile trwa', 'długo trwa', 'termin', 'czas real', 'kiedy gotow', 'jak długo'],
-                en: ['how long', 'timeline', 'duration', 'when will', 'ready in', 'how long does']
-            },
-            security: {
-                pl: ['bezpiecz', 'rodo', 'gdpr', 'poufne', 'wyciek', 'dane bezp'],
-                en: ['safe', 'security', 'gdpr', 'rodo', 'confidential', 'leak']
-            },
-            maintenance: {
-                pl: ['utrzyman', 'licencj', 'opłat', 'abonament', 'api'],
-                en: ['maintenance', 'licensing', 'subscription', 'api cost']
-            },
-            progress: {
-                pl: ['postęp', 'śledzić', 'co się dzieje', 'status prac'],
-                en: ['progress', 'track', 'status of']
-            },
-            'the-portal': {
-                pl: ['portal', 'panel klienta'],
-                en: ['the portal', 'client panel']
-            },
-            'no-tech-knowledge': {
-                pl: ['wiedza techn', 'muszę się znać', 'nie znam się'],
-                en: ['technical knowledge', 'need to know tech']
-            },
-            hallucinations: {
-                pl: ['halucyn', 'wymyśla', 'kłamie', 'prawda czy fałsz'],
-                en: ['hallucinat', 'make up', 'fake info', 'lying']
-            },
-            'tech-stack': {
-                pl: ['technolog', 'tech stack', 'narzędzia', 'jakich narzędzi'],
-                en: ['technolog', 'tech stack', 'tools do you use', 'which languages']
-            },
-            support: {
-                pl: ['wsparc', 'support', 'pomoc po', 'opieka'],
-                en: ['support', 'help after', 'post-deployment']
-            },
-            start: {
-                pl: ['rozpocząć', 'zacząć', 'zaczac', 'współprac', 'kontakt'],
-                en: ['start', 'collaborat', 'get started']
-            },
-            'crm-integrations': {
-                pl: ['crm', 'hubspot', 'pipedrive', 'salesforce', 'integrujecie'],
-                en: ['crm', 'hubspot', 'pipedrive', 'salesforce', 'integrate']
-            }
-        };
-
-        let bestItem = null;
+        // 1. Search in local JSON Knowledge Base first
+        let bestItem: any = null;
         let maxScore = 0;
 
         for (const item of faqItems) {
-            const kw = faqKeywords[item.id];
-            if (!kw) continue;
-            const list = kw[l] || kw.pl;
+            const content = item.translations[l] || item.translations.pl || item.translations.en;
+            if (!content) continue;
+
+            const questionText = content.question.toLowerCase();
+            const tags = item.tags || [];
+
             let score = 0;
-            for (const word of list) {
-                if (q.includes(word)) {
-                    score += 1;
-                }
+            const words = q.split(' ').filter(w => w.length > 2);
+            for (const word of words) {
+                if (questionText.includes(word)) score += 2;
+                if (tags.some((t: string) => t.toLowerCase().includes(word))) score += 3;
             }
+
             if (score > maxScore) {
                 maxScore = score;
                 bestItem = item;
             }
         }
 
-        if (maxScore >= 1 && bestItem) {
+        if (maxScore >= 2 && bestItem) {
             const content = bestItem.translations[l] || bestItem.translations.pl || bestItem.translations.en;
             if (content) {
                 return content.answer;
@@ -331,29 +294,32 @@ Reply in ${globalLang} language only. Be professional and helpful. If language i
 
         if (l === 'pl') {
             if (q.includes('slasku') || q.includes('śląsku') || q.includes('godosz')) {
-                return 'Ja, pewnie że rozumia! My som nowoczesno agencja, ale tradycja szanujemy. Czym moga służyć? (v1.5-Silesia)';
+                return 'Ja, pewnie że rozumia! My som nowoczesno agencja ze Śląska, ale tradycja szanujemy. Czym moga służyć? (v2.0-Silesia)';
             }
-            if (q.includes('starter') && (q.includes('shopify') || q.includes('sklep'))) {
-                return 'Najnowsza oferta: Pakiet Shopify STARTER kosztuje od 4,500 do 8,000 PLN netto. Zawiera: customizację szablonu, konfigurację płatności i wysyłki, import produktów (do 50), SEO i szkolenie. Czas: 2-3 tyg. (v1.1)';
+            if (q.includes('sprint') || q.includes('14 dni') || q.includes('flagow')) {
+                return 'Nasz bestseller to AI Agent Sprint — 14 Dni (od 9 900 PLN fixed price). W 2 tygodnie wdrażamy działającego agenta AI zintegrowanego z Twoim CRM (HubSpot/Pipedrive), panelem KPI i 14-dniowym wsparciem hiper-care.';
             }
-            if (q.includes('cena') || q.includes('koszt') || q.includes('ile')) {
-                return 'Nasze aktualne usługi: Strony WWW (od 3,5k PLN), Sklepy Shopify (od 4,5k PLN), Agenci AI (od 12k PLN). Dokładna wycena zależy od wybranych funkcjonalności. (v1.1)';
+            if (q.includes('audyt')) {
+                return 'Audyt Gotowości AI & Procesów kosztuje od 3 900 PLN. Co najważniejsze: 100% wartości audytu jest odejmowane od faktury za wdrożenie w kolejnym etapie!';
+            }
+            if (q.includes('cena') || q.includes('koszt') || q.includes('ile') || q.includes('cennik')) {
+                return 'Cennik ECM Digital 2026: Audyt AI (od 3 900 PLN — 100% odliczane), AI Agent Sprint 14 Dni (od 9 900 PLN), Automatyzacje n8n (od 3 500 PLN), Asystenci AI / RAG (od 4 500 PLN), Strony Next.js (od 5 500 PLN), E-commerce (od 5 000 PLN), MVP (od 12 000 PLN), AI Growth Partner (od 2 500 PLN/msc). Dokładną wycenę sprawdzisz w naszym kalkulatorze online na /wycena.';
             }
             if (q.includes('usług') || q.includes('oferta')) {
-                return 'Specjalizujemy się w: Strony WWW, Sklepy Shopify, Agenci AI, Automatyzacje i MVP. Który obszar Cię interesuje?';
+                return 'Oferta ECM Digital opiera się na 4 filarach: 1. Audyt Gotowości AI, 2. AI Agent Sprint (14 Dni), 3. Dedykowane automatyzacje n8n, strony Next.js i MVP, 4. AI Growth Partner (stała opieka abonamentowa). Który obszar Cię interesuje?';
             }
-            return 'Obecnie działam w trybie demonstracyjnym (offline). Nasz pełny system AI (Gemini) jest chwilowo niedostępny, ale chętnie zaoferuję pomoc na podstawie standardowego cennika. (v1.5)';
+            return 'Obecnie odpowiadam na podstawie bazy wiedzy. Możesz zapytać o AI Agent Sprint (od 9 900 PLN), Audyt AI (od 3 900 PLN), automatyzacje lub sprawdzić nasz kalkulator na /wycena.';
         } else if (l === 'szl') {
             if (q.includes('cena') || q.includes('wiela')) {
-                return 'Nasze usługi: Strony WWW (od 3,5k PLN), Sklepy (od 4,5k PLN), Agenty AI (od 12k PLN). Zależy co chcesz. (v1.5-Silesia)';
+                return 'Nasze usługi 2026: Audyt AI (ôd 3 900 PLN, 100% ôdliczane!), AI Agent Sprint w 14 dni (ôd 9 900 PLN), Automatyzacyje (ôd 3 500 PLN), Strony WWW (ôd 5 500 PLN), Retainer AI Growth Partner (ôd 2 500 PLN/msc). Sprowdź kalkulator na /wycena!';
             }
-            return 'Teraz żech jest w trybie demo (offline). Ale jak chcesz pogadać o robocie, to pisz śmiało. (v1.5-Silesia)';
+            return 'Teraz żech jest w trybie offline. Pisz śmiało o AI Agent Sprint abo automatyzacyjach!';
         } else if (l === 'es') {
-            return 'Actualmente estoy en modo de demostración (sin conexión). Nuestro sistema completo de IA (Gemini) no está disponible temporalmente, pero estaré encantado de ayudarle basándome en nuestra lista de precios estándar.';
+            return 'Nuestra oferta 2026: Auditoría de IA (desde 3 900 PLN — 100% deducible), AI Agent Sprint en 14 días (desde 9 900 PLN), Automatizaciones n8n (desde 3 500 PLN), Retainer mensual AI Growth Partner (desde 2 500 PLN/mes). Visita /wycena para un presupuesto.';
         } else if (l === 'ar') {
-            return 'أنا حاليا في الوضع التجريبي (غير متصل). نظام الذكاء الاصطناعي الكامل الخاص بنا (Gemini) غير متاح مؤقتًا، ولكن يسعدني تقديم المساعدة بناءً على قائمة الأسعار القياسية لدينا.';
+            return 'خدماتنا لعام 2026: تدقيق الذكاء الاصطناعي (من 3,900 PLN ومخصوم بالكامل)، وسبرنت وكيل الذكاء الاصطناعي خلال 14 يوماً (من 9,900 PLN)، وأتمتة n8n (من 3,500 PLN). يمكنك تجربة حاسبة الأسعار في /wycena.';
         } else {
-            return 'I am currently in safe mode. Our Shopify Starter package starts from 4,500 PLN. Please ask for details or contact us at hello@ecm-digital.com.';
+            return 'Our 2026 services: AI Audit (from 3,900 PLN, 100% deductible), AI Agent Sprint 14 Days (from 9,900 PLN fixed price), n8n Automation (from 3,500 PLN), Web Apps (from 5,500 PLN), and AI Growth Partner (from 2,500 PLN/mo). Check our online calculator at /wycena.';
         }
     };
 

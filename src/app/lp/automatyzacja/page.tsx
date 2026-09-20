@@ -25,20 +25,20 @@ const campaign = {
     ],
     pricing: [
         {
-            name: 'Starter',
-            price: 'od 3 000 PLN',
-            features: ['Do 5 automatyzacji', 'Integracja 3 systemów', 'N8N / Zapier setup', 'Monitoring 1 miesiąc', 'Dokumentacja techniczna'],
+            name: 'Pojedynczy Workflow (Starter)',
+            price: 'od 3 500 – 6 500 PLN',
+            features: ['1-2 kluczowe procesy', 'Integracja 2-3 systemów (np. CRM + Formularz + Email)', 'N8N / webhook setup', 'Monitoring 1 miesiąc', 'Dokumentacja techniczna i instrukcja'],
         },
         {
-            name: 'Growth',
-            price: 'od 7 000 PLN',
+            name: 'System Integracyjny (Growth)',
+            price: 'od 8 000 – 14 000 PLN',
             highlighted: true,
-            features: ['Do 15 automatyzacji', 'Integracja bez limitu', 'AI w procesach', 'Monitoring 3 miesiące', 'Szkolenie zespołu', 'Wsparcie priorytetowe'],
+            features: ['System 3-6 procesów biznesowych', 'Integracje CRM, ERP, Baselinker, fakturowanie', 'Automatyczne przetwarzanie dokumentów z AI (OCR/LLM)', 'Monitoring 3 miesiące', 'Szkolenie zespołu', 'Wsparcie priorytetowe'],
         },
         {
-            name: 'Scale',
-            price: 'od 15 000 PLN',
-            features: ['Bez limitu automatyzacji', 'Dedykowany serwer N8N', 'Custom API integracje', 'Monitoring 12 miesięcy', 'Dedykowany opiekun', 'SLA 99.9%'],
+            name: 'Złożona Infrastruktura (Enterprise)',
+            price: 'od 14 000 – 18 000+ PLN',
+            features: ['Architektura enterprise n8n na własnym serwerze', 'Custom API integracje i dwukierunkowa synchronizacja', 'Zaawansowana obsługa błędów i kolejki zadań', 'Monitoring 12 miesięcy', 'Dedykowany opiekun techniczny', 'Gwarantowane SLA'],
         },
     ],
     faq: [

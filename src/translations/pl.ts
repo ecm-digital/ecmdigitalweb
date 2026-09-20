@@ -744,7 +744,7 @@ export const pl = {
         "contact.form.service.opt1": "Chcę mieć lepszą stronę i zdobywać więcej leadów",
         "contact.form.service.opt2": "Chcę zautomatyzować obsługę zapytań i follow-up",
         "contact.form.service.opt3": "Chcę odciążyć zespół od rutynowych zadań",
-        "contact.form.service.opt4": "Chcę przeszkolić zespół / zrobić audyt AI",
+        "contact.form.service.opt4": "Chcę przeprowadzić Audyt AI i procesów (100% odliczane)",
         "contact.form.message": "Opisz krótko, czym zajmuje się Twoja firma i jaki proces chcesz usprawnić",
         "contact.form.submit": "Rezerwuję bezpłatną konsultację",
 

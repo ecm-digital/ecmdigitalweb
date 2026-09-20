@@ -12,7 +12,7 @@ const campaign = {
     stats: [
         { value: '14 dni', label: 'Czas realizacji' },
         { value: '100%', label: 'Integracja z CRM' },
-        { value: 'od 7,5k', label: 'Przewidywalna cena' },
+        { value: 'od 9,9k', label: 'Przewidywalna cena' },
         { value: '24/7', label: 'Działanie AI' },
     ],
     benefitsTitle: 'Najczęściej wdrażane procesy',
@@ -35,43 +35,43 @@ const campaign = {
     ],
     pricing: [
         {
-            name: 'Pakiet Starter',
-            price: '7 500 PLN',
-            subtext: 'Faktura VAT. Płatność: 50% zaliczki przed startem, 50% po odbiorze.',
+            name: 'Pakiet Standard (14 Dni)',
+            price: '9 900 PLN',
+            subtext: 'Fixed price. Faktura VAT. Płatność: 50% zaliczki przed startem, 50% po odbiorze.',
             features: [
-                'Audyt i mapowanie 1 procesu firmowego',
-                'Projekt i konfiguracja 1 Agenta AI',
-                'Wdrożenie workflow w n8n / Make',
-                'Jednokierunkowa integracja z CRM',
-                'Przekazanie bazy wiedzy i instrukcji',
-                '7 dni bezpłatnego wsparcia po wdrożeniu'
+                'Zmapowanie i optymalizacja 1 procesu biznesowego',
+                'Projekt persony, promptu i logiki Agenta AI',
+                'Wdrożenie workflow produkcyjnego w n8n / chmurze',
+                'Pełna integracja z CRM (HubSpot / Pipedrive / API)',
+                'Dedykowany wizualny Dashboard KPI',
+                '14 dni asysty hiper-care po uruchomieniu'
             ]
         },
         {
-            name: 'Pakiet Sprint',
-            price: '12 000 PLN',
+            name: 'Pakiet Sprint + Custom CRM',
+            price: '12 500 – 15 000 PLN',
             highlighted: true,
-            subtext: 'Faktura VAT. Płatność etapowa (kamienie milowe).',
+            subtext: 'Faktura VAT. Stała cena uzgodniona przed startem.',
             features: [
-                'Wszystko z pakietu Starter +',
-                'Audyt gotowości AI (AI Readiness)',
-                'Dwukierunkowa integracja z wybranym CRM',
-                'Dedykowany, interaktywny Dashboard KPI',
-                '2-godzinny warsztat szkoleniowy dla zespołu',
+                'Wszystko z pakietu Standard (14 Dni) +',
+                'Zaawansowane bazy wiedzy RAG / pliki PDF i procedury',
+                'Wielokanałowość: Formularz WWW + E-mail + CRM',
+                'Dwukierunkowa zaawansowana synchronizacja danych',
+                '2-godzinny warsztat wdrożeniowy dla zespołu',
                 '30 dni bezpłatnego wsparcia po wdrożeniu'
             ],
         },
         {
-            name: 'Pakiet Enterprise',
+            name: 'Pakiet Enterprise / Multi-Agent',
             price: 'Wycena indywidualna',
             subtext: 'Faktura VAT. Warunki rozliczenia dopasowane do projektu.',
             features: [
-                'Automatyzacja wielu złożonych procesów',
-                'Dedykowane agenty AI na własnym hostingu',
-                'Zaawansowane bazy wektorowe (RAG)',
+                'Systemy multi-agentowe i złożone procesy wieloetapowe',
+                'Dedykowane instancje na prywatnym hostingu / VPC',
+                'Zaawansowane bazy wektorowe i polityka AI Governance',
                 'Integracja z systemami ERP i własnymi API',
                 'Gwarantowane wsparcie SLA i priorytetowy kontakt',
-                'Ciągły rozwój (AI Growth Partner)'
+                'Płynne przejście do AI Growth Partner (stała opieka)'
             ]
         }
     ],

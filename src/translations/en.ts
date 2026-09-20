@@ -736,7 +736,7 @@ export const en = {
         "contact.form.service.opt1": "I want a better website and more leads",
         "contact.form.service.opt2": "I want to automate inquiries and follow-up",
         "contact.form.service.opt3": "I want to free my team from repetitive tasks",
-        "contact.form.service.opt4": "I want team training / AI audit",
+        "contact.form.service.opt4": "I want an AI & Process Audit (100% deductible)",
         "contact.form.message": "Describe briefly what your company does and which process you want to improve",
         "contact.form.submit": "Book Free Consultation",
 

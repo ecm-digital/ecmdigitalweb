@@ -19,9 +19,9 @@ const serviceTranslations: Record<string, Record<string, string>> = {
         'service.testimonial': 'Pełna transparentność projektu dzięki panelowi klienta. Widziałem każdy sprint, każdą decyzję. Pierwszy raz współpracuję z agencją, gdzie nie muszę się domyślać co się dzieje.',
 
         // AI Agents
-        'ai-agents.title': 'Asystenci AI dla firm',
-        'ai-agents.subtitle': 'Tworzymy chatboty, wewnętrznych asystentów wiedzy i agentów AI do obsługi klienta, sprzedaży oraz codziennych operacji.',
-        'ai-agents.long': 'Projektujemy asystentów AI, którzy pracują na kontekście Twojej firmy: dokumentach, bazie wiedzy, procesach, CRM i historii rozmów. Pomagają odpowiadać na pytania, kwalifikować leady, analizować zapytania i wykonywać powtarzalne czynności bez dokładania pracy zespołowi.',
+        'ai-agents.title': 'Dedykowani Asystenci AI & RAG (Custom)',
+        'ai-agents.subtitle': 'Budujemy zaawansowane chatboty wiedzy, asystentów RAG do firmowych procedur i dokumentów oraz prywatne instancje na VPC.',
+        'ai-agents.long': 'Projektujemy dedykowanych asystentów wiedzy, którzy pracują bezpośrednio na dokumentacji Twojej firmy, bazach PDF, procedurach prawnych lub instrukcjach technicznych. Wykorzystują architekturę RAG (Retrieval-Augmented Generation) i mogą działać na prywatnej chmurze (VPC) lub on-premise z pełną izolacją danych. To idealne rozwiązanie, gdy potrzebujesz głębokiej wiedzy specjalistycznej dla zespołu lub klientów.',
         'ai-agents.features.1': 'Chatboty i asystenci AI z naturalnym dialogiem 24/7',
         'ai-agents.features.2': 'Integracje z CRM, ERP i bazami wiedzy',
         'ai-agents.features.3': 'Wewnętrzni asystenci do pracy z dokumentami i procedurami',

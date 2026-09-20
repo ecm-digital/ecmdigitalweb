@@ -25,20 +25,20 @@ const campaign = {
     ],
     pricing: [
         {
-            name: 'Wizytówka',
-            price: 'od 2 000 PLN',
-            features: ['Do 5 podstron', 'Design responsywny', 'Formularz kontaktowy', 'Certyfikat SSL', 'Hosting na 12 miesięcy'],
+            name: 'Sales Landing Page',
+            price: 'od 5 500 – 8 500 PLN',
+            features: ['Konwertująca strona sprzedażowa / landing page', 'Next.js 14, Tailwind CSS, TypeScript', 'Perfekcyjne Core Web Vitals (95+)', 'Integracja z CRM i analityką (GA4, GTM)', 'Formularze z walidacją i powiadomieniami'],
         },
         {
-            name: 'Firmowa',
-            price: 'od 5 000 PLN',
+            name: 'Serwis Firmowy (Corporate)',
+            price: 'od 9 000 – 18 000 PLN',
             highlighted: true,
-            features: ['Do 15 podstron', 'CMS do edycji treści', 'Blog firmowy', 'SEO optymalizacja', 'Google Analytics', 'Wsparcie 3 miesiące'],
+            features: ['Kompletny serwis wielopodstronowy (do 15 podstron)', 'System zarządzania treścią CMS', 'Pełne techniczne SEO i mikroformaty schema.org', 'Optymalizacja konwersji i lead capture', 'Wsparcie powdrożeniowe 3 miesiące'],
         },
         {
-            name: 'E-commerce',
-            price: 'od 8 000 PLN',
-            features: ['Sklep internetowy', 'Panel administracyjny', 'Płatności online', 'Integracja z kurierami', 'Marketing automation', 'Wsparcie 6 miesięcy'],
+            name: 'Dedykowany Portal / Web App',
+            price: 'od 18 000 – 35 000 PLN',
+            features: ['Dedykowana platforma internetowa / portal klienta', 'Autoryzacja użytkowników, profile, role', 'Integracje z systemami zewnętrznymi i bazami danych', 'Automatyzacje procesów w tle', 'SLA i pełna opieka techniczna'],
         },
     ],
     faq: [
