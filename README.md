@@ -1,197 +1,115 @@
-# ECM Digital Agency - Dokumentacja (Updated)
+# 🚀 ECM Digital Website (2026)
 
-Kompleksowa dokumentacja agencji ECM Digital zawierająca ofertę usług, portfolio projektów, metodologię pracy oraz case studies.
+Oficjalny serwis internetowy agencji **ECM Digital** — nowoczesnej agencji **AI & Digital Systems**, specjalizującej się w zwinnych wdrożeniach Agentów AI, automatyzacji procesów biznesowych (n8n), aplikacjach Next.js i stałym partnerstwie technologicznym.
 
-## 🚀 Struktura Projektu
-
-```
-dokumentacja-ecm/
-├── index.html                 # Główna strona dokumentacji
-├── oferta-uslug/             # Szczegółowa oferta usług
-│   ├── strony-www/           # Usługi tworzenia stron WWW
-│   ├── sklepy-shopify/       # Sklepy e-commerce na Shopify
-│   ├── prototypy-mvp/        # Prototypy MVP i walidacja pomysłów
-│   ├── audyty-ux/           # Audyty UX i optymalizacja
-│   ├── automatyzacje-n8n/   # Automatyzacje procesów biznesowych
-│   └── social-media-data-science/ # Kampanie social media z data science
-├── portfolio-case-studies/   # Portfolio i case studies
-│   ├── www/                 # Case studies stron WWW
-│   ├── shopify/             # Case studies sklepów Shopify
-│   ├── mvp/                 # Case studies prototypów MVP
-│   └── ux/                  # Case studies audytów UX
-├── metodologia/             # Metodologia pracy
-├── technologie/             # Stosowane technologie
-└── zespol/                  # Informacje o zespole
-```
-
-## 📋 Zawartość
-
-### Oferta Usług
-- **Strony WWW** - Nowoczesne, responsywne strony internetowe
-- **Sklepy Shopify** - Profesjonalne sklepy e-commerce
-- **Prototypy MVP** - Szybka walidacja pomysłów biznesowych
-- **Audyty UX** - Optymalizacja doświadczenia użytkownika
-- **Automatyzacje z n8n** - Zaawansowane rozwiązania automatyzacji procesów biznesowych
-- **Social Media z Data Science** - Kampanie social media oparte na data science z wysokimi współczynnikami konwersji
-
-### Portfolio
-- **25+ Case Studies** - Szczegółowe opisy zrealizowanych projektów
-- **Różnorodne branże** - FinTech, HealthTech, EdTech, PropTech, E-commerce
-- **Mierzalne rezultaty** - KPI, ROI, feedback klientów
-
-### Metodologia
-- **Proces współpracy** - Krok po kroku od pomysłu do wdrożenia
-- **Technologie** - Nowoczesny stack technologiczny
-- **Best practices** - Sprawdzone podejścia i metodyki
-
-## 🛠️ Technologie
-
-### Frontend
-- HTML5, CSS3, JavaScript
-- Bootstrap 5 dla responsywności
-- Marked.js dla renderowania Markdown
-
-### Hosting i Deployment
-- Statyczna strona HTML
-- Kompatybilna z GitHub Pages, Netlify, Vercel
-- CDN dla optymalnej wydajności
-
-## 🔗 Integracje
-
-### 🎉 NOWY STACK - 100% DARMOWY!
-- **Supabase** (Auth + Database + Storage + Real-time) - DARMOWE
-- **Upstash Redis** (Caching) - DARMOWE (10k commands/day)
-- **Resend** (Email) - DARMOWE (3k emails/miesiąc)
-- **Vercel** (Hosting) - DARMOWE (unlimited projects)
-- **n8n** (Automatyzacje) - DARMOWE (self-hosted)
-
-### Pozostałe integracje:
-- Google Analytics (gtag)
-- Hotjar
-- HubSpot (tracking + formularz)
-
-## 📚 Dokumentacja Migracji
-
-### Przewodniki:
-- 📖 **[COMPLETE_FREE_STACK_GUIDE.md](COMPLETE_FREE_STACK_GUIDE.md)** - Kompletny przewodnik po wszystkich projektach
-- 📖 **[FREE_STACK_MIGRATION.md](FREE_STACK_MIGRATION.md)** - Szczegóły migracji z AWS
-- 📖 **[QUICK_START.md](QUICK_START.md)** - Szybki start (5 minut)
-
-### Projekty:
-- 👥 **[Client Dashboard](client-dashboard/MIGRATION_AWS_TO_SUPABASE.md)** - Panel dla klientów
-- 🏢 **[Agency Management Panel](agency-management-panel/MIGRATION_TO_FREE_STACK.md)** - Panel zarządzania agencją
-
-### 💰 Oszczędności: $200-500/miesiąc → $0/miesiąc!
-
-### HubSpot (statyczna strona)
-
-1. Uzupełnij `hubspot-config.json` w katalogu projektu:
-
-```
-{
-  "portalId": "YOUR_PORTAL_ID",
-  "formId": "YOUR_FORM_ID",
-  "region": "na1",
-  "formTargetId": "hubspot-form"
-}
-```
-
-2. W `index.html` dodano placeholder `<div id="hubspot-form"></div>` w sekcji `#contact` oraz loader `src/js/hubspot.js`.
-
-### HubSpot (Next.js aplikacje)
-
-Dodaj w `.env.local` odpowiedniej aplikacji:
-
-```
-NEXT_PUBLIC_HUBSPOT_PORTAL_ID=YOUR_PORTAL_ID
-```
-
-Skrypt śledzący jest wstrzykiwany w `src/app/layout.tsx` przez `next/script` dla obu aplikacji.
-
-## 🚀 Uruchomienie Lokalnie
-
-### Opcja 1: Python HTTP Server
-```bash
-cd dokumentacja-ecm
-python3 -m http.server 8000
-```
-
-### Opcja 2: Node.js HTTP Server
-```bash
-cd dokumentacja-ecm
-npx http-server -p 8000
-```
-
-### Opcja 3: PHP Built-in Server
-```bash
-cd dokumentacja-ecm
-php -S localhost:8000
-```
-
-Następnie otwórz przeglądarkę i przejdź do `http://localhost:8000`
-
-## 📁 Kluczowe Pliki
-
-- `index.html` - Główna strona z nawigacją i renderowaniem Markdown
-- `oferta-uslug/README.md` - Przegląd wszystkich usług
-- `portfolio-case-studies/README.md` - Indeks wszystkich case studies
-- `metodologia/README.md` - Opis metodologii pracy
-
-## 🎯 Case Studies
-
-### Strony WWW (5 projektów)
-- TechFlow Solutions - Strona korporacyjna B2B
-- Premium Estates - Portal nieruchomości premium
-- FluentSpeak Academy - Platforma edukacyjna
-- LexPartners Law - Kancelaria prawna
-- ProHealth Clinic - Klinika medyczna
-
-### Sklepy Shopify (5 projektów)
-- LuxHome Marketplace - Marketplace mebli premium
-- GreenTech Dropshipping - Sklep eco-friendly
-- CoffeeBox Subscription - Subskrypcja kawy
-- BuildPro B2B - Sklep B2B dla branży budowlanej
-- XYZ Fashion Store - Sklep odzieżowy
-
-### Prototypy MVP (5 projektów)
-- PayFlow - Aplikacja płatności P2P (FinTech)
-- MediConnect - Platforma telemedyczna (HealthTech)
-- EduFlow - Platforma e-learningowa (EdTech)
-- RentEasy - Platforma wynajmu (PropTech)
-- QuickDeliver - Platforma dostaw (Logistics)
-
-### Audyty UX (5 projektów)
-- E-commerce Optimization - Zwiększenie konwersji o 45%
-- SaaS Platform Redesign - Poprawa UX o 60%
-- Mobile App Audit - Optymalizacja interfejsu mobilnego
-- Corporate Website - Redesign strony korporacyjnej
-- Startup MVP Review - Audyt prototypu MVP
-
-## 📊 Statystyki
-
-- **25+ projektów** w portfolio
-- **5 głównych branż** (FinTech, HealthTech, EdTech, PropTech, E-commerce)
-- **100% projektów** zakończonych sukcesem
-- **Średni ROI** dla klientów: 250%+
-
-## 🤝 Współpraca
-
-### Proces Współpracy
-1. **Konsultacja** - Bezpłatna analiza potrzeb
-2. **Propozycja** - Spersonalizowana oferta
-3. **Realizacja** - Agile development
-4. **Wdrożenie** - Launch i optymalizacja
-5. **Wsparcie** - Długoterminowe utrzymanie
-
-### Kontakt
-- **Email**: hello@ecm-digital.com
-- **Telefon**: +48 535330323
-- **Website**: [www.ecm-digital.com](https://www.ecm-digital.com)
-
-## 📄 Licencja
-
-© 2025 ECM Digital Agency. Wszystkie prawa zastrzeżone.
+🌐 **Produkcja:** [https://www.ecm-digital.com](https://www.ecm-digital.com)  
+🔥 **Firebase Hosting:** [https://ecmdigital-28074.web.app](https://ecmdigital-28074.web.app)  
+📘 **Kanoniczna Oferta & Cennik:** [`dokumentacja-ecm/KANONICZNA-OFERTA-I-CENNIK-2026.md`](dokumentacja-ecm/KANONICZNA-OFERTA-I-CENNIK-2026.md)
 
 ---
 
-*Dokumentacja przygotowana przez zespół ECM Digital | Ostatnia aktualizacja: Styczeń 2025*
+## 🪜 Drabina Wartości ECM Digital (4 Filary Oferty 2026)
+
+Oferta agencji opiera się na 4-etapowej drabinie wartości (Value Ladder):
+
+1. **Audyt Gotowości AI & Procesów** *(od 3 900 PLN)*  
+   Diagnoza infrastruktury i wytypowanie 3–5 Quick-Wins. **100% kwoty audytu jest odliczane** przy wdrożeniu kolejnego etapu.
+2. **AI Agent Sprint — 14 Dni ⭐ [BESTSELLER]** *(od 9 900 PLN Fixed-Price)*  
+   Szybkie, mierzalne wdrożenie autonomicznego agenta AI zintegrowanego z CRM (HubSpot, Pipedrive, Salesforce) i dedykowanym dashboardem KPI.
+3. **Dedykowane Systemy & Automatyzacje** *(od 3 500 – 12 000+ PLN)*  
+   Workflowy n8n, platformy headless e-commerce (Shopify / Baselinker), serwisy Next.js oraz prototypy MVP aplikacji webowych.
+4. **AI Growth Partner (Abonament / Retainer)** *(od 2 500 PLN / msc)*  
+   Stałe utrzymanie, monitoring stabilności, prompt tuning pod nowe modele LLM, aktualizacje bazy RAG i dedykowane wsparcie SLA.
+
+---
+
+## 🛠️ Stack Technologiczny
+
+- **Framework:** [Next.js 14](https://nextjs.org/) (App Router, Static Site Generation SSG, Route Handlers)
+- **Język:** TypeScript 5.x
+- **Styling:** Tailwind CSS, Lucide React, Glassmorphism 2.0 UI
+- **Sztuczna Inteligencja:** Google Gemini API (`@google/generative-ai`), LangChain, Pinecone, Langfuse
+- **Backend & Baza:** Firebase Hosting, Cloud Firestore, Firebase Admin SDK
+- **Analityka & Eventy:** PostHog, Google Analytics
+- **Internacjonalizacja (i18n):** Wielojęzyczność (PL, EN, DE, ES, SZL, AR)
+
+---
+
+## 📁 Struktura Projektu
+
+```
+.
+├── src/
+│   ├── app/                      # Next.js App Router
+│   │   ├── admin/                # Panel zarządzania agencją (CRM, lead scoring, oferty)
+│   │   ├── api/                  # Route Handlers (Gemini, audyt, webhooki)
+│   │   ├── blog/                 # Blog technologiczny i artykuły SEO
+│   │   ├── cases/                # Dynamiczne i statyczne case studies
+│   │   ├── lp/                   # Dedykowane strony lądowania (Google Ads / kampanie)
+│   │   ├── services/             # Podstrony 8 specjalizacji ofertowych
+│   │   ├── wycena/               # Interaktywny Kalkulator Wyceny
+│   │   ├── layout.tsx            # Główny layout aplikacji
+│   │   └── page.tsx              # Strona główna z sekcją 4 Filarów Usług
+│   ├── components/               # Komponenty UI, sekcje homepage, kalkulator
+│   ├── context/                  # Konteksty React (język, notyfikacje)
+│   └── translations/             # Słowniki tłumaczeń (PL, EN, DE, ES, SZL, AR)
+├── dokumentacja-ecm/             # Oficjalna dokumentacja agencji i cenniki
+│   ├── KANONICZNA-OFERTA-I-CENNIK-2026.md # Główny dokument referencyjny
+│   ├── cennik/                   # Karty cennikowe poszczególnych usług
+│   └── oferta-uslug/             # Szczegółowe opisy wdrożeń i procesów
+├── public/                       # Statyczne zasoby, ikony, kb-ecm.json
+├── .github/workflows/deploy.yml  # Automatyczny deploy GitHub Actions na Firebase
+└── deploy.sh                     # Skrypt do lokalnego deploymentu na produkcję
+```
+
+---
+
+## 🚀 Uruchomienie i Development
+
+### Wymagania wstępne:
+- Node.js w wersji **20.x**
+- npm 10+
+
+### Instalacja zależności:
+```bash
+npm install
+```
+
+### Uruchomienie serwera deweloperskiego:
+```bash
+npm run dev
+```
+Aplikacja uruchamia się lokalnie pod adresem: [http://localhost:3001](http://localhost:3001).
+
+### Zmienne środowiskowe (`.env.local`):
+Wymagane zmienne konfiguracyjne:
+```env
+NEXT_PUBLIC_FIREBASE_PROJECT_ID=ecmdigital-28074
+NEXT_PUBLIC_GEMINI_API_KEY=your_gemini_api_key
+NEXT_PUBLIC_POSTHOG_KEY=your_posthog_key
+NEXT_PUBLIC_POSTHOG_HOST=https://eu.i.posthog.com
+```
+
+---
+
+## 📦 Budowanie i Wdrożenie Produkcyjne
+
+### 1. Kompilacja projektu:
+```bash
+npm run build
+```
+Next.js kompiluje aplikację i generuje zoptymalizowane pliki produkcyjne w katalogu `out/`.
+
+### 2. Publikacja na Firebase Hosting:
+Zautomatyzowany skrypt przygotowuje zasoby i publikuje projekt na żywo:
+```bash
+./deploy.sh
+```
+Lub bezpośrednio za pomocą Firebase CLI:
+```bash
+firebase deploy --only hosting
+```
+
+---
+
+© 2026 ECM Digital. Wszelkie prawa zastrzeżone.
