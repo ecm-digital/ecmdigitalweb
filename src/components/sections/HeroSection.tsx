@@ -98,21 +98,21 @@ export default function HeroSection() {
           <div style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', maxWidth: '840px', margin: '0 auto' }}>
             
             {/* Elevated Pill Badge */}
-            <div className="hero-badge fade-in-up" style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', padding: '8px 20px', borderRadius: '999px', background: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(99, 102, 241, 0.25)', backdropFilter: 'blur(20px)', fontSize: '0.78rem', fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.9)', boxShadow: '0 4px 20px rgba(59, 130, 246, 0.15)', marginBottom: '28px' }}>
-              <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#3b82f6', boxShadow: '0 0 12px #3b82f6' }} className="animate-pulse" />
-              {T('hero.badge')}
+            <div className="hero-badge fade-in-up" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '6px 16px', borderRadius: '999px', background: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(99, 102, 241, 0.25)', backdropFilter: 'blur(20px)', fontSize: '0.72rem', fontWeight: 600, letterSpacing: '0.05em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.9)', boxShadow: '0 4px 20px rgba(59, 130, 246, 0.15)', marginBottom: '24px' }}>
+              <span style={{ width: '7px', height: '7px', borderRadius: '50%', background: '#3b82f6', boxShadow: '0 0 12px #3b82f6', flexShrink: 0 }} className="animate-pulse" />
+              <span>{T('hero.badge')}</span>
             </div>
 
             {/* Elevated Title */}
-            <h1 className="hero-title fade-in-up" style={{ animationDelay: '0.1s', marginBottom: '24px', lineHeight: 1.12, fontSize: 'clamp(2.5rem, 5vw, 4rem)', letterSpacing: '-0.035em', fontWeight: 800, color: '#ffffff' }}>
+            <h1 className="hero-title fade-in-up" style={{ animationDelay: '0.1s', marginBottom: '20px', lineHeight: 1.15, fontSize: 'clamp(1.85rem, 5.5vw, 3.8rem)', letterSpacing: '-0.035em', fontWeight: 800, color: '#ffffff' }}>
               {isValidService ? T(`personalization.${serviceParam}.title`) : (
                 <>
-                  <span style={{ fontWeight: 400, color: 'rgba(255,255,255,0.9)' }}>{T(title1Key)}</span> <br />
+                  <span style={{ fontWeight: 400, color: 'rgba(255,255,255,0.9)' }}>{T(title1Key)}</span> <br className="hidden md:inline" />
                   <span
                     className="font-extrabold"
                     style={{
                       display: 'inline-block',
-                      margin: '6px 0',
+                      margin: '4px 0',
                       background: 'linear-gradient(135deg, #60a5fa 0%, #818cf8 40%, #c084fc 80%, #f472b6 100%)',
                       WebkitBackgroundClip: 'text',
                       WebkitTextFillColor: 'transparent',
@@ -120,23 +120,23 @@ export default function HeroSection() {
                     }}
                   >
                     {T(titleAccentKey)}
-                  </span> <br />
+                  </span> <br className="hidden md:inline" />
                   <span style={{ fontWeight: 700 }}>{T(title2Key)}</span>
                 </>
               )}
             </h1>
 
             {/* Elevated Subtitle */}
-            <p className="hero-subtitle fade-in-up" style={{ animationDelay: '0.2s', marginBottom: '38px', maxWidth: '660px', fontSize: '1.12rem', color: 'rgba(255,255,255,0.65)', lineHeight: 1.7, fontWeight: 400 }}>
+            <p className="hero-subtitle fade-in-up" style={{ animationDelay: '0.2s', marginBottom: '32px', maxWidth: '660px', fontSize: 'clamp(1rem, 2.5vw, 1.12rem)', color: 'rgba(255,255,255,0.65)', lineHeight: 1.65, fontWeight: 400 }}>
               {heroSubtitle}
             </p>
 
             {/* Elevated Action Buttons */}
-            <div className="hero-actions fade-in-up" style={{ animationDelay: '0.3s', display: 'flex', gap: '16px', flexWrap: 'wrap', justifyContent: 'center' }}>
+            <div className="hero-actions fade-in-up" style={{ animationDelay: '0.3s', display: 'flex', gap: '14px', flexWrap: 'wrap', justifyContent: 'center' }}>
               <a
                 href="#services"
                 className="btn-primary premium-button-shine"
-                style={{ padding: '16px 36px', fontSize: '1.02rem', display: 'inline-flex', alignItems: 'center', gap: '8px' }}
+                style={{ padding: '14px 28px', fontSize: '1rem', display: 'inline-flex', alignItems: 'center', gap: '8px' }}
                 onClick={() => handleCtaClick('explore_services')}
               >
                 <span>{T('hero.cta1')}</span>

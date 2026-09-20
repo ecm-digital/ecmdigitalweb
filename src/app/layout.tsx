@@ -1,7 +1,6 @@
 import type { Metadata } from "next"
 import "./globals.css"
 import "./nextgen2026.css"
-import "../mobile-ux.css"
 import GoogleAnalytics from "./GoogleAnalytics"
 import AIChatbot from "@/components/AIChatbot"
 import Providers from "@/components/Providers"

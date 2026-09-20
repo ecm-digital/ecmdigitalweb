@@ -224,7 +224,7 @@ export default function PricingCalculator() {
   }
 
   return (
-    <div style={{ maxWidth: '600px', margin: '0 auto', padding: '40px 24px' }}>
+    <div style={{ maxWidth: '600px', margin: '0 auto', padding: 'clamp(20px, 4vw, 40px) clamp(14px, 3vw, 24px)' }}>
       <form onSubmit={handleSubmit}>
         {/* STEP 1: Service Selection */}
         {step >= 1 && (
@@ -314,6 +314,7 @@ export default function PricingCalculator() {
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'space-between',
+                        flexWrap: 'wrap',
                         gap: '12px',
                       }}
                     >

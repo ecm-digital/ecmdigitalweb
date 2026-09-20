@@ -671,14 +671,6 @@ iframe[title*="Lokalizacja"]:hover {
         font-size: 0.95rem !important;
     }
 
-    /* Grid Spacing Mobile */
-    [style*="gap: '32px'"],
-    [style*="gap: 32px"],
-    [style*="gap: '40px'"],
-    [style*="gap: 40px"] {
-        gap: 16px !important;
-    }
-
     /* Process Grid Mobile */
     .process-grid {
         gap: 20px !important;
@@ -690,23 +682,33 @@ iframe[title*="Lokalizacja"]:hover {
         gap: 16px !important;
     }
 
-    /* Blog & Testimonials Grid Mobile */
-    [style*="grid-template-columns"],
-    [style*="gridTemplateColumns"] {
-        grid-template-columns: 1fr !important;
+    /* Section padding on mobile */
+    .section,
+    section[id] {
+        padding: clamp(48px, 8vw, 80px) 0 !important;
     }
 
     /* Hero Actions Mobile */
     .hero-actions {
+        display: flex !important;
+        flex-direction: column !important;
+        width: 100% !important;
+        max-width: 340px !important;
+        margin: 0 auto !important;
         gap: 12px !important;
     }
 
-    /* Case Study Layout Mobile */
-    [style*="gap: '32px'"],
-    [style*="gap: 32px"],
-    [style*="gap:32px"] {
-        flex-direction: column !important;
-        gap: 16px !important;
+    .hero-actions a {
+        width: 100% !important;
+        justify-content: center !important;
+        text-align: center !important;
+    }
+
+    .hero-badge {
+        white-space: normal !important;
+        text-align: center !important;
+        line-height: 1.4 !important;
+        max-width: 100% !important;
     }
 
     /* Button Sizing Mobile */
@@ -714,9 +716,10 @@ iframe[title*="Lokalizacja"]:hover {
     .btn-secondary,
     button[class*="cta"],
     button[class*="button"] {
-        padding: 12px 20px !important;
+        padding: 13px 22px !important;
         font-size: 0.95rem !important;
         min-width: auto !important;
+        border-radius: 14px !important;
     }
 
     /* Input Sizing Mobile */
@@ -736,7 +739,7 @@ iframe[title*="Lokalizacja"]:hover {
     [style*="margin-bottom: 60px"],
     [style*="margin-bottom:60px"],
     [style*="marginBottom: 60px"] {
-        margin-bottom: 30px !important;
+        margin-bottom: 32px !important;
     }
 
     [style*="margin-bottom: 48px"],
@@ -747,26 +750,29 @@ iframe[title*="Lokalizacja"]:hover {
 
     /* Automation Flow Visualizer Mobile Scaling */
     .automation-node {
-        padding: 4px 8px !important;
-        font-size: 0.65rem !important;
+        padding: 5px 8px !important;
+        font-size: 0.7rem !important;
         gap: 4px !important;
-        border-radius: 6px !important;
+        border-radius: 8px !important;
+        white-space: nowrap !important;
     }
     .automation-connector {
         flex-grow: 1 !important;
+        min-width: 8px !important;
     }
 }
 
 @media (max-width: 640px) {
     .navbar-floating {
-        width: 98% !important;
-        border-radius: 16px;
-        padding: 0 12px !important;
-        height: 64px;
+        width: calc(100% - 20px) !important;
+        border-radius: 16px !important;
+        padding: 0 14px !important;
+        min-height: 56px !important;
+        height: auto !important;
     }
 
     .navbar-floating.scrolled {
-        width: 98%;
+        width: calc(100% - 20px) !important;
     }
 
     .navbar-logo span {

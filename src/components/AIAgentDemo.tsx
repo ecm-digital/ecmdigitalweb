@@ -157,7 +157,7 @@ export default function AIAgentDemo() {
               </div>
 
               {/* Automation Flow Visualizer */}
-              <div className="mt-3 pt-3 border-t border-white/5 flex items-center gap-2">
+              <div className="mt-3 pt-3 border-t border-white/5 flex items-center gap-1.5 md:gap-2 overflow-x-auto pb-1" style={{ scrollbarWidth: 'none' }}>
                 <div className={`automation-node ${currentStep.activeNode === 'input' ? 'active' : ''}`}>
                   <span>📥 Otodom</span>
                 </div>
