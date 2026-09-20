@@ -12,6 +12,19 @@ import Image from 'next/image';
 
 const FALLBACK_CASES = [
   {
+    slug: 'ai-agent-sprint',
+    color: '#8b5cf6',
+    img: '/case_study_ai_chatbot_mockup_1772144142535.webp',
+    translations: {
+      pl: { category: 'Flagowiec • 14 Dni', title: 'AI Agent Sprint dla B2B', description: 'Wdrożenie produkcyjnego Agenta AI w 14 dni roboczych: kwalifikacja leadów i integracja z CRM.', results: '14 Dni Wdrożenia' },
+      en: { category: 'Flagship • 14 Days', title: 'AI Agent Sprint for B2B', description: 'Production AI Agent deployment in 14 business days: lead qualification and CRM integration.', results: '14-Day Delivery' },
+      de: { category: 'Flaggschiff • 14 Tage', title: 'AI Agent Sprint für B2B', description: 'Produktionsreifer KI-Agent in 14 Arbeitstagen: Lead-Qualifizierung und CRM-Integration.', results: '14 Tage Einführung' },
+      es: { category: 'Insignia • 14 Días', title: 'AI Agent Sprint para B2B', description: 'Implementación de agente de IA en 14 días hábiles con CRM.', results: '14 Días' },
+      szl: { category: 'Flagowiec • 14 Dni', title: 'AI Agent Sprint lo B2B', description: 'Wdrożynie agenta AI we 14 dni roboczych ze CRM.', results: '14 Dni' },
+      ar: { category: 'المنتج الرئيسي • 14 يوماً', title: 'AI Agent Sprint للشركات', description: 'تنفيذ وكيل ذكاء اصطناعي في 14 يوم عمل مع CRM.', results: '14 يوماً' }
+    }
+  },
+  {
     slug: 'chatbot-ai-ecommerce',
     color: '#3b82f6',
     img: '/case_study_ai_chatbot_mockup_1772144142535.webp',
@@ -51,16 +64,16 @@ const FALLBACK_CASES = [
     }
   },
   {
-    slug: 'aplikacja-mvp',
-    color: '#f59e0b',
+    slug: 'kamar-serwis',
+    color: '#f97316',
     img: '/case_study_mvp_startup_mockup_1772144187874.webp',
     translations: {
-      pl: { category: 'Aplikacje Mobilne / Web', title: 'Aplikacja MVP w 10 tygodni', description: 'Od koncepcji do App Store / Web w 10 tygodni. Walidacja pomysłu z prawdziwymi użytkownikami.', results: '10 Tygodni do MVP' },
-      en: { category: 'Mobile / Web Apps', title: 'MVP App in 10 Weeks', description: 'From concept to App Store / Web in 10 weeks. Validation of the idea with real users.', results: '10 Weeks to MVP' },
-      de: { category: 'Mobile & Web Apps', title: 'MVP-App in 10 Wochen', description: 'Vom Konzept bis zum App Store / Web in 10 Wochen. Validierung der Idee mit echten Nutzern.', results: '10 Wochen zum MVP' },
-      es: { category: 'Aplicaciones Móviles / Web', title: 'Aplicación MVP en 10 semanas', description: 'De concepto a App Store / Web en 10 semanas. Validación de la idea con usuarios reales.', results: '10 semanas para MVP' },
-      szl: { category: 'Aplikacyje mobilne', title: 'Apka MVP w 10 tydni', description: 'Od pomysłu do gotowyj apki w 10 tydni. Sprawdzynie ze ludźmi.', results: '10 tydni' },
-      ar: { category: 'تطبيقات الويب والجوال', title: 'تطبيق MVP في 10 أسابيع', description: 'من الفكرة إلى متجر التطبيقات / الويب في 10 أسابيع. التحقق من الفكرة مع مستخدمين حقيقيين.', results: '10 أسابيع للنموذج الأول' }
+      pl: { category: 'Web & SEO B2B', title: 'Platforma Kamar Serwis z kalkulatorem', description: 'Nowoczesna platforma wynajmu maszyn budowlanych z kalkulatorem i integracją zapytań do CRM.', results: '+150% Zapytań' },
+      en: { category: 'B2B Web & SEO', title: 'Kamar Serwis Rental Platform', description: 'Rental equipment platform with live estimator and automated CRM routing.', results: '+150% Inquiries' },
+      de: { category: 'B2B Web & SEO', title: 'Kamar Serwis Mietplattform', description: 'Mietgeräteplattform mit Rechner und CRM-Anbindung.', results: '+150% Anfragen' },
+      es: { category: 'Web B2B', title: 'Plataforma Kamar Serwis', description: 'Plataforma de alquiler con estimador y CRM.', results: '+150% Consultas' },
+      szl: { category: 'Web B2B', title: 'Platforma Kamar Serwis', description: 'Strona ze kalkulatorem lo klijyntōw ze CRM.', results: '+150%' },
+      ar: { category: 'منصة ويب B2B', title: 'منصة كمار لتأجير المعدات', description: 'منصة تأجير مع حاسبة متقدمة وتكامل CRM.', results: '+150% استفسارات' }
     }
   },
   {
@@ -79,14 +92,14 @@ const FALLBACK_CASES = [
 ];
 
 const RELATED_PROJECTS_MAP: Record<string, string[]> = {
-  'ai-agents': ['chatbot-ai-ecommerce', 'automatyzacja-nieruchomosci'],
-  'ai-agent-sprint': ['automatyzacja-n8n', 'chatbot-ai-ecommerce', 'automatyzacja-nieruchomosci'],
-  'ai-growth-partner': ['automatyzacja-n8n', 'chatbot-ai-ecommerce', 'automatyzacja-nieruchomosci'],
+  'ai-agents': ['ai-agent-sprint', 'chatbot-ai-ecommerce'],
+  'ai-agent-sprint': ['ai-agent-sprint', 'chatbot-ai-ecommerce', 'automatyzacja-n8n'],
+  'ai-growth-partner': ['ai-agent-sprint', 'automatyzacja-n8n'],
   'automation': ['automatyzacja-n8n', 'automatyzacja-nieruchomosci'],
   'ecommerce': ['sklep-shopify-ai', 'chatbot-ai-ecommerce'],
-  'websites': ['sklep-shopify-ai', 'aplikacja-mvp'],
-  'mvp': ['aplikacja-mvp'],
-  'ai-audit': ['automatyzacja-n8n', 'chatbot-ai-ecommerce']
+  'websites': ['kamar-serwis', 'sklep-shopify-ai'],
+  'mvp': ['ai-agent-sprint', 'automatyzacja-n8n'],
+  'ai-audit': ['ai-agent-sprint', 'automatyzacja-n8n']
 };
 
 const sectionTitleMap: Record<string, string> = {
@@ -254,6 +267,24 @@ export default function ServicePage({ serviceKey }: { serviceKey: string }) {
                         <div style={{ display: 'inline-flex', alignItems: 'center', padding: '12px 24px', background: `${accentColor}15`, border: `1px solid ${accentColor}30`, borderRadius: '999px', fontSize: '1.1rem', fontWeight: 700, color: 'white' }}>
                             {T(`${serviceKey}.price`)}
                         </div>
+
+                        {serviceKey === 'ai-audit' && (
+                            <div style={{ marginTop: '20px' }}>
+                                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '10px 20px', background: 'rgba(16, 185, 129, 0.12)', border: '1px solid rgba(16, 185, 129, 0.35)', borderRadius: '999px', fontSize: '0.95rem', fontWeight: 700, color: '#34d399', boxShadow: '0 4px 20px rgba(16, 185, 129, 0.15)' }}>
+                                    <span>🛡️</span>
+                                    <span>{lang === 'pl' ? 'Gwarancja ROI: 100% kosztu audytu odliczamy od wdrożenia AI Agent Sprint lub dedykowanego systemu' : 'ROI Guarantee: 100% of audit fee credited toward AI Agent Sprint or custom build'}</span>
+                                </div>
+                            </div>
+                        )}
+
+                        {serviceKey === 'ai-agents' && (
+                            <div style={{ marginTop: '20px' }}>
+                                <a href="/services/ai-agent-sprint" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '10px 20px', background: 'rgba(139, 92, 246, 0.12)', border: '1px solid rgba(139, 92, 246, 0.35)', borderRadius: '999px', fontSize: '0.92rem', fontWeight: 600, color: '#c084fc', textDecoration: 'none', transition: 'all 0.2s ease' }}>
+                                    <span>⚡</span>
+                                    <span>{lang === 'pl' ? 'Potrzebujesz szybkiego wdrożenia w 14 dni za stałą cenę 9 900 PLN? Zobacz AI Agent Sprint →' : 'Need a rapid 14-day production launch at a fixed 9,900 PLN? Explore AI Agent Sprint →'}</span>
+                                </a>
+                            </div>
+                        )}
                     </div>
                 </div>
             </section>

@@ -635,7 +635,7 @@ export const de = {
         "faq.title": "Häufig Gestellte Fragen",
         "faq.subtitle": "Antworten auf die häufigsten Fragen",
         "faq.q1": "Wie lange dauert ein typisches Projekt?",
-        "faq.a1": "Die Projektdauer hängt von der Komplexität ab. Eine Website dauert 2–4 Wochen, ein E-Commerce-Shop 4–6 Wochen und eine mobile App 8–12 Wochen. Jedes Projekt beginnt mit einer detaillierten Analyse und Zeitplanung.",
+        "faq.a1": "Die Projektdauer richtet sich nach dem Umfang: Der AI Agent Sprint dauert genau 14 Arbeitstage, maßgeschneiderte Systeme und E-Commerce 3–6 Wochen und ein KI-Audit 5–7 Arbeitstage.",
         "faq.q2": "Was kostet die Implementierung eines KI-Agenten?",
         "faq.a2": "Die Kosten für KI-Implementierung hängen vom Automatisierungsumfang ab. Ein einfacher KI-Chatbot beginnt ab 800 EUR, ein erweitertes System mit Integrationen ab 2000 EUR. Wir bieten kostenlose Beratungen zur Kostenschätzung.",
         "faq.q3": "Bieten Sie Support nach dem Launch?",

@@ -635,7 +635,7 @@ export const szl = {
         "faq.title": "Często Pytane",
         "faq.subtitle": "Odpowiedzi na to co ludzi interesuje",
         "faq.q1": "Ile to trwa?",
-        "faq.a1": "Zależy co robimy. Strona ze 2-4 tydnie, sklep 4-6, a apka z 8-12. Zawsze wam powiemy na początku.",
+        "faq.a1": "Zależy co robimy: AI Agent Sprint to akuratnie 14 dni roboczych, dedykowane systemy i e-commerce 3–6 tydni, a audyt AI 5–7 dni roboczych.",
         "faq.q2": "Wiela to kosztuje?",
         "faq.a2": "Zależy. Prosty robot od 4,500 PLN, taki lepszy od 12,000 PLN. Pogadajmy to wycenimy.",
         "faq.q3": "Pomagacie potem?",

@@ -6,9 +6,111 @@ import { useLanguage } from "@/context/LanguageContext";
 import { getCaseStudies, CaseStudy } from "@/lib/firestoreService";
 
 const FALLBACK_CASES = [
-  { i: 1, slug: 'chatbot-ai-ecommerce', color: '#3b82f6', img: '/case_study_ai_chatbot_mockup_1772144142535.webp' },
-  { i: 3, slug: 'automatyzacja-n8n', color: '#10b981', img: '/case_study_automation_n8n_mockup_1772144173711.webp' },
-  { i: 5, slug: 'automatyzacja-nieruchomosci', color: '#f59e0b', img: '/img_case_real_estate_ai.webp' },
+  {
+    i: 1,
+    slug: 'ai-agent-sprint',
+    color: '#8b5cf6',
+    img: '/case_study_ai_chatbot_mockup_1772144142535.webp',
+    translations: {
+      pl: {
+        category: 'Filar II • Flagowe Wdrożenie',
+        title: 'AI Agent Sprint — Wdrożenie w 14 Dni dla B2B',
+        description: '🔴 Wyzwanie: Handlowcy poświęcali 18 godzin tygodniowo na manualną analizę zapytań ofertowych i wpisywanie danych do CRM.\n🟢 Rozwiązanie: Wdrożenie w 14 dni Agenta AI analizującego specyfikacje techniczne, badającego budżet i kwalifikującego leady 24/7.',
+        resultsStats: [
+          { value: '15 sek', label: 'Czas reakcji AI' },
+          { value: '14 dni', label: 'Czas wdrożenia' }
+        ]
+      },
+      en: {
+        category: 'Pillar II • Flagship Sprint',
+        title: 'AI Agent Sprint — 14-Day Production Launch for B2B',
+        description: '🔴 Challenge: Sales engineers spent 18 hours weekly manually screening technical RFPs and copying leads into CRM.\n🟢 Solution: 14-day production deployment of an AI Agent triaging specs, qualifying budget, and booking calls 24/7.',
+        resultsStats: [
+          { value: '15 sec', label: 'AI response speed' },
+          { value: '14 days', label: 'Deployment speed' }
+        ]
+      },
+      de: {
+        category: 'Säule II • Flaggschiff',
+        title: 'AI Agent Sprint — 14-Tage-Einführung für B2B',
+        description: '🔴 Herausforderung: 18 Stunden pro Woche für manuelle Spezifikationsprüfung und Dateneingabe in CRM.\n🟢 Lösung: KI-Agent in 14 Tagen, der technische Anfragen qualifiziert und Termine 24/7 bucht.',
+        resultsStats: [
+          { value: '15 Sek', label: 'KI-Antwortzeit' },
+          { value: '14 Tage', label: 'Einführungszeit' }
+        ]
+      }
+    }
+  },
+  {
+    i: 2,
+    slug: 'chatbot-ai-ecommerce',
+    color: '#3b82f6',
+    img: '/case_study_ai_chatbot_mockup_1772144142535.webp',
+    translations: {
+      pl: {
+        category: 'Filar III • Dedykowany System',
+        title: 'Chatbot AI i Asystent Zakupowy dla E-commerce',
+        description: '🔴 Wyzwanie: Zespół obsługi przeciążony powtarzalnymi pytaniami, a 30% klientów porzucało koszyk bez natychmiastowej pomocy.\n🟢 Rozwiązanie: Autonomiczny doradca produktowy AI zintegrowany ze stanami magazynowymi i zamówieniami 24/7.',
+        resultsStats: [
+          { value: '+40%', label: 'Wzrost konwersji' },
+          { value: '-65%', label: 'Mniej ticketów' }
+        ]
+      },
+      en: {
+        category: 'Pillar III • Custom System',
+        title: 'AI Chatbot & Shopping Advisor for E-commerce',
+        description: '🔴 Challenge: Support team overwhelmed with repetitive queries; 30% of buyers abandoned carts without instant assistance.\n🟢 Solution: Autonomous product AI assistant connected to live inventory and orders 24/7.',
+        resultsStats: [
+          { value: '+40%', label: 'Conversion boost' },
+          { value: '-65%', label: 'Support tickets' }
+        ]
+      },
+      de: {
+        category: 'Säule III • Dediziertes System',
+        title: 'KI-Chatbot & Shopping-Assistent für E-Commerce',
+        description: '🔴 Herausforderung: Überlasteter Support und 30% Kaufabbrüche wegen fehlender Soforthilfe.\n🟢 Lösung: Autonomer KI-Produktberater mit 24/7-Kataloganbindung.',
+        resultsStats: [
+          { value: '+40%', label: 'Konversion' },
+          { value: '-65%', label: 'Tickets' }
+        ]
+      }
+    }
+  },
+  {
+    i: 3,
+    slug: 'automatyzacja-n8n',
+    color: '#10b981',
+    img: '/case_study_automation_n8n_mockup_1772144173711.webp',
+    translations: {
+      pl: {
+        category: 'Filar III • Integracje n8n',
+        title: 'Automatyzacja 15 Procesów w n8n dla Firmy B2B',
+        description: '🔴 Wyzwanie: Firma traciła 25 godzin tygodniowo na ręczne przepisywanie zamówień, fakturowanie i raportowanie.\n🟢 Rozwiązanie: Zintegrowany ekosystem n8n łączący ERP, CRM i bazy danych z automatycznymi wycenami w 5 minut.',
+        resultsStats: [
+          { value: '25h', label: 'Zaoszczędzone / tydz.' },
+          { value: '-90%', label: 'Błędów ludzkich' }
+        ]
+      },
+      en: {
+        category: 'Pillar III • n8n Integrations',
+        title: '15 Workflow Automations in n8n for B2B Enterprise',
+        description: '🔴 Challenge: Over 25 hours wasted weekly on manual invoice entry, report generation, and CRM synchronization.\n🟢 Solution: End-to-end n8n architecture linking ERP, CRM, and databases with automated quoting in 5 minutes.',
+        resultsStats: [
+          { value: '25h', label: 'Hours saved / week' },
+          { value: '-90%', label: 'Manual errors' }
+        ]
+      },
+      de: {
+        category: 'Säule III • n8n-Workflows',
+        title: '15 Workflow-Automatisierungen mit n8n für B2B',
+        description: '🔴 Herausforderung: 25 Stunden wöchentlich für manuelle Rechnungserstellung und Berichte.\n🟢 Lösung: n8n-Integration zwischen ERP und CRM mit automatisierter Angebotserstellung.',
+        resultsStats: [
+          { value: '25h', label: 'Gespart / Woche' },
+          { value: '-90%', label: 'Manuelle Fehler' }
+        ]
+      }
+    }
+  },
 ];
 
 function resolveImage(item: any, title: string): string {
@@ -66,7 +168,7 @@ export default function CaseStudiesSection() {
     e.currentTarget.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
   };
 
-  const TARGET_SLUGS = ['chatbot-ai-ecommerce', 'automatyzacja-n8n', 'automatyzacja-nieruchomosci'];
+  const TARGET_SLUGS = ['ai-agent-sprint', 'chatbot-ai-ecommerce', 'automatyzacja-n8n'];
 
   const displayCases = (cases.length > 0 ? cases : FALLBACK_CASES)
     .filter((item: any) => TARGET_SLUGS.includes(item.slug))

@@ -635,7 +635,7 @@ export const es = {
         "faq.title": "Preguntas Frecuentes",
         "faq.subtitle": "Respuestas a las preguntas más comunes",
         "faq.q1": "¿Cuánto tiempo toma un proyecto típico?",
-        "faq.a1": "La duración del proyecto depende de la complejidad. Un sitio web toma 2–4 semanas, una tienda de comercio electrónico 4–6 semanas y una aplicación móvil 8–12 semanas. Cada proyecto comienza con un análisis detallado y un cronograma.",
+        "faq.a1": "La duración del proyecto depende del alcance: AI Agent Sprint toma exactamente 14 días hábiles, sistemas personalizados y e-commerce 3–6 semanas, y una auditoría de IA 5–7 días hábiles.",
         "faq.q2": "¿Cuánto cuesta implementar un agente de IA?",
         "faq.a2": "El costo de implementación de IA depende del alcance de la automatización. Un chatbot básico comienza desde 1.000 EUR y un sistema avanzado con integraciones desde 3.000 EUR. Ofrecemos consultas gratuitas para estimar costos.",
         "faq.q3": "¿Ofrecen soporte después del lanzamiento?",
