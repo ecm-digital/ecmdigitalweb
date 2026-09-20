@@ -83,6 +83,36 @@ Naszą misją jest tworzenie rozwiązań, które nie tylko wyglądają atrakcyjn
 
 [Dowiedz się więcej o automatyzacjach n8n →](automatyzacje-n8n/README.md)
 
+### [AI Agent Sprint — 14 dni](ai-agent-sprint/README.md)
+
+![Ikona AI Agent Sprint](https://via.placeholder.com/150x100?text=AI+Agent+Sprint)
+
+**Szybkie, mierzalne wdrożenie Agenta AI** zintegrowanego z Twoim CRM i dashboardem KPI w zaledwie 14 dni. Zwinne dostarczanie wartości zamiast długich projektów IT.
+
+**Kluczowe korzyści:**
+- Gotowe wdrożenie produkcyjne w zaledwie 2 tygodnie
+- Dwukierunkowa integracja z wybranym CRM (HubSpot, Pipedrive itp.)
+- Dedykowany, wizualny dashboard z kluczowymi metrykami KPI
+- Pełne przekazanie praw, bazy wiedzy i instrukcji dalszego rozwoju
+- Stały koszt (Fixed Price) z pełną gwarancją wdrożenia
+
+[Dowiedz się więcej o AI Agent Sprint →](ai-agent-sprint/README.md)
+
+### [AI Growth Partner (Abonament)](ai-growth-partner/README.md)
+
+![Ikona AI Growth Partner](https://via.placeholder.com/150x100?text=AI+Growth+Partner)
+
+**Stałe utrzymanie, rozwój i optymalizacja** wdrożonych agentów AI oraz automatyzacji w Twojej firmie. Pełne wsparcie i ustrukturyzowana opieka deweloperska.
+
+**Kluczowe korzyści:**
+- Ciągły monitoring, utrzymanie i stabilność workflowów 24/7
+- Optymalizacja promptów i bazy wiedzy RAG pod nowe wersje LLM
+- Stała rozbudowa systemów o nowe procesy i integracje w n8n/Make
+- Dedykowane czasy reakcji wsparcia (SLA) dopasowane do skali biznesu
+- Miesięczne raporty wydajności i generowanego ROI
+
+[Dowiedz się więcej o AI Growth Partner →](ai-growth-partner/README.md)
+
 ### [Kampanie Social Media z Data Science](social-media-data-science/README.md)
 
 ![Ikona Social Media Data Science](https://via.placeholder.com/150x100?text=Social+Media+Data+Science)
@@ -109,6 +139,8 @@ Nie wiesz, która z naszych usług najlepiej odpowiada na Twoje potrzeby? Skorzy
 | Testowanie nowego pomysłu biznesowego | [Prototypy MVP](prototypy-mvp/README.md) |
 | Poprawa istniejącego produktu cyfrowego | [Audyty UX](audyty-ux/README.md) |
 | Automatyzacja procesów biznesowych | [Automatyzacje z n8n](automatyzacje-n8n/README.md) |
+| Szybkie wdrożenie inteligentnego Agenta AI z CRM | [AI Agent Sprint — 14 dni](ai-agent-sprint/README.md) |
+| Utrzymanie, stały rozwój i optymalizacja systemów AI | [AI Growth Partner (Abonament)](ai-growth-partner/README.md) |
 | Zwiększenie ROI z kampanii social media | [Kampanie Social Media z Data Science](social-media-data-science/README.md) |
 
 ## Proces Współpracy

@@ -80,6 +80,8 @@ const FALLBACK_CASES = [
 
 const RELATED_PROJECTS_MAP: Record<string, string[]> = {
   'ai-agents': ['chatbot-ai-ecommerce', 'automatyzacja-nieruchomosci'],
+  'ai-agent-sprint': ['automatyzacja-n8n', 'chatbot-ai-ecommerce', 'automatyzacja-nieruchomosci'],
+  'ai-growth-partner': ['automatyzacja-n8n', 'chatbot-ai-ecommerce', 'automatyzacja-nieruchomosci'],
   'automation': ['automatyzacja-n8n', 'automatyzacja-nieruchomosci'],
   'ecommerce': ['sklep-shopify-ai', 'chatbot-ai-ecommerce'],
   'websites': ['sklep-shopify-ai', 'aplikacja-mvp'],
@@ -270,20 +272,31 @@ export default function ServicePage({ serviceKey }: { serviceKey: string }) {
                         </div>
 
                         <div className="fade-in-up" style={{ gridColumn: 'span 12', gridArea: 'auto/span 5', display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                            <h3 style={{ fontSize: '1.5rem', marginBottom: '8px', paddingLeft: '16px' }}>{st(lang, 'process.title')}</h3>
-                            {[1, 2, 3, 4].map((idx) => (
-                                <div key={idx} className="premium-glass-panel premium-hover-lift" style={{
-                                    padding: '24px', borderRadius: '20px', display: 'flex', alignItems: 'flex-start', gap: '16px', transitionDelay: `${idx * 0.1}s`
-                                }}>
-                                    <div style={{
-                                        minWidth: '36px', height: '36px', borderRadius: '10px',
-                                        background: `${accentColor}15`, border: `1px solid ${accentColor}30`,
-                                        display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                        fontSize: '0.85rem', fontWeight: 800, color: accentColor
-                                    }}>0{idx}</div>
-                                    <span style={{ fontSize: '1.05rem', color: 'rgba(255,255,255,0.9)', lineHeight: 1.5 }}>{st(lang, `process.step${idx}`)}</span>
-                                </div>
-                            ))}
+                            <h3 style={{ fontSize: '1.5rem', marginBottom: '8px', paddingLeft: '16px' }}>
+                                {st(lang, `${serviceKey}.process.title`) !== `${serviceKey}.process.title`
+                                    ? st(lang, `${serviceKey}.process.title`)
+                                    : st(lang, 'process.title')}
+                            </h3>
+                            {[1, 2, 3, 4, 5, 6].map((idx) => {
+                                const stepKey = `${serviceKey}.process.step${idx}`;
+                                const hasCustomStep = st(lang, stepKey) !== stepKey;
+                                const text = hasCustomStep ? st(lang, stepKey) : (idx <= 4 ? st(lang, `process.step${idx}`) : null);
+                                if (!text) return null;
+
+                                return (
+                                    <div key={idx} className="premium-glass-panel premium-hover-lift" style={{
+                                        padding: '24px', borderRadius: '20px', display: 'flex', alignItems: 'flex-start', gap: '16px', transitionDelay: `${idx * 0.1}s`
+                                    }}>
+                                        <div style={{
+                                            minWidth: '36px', height: '36px', borderRadius: '10px',
+                                            background: `${accentColor}15`, border: `1px solid ${accentColor}30`,
+                                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                            fontSize: '0.85rem', fontWeight: 800, color: accentColor
+                                        }}>0{idx}</div>
+                                        <span style={{ fontSize: '1.05rem', color: 'rgba(255,255,255,0.9)', lineHeight: 1.5 }}>{text}</span>
+                                    </div>
+                                );
+                            })}
                         </div>
                     </div>
                 </div>
@@ -293,31 +306,69 @@ export default function ServicePage({ serviceKey }: { serviceKey: string }) {
             <section className="section bg-grid relative" style={{ borderTop: '1px solid rgba(255,255,255,0.05)', borderBottom: '1px solid rgba(255,255,255,0.05)', background: 'linear-gradient(to bottom, transparent, rgba(5,5,7,0.8))' }}>
                 <div className="container">
                     <div className="section-header fade-in-up">
-                        <span className="section-label" style={{ padding: '8px 16px', background: `${accentColor}15`, color: accentColor, borderRadius: '999px', border: `1px solid ${accentColor}30` }}>{st(lang, 'discover.label')}</span>
-                        <h2 className="section-title">{st(lang, 'features.title')}</h2>
+                        <span className="section-label" style={{ padding: '8px 16px', background: `${accentColor}15`, color: accentColor, borderRadius: '999px', border: `1px solid ${accentColor}30` }}>
+                            {serviceKey === 'ai-agent-sprint' ? T('ai-agent-sprint.processes.label') : st(lang, 'discover.label')}
+                        </span>
+                        <h2 className="section-title">
+                            {serviceKey === 'ai-agent-sprint' ? T('ai-agent-sprint.processes.title') : st(lang, 'features.title')}
+                        </h2>
                     </div>
 
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '24px' }}>
-                        {[1, 2, 3, 4, 5, 6].map((i) => {
-                            const featText = T(`${serviceKey}.features.${i}`);
-                            if (!featText || featText === `${serviceKey}.features.${i}`) return null;
+                    {serviceKey === 'ai-agent-sprint' ? (
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '24px' }}>
+                            {[1, 2, 3, 4, 5, 6].map((i) => {
+                                const procTitle = T(`ai-agent-sprint.processes.${i}.title`);
+                                const procDesc = T(`ai-agent-sprint.processes.${i}.desc`);
+                                const procIcon = T(`ai-agent-sprint.processes.${i}.icon`);
 
-                            return (
-                                <div key={i} className="premium-glass-panel premium-hover-lift fade-in-up" style={{ padding: '32px', borderRadius: '24px', display: 'flex', gap: '16px', alignItems: 'flex-start', animationDelay: `${i * 0.1}s` }}>
-                                    <div style={{
-                                        minWidth: '36px', height: '36px', borderRadius: '12px',
-                                        background: `${accentColor}15`, color: accentColor,
-                                        display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                        fontSize: '16px', fontWeight: 'bold', border: `1px solid ${accentColor}30`,
-                                        boxShadow: `0 0 15px ${accentColor}20`
-                                    }}>✓</div>
-                                    <span style={{ fontSize: '1.1rem', color: 'rgba(255,255,255,0.8)', lineHeight: 1.6 }}>
-                                        {featText}
-                                    </span>
-                                </div>
-                            );
-                        })}
-                    </div>
+                                if (!procTitle || procTitle === `ai-agent-sprint.processes.${i}.title`) return null;
+
+                                return (
+                                    <div key={i} className="premium-glass-panel premium-hover-lift fade-in-up" style={{ padding: '36px', borderRadius: '24px', display: 'flex', flexDirection: 'column', gap: '20px', alignItems: 'flex-start', animationDelay: `${i * 0.1}s` }}>
+                                        <div style={{
+                                            width: '56px', height: '56px', borderRadius: '16px',
+                                            background: `${accentColor}15`, color: accentColor,
+                                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                            fontSize: '28px', border: `1px solid ${accentColor}30`,
+                                            boxShadow: `0 0 20px ${accentColor}25`
+                                        }}>
+                                            {procIcon}
+                                        </div>
+                                        <div>
+                                            <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'white', marginBottom: '10px' }}>
+                                                {procTitle}
+                                            </h3>
+                                            <p style={{ fontSize: '1rem', color: 'rgba(255,255,255,0.65)', lineHeight: 1.6 }}>
+                                                {procDesc}
+                                            </p>
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    ) : (
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '24px' }}>
+                            {[1, 2, 3, 4, 5, 6].map((i) => {
+                                const featText = T(`${serviceKey}.features.${i}`);
+                                if (!featText || featText === `${serviceKey}.features.${i}`) return null;
+
+                                return (
+                                    <div key={i} className="premium-glass-panel premium-hover-lift fade-in-up" style={{ padding: '32px', borderRadius: '24px', display: 'flex', gap: '16px', alignItems: 'flex-start', animationDelay: `${i * 0.1}s` }}>
+                                        <div style={{
+                                            minWidth: '36px', height: '36px', borderRadius: '12px',
+                                            background: `${accentColor}15`, color: accentColor,
+                                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                            fontSize: '16px', fontWeight: 'bold', border: `1px solid ${accentColor}30`,
+                                            boxShadow: `0 0 15px ${accentColor}20`
+                                        }}>✓</div>
+                                        <span style={{ fontSize: '1.1rem', color: 'rgba(255,255,255,0.8)', lineHeight: 1.6 }}>
+                                            {featText}
+                                        </span>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    )}
                 </div>
             </section>
 

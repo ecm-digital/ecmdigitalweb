@@ -5,19 +5,28 @@ import { useLanguage } from "@/context/LanguageContext";
 import { addLead } from '@/lib/firestoreService';
 import { trackLead } from '@/lib/ga';
 
-const SERVICES = [
-  { key: 'ai-agents', label: 'AI Agents', price: { min: 5000, max: 15000 } },
-  { key: 'websites', label: 'Websites', price: { min: 2500, max: 8000 } },
-  { key: 'ecommerce', label: 'E-commerce', price: { min: 4000, max: 12000 } },
-  { key: 'automation', label: 'Automation (N8N)', price: { min: 1500, max: 5000 } },
-  { key: 'mvp', label: 'MVP Prototype', price: { min: 8000, max: 25000 } },
-  { key: 'ai-audit', label: 'AI Audit', price: { min: 3000, max: 6000 } },
+interface ServiceOption {
+  key: string;
+  label: string;
+  price: { min: number; max: number };
+  isSubscription?: boolean;
+}
+
+const SERVICES: ServiceOption[] = [
+  { key: 'ai-agent-sprint', label: 'AI Agent Sprint (14 Days)', price: { min: 9900, max: 14900 } },
+  { key: 'ai-audit', label: 'AI & Process Audit', price: { min: 3900, max: 6000 } },
+  { key: 'automation', label: 'Automation (n8n / API)', price: { min: 3500, max: 9000 } },
+  { key: 'ai-agents', label: 'AI Agents & Chatbots', price: { min: 4500, max: 16000 } },
+  { key: 'ai-growth-partner', label: 'AI Growth Partner (Retainer)', price: { min: 2500, max: 5500 }, isSubscription: true },
+  { key: 'websites', label: 'Websites & Landing Pages', price: { min: 5500, max: 14000 } },
+  { key: 'ecommerce', label: 'E-commerce Automation', price: { min: 5000, max: 15000 } },
+  { key: 'mvp', label: 'MVP Web App with AI', price: { min: 12000, max: 35000 } },
 ];
 
 const scopeLabels: Record<string, Record<string, string>> = {
-  'Small (MVP)': { pl: 'Mały (MVP)', en: 'Small (MVP)', de: 'Klein (MVP)', es: 'Pequeño (MVP)', szl: 'Mały (MVP)', ar: 'صغير (MVP)' },
+  'Small (MVP)': { pl: 'Mały (MVP / Podstawowy)', en: 'Small (MVP / Basic)', de: 'Klein (MVP / Basis)', es: 'Pequeño (MVP / Básico)', szl: 'Mały (MVP)', ar: 'صغير (MVP)' },
   'Medium (Production)': { pl: 'Średni (Produkcyjny)', en: 'Medium (Production)', de: 'Mittel (Produktion)', es: 'Mediano (Producción)', szl: 'Średni (Produkcyjny)', ar: 'متوسط (إنتاجي)' },
-  'Large (Enterprise)': { pl: 'Duży (Enterprise)', en: 'Large (Enterprise)', de: 'Groß (Enterprise)', es: 'Grande (Enterprise)', szl: 'Duży (Enterprise)', ar: 'كبير (مؤسسات)' }
+  'Large (Enterprise)': { pl: 'Duży (Enterprise / Dedykowany)', en: 'Large (Enterprise / Custom)', de: 'Groß (Enterprise / Custom)', es: 'Grande (Enterprise / Custom)', szl: 'Duży (Enterprise)', ar: 'كبير (مؤسسات)' }
 };
 
 const timelineLabels: Record<string, Record<string, string>> = {
@@ -28,12 +37,14 @@ const timelineLabels: Record<string, Record<string, string>> = {
 };
 
 const serviceLabels: Record<string, Record<string, string>> = {
-  'ai-agents': { pl: 'Agenci AI & Chatboty', en: 'AI Agents', de: 'KI-Assistenten', es: 'Agentes de IA', szl: 'Agenci AI', ar: 'وكلاء الذكاء الاصطناعي' },
-  'websites': { pl: 'Strony www & Landing Pages', en: 'Websites & Landing Pages', de: 'Websites & Landingpages', es: 'Sitios Web y Landings', szl: 'Stronki www', ar: 'المواقع الإلكترونية' },
-  'ecommerce': { pl: 'Automatyzacja E-commerce', en: 'E-commerce Automation', de: 'E-Commerce-Automatisierung', es: 'Automatización E-commerce', szl: 'E-commerce', ar: 'أتمتة التجارة الإلكترونية' },
-  'automation': { pl: 'Automatyzacje procesów (n8n)', en: 'Process Automation (n8n)', de: 'Prozessautomatisierung (n8n)', es: 'Automatización de Procesos (n8n)', szl: 'Automatyzacyje (n8n)', ar: 'أتمتة العمليات (n8n)' },
-  'mvp': { pl: 'Prototyp MVP aplikacji', en: 'MVP App Prototype', de: 'MVP-App-Prototyp', es: 'Prototipo MVP de App', szl: 'Prototyp MVP', ar: 'النموذج الأولي MVP' },
-  'ai-audit': { pl: 'Audyt wdrożenia AI', en: 'AI Implementation Audit', de: 'KI-Implementierungs-Audit', es: 'Auditoría de IA', szl: 'Audyt AI', ar: 'تدقيق الذكاء الاصطناعي' }
+  'ai-agent-sprint': { pl: 'AI Agent Sprint — 14 dni ⭐ (Bestseller)', en: 'AI Agent Sprint — 14 Days ⭐ (Bestseller)', de: 'KI-Agenten-Sprint — 14 Tage ⭐ (Bestseller)', es: 'Sprint de Agente de IA — 14 Días ⭐', szl: 'AI Agent Sprint — 14 dni ⭐', ar: 'سبرنت وكيل الذكاء الاصطناعي — 14 يوماً ⭐' },
+  'ai-audit': { pl: 'Audyt wdrożenia AI & procesów (100% odliczane)', en: 'AI & Process Audit (100% deductible)', de: 'KI- & Prozess-Audit (100% anrechenbar)', es: 'Auditoría de IA y Procesos (100% deducible)', szl: 'Audyt wdrożeniŏ AI & procesōw', ar: 'تدقيق الذكاء الاصطناعي والعمليات' },
+  'automation': { pl: 'Automatyzacje procesów biznesowych (n8n / API)', en: 'Business Process Automation (n8n / API)', de: 'Geschäftsprozessautomatisierung (n8n / API)', es: 'Automatización de Procesos (n8n / API)', szl: 'Automatyzacyje procesōw (n8n / API)', ar: 'أتمتة العمليات التجارية (n8n / API)' },
+  'ai-agents': { pl: 'Dedykowani Agenci AI & Chatboty (custom)', en: 'Custom AI Agents & Chatbots', de: 'Maßgeschneiderte KI-Agenten & Chatbots', es: 'Agentes de IA y Chatbots personalizados', szl: 'Dedykowani Agenci AI & Chatboty', ar: 'وكلاء ذكاء اصطناعي مخصصون وأنظمة دردشة' },
+  'ai-growth-partner': { pl: 'AI Growth Partner (stały abonament opieki)', en: 'AI Growth Partner (monthly retainer)', de: 'AI Growth Partner (Monats-Abonnement)', es: 'AI Growth Partner (suscripción mensual)', szl: 'AI Growth Partner (abonamynt)', ar: 'شريك نمو الذكاء الاصطناعي (اشتراك شهري)' },
+  'websites': { pl: 'Platformy sprzedażowe & Landing Pages (Next.js)', en: 'Sales Platforms & Landing Pages (Next.js)', de: 'Vertriebsplattformen & Landingpages (Next.js)', es: 'Plataformas de Ventas y Landing Pages (Next.js)', szl: 'Platformy przedażowe & Landing Pages (Next.js)', ar: 'منصات المبيعات وصفحات الهبوط (Next.js)' },
+  'ecommerce': { pl: 'Automatyzacja E-commerce (Shopify / Baselinker)', en: 'E-commerce Automation (Shopify / Baselinker)', de: 'E-Commerce-Automatisierung (Shopify / Baselinker)', es: 'Automatización E-commerce (Shopify / Baselinker)', szl: 'Automatyzacyjo E-commerce', ar: 'أتمتة التجارة الإلكترونية' },
+  'mvp': { pl: 'MVP & Aplikacje Webowe z AI', en: 'MVP & Web Apps with AI', de: 'MVP & Web-Apps mit KI', es: 'MVP y Aplicaciones Web con IA', szl: 'MVP i Aplikacyje z AI', ar: 'النماذج الأولية MVP والتطبيقات مع الذكاء الاصطناعي' }
 };
 
 export default function PricingCalculator() {
@@ -49,8 +60,9 @@ export default function PricingCalculator() {
   const [errorMsg, setErrorMsg] = useState('');
 
   const selectedServiceData = SERVICES.find(s => s.key === selectedService);
+  const subSuffix = selectedServiceData?.isSubscription ? (lang === 'pl' || lang === 'szl' ? ' / msc' : ' / mo') : '';
   const estimatedPrice = selectedServiceData
-    ? `${selectedServiceData.price.min.toLocaleString()} - ${selectedServiceData.price.max.toLocaleString()} PLN`
+    ? `${selectedServiceData.price.min.toLocaleString()} - ${selectedServiceData.price.max.toLocaleString()} PLN${subSuffix}`
     : '';
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -169,7 +181,7 @@ export default function PricingCalculator() {
                     <div>
                       <div style={{ fontWeight: 700, color: 'white', marginBottom: '4px' }}>{serviceLabels[s.key]?.[lang] || s.label}</div>
                       <div style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.6)' }}>
-                        {lang === 'pl' || lang === 'szl' ? 'od' : 'from'} {s.price.min.toLocaleString()} PLN
+                        {lang === 'pl' || lang === 'szl' ? 'od' : 'from'} {s.price.min.toLocaleString()} PLN{s.isSubscription ? (lang === 'pl' || lang === 'szl' ? ' / msc' : ' / mo') : ''}
                       </div>
                     </div>
                   </label>

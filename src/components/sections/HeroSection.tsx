@@ -52,54 +52,113 @@ export default function HeroSection() {
   return (
     <section
       className="hero-section relative overflow-hidden"
-      style={{ minHeight: isMobile ? 'auto' : '100vh', display: 'flex', alignItems: 'center', paddingTop: isMobile ? '120px' : '140px', paddingBottom: '80px' }}
+      style={{ minHeight: isMobile ? 'auto' : '100vh', display: 'flex', alignItems: 'center', paddingTop: isMobile ? '120px' : '150px', paddingBottom: '90px' }}
       onMouseMove={handleMouseMove}
     >
       <ParticlesBackground />
 
-      {/* Ambient background glow - extremely subtle behind the dashboard mockup */}
+      {/* Dynamic Ambient Background Glows */}
       {!isMobile && (
-        <div className="absolute" style={{ right: '10%', top: '20%', width: '600px', height: '600px', background: 'radial-gradient(circle, rgba(59, 130, 246, 0.04) 0%, transparent 70%)', filter: 'blur(120px)', zIndex: 0, pointerEvents: 'none' }} />
+        <>
+          <div
+            className="absolute transition-transform duration-700 ease-out"
+            style={{
+              left: '20%',
+              top: '15%',
+              width: '500px',
+              height: '500px',
+              background: 'radial-gradient(circle, rgba(99, 102, 241, 0.12) 0%, rgba(59, 130, 246, 0.05) 40%, transparent 70%)',
+              filter: 'blur(100px)',
+              zIndex: 0,
+              pointerEvents: 'none',
+              transform: `translate(${mousePos.x * -30}px, ${mousePos.y * -30}px)`
+            }}
+          />
+          <div
+            className="absolute transition-transform duration-700 ease-out"
+            style={{
+              right: '15%',
+              top: '30%',
+              width: '600px',
+              height: '600px',
+              background: 'radial-gradient(circle, rgba(236, 72, 153, 0.08) 0%, rgba(139, 92, 246, 0.06) 40%, transparent 70%)',
+              filter: 'blur(120px)',
+              zIndex: 0,
+              pointerEvents: 'none',
+              transform: `translate(${mousePos.x * 40}px, ${mousePos.y * 40}px)`
+            }}
+          />
+        </>
       )}
 
       <div className="container relative z-10">
         <div style={{ display: 'flex', flexDirection: 'column', gap: '56px', alignItems: 'center', width: '100%' }}>
           
           {/* Top Column: Text & CTAs */}
-          <div style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', maxWidth: '800px', margin: '0 auto' }}>
-            <div className="hero-badge fade-in-up" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '8px 18px', borderRadius: '999px', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', backdropFilter: 'blur(20px)', fontSize: '0.75rem', fontWeight: 600, letterSpacing: '0.05em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.7)', marginBottom: '24px' }}>
-              <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#3b82f6' }} className="animate-pulse" />
+          <div style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', maxWidth: '840px', margin: '0 auto' }}>
+            
+            {/* Elevated Pill Badge */}
+            <div className="hero-badge fade-in-up" style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', padding: '8px 20px', borderRadius: '999px', background: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(99, 102, 241, 0.25)', backdropFilter: 'blur(20px)', fontSize: '0.78rem', fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.9)', boxShadow: '0 4px 20px rgba(59, 130, 246, 0.15)', marginBottom: '28px' }}>
+              <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#3b82f6', boxShadow: '0 0 12px #3b82f6' }} className="animate-pulse" />
               {T('hero.badge')}
             </div>
 
-            <h1 className="hero-title fade-in-up" style={{ animationDelay: '0.1s', marginBottom: '24px', lineHeight: 1.15, fontSize: 'clamp(2.4rem, 4.8vw, 3.8rem)', letterSpacing: '-0.03em', fontWeight: 800, color: '#ffffff' }}>
+            {/* Elevated Title */}
+            <h1 className="hero-title fade-in-up" style={{ animationDelay: '0.1s', marginBottom: '24px', lineHeight: 1.12, fontSize: 'clamp(2.5rem, 5vw, 4rem)', letterSpacing: '-0.035em', fontWeight: 800, color: '#ffffff' }}>
               {isValidService ? T(`personalization.${serviceParam}.title`) : (
                 <>
-                  <span style={{ fontWeight: 400, color: 'rgba(255,255,255,0.85)' }}>{T(title1Key)}</span> <br />
-                  <span className="premium-text-gradient font-extrabold" style={{ display: 'inline-block', margin: '4px 0' }}>{T(titleAccentKey)}</span> <br />
+                  <span style={{ fontWeight: 400, color: 'rgba(255,255,255,0.9)' }}>{T(title1Key)}</span> <br />
+                  <span
+                    className="font-extrabold"
+                    style={{
+                      display: 'inline-block',
+                      margin: '6px 0',
+                      background: 'linear-gradient(135deg, #60a5fa 0%, #818cf8 40%, #c084fc 80%, #f472b6 100%)',
+                      WebkitBackgroundClip: 'text',
+                      WebkitTextFillColor: 'transparent',
+                      filter: 'drop-shadow(0 4px 15px rgba(99, 102, 241, 0.3))'
+                    }}
+                  >
+                    {T(titleAccentKey)}
+                  </span> <br />
                   <span style={{ fontWeight: 700 }}>{T(title2Key)}</span>
                 </>
               )}
             </h1>
 
-            <p className="hero-subtitle fade-in-up" style={{ animationDelay: '0.2s', marginBottom: '36px', maxWidth: '640px', fontSize: '1.08rem', color: 'rgba(255,255,255,0.5)', lineHeight: 1.65, fontWeight: 400 }}>
+            {/* Elevated Subtitle */}
+            <p className="hero-subtitle fade-in-up" style={{ animationDelay: '0.2s', marginBottom: '38px', maxWidth: '660px', fontSize: '1.12rem', color: 'rgba(255,255,255,0.65)', lineHeight: 1.7, fontWeight: 400 }}>
               {heroSubtitle}
             </p>
 
-            <div className="hero-actions fade-in-up" style={{ animationDelay: '0.3s', display: 'flex', gap: '14px', flexWrap: 'wrap', justifyContent: 'center' }}>
-              <a href="#services" className="btn-primary" onClick={() => handleCtaClick('explore_services')}>
-                  {T('hero.cta1')}
+            {/* Elevated Action Buttons */}
+            <div className="hero-actions fade-in-up" style={{ animationDelay: '0.3s', display: 'flex', gap: '16px', flexWrap: 'wrap', justifyContent: 'center' }}>
+              <a
+                href="#services"
+                className="btn-primary premium-button-shine"
+                style={{ padding: '16px 36px', fontSize: '1.02rem', display: 'inline-flex', alignItems: 'center', gap: '8px' }}
+                onClick={() => handleCtaClick('explore_services')}
+              >
+                <span>{T('hero.cta1')}</span>
+                <span style={{ fontSize: '1.1rem' }}>→</span>
               </a>
-              <a href="#contact" className="btn-secondary" onClick={() => handleCtaClick('book_analysis')}>
-                  {T('hero.cta2')}
+              <a
+                href="#contact"
+                className="btn-secondary"
+                style={{ padding: '16px 36px', fontSize: '1.02rem' }}
+                onClick={() => handleCtaClick('book_analysis')}
+              >
+                {T('hero.cta2')}
               </a>
             </div>
           </div>
 
-          {/* Bottom Column: Interactive Dashboard Mockup */}
-          <div className="fade-in-up" style={{ animationDelay: '0.4s', width: '100%', maxWidth: '850px', margin: '0 auto', filter: 'drop-shadow(0 20px 40px rgba(0,0,0,0.65))', zIndex: 1 }}>
-            <div className="premium-animated-border" style={{ borderRadius: '20px' }}>
-              <AIAgentDemo />
+          {/* Bottom Column: Interactive Dashboard Mockup Frame */}
+          <div className="fade-in-up" style={{ animationDelay: '0.4s', width: '100%', maxWidth: '900px', margin: '0 auto', filter: 'drop-shadow(0 25px 50px rgba(0,0,0,0.75))', zIndex: 1 }}>
+            <div className="premium-animated-border" style={{ borderRadius: '24px', padding: '1px', background: 'linear-gradient(135deg, rgba(99,102,241,0.4), rgba(255,255,255,0.05) 50%, rgba(236,72,153,0.3))' }}>
+              <div style={{ borderRadius: '23px', overflow: 'hidden', background: '#080c14' }}>
+                <AIAgentDemo />
+              </div>
             </div>
           </div>
 

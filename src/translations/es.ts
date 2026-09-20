@@ -554,6 +554,11 @@ export const es = {
         "services.audit.desc": "Analizamos procesos e identificamos áreas para la automatización. Plan integral de implementación de IA.",
         "services.audit.tag1": "Consultoría",
         "services.audit.tag2": "Estrategia",
+
+        "services.ai-agent-sprint.title": "Sprint de Agente de IA — 14 Días",
+        "services.ai-agent-sprint.desc": "Implementación rápida y medible de un Agente de IA integrado con tu CRM y dashboard de KPIs. Entrega ágil en lugar de largos proyectos.",
+        "services.ai-agent-sprint.tag1": "Entrega en 14 días",
+        "services.ai-agent-sprint.tag2": "CRM & n8n",
         "services.social.title": "Redes Sociales & IA",
         "services.social.desc": "Aumente el compromiso en un 60% con análisis de contenido de IA. Sepa qué les interesa realmente a sus clientes.",
         "services.social.tag1": "Analítica",

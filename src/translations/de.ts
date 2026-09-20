@@ -554,6 +554,11 @@ export const de = {
         "services.audit.desc": "Wir analysieren Prozesse, Daten und Tools im Unternehmen, identifizieren Quick Wins und bereiten Prioritäten sowie eine Roadmap für die KI-Implementierung vor.",
         "services.audit.tag1": "Quick Wins",
         "services.audit.tag2": "Roadmap",
+
+        "services.ai-agent-sprint.title": "KI-Agenten-Sprint — 14 Tage",
+        "services.ai-agent-sprint.desc": "Schnelle, messbare Implementierung eines KI-Agenten, integriert in Ihr CRM und KPI-Dashboard. Agile Wertschöpfung statt langwieriger IT-Projekte.",
+        "services.ai-agent-sprint.tag1": "14 Tage Lieferung",
+        "services.ai-agent-sprint.tag2": "CRM & n8n",
         "services.social.title": "Social Media & KI",
         "services.social.desc": "Steigern Sie Engagement um 60% durch KI-Inhaltsanalyse. Erfahren Sie, was Ihre Kunden wirklich interessiert.",
         "services.social.tag1": "Analytics",

@@ -81,7 +81,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         const allCaseUrls = [...staticCaseUrls, ...dynamicCaseUrls].filter((v, i, a) => a.findIndex(t => t.url === v.url) === i);
 
         // Landing Pages (Google Ads)
-        const landingPages = ['strony-www', 'ai-chatbot', 'automatyzacja'].map((lp) => ({
+        const landingPages = ['strony-www', 'ai-chatbot', 'automatyzacja', 'ai-agent-sprint'].map((lp) => ({
             url: `${baseUrl}/lp/${lp}`,
             lastModified: new Date(),
             changeFrequency: 'weekly' as const,

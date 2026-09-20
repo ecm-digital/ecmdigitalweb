@@ -554,6 +554,11 @@ export const ar = {
         "services.audit.desc": "نحلل العمليات ونحدد مجالات الأتمتة. خطة شاملة لتنفيذ الذكاء الاصطناعي.",
         "services.audit.tag1": "استشارات",
         "services.audit.tag2": "استراتيجية",
+
+        "services.ai-agent-sprint.title": "سباقات عملاء الذكاء الاصطناعي — 14 يومًا",
+        "services.ai-agent-sprint.desc": "نشر سريع وملموس لعميل ذكاء اصطناعي متكامل مع نظام إدارة علاقات العملاء (CRM) ولوحة قياس مؤشرات الأداء الرئيسية (KPI). قيمة سريعة بدلاً من المشاريع الطويلة.",
+        "services.ai-agent-sprint.tag1": "تنفيذ خلال 14 يومًا",
+        "services.ai-agent-sprint.tag2": "CRM & n8n",
         "services.social.title": "وسائل التواصل والذكاء الاصطناعي",
         "services.social.desc": "زيادة التفاعل بنسبة 60% مع تحليل محتوى الذكاء الاصطناعي. تعرف على ما يهم عملاءك حقًا.",
         "services.social.tag1": "تحليلات",

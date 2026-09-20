@@ -32,6 +32,22 @@ export const services: Record<string, ServiceData> = {
         techs: ['Google Gemini', 'OpenAI', 'LangChain', 'N8N', 'Firebase', 'REST API'],
         price: 'price',
     },
+    'ai-agent-sprint': {
+        slug: 'ai-agent-sprint',
+        icon: '⏱️',
+        gradient: 'linear-gradient(135deg, #7c3aed, #a78bfa)',
+        features: ['features.1', 'features.2', 'features.3', 'features.4', 'features.5', 'features.6'],
+        techs: ['n8n / Make', 'Google Gemini', 'HubSpot / Pipedrive', 'KPI Dashboard', 'Process Audit', 'Next Steps Guide'],
+        price: 'price',
+    },
+    'ai-growth-partner': {
+        slug: 'ai-growth-partner',
+        icon: '📈',
+        gradient: 'linear-gradient(135deg, #10b981, #059669)',
+        features: ['features.1', 'features.2', 'features.3', 'features.4', 'features.5', 'features.6'],
+        techs: ['AI Tuning', 'Workflow Optimization', 'RAG Maintenance', 'Analytics', 'Monthly Sprints', 'Priority Support'],
+        price: 'price',
+    },
     'ai-governance-agentops': {
         slug: 'ai-governance-agentops',
         icon: '🛡️',

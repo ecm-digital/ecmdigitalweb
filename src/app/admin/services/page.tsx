@@ -177,7 +177,7 @@ export default function AdminServicesPage() {
                                             </Link>
                                             {/* Preview Link */}
                                             {(() => {
-                                                const existingSlugs = ['ai-agents', 'websites', 'ecommerce', 'automation', 'ai-executive', 'edu', 'mvp', 'ai-audit'];
+                                                const existingSlugs = ['ai-agents', 'websites', 'ecommerce', 'automation', 'ai-executive', 'edu', 'mvp', 'ai-audit', 'ai-agent-sprint', 'ai-growth-partner'];
                                                 const isDynamic = !existingSlugs.includes(service.slug);
                                                 const targetUrl = isDynamic ? `/services/view?slug=${service.slug}` : `/services/${service.slug}`;
                                                 return (

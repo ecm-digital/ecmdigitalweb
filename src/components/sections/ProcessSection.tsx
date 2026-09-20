@@ -29,18 +29,18 @@ export default function ProcessSection() {
   };
 
   return (
-    <section id="process" className="section section-polish relative reveal-on-scroll" style={{ borderTop: '1px solid rgba(255,255,255,0.05)', background: 'radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.02) 0%, transparent 80%)' }}>
+    <section id="process" className="section section-polish relative reveal-on-scroll overflow-hidden" style={{ borderTop: '1px solid rgba(255,255,255,0.06)', background: 'radial-gradient(circle at 50% 30%, rgba(99, 102, 241, 0.06) 0%, rgba(3, 7, 18, 0.98) 80%)', padding: '100px 0' }}>
       <div className="container relative z-10">
         
         {/* Section Header */}
-        <div className="section-header text-center fade-in-up" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '64px' }}>
-          <span className="section-label" style={{ padding: '8px 16px', background: 'rgba(99, 102, 241, 0.06)', color: 'rgba(255,255,255,0.7)', borderRadius: '999px', border: '1px solid rgba(255,255,255,0.06)', fontSize: '0.72rem', fontWeight: 600, letterSpacing: '0.05em', textTransform: 'uppercase' }}>
+        <div className="section-header text-center fade-in-up" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '68px' }}>
+          <span className="section-label" style={{ padding: '8px 20px', background: 'rgba(99, 102, 241, 0.08)', color: '#818cf8', borderRadius: '999px', border: '1px solid rgba(99, 102, 241, 0.25)', fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', boxShadow: '0 4px 20px rgba(99, 102, 241, 0.15)' }}>
             {T('process.label')}
           </span>
-          <h2 className="section-title" style={{ fontSize: 'clamp(2.2rem, 5vw, 3.4rem)', marginTop: '16px', letterSpacing: '-0.03em', fontWeight: 800 }}>
+          <h2 className="section-title" style={{ fontSize: 'clamp(2.3rem, 5vw, 3.6rem)', marginTop: '20px', letterSpacing: '-0.035em', fontWeight: 800, color: '#ffffff' }}>
             {T('process.title')}
           </h2>
-          <p className="section-subtitle" style={{ maxWidth: '640px', color: 'rgba(255,255,255,0.45)', marginTop: '16px', fontSize: '1.05rem', lineHeight: 1.6 }}>
+          <p className="section-subtitle" style={{ maxWidth: '640px', color: 'rgba(255,255,255,0.6)', marginTop: '18px', fontSize: '1.1rem', lineHeight: 1.65 }}>
             {T('process.subtitle')}
           </p>
         </div>

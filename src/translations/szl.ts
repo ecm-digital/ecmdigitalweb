@@ -554,6 +554,11 @@ export const szl = {
         "services.audit.desc": "Patrzymy co można ulepszyć i gdzie wsadzić AI. Planujemy wszystko.",
         "services.audit.tag1": "Konsulting",
         "services.audit.tag2": "Strategia",
+
+        "services.ai-agent-sprint.title": "AI Agent Sprint — 14 dni",
+        "services.ai-agent-sprint.desc": "Gibkie wdrożynie Agenta AI skuplowanego z Twoim CRM-ym i dashboardym KPI w 14 dni. Gibki i tani rozruch AI.",
+        "services.ai-agent-sprint.tag1": "14 dni wdrożynia",
+        "services.ai-agent-sprint.tag2": "CRM & n8n",
         "services.social.title": "Social Media & AI",
         "services.social.desc": "Więcej lajków dzięki AI. Wiedz co ludzie chcą.",
         "services.social.tag1": "Analytics",

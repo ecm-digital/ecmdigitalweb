@@ -5,6 +5,8 @@ import { collection, query, orderBy, limit, onSnapshot, where } from 'firebase/f
 import { db } from '@/lib/firebase';
 import { Notification, markNotificationRead } from '@/lib/firestoreService';
 
+import { useAuth } from '@/context/AuthContext';
+
 interface Toast {
     id: string;
     message: string;
@@ -25,11 +27,18 @@ const NotificationContext = createContext<NotificationContextType>({} as Notific
 export const useNotifications = () => useContext(NotificationContext);
 
 export function NotificationProvider({ children }: { children: React.ReactNode }) {
+    const { user } = useAuth();
     const [notifications, setNotifications] = useState<Notification[]>([]);
     const [unreadCount, setUnreadCount] = useState(0);
     const [toasts, setToasts] = useState<Toast[]>([]);
 
     useEffect(() => {
+        if (!user) {
+            setNotifications([]);
+            setUnreadCount(0);
+            return;
+        }
+
         const q = query(
             collection(db, 'notifications'),
             orderBy('createdAt', 'desc'),
@@ -46,14 +55,15 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
                 setNotifications(newNotifications);
                 setUnreadCount(newNotifications.filter(n => !n.read).length);
             },
-            () => {
+            (error) => {
+                console.error("Notifications subscription error:", error);
                 setNotifications([]);
                 setUnreadCount(0);
             }
         );
 
         return () => unsubscribe();
-    }, []);
+    }, [user]);
 
     const showToast = (message: string, type: Toast['type'] = 'info') => {
         const id = Math.random().toString(36).substr(2, 9);

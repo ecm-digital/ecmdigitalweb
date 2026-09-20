@@ -516,9 +516,10 @@ export const pl = {
         "forwhom.b2b.symptom3": "🔴 Handlowcy zapominają o follow-upie, przez co uciekają dziesiątki tysięcy złotych z lejka.",
 
         // Services
-        "services.label": "Główne filary wzrostu",
-        "services.title": "Trzy wehikuły, które generują zapytania i oszczędzają Twój czas",
-        "services.subtitle": "Nie robimy wszystkiego. Skupiamy się na wdrożeniach, które mają bezpośrednie przekładanie na liczbę leadów i czas reakcji.",
+        "services.label": "Architektura Wzrostu 2026",
+        "services.title": "Od diagnozy procesów po autonomiczne systemy AI",
+        "services.subtitle": "Nie robimy wszystkiego. Skupiamy się na wdrożeniach AI i automatyzacji, które mają bezpośrednie przełożenie na mierzalny zysk i uwolnienie setek roboczogodzin.",
+        "services.allServicesBtn": "Przeglądaj wszystkie 8 specjalizacji i stack technologiczny →",
         "services.web.title": "Strony internetowe ukierunkowane na sprzedaż",
         "services.web.desc": "Twoja strona ładnie wygląda, ale nie generuje klientów? Tworzymy witryny i landing pages zoptymalizowane pod kątem UX, jasnej komunikacji i łatwego kontaktu.",
         "services.web.tag1": "Wysoka konwersja",
@@ -529,10 +530,10 @@ export const pl = {
         "services.web.what.desc": "Ultraszybką witrynę Next.js z unikalnym designem, zoptymalizowaną ścieżkę konwersji i strukturę pod SEO.",
         "services.web.effect": "Główny efekt:",
         "services.web.effect.desc": "Strona, która aktywnie sprzedaje i przekształca odwiedzających w realne zapytania ofertowe.",
-        "services.auto.title": "Automatyzacja obsługi zapytań i follow-up",
-        "services.auto.desc": "Twoi pracownicy marnują godziny na ręczne kopiowanie danych z formularzy do CRM, wysyłanie standardowych maili i uzupełnianie arkuszy? Łączymy Twoje narzędzia w samonapędzający się system.",
-        "services.auto.tag1": "Oszczędność czasu",
-        "services.auto.tag2": "CRM & n8n",
+        "services.auto.title": "Autonomiczne Workflow & Integracje",
+        "services.auto.desc": "Łączymy CRM, skrzynki e-mail, komunikatory, arkusze i bazy danych w n8n. Eliminujemy ręczne przepisywanie danych i opóźnienia w obsłudze zapytań.",
+        "services.auto.tag1": "Czas -80%",
+        "services.auto.tag2": "CRM & n8n / API",
         "services.auto.when": "Najlepsze dla firm, które:",
         "services.auto.when.desc": "Odpowiadają na leady po kilku godzinach, a handlowcy marnują czas na ręczną wysyłkę ofert i follow-up.",
         "services.auto.what": "Co otrzymujesz:",
@@ -560,10 +561,20 @@ export const pl = {
         "services.mvp.tag1": "Szybkie wdrożenie",
         "services.mvp.tag2": "Aplikacje webowe",
 
-        "services.audit.title": "Audyt wdrożenia AI & procesów",
-        "services.audit.desc": "Analizujemy operacje, dane i narzędzia w Twojej firmie, identyfikujemy Quick Wins oraz przygotowujemy priorytety i gotową mapę drogową wdrożenia AI.",
-        "services.audit.tag1": "Quick Wins",
-        "services.audit.tag2": "Mapa drogowa",
+        "services.audit.title": "Audyt Gotowości AI & Procesów",
+        "services.audit.desc": "Mapujemy Twoje procesy biznesowe, wskazujemy wąskie gardła i wyliczamy twarde ROI. 100% kosztu audytu odliczamy od wdrożenia produkcyjnego.",
+        "services.audit.tag1": "Kalkulacja ROI",
+        "services.audit.tag2": "100% odliczane",
+
+        "services.ai-agent-sprint.title": "AI Agent Sprint — 14 dni",
+        "services.ai-agent-sprint.desc": "Szybkie, mierzalne wdrożenie produkcyjnego Agenta AI zintegrowanego z Twoim CRM i dashboardem KPI. Stała cena, gwarancja wdrożenia.",
+        "services.ai-agent-sprint.tag1": "Wdrożenie w 14 dni",
+        "services.ai-agent-sprint.tag2": "CRM & Dashboard",
+
+        "services.partner.title": "AI Growth Partner (Abonament)",
+        "services.partner.desc": "Twój zewnętrzny dział inżynierii AI: comiesięczny tuning promptów, aktualizacja modeli, monitoring 24/7 oraz wdrażanie kolejnych procesów.",
+        "services.partner.tag1": "SLA & Monitoring",
+        "services.partner.tag2": "Ciągły rozwój",
 
         // Case Studies
         "cases.label": "Efekty w liczbach",

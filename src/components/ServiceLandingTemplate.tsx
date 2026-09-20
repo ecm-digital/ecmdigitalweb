@@ -14,9 +14,11 @@ interface ServiceLandingProps {
   subtitle: string;
   heroIcon: string;
   features: Array<{ icon: string; title: string; desc: string }>;
+  featuresTitle?: string;
   benefits: Array<string>;
   whyUs: string;
   caseStudyHighlight?: { title: string; result: string; image: string };
+  methodology?: Array<{ title: string; desc: string }>;
 }
 
 export default function ServiceLandingTemplate({
@@ -25,9 +27,11 @@ export default function ServiceLandingTemplate({
   subtitle,
   heroIcon,
   features,
+  featuresTitle,
   benefits,
   whyUs,
   caseStudyHighlight,
+  methodology,
 }: ServiceLandingProps) {
   const { T } = useLanguage();
 
@@ -67,7 +71,7 @@ export default function ServiceLandingTemplate({
       {/* Features Grid */}
       <section style={{ padding: '80px 24px', maxWidth: '1200px', margin: '0 auto' }}>
         <h2 style={{ fontSize: '2.5rem', fontWeight: 800, textAlign: 'center', marginBottom: '60px', color: 'white' }}>
-          What's Included
+          {featuresTitle || "What's Included"}
         </h2>
         <div style={{
           display: 'grid',
@@ -125,6 +129,66 @@ export default function ServiceLandingTemplate({
           </div>
         </div>
       </section>
+
+      {/* Methodology Section */}
+      {methodology && methodology.length > 0 && (
+        <section style={{ padding: '80px 24px', maxWidth: '1200px', margin: '0 auto' }}>
+          <h2 style={{ fontSize: '2.5rem', fontWeight: 800, textAlign: 'center', marginBottom: '16px', color: 'white' }}>
+            Implementation Methodology
+          </h2>
+          <p style={{
+            textAlign: 'center',
+            color: 'rgba(255,255,255,0.6)',
+            fontSize: '1.1rem',
+            lineHeight: 1.6,
+            maxWidth: '700px',
+            margin: '0 auto 60px'
+          }}>
+            An ordered, structured deployment process ensures operational excellence and measurable return on investment, rather than a single setup.
+          </p>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+            gap: '32px',
+          }}>
+            {methodology.map((step, idx) => (
+              <div
+                key={idx}
+                style={{
+                  padding: '40px',
+                  borderRadius: '20px',
+                  border: '1px solid rgba(255,255,255,0.1)',
+                  background: 'rgba(255,255,255,0.02)',
+                  backdropFilter: 'blur(20px)',
+                  position: 'relative',
+                  overflow: 'hidden'
+                }}
+              >
+                <div style={{
+                  position: 'absolute',
+                  top: '20px',
+                  right: '30px',
+                  fontSize: '4.5rem',
+                  fontWeight: 900,
+                  background: 'linear-gradient(180deg, rgba(255,255,255,0.05) 0%, transparent 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  userSelect: 'none',
+                  lineHeight: 1
+                }}>
+                  0{idx + 1}
+                </div>
+                <h3 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '16px', color: 'white', position: 'relative', zIndex: 1 }}>
+                  {step.title}
+                </h3>
+                <p style={{ color: 'rgba(255,255,255,0.6)', lineHeight: 1.7, fontSize: '0.95rem', position: 'relative', zIndex: 1 }}>
+                  {step.desc}
+                </p>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* Why Us Section */}
       <section style={{ padding: '80px 24px', maxWidth: '1000px', margin: '0 auto' }}>
