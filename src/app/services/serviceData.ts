@@ -86,11 +86,11 @@ export const CORE_SERVICE_KEYS = [
     'ai-audit',
     'ai-agent-sprint',
     'automation',
-    'ai-agents',
-    'ai-growth-partner',
     'websites',
     'ecommerce',
-    'mvp'
+    'mvp',
+    'ai-agents',
+    'ai-growth-partner'
 ];
 
 export const ADDON_SERVICE_KEYS = [

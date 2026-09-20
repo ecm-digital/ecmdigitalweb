@@ -608,8 +608,14 @@ export default function ServicesPage() {
                                             {item.icon}
                                         </div>
                                         <div>
-                                            <span style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 700 }}>
-                                                Specjalizacja #{idx + 1}
+                                            <span style={{
+                                                fontSize: '0.72rem',
+                                                color: item.slug === 'ai-audit' ? '#06b6d4' : item.slug === 'ai-agent-sprint' ? '#a78bfa' : item.slug === 'ai-growth-partner' ? '#34d399' : '#60a5fa',
+                                                textTransform: 'uppercase',
+                                                letterSpacing: '0.06em',
+                                                fontWeight: 800
+                                            }}>
+                                                {item.slug === 'ai-audit' ? 'Filar I • Diagnoza' : item.slug === 'ai-agent-sprint' ? 'Filar II • Flagowe Wdrożenie' : item.slug === 'ai-growth-partner' ? 'Filar IV • Partnerstwo & SLA' : 'Filar III • Dedykowany System'}
                                             </span>
                                             <h3 style={{ fontSize: '1.35rem', fontWeight: 800, color: 'white', letterSpacing: '-0.02em', margin: 0 }}>
                                                 {title}

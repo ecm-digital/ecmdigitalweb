@@ -79,11 +79,11 @@ Poniższe 4 filary reprezentują ustrukturyzowaną ścieżkę wejścia i stałej
 
 ### Filar III: Dedykowane Systemy & Aplikacje
 
-#### 3. Dedykowani Asystenci AI & Chatboty (Custom AI Agents)
-- **Cena bazowa:** od **4 500 PLN**
-  - *Standard RAG Assistant:* 4 500 – 9 000 PLN (2–3 tyg.)
-  - *Advanced Multi-Agentic System:* 10 000 – 25 000 PLN (3–5 tyg.)
-- **Zastosowanie:** Zaawansowana wiedza wewnętrzna, procedury prawne/finansowe, agenci wielokrokowej analizy, prywatne instancje on-premise lub VPC.
+#### 3. Dedykowani Asystenci AI & Systemy Multi-Agent (Custom AI)
+- **Cena bazowa:** od **12 000 PLN**
+  - *Enterprise RAG Knowledge Assistant:* 12 000 – 18 000 PLN (3–4 tyg.)
+  - *Advanced Multi-Agentic System / VPC:* 18 000 – 40 000 PLN (4–6 tyg.)
+- **Zastosowanie:** Zaawansowana wiedza wewnętrzna, procedury prawne/finansowe, agenci wielokrokowej analizy, prywatne instancje on-premise lub VPC. Realizowane jako dedykowany system lub kolejny krok po AI Agent Sprint.
 
 #### 4. Automatyzacje Procesów (n8n / Make / Custom Webhooks)
 - **Cena bazowa:** od **3 500 PLN**
